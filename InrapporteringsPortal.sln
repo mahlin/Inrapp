@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal", "InrapporteringsPortal\InrapporteringsPortal.csproj", "{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.Tests", "InrapporteringsPortal.Tests\InrapporteringsPortal.Tests.csproj", "{483B5F30-BEB2-4261-BC6D-C920876FBE90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6502B9B5-FD5A-4FCC-BF96-B68A428E23B3}
+	EndGlobalSection
+EndGlobal
