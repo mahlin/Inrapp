@@ -34,7 +34,7 @@ namespace InrapporteringsPortal.Models
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Verifiera lösenord")]
+        [Display(Name = "Bekräfta lösenord")]
         [Compare("NewPassword", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
@@ -53,7 +53,7 @@ namespace InrapporteringsPortal.Models
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Verifiera lösenord")]
+        [Display(Name = "Bekräfta lösenord")]
         [Compare("NewPassword", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }

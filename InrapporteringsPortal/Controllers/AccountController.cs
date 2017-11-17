@@ -17,15 +17,18 @@ namespace InrapporteringsPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private CustomIdentityResultErrorDescriber _errorDecsriber;
 
         public AccountController()
         {
+            _errorDecsriber = new CustomIdentityResultErrorDescriber();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _errorDecsriber = new CustomIdentityResultErrorDescriber();
         }
 
         public ApplicationSignInManager SignInManager
@@ -86,7 +89,7 @@ namespace InrapporteringsPortal.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Felaktigt användarnamn eller lösenord.");
                     return View(model);
             }
         }
@@ -439,7 +442,8 @@ namespace InrapporteringsPortal.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error);
+                //ModelState.AddModelError("", error);
+                ModelState.AddModelError("", _errorDecsriber.LocalizeErrorMessage(error));
             }
         }
 
