@@ -1,6 +1,6 @@
 ﻿@model InrapporteringsPortal.Models.VerifyCodeViewModel
 @{
-    ViewBag.Title = "Verify";
+    ViewBag.Title = "Verifiera";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     @Html.Hidden("provider", @Model.Provider)
     @Html.Hidden("rememberMe", @Model.RememberMe)
-    <h4>Enter verification code</h4>
+    <h4>Ange verifieringskod</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
