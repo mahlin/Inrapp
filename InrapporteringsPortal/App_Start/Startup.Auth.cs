@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using InrapporteringsPortal.Models;
+using InrapporteringsPortal.Web.Models;
 
-namespace InrapporteringsPortal
+namespace InrapporteringsPortal.Web
 {
     public partial class Startup
     {

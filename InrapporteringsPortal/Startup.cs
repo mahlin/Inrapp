@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(InrapporteringsPortal.Startup))]
-namespace InrapporteringsPortal
+[assembly: OwinStartupAttribute(typeof(InrapporteringsPortal.Web.Startup))]
+namespace InrapporteringsPortal.Web
 {
     public partial class Startup
     {

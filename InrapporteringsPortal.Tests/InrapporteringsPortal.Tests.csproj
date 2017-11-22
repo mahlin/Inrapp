@@ -99,9 +99,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InrapporteringsPortal\InrapporteringsPortal.csproj">
+    <ProjectReference Include="..\InrapporteringsPortal\InrapporteringsPortal.Web.csproj">
       <Project>{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}</Project>
-      <Name>InrapporteringsPortal</Name>
+      <Name>InrapporteringsPortal.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

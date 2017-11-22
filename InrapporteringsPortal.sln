@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal", "InrapporteringsPortal\InrapporteringsPortal.csproj", "{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.Web", "InrapporteringsPortal\InrapporteringsPortal.Web.csproj", "{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.Tests", "InrapporteringsPortal.Tests\InrapporteringsPortal.Tests.csproj", "{483B5F30-BEB2-4261-BC6D-C920876FBE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.DataAccess", "Inrapporteringsportal.DataAccess\InrapporteringsPortal.DataAccess.csproj", "{20A4B770-B0B1-4B76-9CB1-949C685CE245}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.DomainModel", "InrapporteringsPortal.DomainModel\InrapporteringsPortal.DomainModel.csproj", "{52AE6E89-A36B-49E7-8CE5-EF620296C136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InrapporteringsPortal.ApplicationService", "InrapporteringsPortal.ApplicationService\InrapporteringsPortal.ApplicationService.csproj", "{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{483B5F30-BEB2-4261-BC6D-C920876FBE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A4B770-B0B1-4B76-9CB1-949C685CE245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A4B770-B0B1-4B76-9CB1-949C685CE245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A4B770-B0B1-4B76-9CB1-949C685CE245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A4B770-B0B1-4B76-9CB1-949C685CE245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52AE6E89-A36B-49E7-8CE5-EF620296C136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52AE6E89-A36B-49E7-8CE5-EF620296C136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52AE6E89-A36B-49E7-8CE5-EF620296C136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52AE6E89-A36B-49E7-8CE5-EF620296C136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

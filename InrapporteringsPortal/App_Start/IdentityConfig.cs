@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using InrapporteringsPortal.Models;
+using InrapporteringsPortal.Web.Models;
 
-namespace InrapporteringsPortal
+namespace InrapporteringsPortal.Web
 {
     public class EmailService : IIdentityMessageService
     {

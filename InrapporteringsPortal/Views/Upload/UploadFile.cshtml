@@ -1,21 +1,58 @@
-﻿
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.UploadFileViewModel 
+
 @{
-    ViewBag.Title = "UploadFile";
+    ViewBag.Title = "Ladda upp fil";
 }
 
-<h2>UploadFile</h2>
+<h2>@ViewBag.Title</h2>
+
+<p>Välj till vilket register du vill ladda upp fil/filer</p>
+<section>
+    <div class="well bs-component">
+        <br />
+
+                <div class="row">
+            <div class="col-xs-4 col-xs-push-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, new {id= "ddlRegister", @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-xs-8 col-xs-push-0">
+                Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>
+                Ex. Ekb_1122_1710_1711141532.txt <br/>
+                Antal filer som ska inrapporteras i en leverans: 2
+            </div>
+        </div>
+    </div>
+</section>  
 
 @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     <div>
         @Html.TextBox("file", "", new { type = "file" }) <br />
+        @*<input type="file" class="filestyle" data-classButton="btn btn-primary" data-input="false" data-classIcon="icon-plus" data-buttonText="Ladda.">*@
 
         <input type="submit" value="Upload" />
+
+        @*<input type="file" class="custom-file-input">
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ladda upp fil/filer" class="btn btn-default" />
+            </div>
+        </div>*@
 
         @ViewBag.Message
 
     </div>
+
+    @*<form method="POST" action="myurl"> <span class="btn btn-success fileinput-button">
+            <span>Select file</span>
+
+            <input type="file" name="file">
+        </span>
+    </form>*@
 
 
 }

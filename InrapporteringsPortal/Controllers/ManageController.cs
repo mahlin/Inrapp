@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using InrapporteringsPortal.Models;
+using InrapporteringsPortal.Web.Models;
+using InrapporteringsPortal.Web.Models;
 
-namespace InrapporteringsPortal.Controllers
+namespace InrapporteringsPortal.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller

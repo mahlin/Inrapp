@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InrapporteringsPortal;
-using InrapporteringsPortal.Controllers;
+using InrapporteringsPortal.Web;
+using InrapporteringsPortal.Web.Controllers;
 
 namespace InrapporteringsPortal.Tests.Controllers
 {

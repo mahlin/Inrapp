@@ -5,7 +5,7 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security.Provider;
 
-namespace InrapporteringsPortal.Models
+namespace InrapporteringsPortal.Web.Models
 {
     public class CustomIdentityResultErrorDescriber 
     {
