@@ -26,6 +26,8 @@ namespace InrapporteringsPortal.Web.Controllers
         public ActionResult UploadFile()
         {
             //TODO - sätt currentUser i model?
+            //Initialize
+            _model.RegisterInfoText = GetRegisterInfoTexts();
 
             // Settings.  
             _model.SelectedRegisterId = 0;
@@ -35,6 +37,20 @@ namespace InrapporteringsPortal.Web.Controllers
             this.ViewBag.RegisterList = this.GetRegisterList();
 
             return View(_model);
+        }
+
+        private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
+        {
+            //TODO - Get registers information texts from db
+            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1"; 
+            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
+            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 3"; 
+            var registerInfoTextList = new List<KeyValuePair<int, string>>();
+            registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
+            registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
+            registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
+
+            return registerInfoTextList;
         }
 
         [HttpPost]
@@ -112,8 +128,8 @@ namespace InrapporteringsPortal.Web.Controllers
             // Initialization.  
             SelectList lstobj = null;
 
-                // Loading.  
-                var list = LoadData()
+            // Loading.  
+            var list = LoadData()
                     .Select(p =>
                         new SelectListItem
                         {
@@ -121,9 +137,8 @@ namespace InrapporteringsPortal.Web.Controllers
                             Text = p.Namn
                         });
 
-                // Setting.  
-                lstobj = new SelectList(list, "Value", "Text");
-
+            // Setting.  
+            lstobj = new SelectList(list, "Value", "Text");
 
             // info.  
             return lstobj;
