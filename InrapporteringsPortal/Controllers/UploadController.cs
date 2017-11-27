@@ -63,6 +63,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     string _FileName = Path.GetFileName(file.FileName);
                     string pathTmp = Request.PhysicalApplicationPath;
                     //TODO - Hämta från config? Jmfr log
+                    //Location beroende av filtyp
                     string nameAndLocation = "C:/Socialstyrelsen/UploadedFiles/EKB/" + _FileName;
                     file.SaveAs(nameAndLocation);
                 }

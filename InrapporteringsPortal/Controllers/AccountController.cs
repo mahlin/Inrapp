@@ -453,7 +453,8 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("UploadFile", "Upload");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
