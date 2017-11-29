@@ -86,9 +86,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InrapporteringsPortalDbContext.cs" />
-    <Compile Include="Repositories\IKommunRepository.cs" />
+    <Compile Include="Repositories\IPortalRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\KommunRepository.cs" />
+    <Compile Include="Repositories\PortalRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
   </ItemGroup>
   <ItemGroup>

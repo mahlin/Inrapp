@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Diagnostics;
+using InrapporteringsPortal.DomainModel;
 
-namespace Inrapporteringsportal.DataAccess.Repositories
+namespace InrapporteringsPortal.DataAccess
 {
     public class InrapporteringsPortalDbContext : DbContext
     {
@@ -22,5 +23,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             Database.Log = s => Debug.WriteLine(s);
 #endif
         }
+
+        public DbSet<Fillogg> Fillogg { get; set; }
+
+        public DbSet<Leverans> Leverans { get; set; }
     }
 }

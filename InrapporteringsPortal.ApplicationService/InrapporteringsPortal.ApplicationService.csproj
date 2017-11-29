@@ -78,6 +78,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOModel\FilloggDetaljDTO.cs" />
     <Compile Include="DTOModel\KommunDetaljDTO.cs" />
     <Compile Include="InrapporteringsPortalService.cs" />
     <Compile Include="Interface\IInrapporteringsPortalService.cs" />

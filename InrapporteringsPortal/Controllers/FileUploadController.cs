@@ -5,14 +5,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Inrapporteringsportal.DataAccess.Repositories;
 using InrapporteringsPortal.Web.Helpers;
 using InrapporteringsPortal.Web.Models;
 using InrapporteringsPortal.Web.Models.ViewModels;
+using InrapporteringsPortal.ApplicationService;
+using InrapporteringsPortal.ApplicationService.DTOModel;
+using InrapporteringsPortal.ApplicationService.Interface;
+using InrapporteringsPortal.DataAccess;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
     public class FileUploadController : Controller
     {
+        private readonly IInrapporteringsPortalService _portalService;
         private FilesViewModel _model = new FilesViewModel();
         FilesHelper filesHelper;
         String tempPath = "~/somefiles/";
@@ -27,28 +33,36 @@ namespace InrapporteringsPortal.Web.Controllers
         public FileUploadController()
         {
            filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
+            _portalService = new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
         }
-      
+
+
         public ActionResult Index()
         {
             //TODO - sätt currentUser i model?
-            //Initialize
             _model.RegisterInfoText = GetRegisterInfoTexts();
-
-            // Settings.  
             _model.SelectedRegisterId = 0;
 
-            // Loading drop down lists.  
+            // Ladda drop down lists.  
             //TODO - hämta registerinfo från databasen
             this.ViewBag.RegisterList = this.GetRegisterList();
+
+            //Hämta historiken för användarens kommun
+            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(3333);
+
+            _model.HistorikLista = historyFileList.ToList();
+
             return View(_model);
         }
         public ActionResult Show()
         {
             JsonFiles ListOfFiles = filesHelper.GetFileList();
+            //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(1);
+
             var model = new FilesViewModel()
             {
-                Files = ListOfFiles.files
+                Files = ListOfFiles.files,
+                //HistorikLista = historyFileList.ToList()
             };
           
             return View(model);

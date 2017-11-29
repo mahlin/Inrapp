@@ -1,16 +1,20 @@
-﻿using System;
+﻿using Inrapporteringsportal.DataAccess.Repositories;
+using InrapporteringsPortal.ApplicationService.DTOModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Hosting;
+using InrapporteringsPortal.DataAccess;
 
 namespace InrapporteringsPortal.Web.Helpers
 {
     public class FilesHelper
     {
-
+        private readonly IPortalRepository _portalRepository;
+        private readonly InrapporteringsPortalDbContext db = new InrapporteringsPortalDbContext();
         String DeleteURL = null;
         String DeleteType = null;
         String StorageRoot = null;
@@ -26,6 +30,7 @@ namespace InrapporteringsPortal.Web.Helpers
             this.UrlBase = UrlBase;
             this.tempPath = tempPath;
             this.serverMapPath = serverMapPath;
+            _portalRepository = new PortalRepository(db);
         }
 
         public void DeleteFiles(String pathToDelete)
@@ -102,6 +107,9 @@ namespace InrapporteringsPortal.Web.Helpers
             var httpRequest = ContentBase.Request;
             System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
+            //TODO - test db
+            var filloggar = _portalRepository.GetFilloggarForLeveransId(3, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(10));
+
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);
             // Create new folder for thumbs
@@ -131,7 +139,6 @@ namespace InrapporteringsPortal.Web.Helpers
 
         private void UploadWholeFile(HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses)
         {
-
             var request = requestContext.Request;
             for (int i = 0; i < request.Files.Count; i++)
             {
@@ -186,6 +193,14 @@ namespace InrapporteringsPortal.Web.Helpers
             }
         }
 
+        public IEnumerable<FilloggDetaljDTO> HamtaFillogg(int leveransId)
+        {
+            var filloggar = _portalRepository.GetFilloggarForLeveransId(leveransId, DateTime.Now, DateTime.Now);
+
+            return null;
+
+            //return filloggar.Select(FilloggDetaljDTO.)
+        }
 
 
         private void UploadPartialFile(string fileName, HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.Web.Helpers;
 namespace InrapporteringsPortal.Web.Models.ViewModels
 {
@@ -11,5 +12,6 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         [Display(Name = "Välj register")]
         public int? SelectedRegisterId { get; set; }
         public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
+        public List<FilloggDetaljDTO> HistorikLista { get; set; }
     }
 }

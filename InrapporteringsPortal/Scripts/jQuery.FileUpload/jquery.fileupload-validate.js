@@ -73,7 +73,7 @@
                 maxNumberOfFiles: 'Maximalt antal filer har överskridits',
                 acceptFileTypes: 'Felaktig filtyp',
                 maxFileSize: 'Filen är för stor',
-                minFileSize: ('Filen är för liten')
+                minFileSize: ('Filen är tom')
             }
         },
 
