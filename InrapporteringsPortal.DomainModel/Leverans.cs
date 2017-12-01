@@ -8,7 +8,7 @@ namespace InrapporteringsPortal.DomainModel
     public class Leverans
     {
         public int Id { get; set; }
-        public int ReporterId { get; set; }
-        public int CountyId { get; set; }
+        public string ReporterId { get; set; }
+        public string CountyId { get; set; }
     }
 }

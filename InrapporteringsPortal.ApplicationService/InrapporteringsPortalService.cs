@@ -19,7 +19,7 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository = portalRepository;
         }
 
-        public IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(int kommunId)
+        public IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId)
         {
             var historikLista = new List<FilloggDetaljDTO>();
             //TODO - tidsintervall
@@ -36,7 +36,7 @@ namespace InrapporteringsPortal.ApplicationService
             return historikLista;
         }
 
-        public int HamtaKommunKodForAnvandare(string userId)
+        public string HamtaKommunKodForAnvandare(string userId)
         {
             var kommunKod = _portalRepository.GetKommunKodForUser(userId);
             return kommunKod;
@@ -45,6 +45,17 @@ namespace InrapporteringsPortal.ApplicationService
         public IEnumerable<KommunDetaljDTO> HamtaKommuner()
         {
             throw new NotImplementedException();
+        }
+
+        public void SparaTillFillogg(string filNamn, int leveransId)
+        {
+            _portalRepository.SaveToFilelogg(filNamn,leveransId);
+        }
+
+        public int HamtaNyttLeveransId(string rapportorId, string kommunKod)
+        {
+            var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
+            return levId;
         }
     }
 }

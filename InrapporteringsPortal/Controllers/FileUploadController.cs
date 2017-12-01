@@ -88,11 +88,11 @@ namespace InrapporteringsPortal.Web.Controllers
             var z = User.Identity.AuthenticationType;
             var w = User.Identity.IsAuthenticated;
 
-            var kod = _portalService.HamtaKommunKodForAnvandare(x);
+            var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
 
             var CurrentContext = HttpContext;
 
-            filesHelper.UploadAndShowResults(CurrentContext, resultList);
+            filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod);
             JsonFiles files = new JsonFiles(resultList);
 
             bool isEmpty = !resultList.Any();
@@ -102,6 +102,11 @@ namespace InrapporteringsPortal.Web.Controllers
             }
             else
             {
+                //Save to database filelog
+                foreach (var itemFile in resultList)
+                {
+                    _portalService.SparaTillFillogg(itemFile.sosName,itemFile.leveransId );
+                }
                 return Json(files);
             }
         }

@@ -102,7 +102,7 @@ namespace InrapporteringsPortal.Web.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string rapportorId, string kommunKod)
         {
             var httpRequest = ContentBase.Request;
             System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
@@ -111,6 +111,10 @@ namespace InrapporteringsPortal.Web.Helpers
             Directory.CreateDirectory(fullPath);
             // Create new folder for thumbs
             Directory.CreateDirectory(fullPath + "/thumbs/");
+
+            //hämta ett leveransId
+            var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
+            var hash = GetHashAddOn(rapportorId, kommunKod, levId);
 
             foreach (String inputTagName in httpRequest.Files)
             {
@@ -123,7 +127,7 @@ namespace InrapporteringsPortal.Web.Helpers
                 if (string.IsNullOrEmpty(headers["X-File-Name"]))
                 {
 
-                    UploadWholeFile(ContentBase, resultList);
+                    UploadWholeFile(ContentBase, resultList, hash, levId);
                 }
                 else
                 {
@@ -134,7 +138,7 @@ namespace InrapporteringsPortal.Web.Helpers
         }
 
 
-        private void UploadWholeFile(HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses)
+        private void UploadWholeFile(HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses, string hash, int levId)
         {
             var request = requestContext.Request;
             for (int i = 0; i < request.Files.Count; i++)
@@ -148,46 +152,21 @@ namespace InrapporteringsPortal.Web.Helpers
                     //var fullPath = Path.Combine(pathOnServer, Path.GetFileName(file.FileName));
                     var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
                     var extension = Path.GetExtension(file.FileName);
-                    var hash = GetHashAddOn();
                     var extendedFileName = fileNameWithoutExtension + hash;
                     var fullPath = "C:/Socialstyrelsen/UploadedFiles/EKB/" + extendedFileName + extension;
                     file.SaveAs(fullPath);
+
+                    //if (file.ContentLength > 0)
+                    //{
+                    //    string _FileName = Path.GetFileName(file.FileName);
+                    //    string pathTmp = Request.PhysicalApplicationPath;
+                    //    //TODO - Hämta från config? Jmfr log
+                    //    //Location beroende av filtyp
+                    //    string nameAndLocation = "C:/Socialstyrelsen/UploadedFiles/EKB/" + _FileName;
+                    //    file.SaveAs(nameAndLocation);
+                    //}
+                    statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName, (extendedFileName+extension), levId));
                 }
-
-                //if (file.ContentLength > 0)
-                //{
-                //    string _FileName = Path.GetFileName(file.FileName);
-                //    string pathTmp = Request.PhysicalApplicationPath;
-                //    //TODO - Hämta från config? Jmfr log
-                //    //Location beroende av filtyp
-                //    string nameAndLocation = "C:/Socialstyrelsen/UploadedFiles/EKB/" + _FileName;
-                //    file.SaveAs(nameAndLocation);
-                //}
-
-                //Create thumb
-                //string[] imageArray = file.FileName.Split('.');
-                //if (imageArray.Length != 0)
-                //{
-                //    String extansion = imageArray[imageArray.Length - 1].ToLower();
-                //    if (extansion != "jpg" && extansion != "png" && extansion != "jpeg") //Do not create thumb if file is not an image
-                //    {
-                        
-                //    }
-                //    else
-                //    {
-                //        var ThumbfullPath = Path.Combine(pathOnServer, "thumbs");
-                //        //String fileThumb = file.FileName + ".80x80.jpg";
-                //        String fileThumb = Path.GetFileNameWithoutExtension(file.FileName) + "80x80.jpg";
-                //        var ThumbfullPath2 = Path.Combine(ThumbfullPath, fileThumb);
-                //        using (MemoryStream stream = new MemoryStream(System.IO.File.ReadAllBytes(fullPath)))
-                //        {
-                //            var thumbnail = new WebImage(stream).Resize(80, 80);
-                //            thumbnail.Save(ThumbfullPath2, "jpg");
-                //        }
-
-                //    }
-                //}
-                statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName));
             }
         }
 
@@ -231,16 +210,16 @@ namespace InrapporteringsPortal.Web.Helpers
             statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName));
         }
 
-        private string GetHashAddOn()
+        private string GetHashAddOn(string rapportorId, string kommunKod, int levId)
         {
             var hashAddOn = String.Empty;
 
-            //TODO - get from database
-            hashAddOn = "#3111_1_1";
+            //TODO - filnr x av y
+            hashAddOn = "#" + kommunKod + "_" + levId + "_1_1";
 
             return hashAddOn;
         }
-        public ViewDataUploadFilesResult UploadResult(String FileName,int fileSize,String FileFullPath)
+        public ViewDataUploadFilesResult UploadResult(String FileName,int fileSize,String FileFullPath, String SosFileName, int LeveransId)
         {
             String getType = System.Web.MimeMapping.GetMimeMapping(FileFullPath);
             var result = new ViewDataUploadFilesResult()
@@ -252,6 +231,24 @@ namespace InrapporteringsPortal.Web.Helpers
                 deleteUrl = DeleteURL + FileName,
                 thumbnailUrl = CheckThumb(getType, FileName),
                 deleteType = DeleteType,
+                sosName = SosFileName,
+                leveransId = LeveransId
+            };
+            return result;
+        }
+
+        public ViewDataUploadFilesResult UploadResult(String FileName, int fileSize, String FileFullPath)
+        {
+            String getType = System.Web.MimeMapping.GetMimeMapping(FileFullPath);
+            var result = new ViewDataUploadFilesResult()
+            {
+                name = FileName,
+                size = fileSize,
+                type = getType,
+                url = UrlBase + FileName,
+                deleteUrl = DeleteURL + FileName,
+                thumbnailUrl = CheckThumb(getType, FileName),
+                deleteType = DeleteType
             };
             return result;
         }
@@ -316,6 +313,8 @@ namespace InrapporteringsPortal.Web.Helpers
         public string deleteUrl { get; set; }
         public string thumbnailUrl { get; set; }
         public string deleteType { get; set; }
+        public string sosName { get; set; }
+        public int leveransId { get; set; }
     }
     public class JsonFiles
     {

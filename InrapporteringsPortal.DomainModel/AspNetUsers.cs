@@ -16,6 +16,6 @@ namespace InrapporteringsPortal.DomainModel
         public DateTime LockoutEndDateUtc { get; set; }
         public int LockoutEnabled { get; set; }
         public string UserName { get; set; }
-        public int KommunKod { get; set; }
+        public string KommunKod { get; set; }
     }
 }

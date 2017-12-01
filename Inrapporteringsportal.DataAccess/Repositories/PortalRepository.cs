@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -62,7 +63,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return DbContext.AspNetUsers;
         }
 
-        public IEnumerable<int> GetLeveransIdnForKommun(int kommunId)
+        public IEnumerable<int> GetLeveransIdnForKommun(string kommunId)
         {
             var levIdnForKommun = AllaLeveranser().Where(a => a.CountyId == kommunId).Select(a => a.Id).ToList();
 
@@ -70,11 +71,50 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         }
 
-        public int GetKommunKodForUser(string userId)
+        public string GetKommunKodForUser(string userId)
         {
             //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
             var kommunKod = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.KommunKod).FirstOrDefault();
             return kommunKod;
         }
+
+        public void SaveToFilelogg(string filNamn, int leveransId)
+        {
+            var log = new Fillogg
+            {
+                LeveransId = leveransId,
+                Filnamn = filNamn,
+                Datum = DateTime.Now,
+                Status = 1
+            };
+
+            DbContext.Fillogg.Add(log);
+            try
+            {
+                DbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //TODO - logga
+                //ErrorManager.WriteToErrorLog("Fakturaunderlag ", "InvoicingCode create", e.Message + " " + _msg);
+                //throw new Exception(e.Message + " " + _msg);
+                throw new Exception(e.Message);
+            }
+        }
+
+        public int GetNewLeveransId(string rapportorId, string kommunKod)
+        {
+            var leverans = new Leverans
+            {
+                ReporterId = rapportorId,
+                CountyId = kommunKod
+            };
+
+            DbContext.Leverans.Add(leverans);
+
+            DbContext.SaveChanges();
+            return leverans.Id;
+        }
+
     }
 }

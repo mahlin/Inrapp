@@ -7,13 +7,13 @@ namespace InrapporteringsPortal.Web.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChangedKommunKod : IMigrationMetadata
+    public sealed partial class ChangedKommunKodBack : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedKommunKod));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedKommunKodBack));
         
         string IMigrationMetadata.Id
         {
-            get { return "201711301436123_ChangedKommunKod"; }
+            get { return "201712010745176_ChangedKommunKodBack"; }
         }
         
         string IMigrationMetadata.Source

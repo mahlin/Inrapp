@@ -53,3 +53,20 @@ textarea {
 th.historyHeader {
     background-color: #f9f9f9;
 }
+
+.logga {
+     position: fixed;
+}
+
+.padding-top-55 {
+    padding-top: 55px;
+}
+
+.padding-top-75 {
+     padding-top: 75px;
+}
+
+.padding-top-100 {
+    padding-top: 100px;
+}
+

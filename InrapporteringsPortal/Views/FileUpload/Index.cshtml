@@ -41,15 +41,16 @@
 
 </script>
 
-
-<h4>@ViewBag.Title</h4>
+<div class="padding-top-55">
+    <h4>@ViewBag.Title</h4>
+</div>
 
 <p>Välj till vilket register du vill ladda upp fil/filer</p>
 <section>
     <div class="well bs-component">
         <br />
-        <div class="row h-100">
-            <div class="col-xs-4 col-xs-push-0">
+        <div class="row h-100" style="height: 90px">
+            <div class="col-xs-4 col-xs-push-0 h-100">
                 <div class="form-group">
                     @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control" })
                 </div>
