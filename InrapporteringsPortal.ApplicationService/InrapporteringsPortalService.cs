@@ -36,6 +36,12 @@ namespace InrapporteringsPortal.ApplicationService
             return historikLista;
         }
 
+        public int HamtaKommunKodForAnvandare(string userId)
+        {
+            var kommunKod = _portalRepository.GetKommunKodForUser(userId);
+            return kommunKod;
+        }
+
         public IEnumerable<KommunDetaljDTO> HamtaKommuner()
         {
             throw new NotImplementedException();

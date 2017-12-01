@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ using InrapporteringsPortal.ApplicationService;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
+using Microsoft.AspNet.Identity;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
@@ -47,9 +49,11 @@ namespace InrapporteringsPortal.Web.Controllers
             //TODO - hämta registerinfo från databasen
             this.ViewBag.RegisterList = this.GetRegisterList();
 
+            //TODO - hämta kommunId från current user
             //Hämta historiken för användarens kommun
-            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(3333);
-
+            var userId = User.Identity.GetUserId();
+            var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
+            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
             _model.HistorikLista = historyFileList.ToList();
 
             return View(_model);
@@ -77,7 +81,15 @@ namespace InrapporteringsPortal.Web.Controllers
         public JsonResult Upload()
         {
             var resultList = new List<ViewDataUploadFilesResult>();
-           
+
+            //TODO - test userinfo
+            var x = User.Identity.GetUserId();
+            var y = User.Identity.Name;
+            var z = User.Identity.AuthenticationType;
+            var w = User.Identity.IsAuthenticated;
+
+            var kod = _portalService.HamtaKommunKodForAnvandare(x);
+
             var CurrentContext = HttpContext;
 
             filesHelper.UploadAndShowResults(CurrentContext, resultList);

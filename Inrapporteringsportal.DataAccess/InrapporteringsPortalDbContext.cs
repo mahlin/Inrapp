@@ -24,8 +24,8 @@ namespace InrapporteringsPortal.DataAccess
 #endif
         }
 
+        public DbSet<AspNetUsers> AspNetUsers { get; set; }
         public DbSet<Fillogg> Fillogg { get; set; }
-
         public DbSet<Leverans> Leverans { get; set; }
     }
 }

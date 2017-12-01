@@ -78,6 +78,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUsers.cs" />
     <Compile Include="Fillogg.cs" />
     <Compile Include="Kommun.cs" />
     <Compile Include="Leverans.cs" />

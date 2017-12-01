@@ -11,6 +11,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<Fillogg> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
         IEnumerable<int> GetLeveransIdnForKommun(int kommunId);
+        int GetKommunKodForUser(string userId);
     }
 
 }

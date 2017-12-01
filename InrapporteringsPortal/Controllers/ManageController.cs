@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using InrapporteringsPortal.Web.Models;
-using InrapporteringsPortal.Web.Models;
 
 namespace InrapporteringsPortal.Web.Controllers
 {

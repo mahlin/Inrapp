@@ -198,6 +198,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FilesHelper.cs" />
+    <Compile Include="Migrations\201711301216497_InitialCreate.cs" />
+    <Compile Include="Migrations\201711301216497_InitialCreate.Designer.cs">
+      <DependentUpon>201711301216497_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301351142_AddedKommunKod.cs" />
+    <Compile Include="Migrations\201711301351142_AddedKommunKod.Designer.cs">
+      <DependentUpon>201711301351142_AddedKommunKod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711301436123_ChangedKommunKod.cs" />
+    <Compile Include="Migrations\201711301436123_ChangedKommunKod.Designer.cs">
+      <DependentUpon>201711301436123_ChangedKommunKod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomIdentityResultErrorDescriber.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -628,6 +641,17 @@
       <Project>{52AE6E89-A36B-49E7-8CE5-EF620296C136}</Project>
       <Name>InrapporteringsPortal.DomainModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711301216497_InitialCreate.resx">
+      <DependentUpon>201711301216497_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301351142_AddedKommunKod.resx">
+      <DependentUpon>201711301351142_AddedKommunKod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711301436123_ChangedKommunKod.resx">
+      <DependentUpon>201711301436123_ChangedKommunKod.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

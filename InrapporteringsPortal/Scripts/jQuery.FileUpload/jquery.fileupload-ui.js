@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jQuery File Upload User Interface Plugin 9.6.1
  * https://github.com/blueimp/jQuery-File-Upload
  *
@@ -71,7 +71,7 @@
             
             // Error and info messages:
             messages: {
-                unknownError: 'Ok�nt fel'  
+                unknownError: 'Okänt fel'  
             },
 
             // Function returning the current number of files,

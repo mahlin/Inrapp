@@ -107,9 +107,6 @@ namespace InrapporteringsPortal.Web.Helpers
             var httpRequest = ContentBase.Request;
             System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
-            //TODO - test db
-            var filloggar = _portalRepository.GetFilloggarForLeveransId(3, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(10));
-
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);
             // Create new folder for thumbs
@@ -144,6 +141,7 @@ namespace InrapporteringsPortal.Web.Helpers
             {
                 var file = request.Files[i];
 
+                //TODO - check filename depending on chosen registertype
                 if (file.ContentLength > 0 && Path.GetExtension(file.FileName) == ".txt")
                 {
                     String pathOnServer = Path.Combine(StorageRoot);

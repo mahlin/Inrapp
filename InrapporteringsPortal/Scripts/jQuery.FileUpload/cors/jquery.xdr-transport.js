@@ -66,7 +66,7 @@
                             );
                         };
                         xdr.onerror = function () {
-                            callback(404, 'Not Found');
+                            callback(404, 'Not xxyy Found');
                         };
                         if (s.xdrTimeout) {
                             xdr.ontimeout = function () {

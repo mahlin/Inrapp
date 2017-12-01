@@ -28,18 +28,18 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         //TODO - 
         public IEnumerable<Fillogg> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
         {
-            var tmp2 = (from l in DbContext.Leverans
-                where l.Id == 1
-                select l).SingleOrDefault();
+            //var tmp2 = (from l in DbContext.Leverans
+            //    where l.Id == 1
+            //    select l).SingleOrDefault();
 
-            var tmp1 = (from f in DbContext.Fillogg
-                where f.LeveransId == 1
-                        select f).SingleOrDefault(); 
+            //var tmp1 = (from f in DbContext.Fillogg
+            //    where f.LeveransId == 1
+            //            select f).SingleOrDefault(); 
 
-            var tmp = (from f in DbContext.Fillogg
-                where f.LeveransId == leveransId
-                orderby f.Id 
-                select f).ToList();
+            //var tmp = (from f in DbContext.Fillogg
+            //    where f.LeveransId == leveransId
+            //    orderby f.Id 
+            //    select f).ToList();
 
             var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId);
 
@@ -57,12 +57,24 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return DbContext.Leverans;
         }
 
+        private IEnumerable<AspNetUsers> AllaUsers()
+        {
+            return DbContext.AspNetUsers;
+        }
+
         public IEnumerable<int> GetLeveransIdnForKommun(int kommunId)
         {
             var levIdnForKommun = AllaLeveranser().Where(a => a.CountyId == kommunId).Select(a => a.Id).ToList();
 
             return levIdnForKommun;
 
+        }
+
+        public int GetKommunKodForUser(string userId)
+        {
+            //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
+            var kommunKod = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.KommunKod).FirstOrDefault();
+            return kommunKod;
         }
     }
 }
