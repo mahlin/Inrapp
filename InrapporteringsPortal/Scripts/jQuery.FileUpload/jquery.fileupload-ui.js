@@ -175,7 +175,7 @@
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
-                                {error: 'Empty file upload result'};
+                                {error: 'Filen laddades inte upp'};
                         deferred = that._addFinishedDeferreds();
                         that._transition($(this)).done(
                             function () {

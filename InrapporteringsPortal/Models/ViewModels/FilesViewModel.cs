@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using InrapporteringsPortal.ApplicationService.DTOModel;
-using InrapporteringsPortal.Web.Helpers;
+using InrapporteringsPortal.ApplicationService.Helpers;
 namespace InrapporteringsPortal.Web.Models.ViewModels
 {
     public class FilesViewModel

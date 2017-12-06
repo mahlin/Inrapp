@@ -7,12 +7,12 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Inrapporteringsportal.DataAccess.Repositories;
-using InrapporteringsPortal.Web.Helpers;
 using InrapporteringsPortal.Web.Models;
 using InrapporteringsPortal.Web.Models.ViewModels;
 using InrapporteringsPortal.ApplicationService;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
+using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.DataAccess;
 using Microsoft.AspNet.Identity;
 
@@ -25,20 +25,24 @@ namespace InrapporteringsPortal.Web.Controllers
         FilesHelper filesHelper;
         String tempPath = "~/somefiles/";
         String serverMapPath = "~/Files/somefiles/";
+
         private string StorageRoot
         {
             get { return Path.Combine(HostingEnvironment.MapPath(serverMapPath)); }
         }
+
         private string UrlBase = "/Files/somefiles/";
         String DeleteURL = "/FileUpload/DeleteFile/?file=";
         String DeleteType = "GET";
+
         public FileUploadController()
         {
-           filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
-            _portalService = new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
+            filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
+            _portalService =
+                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
         }
 
-
+        //[Authorize] 
         public ActionResult Index()
         {
             //TODO - hämta registerinfotext, antal filer och filmask från databasen
@@ -50,7 +54,7 @@ namespace InrapporteringsPortal.Web.Controllers
             // Ladda drop down lists.  
             //TODO - hämta registerinfo från databasen
             this.ViewBag.RegisterList = this.GetRegisterList();
-
+            
             //TODO - hämta kommunId från current user
             //Hämta historiken för användarens kommun
             var userId = User.Identity.GetUserId();
@@ -60,9 +64,11 @@ namespace InrapporteringsPortal.Web.Controllers
 
             return View(_model);
         }
+
         public ActionResult Show()
         {
             JsonFiles ListOfFiles = filesHelper.GetFileList();
+
             //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(1);
 
             var model = new FilesViewModel()
@@ -70,7 +76,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 Files = ListOfFiles.files,
                 //HistorikLista = historyFileList.ToList()
             };
-          
+
             return View(model);
         }
 
@@ -90,11 +96,22 @@ namespace InrapporteringsPortal.Web.Controllers
             var z = User.Identity.AuthenticationType;
             var w = User.Identity.IsAuthenticated;
 
+            
             var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
 
             var CurrentContext = HttpContext;
 
-            filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod);
+            try
+            {
+                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
+            }
+
+
             JsonFiles files = new JsonFiles(resultList);
 
             bool isEmpty = !resultList.Any();

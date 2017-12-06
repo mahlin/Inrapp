@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Hosting;
 using InrapporteringsPortal.DataAccess;
 
-namespace InrapporteringsPortal.Web.Helpers
+namespace InrapporteringsPortal.ApplicationService.Helpers
 {
     public class FilesHelper
     {

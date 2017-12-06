@@ -14,7 +14,7 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
         public string KommunKod { get; set; }
 
         //TODO
-        //Mappar från Domain-obj till DTO. Behövs ej om lika?
+        //Mappar från Domain-obj till DTO. 
         internal static KommunDetaljDTO FromKommun(Kommun kommun)
         {
             if (kommun == null)
