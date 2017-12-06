@@ -23,7 +23,7 @@ namespace InrapporteringsPortal.ApplicationService
         {
             var historikLista = new List<FilloggDetaljDTO>();
             //TODO - tidsintervall
-            var leveransIdList = _portalRepository.GetLeveransIdnForKommun(kommunId);
+            var leveransIdList = _portalRepository.GetLeveransIdnForKommun(kommunId).OrderByDescending(x => x);
             foreach (var id in leveransIdList)
             {
                 var filloggs = _portalRepository.GetFilloggarForLeveransId(id, DateTime.Now, DateTime.Now);

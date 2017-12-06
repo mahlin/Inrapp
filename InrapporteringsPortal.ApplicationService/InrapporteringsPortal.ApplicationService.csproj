@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="DTOModel\FilloggDetaljDTO.cs" />
     <Compile Include="DTOModel\KommunDetaljDTO.cs" />
+    <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="InrapporteringsPortalService.cs" />
     <Compile Include="Interface\IInrapporteringsPortalService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

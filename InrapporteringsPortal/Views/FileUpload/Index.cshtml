@@ -2,6 +2,7 @@
 @model InrapporteringsPortal.Web.Models.ViewModels.FilesViewModel 
     
 <script src="@Url.Content("~/Scripts/uploadFile.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/custom/custom.js")" type="text/javascript"></script>
 
 <script>
     var regInfoTexts = @Html.Raw(Json.Encode(Model.RegisterInfoText));
@@ -61,6 +62,8 @@
     </div>
 </section>
 
+
+
 @Html.Partial("_Files")
 
 <!-- History/archive uploaded files -->
@@ -70,6 +73,7 @@
         <tr class="historyHeader" style="background-color: #f9f9f9;">
             <th>Filnamn</th>
             <th>Uppladdad</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -80,6 +84,7 @@
             <tr>
                 <td>@loggRad.Filnamn</td>
                 <td>@loggRad.Datum</td>
+                <td>@loggRad.Status</td>
             </tr>
         }
     }

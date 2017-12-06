@@ -1,4 +1,4 @@
-﻿
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.FilesViewModel 
 
 <form id="fileupload" method="POST" enctype="multipart/form-data" data-url="@Url.Action("Upload","FileUpload")">
     <div class="row fileupload-buttonbar">
@@ -7,8 +7,12 @@
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
                 <span>Välj fil...</span>
-                <input type="file" name="files[]"  accept="txt/xls" multiple>
+                <input type="file" name="files[]" title="Inga filer valda" accept="txt/xls" multiple>
             </span>
+            <button type="submit" class="btn btn-primary start">
+                <i class="glyphicon glyphicon-upload"></i>
+                <span>Ladda upp</span>
+            </button>
         </div>
         <!-- The global progress state -->
         <div class="col-lg-5 fileupload-progress fade">

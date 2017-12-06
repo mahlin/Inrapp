@@ -42,7 +42,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             //    orderby f.Id 
             //    select f).ToList();
 
-            var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId);
+            var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId).OrderByDescending(x => x.LeveransId); ;
 
             return filloggar;
         }

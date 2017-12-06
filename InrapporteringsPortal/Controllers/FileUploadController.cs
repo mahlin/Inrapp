@@ -41,8 +41,10 @@ namespace InrapporteringsPortal.Web.Controllers
 
         public ActionResult Index()
         {
-            //TODO - sätt currentUser i model?
-            _model.RegisterInfoText = GetRegisterInfoTexts();
+            //TODO - hämta registerinfotext, antal filer och filmask från databasen
+            GetRegisterInfo();
+            //_model.RegisterInfoText = GetRegisterInfoTexts();
+            //_model.FilMask = "Ekb_kommunkod_period_datumoklockslag.txt";
             _model.SelectedRegisterId = 0;
 
             // Ladda drop down lists.  
@@ -129,12 +131,37 @@ namespace InrapporteringsPortal.Web.Controllers
             ViewBag.RegisterList = this.GetRegisterList();
         }
 
+        private void GetRegisterInfo()
+        {
+            //TODO - Get registers information texts from db
+            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
+            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+            var registerInfoTextList = new List<KeyValuePair<int, string>>();
+            registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
+            registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
+            registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
+            _model.RegisterInfoText = registerInfoTextList;
+
+            var registerFilAntalList = new List<KeyValuePair<int, int>>();
+            registerFilAntalList.Add(new KeyValuePair<int, int>(1, 2));
+            registerFilAntalList.Add(new KeyValuePair<int, int>(2, 1));
+            registerFilAntalList.Add(new KeyValuePair<int, int>(3, 1));
+            _model.FilAntal = registerFilAntalList;
+
+            var registerFilmaskList = new List<KeyValuePair<int, string>>();
+            registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^[A-Za-z]+$"));
+            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^[0-9]+([eE][-+]?[0-9]+)?$"));
+            registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
+            _model.FilMask = registerFilmaskList;
+        }
+
         private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
         {
             //TODO - Get registers information texts from db
-            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
-            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 3";
+            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
+            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
             var registerInfoTextList = new List<KeyValuePair<int, string>>();
             registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
             registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));

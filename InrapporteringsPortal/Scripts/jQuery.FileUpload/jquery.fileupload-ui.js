@@ -124,6 +124,7 @@
                             data.autoUpload !== false) {
                         data.submit();
                     }
+                    var x = $('#FilAntal').val();
                 }).fail(function () {
                     if (data.files.error) {
                         data.context.each(function (index) {

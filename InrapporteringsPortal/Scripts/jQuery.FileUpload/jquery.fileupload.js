@@ -168,7 +168,7 @@
 
             // Error and info messages:
             messages: {
-                uploadedBytes: 'Uploaded bytes exceed file size'
+                uploadedBytes: 'Uppladdade  bytes översteg filstorlek'
             },
 
             // Translation function, gets the message key to be translated
@@ -1041,6 +1041,7 @@
                 );
                 return result;
             });
+            var x = $('#FilAntal').val();
             return result;
         },
 

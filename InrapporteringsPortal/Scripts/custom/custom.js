@@ -1,4 +1,9 @@
-﻿
+﻿//$(document).ready(function() {
+//    alert("Ready");
+//});
+
+
+
 //$(window).scroll(function () {
 //    if ($(window).scrollTop() < 100) {
 //        var height = 30;
