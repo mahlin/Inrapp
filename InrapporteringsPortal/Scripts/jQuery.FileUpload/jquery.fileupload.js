@@ -84,256 +84,262 @@
     // By default, files added via file input selection, paste, drag & drop or
     // "add" method are uploaded immediately, but it is possible to override
     // the "add" callback option to queue file uploads.
-    $.widget('blueimp.fileupload', {
+    $.widget('blueimp.fileupload',
+        {
+            options: {
+                // The drop target element(s), by the default the complete document.
+                // Set to null to disable drag & drop support:
+                dropZone: $(document),
+                // The paste target element(s), by the default undefined.
+                // Set to a DOM node or jQuery object to enable file pasting:
+                pasteZone: undefined,
+                // The file input field(s), that are listened to for change events.
+                // If undefined, it is set to the file input fields inside
+                // of the widget element on plugin initialization.
+                // Set to null to disable the change listener.
+                fileInput: undefined,
+                // By default, the file input field is replaced with a clone after
+                // each input field change event. This is required for iframe transport
+                // queues and allows change events to be fired for the same file
+                // selection, but can be disabled by setting the following option to false:
+                replaceFileInput: true,
+                // The parameter name for the file form data (the request argument name).
+                // If undefined or empty, the name property of the file input field is
+                // used, or "files[]" if the file input name property is also empty,
+                // can be a string or an array of strings:
+                paramName: undefined,
+                // By default, each file of a selection is uploaded using an individual
+                // request for XHR type uploads. Set to false to upload file
+                // selections in one request each:
+                singleFileUploads: true,
+                // To limit the number of files uploaded with one XHR request,
+                // set the following option to an integer greater than 0:
+                limitMultiFileUploads: undefined,
+                // The following option limits the number of files uploaded with one
+                // XHR request to keep the request size under or equal to the defined
+                // limit in bytes:
+                limitMultiFileUploadSize: undefined,
+                // Multipart file uploads add a number of bytes to each uploaded file,
+                // therefore the following option adds an overhead for each file used
+                // in the limitMultiFileUploadSize configuration:
+                limitMultiFileUploadSizeOverhead: 512,
+                // Set the following option to true to issue all file upload requests
+                // in a sequential order:
+                sequentialUploads: false,
+                // To limit the number of concurrent uploads,
+                // set the following option to an integer greater than 0:
+                limitConcurrentUploads: undefined,
+                // Set the following option to true to force iframe transport uploads:
+                forceIframeTransport: false,
+                // Set the following option to the location of a redirect url on the
+                // origin server, for cross-domain iframe transport uploads:
+                redirect: undefined,
+                // The parameter name for the redirect url, sent as part of the form
+                // data and set to 'redirect' if this option is empty:
+                redirectParamName: undefined,
+                // Set the following option to the location of a postMessage window,
+                // to enable postMessage transport uploads:
+                postMessage: undefined,
+                // By default, XHR file uploads are sent as multipart/form-data.
+                // The iframe transport is always using multipart/form-data.
+                // Set to false to enable non-multipart XHR uploads:
+                multipart: true,
+                // To upload large files in smaller chunks, set the following option
+                // to a preferred maximum chunk size. If set to 0, null or undefined,
+                // or the browser does not support the required Blob API, files will
+                // be uploaded as a whole.
+                maxChunkSize: undefined,
+                // When a non-multipart upload or a chunked multipart upload has been
+                // aborted, this option can be used to resume the upload by setting
+                // it to the size of the already uploaded bytes. This option is most
+                // useful when modifying the options object inside of the "add" or
+                // "send" callbacks, as the options are cloned for each file upload.
+                uploadedBytes: undefined,
+                // By default, failed (abort or error) file uploads are removed from the
+                // global progress calculation. Set the following option to false to
+                // prevent recalculating the global progress data:
+                recalculateProgress: true,
+                // Interval in milliseconds to calculate and trigger progress events:
+                progressInterval: 100,
+                // Interval in milliseconds to calculate progress bitrate:
+                bitrateInterval: 500,
+                // By default, uploads are started automatically when adding files:
+                autoUpload: true,
 
-        options: {
-            // The drop target element(s), by the default the complete document.
-            // Set to null to disable drag & drop support:
-            dropZone: $(document),
-            // The paste target element(s), by the default undefined.
-            // Set to a DOM node or jQuery object to enable file pasting:
-            pasteZone: undefined,
-            // The file input field(s), that are listened to for change events.
-            // If undefined, it is set to the file input fields inside
-            // of the widget element on plugin initialization.
-            // Set to null to disable the change listener.
-            fileInput: undefined,
-            // By default, the file input field is replaced with a clone after
-            // each input field change event. This is required for iframe transport
-            // queues and allows change events to be fired for the same file
-            // selection, but can be disabled by setting the following option to false:
-            replaceFileInput: true,
-            // The parameter name for the file form data (the request argument name).
-            // If undefined or empty, the name property of the file input field is
-            // used, or "files[]" if the file input name property is also empty,
-            // can be a string or an array of strings:
-            paramName: undefined,
-            // By default, each file of a selection is uploaded using an individual
-            // request for XHR type uploads. Set to false to upload file
-            // selections in one request each:
-            singleFileUploads: true,
-            // To limit the number of files uploaded with one XHR request,
-            // set the following option to an integer greater than 0:
-            limitMultiFileUploads: undefined,
-            // The following option limits the number of files uploaded with one
-            // XHR request to keep the request size under or equal to the defined
-            // limit in bytes:
-            limitMultiFileUploadSize: undefined,
-            // Multipart file uploads add a number of bytes to each uploaded file,
-            // therefore the following option adds an overhead for each file used
-            // in the limitMultiFileUploadSize configuration:
-            limitMultiFileUploadSizeOverhead: 512,
-            // Set the following option to true to issue all file upload requests
-            // in a sequential order:
-            sequentialUploads: false,
-            // To limit the number of concurrent uploads,
-            // set the following option to an integer greater than 0:
-            limitConcurrentUploads: undefined,
-            // Set the following option to true to force iframe transport uploads:
-            forceIframeTransport: false,
-            // Set the following option to the location of a redirect url on the
-            // origin server, for cross-domain iframe transport uploads:
-            redirect: undefined,
-            // The parameter name for the redirect url, sent as part of the form
-            // data and set to 'redirect' if this option is empty:
-            redirectParamName: undefined,
-            // Set the following option to the location of a postMessage window,
-            // to enable postMessage transport uploads:
-            postMessage: undefined,
-            // By default, XHR file uploads are sent as multipart/form-data.
-            // The iframe transport is always using multipart/form-data.
-            // Set to false to enable non-multipart XHR uploads:
-            multipart: true,
-            // To upload large files in smaller chunks, set the following option
-            // to a preferred maximum chunk size. If set to 0, null or undefined,
-            // or the browser does not support the required Blob API, files will
-            // be uploaded as a whole.
-            maxChunkSize: undefined,
-            // When a non-multipart upload or a chunked multipart upload has been
-            // aborted, this option can be used to resume the upload by setting
-            // it to the size of the already uploaded bytes. This option is most
-            // useful when modifying the options object inside of the "add" or
-            // "send" callbacks, as the options are cloned for each file upload.
-            uploadedBytes: undefined,
-            // By default, failed (abort or error) file uploads are removed from the
-            // global progress calculation. Set the following option to false to
-            // prevent recalculating the global progress data:
-            recalculateProgress: true,
-            // Interval in milliseconds to calculate and trigger progress events:
-            progressInterval: 100,
-            // Interval in milliseconds to calculate progress bitrate:
-            bitrateInterval: 500,
-            // By default, uploads are started automatically when adding files:
-            autoUpload: true,
+                // Error and info messages:
+                messages: {
+                    uploadedBytes: 'Uppladdade  bytes översteg filstorlek'
+                },
 
-            // Error and info messages:
-            messages: {
-                uploadedBytes: 'Uppladdade  bytes översteg filstorlek'
-            },
+                // Translation function, gets the message key to be translated
+                // and an object with context specific data as arguments:
+                i18n: function(message, context) {
+                    message = this.messages[message] || message.toString();
+                    if (context) {
+                        $.each(context,
+                            function(key, value) {
+                                message = message.replace('{' + key + '}', value);
+                            });
+                    }
+                    return message;
+                },
 
-            // Translation function, gets the message key to be translated
-            // and an object with context specific data as arguments:
-            i18n: function (message, context) {
-                message = this.messages[message] || message.toString();
-                if (context) {
-                    $.each(context, function (key, value) {
-                        message = message.replace('{' + key + '}', value);
-                    });
-                }
-                return message;
-            },
+                // Additional form data to be sent along with the file uploads can be set
+                // using this option, which accepts an array of objects with name and
+                // value properties, a function returning such an array, a FormData
+                // object (for XHR file uploads), or a simple object.
+                // The form of the first fileInput is given as parameter to the function:
+                formData: function(form) {
+                    return form.serializeArray();
+                },
 
-            // Additional form data to be sent along with the file uploads can be set
-            // using this option, which accepts an array of objects with name and
-            // value properties, a function returning such an array, a FormData
-            // object (for XHR file uploads), or a simple object.
-            // The form of the first fileInput is given as parameter to the function:
-            formData: function (form) {
-                return form.serializeArray();
-            },
-
-            // The add callback is invoked as soon as files are added to the fileupload
-            // widget (via file input selection, drag & drop, paste or add API call).
-            // If the singleFileUploads option is enabled, this callback will be
-            // called once for each file in the selection for XHR file uploads, else
-            // once for each file selection.
-            //
-            // The upload starts when the submit method is invoked on the data parameter.
-            // The data object contains a files property holding the added files
-            // and allows you to override plugin options as well as define ajax settings.
-            //
-            // Listeners for this callback can also be bound the following way:
-            // .bind('fileuploadadd', func);
-            //
-            // data.submit() returns a Promise object and allows to attach additional
-            // handlers using jQuery's Deferred callbacks:
-            // data.submit().done(func).fail(func).always(func);
-            add: function (e, data) {
-                if (e.isDefaultPrevented()) {
-                    return false;
-                }
-                if (data.autoUpload || (data.autoUpload !== false &&
+                // The add callback is invoked as soon as files are added to the fileupload
+                // widget (via file input selection, drag & drop, paste or add API call).
+                // If the singleFileUploads option is enabled, this callback will be
+                // called once for each file in the selection for XHR file uploads, else
+                // once for each file selection.
+                //
+                // The upload starts when the submit method is invoked on the data parameter.
+                // The data object contains a files property holding the added files
+                // and allows you to override plugin options as well as define ajax settings.
+                //
+                // Listeners for this callback can also be bound the following way:
+                // .bind('fileuploadadd', func);
+                //
+                // data.submit() returns a Promise object and allows to attach additional
+                // handlers using jQuery's Deferred callbacks:
+                // data.submit().done(func).fail(func).always(func);
+                add: function(e, data) {
+                    if (e.isDefaultPrevented()) {
+                        return false;
+                    }
+                    if (data.autoUpload ||
+                    (data.autoUpload !== false &&
                         $(this).fileupload('option', 'autoUpload'))) {
-                    data.process().done(function () {
-                        data.submit();
-                    });
-                }
+                        data.process().done(function() {
+                            data.submit();
+                        });
+                    }
+                },
+
+                // Other callbacks:
+
+                // Callback for the submit event of each file upload:
+                // submit: function (e, data) {}, // .bind('fileuploadsubmit', func);
+
+                // Callback for the start of each file upload request:
+                // send: function (e, data) {}, // .bind('fileuploadsend', func);
+
+                // Callback for successful uploads:
+                // done: function (e, data) {}, // .bind('fileuploaddone', func);
+
+                // Callback for failed (abort or error) uploads:
+                // fail: function (e, data) {}, // .bind('fileuploadfail', func);
+
+                // Callback for completed (success, abort or error) requests:
+                // always: function (e, data) {}, // .bind('fileuploadalways', func);
+
+                // Callback for upload progress events:
+                // progress: function (e, data) {}, // .bind('fileuploadprogress', func);
+
+                // Callback for global upload progress events:
+                // progressall: function (e, data) {}, // .bind('fileuploadprogressall', func);
+
+                // Callback for uploads start, equivalent to the global ajaxStart event:
+                // start: function (e) {}, // .bind('fileuploadstart', func);
+
+                // Callback for uploads stop, equivalent to the global ajaxStop event:
+                // stop: function (e) {}, // .bind('fileuploadstop', func);
+
+                // Callback for change events of the fileInput(s):
+                // change: function (e, data) {}, // .bind('fileuploadchange', func);
+
+                // Callback for paste events to the pasteZone(s):
+                // paste: function (e, data) {}, // .bind('fileuploadpaste', func);
+
+                // Callback for drop events of the dropZone(s):
+                // drop: function (e, data) {}, // .bind('fileuploaddrop', func);
+
+                // Callback for dragover events of the dropZone(s):
+                // dragover: function (e) {}, // .bind('fileuploaddragover', func);
+
+                // Callback for the start of each chunk upload request:
+                // chunksend: function (e, data) {}, // .bind('fileuploadchunksend', func);
+
+                // Callback for successful chunk uploads:
+                // chunkdone: function (e, data) {}, // .bind('fileuploadchunkdone', func);
+
+                // Callback for failed (abort or error) chunk uploads:
+                // chunkfail: function (e, data) {}, // .bind('fileuploadchunkfail', func);
+
+                // Callback for completed (success, abort or error) chunk upload requests:
+                // chunkalways: function (e, data) {}, // .bind('fileuploadchunkalways', func);
+
+                // The plugin options are used as settings object for the ajax calls.
+                // The following are jQuery ajax settings required for the file uploads:
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 0
             },
 
-            // Other callbacks:
+            // A list of options that require reinitializing event listeners and/or
+            // special initialization code:
+            _specialOptions: [
+                'fileInput',
+                'dropZone',
+                'pasteZone',
+                'multipart',
+                'forceIframeTransport'
+            ],
 
-            // Callback for the submit event of each file upload:
-            // submit: function (e, data) {}, // .bind('fileuploadsubmit', func);
+            _blobSlice: $.support.blobSlice &&
+                function() {
+                    var slice = this.slice || this.webkitSlice || this.mozSlice;
+                    return slice.apply(this, arguments);
+                },
 
-            // Callback for the start of each file upload request:
-            // send: function (e, data) {}, // .bind('fileuploadsend', func);
+            _BitrateTimer: function() {
+                this.timestamp = ((Date.now) ? Date.now() : (new Date()).getTime());
+                this.loaded = 0;
+                this.bitrate = 0;
+                this.getBitrate = function(now, loaded, interval) {
+                    var timeDiff = now - this.timestamp;
+                    if (!this.bitrate || !interval || timeDiff > interval) {
+                        this.bitrate = (loaded - this.loaded) * (1000 / timeDiff) * 8;
+                        this.loaded = loaded;
+                        this.timestamp = now;
+                    }
+                    return this.bitrate;
+                };
+            },
 
-            // Callback for successful uploads:
-            // done: function (e, data) {}, // .bind('fileuploaddone', func);
-
-            // Callback for failed (abort or error) uploads:
-            // fail: function (e, data) {}, // .bind('fileuploadfail', func);
-
-            // Callback for completed (success, abort or error) requests:
-            // always: function (e, data) {}, // .bind('fileuploadalways', func);
-
-            // Callback for upload progress events:
-            // progress: function (e, data) {}, // .bind('fileuploadprogress', func);
-
-            // Callback for global upload progress events:
-            // progressall: function (e, data) {}, // .bind('fileuploadprogressall', func);
-
-            // Callback for uploads start, equivalent to the global ajaxStart event:
-            // start: function (e) {}, // .bind('fileuploadstart', func);
-
-            // Callback for uploads stop, equivalent to the global ajaxStop event:
-            // stop: function (e) {}, // .bind('fileuploadstop', func);
-
-            // Callback for change events of the fileInput(s):
-            // change: function (e, data) {}, // .bind('fileuploadchange', func);
-
-            // Callback for paste events to the pasteZone(s):
-            // paste: function (e, data) {}, // .bind('fileuploadpaste', func);
-
-            // Callback for drop events of the dropZone(s):
-            // drop: function (e, data) {}, // .bind('fileuploaddrop', func);
-
-            // Callback for dragover events of the dropZone(s):
-            // dragover: function (e) {}, // .bind('fileuploaddragover', func);
-
-            // Callback for the start of each chunk upload request:
-            // chunksend: function (e, data) {}, // .bind('fileuploadchunksend', func);
-
-            // Callback for successful chunk uploads:
-            // chunkdone: function (e, data) {}, // .bind('fileuploadchunkdone', func);
-
-            // Callback for failed (abort or error) chunk uploads:
-            // chunkfail: function (e, data) {}, // .bind('fileuploadchunkfail', func);
-
-            // Callback for completed (success, abort or error) chunk upload requests:
-            // chunkalways: function (e, data) {}, // .bind('fileuploadchunkalways', func);
-
-            // The plugin options are used as settings object for the ajax calls.
-            // The following are jQuery ajax settings required for the file uploads:
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 0
-        },
-
-        // A list of options that require reinitializing event listeners and/or
-        // special initialization code:
-        _specialOptions: [
-            'fileInput',
-            'dropZone',
-            'pasteZone',
-            'multipart',
-            'forceIframeTransport'
-        ],
-
-        _blobSlice: $.support.blobSlice && function () {
-            var slice = this.slice || this.webkitSlice || this.mozSlice;
-            return slice.apply(this, arguments);
-        },
-
-        _BitrateTimer: function () {
-            this.timestamp = ((Date.now) ? Date.now() : (new Date()).getTime());
-            this.loaded = 0;
-            this.bitrate = 0;
-            this.getBitrate = function (now, loaded, interval) {
-                var timeDiff = now - this.timestamp;
-                if (!this.bitrate || !interval || timeDiff > interval) {
-                    this.bitrate = (loaded - this.loaded) * (1000 / timeDiff) * 8;
-                    this.loaded = loaded;
-                    this.timestamp = now;
-                }
-                return this.bitrate;
-            };
-        },
-
-        _isXHRUpload: function (options) {
-            return !options.forceIframeTransport &&
+            _isXHRUpload: function(options) {
+                return !options.forceIframeTransport &&
                 ((!options.multipart && $.support.xhrFileUpload) ||
-                $.support.xhrFormDataFileUpload);
-        },
+                    $.support.xhrFormDataFileUpload);
+            },
 
-        _getFormData: function (options) {
-            var formData;
-            if ($.type(options.formData) === 'function') {
-                return options.formData(options.form);
-            }
-            if ($.isArray(options.formData)) {
-                return options.formData;
-            }
-            if ($.type(options.formData) === 'object') {
-                formData = [];
-                $.each(options.formData, function (name, value) {
-                    formData.push({name: name, value: value});
-                });
-                return formData;
-            }
-            return [];
-        },
+            _getFormData: function(options) {
+                var formData;
+                if ($.type(options.formData) === 'function') {
+                    return options.formData(options.form);
+                }
+                if ($.isArray(options.formData)) {
+                    return options.formData;
+                }
+                if ($.type(options.formData) === 'object') {
+                    formData = [];
+                    $.each(options.formData,
+                        function(name, value) {
+                            formData.push({ name: name, value: value });
+                        });
+                    return formData;
+                }
+                return [];
+            },
+
+
 
         _getTotal: function (files) {
             var total = 0;
@@ -1041,7 +1047,17 @@
                 );
                 return result;
             });
-            var x = $('#FilAntal').val();
+            //Check if desired number of files reached
+            var rows = getTableRows();
+            var numberOfFilesInTable = (rows.length) - 1;
+            var chosenRegister = $('#ddlRegister').val();
+            var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister)-1)].AntalFiler;
+            if (numberOfFilesInTable == numberOfFilesForChosenRegister) {
+                $('.start').prop('disabled', false);
+                this.element.find('.fileinput-button input')
+                    .prop('disabled', true)
+                    .parent().addClass('disabled');
+            }
             return result;
         },
 
@@ -1469,4 +1485,8 @@
 
     });
 
-}));
+    }));
+
+function getTableRows() {
+    return $('#filTabell tr');
+};

@@ -117,14 +117,14 @@
                         );
                     }).removeClass('processing');
                     that._renderPreviews(data);
-                }).done(function () {
+                    }).done(function () {
+                        var x = data.files.length;
                     data.context.find('.start').prop('disabled', false);
                     if ((that._trigger('added', e, data) !== false) &&
                             (options.autoUpload || data.autoUpload) &&
                             data.autoUpload !== false) {
                         data.submit();
                     }
-                    var x = $('#FilAntal').val();
                 }).fail(function () {
                     if (data.files.error) {
                         data.context.each(function (index) {
@@ -536,6 +536,13 @@
                 data.errorThrown = 'abort';
                 this._trigger('fail', e, data);
             }
+            //Handle buttonbar
+            $('.start').prop('disabled', true);
+            //_enableFileInputButton();
+            this.element.find('.fileinput-button input')
+                .prop('disabled', false)
+                .parent().removeClass('disabled');
+            
         },
 
         _deleteHandler: function (e) {

@@ -150,7 +150,10 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private void GetRegisterInfo()
         {
-            //TODO - Get registers information texts from db
+            //TODO - Get registers information from db
+            var reg1 = new Register();
+            var reg2 = new Register();
+            var reg3 = new Register();
             var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
             var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
             var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
@@ -171,6 +174,31 @@ namespace InrapporteringsPortal.Web.Controllers
             registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^[0-9]+([eE][-+]?[0-9]+)?$"));
             registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
             _model.FilMask = registerFilmaskList;
+
+            var registerList = new List<Register>();
+            reg1.Namn = "Barn och ungdom";
+            reg1.Id = 1;
+            reg1.InfoText = str1;
+            reg1.RegisterKod = "BU";
+            reg1.AntalFiler = 2;
+            reg1.FilMask = "^[A-Za-z]+$";
+            reg2.Namn = "Ekonomiskt bistånd";
+            reg2.Id = 2;
+            reg2.InfoText = str2;
+            reg2.RegisterKod = "EKB";
+            reg2.AntalFiler = 1;
+            reg2.FilMask = "^[0-9]+([eE][-+]?[0-9]+)?$";
+            reg3.Namn = "Lagen om stöd och service";
+            reg3.Id = 3;
+            reg3.InfoText = str3;
+            reg3.RegisterKod = "LSS";
+            reg3.AntalFiler = 1;
+            reg3.FilMask = "{c.*g}";
+            registerList.Add(reg1);
+            registerList.Add(reg2);
+            registerList.Add( reg3);
+            _model.RegisterList = registerList;
+
         }
 
         private List<KeyValuePair<int, string>> GetRegisterInfoTexts()

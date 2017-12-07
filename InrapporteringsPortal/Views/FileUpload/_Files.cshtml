@@ -1,6 +1,11 @@
 ﻿@model InrapporteringsPortal.Web.Models.ViewModels.FilesViewModel 
+    
 
-<form id="fileupload" method="POST" enctype="multipart/form-data" data-url="@Url.Action("Upload","FileUpload")">
+<script>
+    var register = @Html.Raw(Json.Encode(Model.RegisterList));
+</script>
+
+<form id="fileupload" method="POST" enctype="multipart/form-data" data-url="@Url.Action("Upload", "FileUpload")">
     <div class="row fileupload-buttonbar">
         <div class="col-lg-7">
             <!-- The fileinput-button span is used to style the file input field as button -->
@@ -9,35 +14,41 @@
                 <span>Välj fil...</span>
                 <input type="file" name="files[]" title="Inga filer valda" accept="txt/xls" multiple>
             </span>
-            <button type="submit" class="btn btn-primary start">
+            <button type="submit" class="btn btn-primary start" >
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Ladda upp</span>
+            </button>
+            <button type="reset" class="btn btn-warning cancel" style="visibility:hidden">@*  *@
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>Cancel upload</span>
             </button>
         </div>
         <!-- The global progress state -->
         <div class="col-lg-5 fileupload-progress fade">
             <!-- The global progress bar -->
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
             </div>
             <!-- The extended global progress state -->
             <div class="progress-extended">&nbsp;</div>
         </div>
     </div>
-    <!-- The global progress state -->
+    @*<!-- The global progress state -->
     <div class="col-lg-5 fileupload-progress fade">
         <!-- The global progress bar -->
         <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+            <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
         </div>
         <!-- The extended global progress state -->
         <div class="progress-extended">&nbsp;</div>
-    </div>
-    
+    </div>*@
+
     <!-- The table listing the files available for upload/download -->
-    <table role="presentation" class="table table-striped">
+    <table role="presentation" class="table table-striped" id="filTabell">
+        <thead>
+        <tr class="template-upload"><th colspan="4">Filer för uppladdning</th></tr>
+        </thead>
         <tbody class="files">
-        <tr class="template-upload"><th colspan="4">Filer</th></tr>
         </tbody>
     </table>
 </form>
@@ -71,12 +82,12 @@
             <strong class="error text-danger"></strong>
         </td>
         <td>
-            <p class="size">Laddar upp...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            <p class="size" style="visibility:hidden">Laddar upp...</p>
+            <div style="visibility:hidden" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
         </td>
         <td>
             {% if (!i && !o.options.autoUpload) { %}
-            <button class="btn btn-primary start" disabled>
+            <button class="btn btn-primary start" disabled style="visibility:hidden">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Ladda upp</span>
             </button>

@@ -11,5 +11,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Namn { get; set; }
         public string RegisterKod { get; set; }
         public int AntalFiler { get; set; }
+        public string InfoText { get; set; }
+        public string FilMask { get; set; }
     }
 }
