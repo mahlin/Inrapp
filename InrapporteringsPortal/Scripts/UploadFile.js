@@ -19,6 +19,7 @@ $(document).on('change','#ddlRegister',
         var selectedRegister = $('#ddlRegister').val();
         //$('.cancel').trigger("click");
         $("#filTabell tbody tr").remove();
+        $("#thText").text("Filer för uppladdning");
         switch (selectedRegister) {
         case "1":
             $('#registerInfo').html(regInfoTexts[0].Value);

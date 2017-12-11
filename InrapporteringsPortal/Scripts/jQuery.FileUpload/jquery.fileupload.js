@@ -862,6 +862,12 @@
                     total: total
                 }), options);
             }
+            $("#thText").text("Uppladdade filer");
+            var x = $('#ddlRegister').val();
+            $('#ddlRegister').val("");
+            $('#registerInfo').html("");
+            $('.fileinput-button').hide();
+            $('.start').hide();
             response.result = options.result = result;
             response.textStatus = options.textStatus = textStatus;
             response.jqXHR = options.jqXHR = jqXHR;
