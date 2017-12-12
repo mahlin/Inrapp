@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -23,21 +24,25 @@ namespace InrapporteringsPortal.Web.Controllers
         private readonly IInrapporteringsPortalService _portalService;
         private FilesViewModel _model = new FilesViewModel();
         FilesHelper filesHelper;
-        String tempPath = "~/somefiles/";
-        String serverMapPath = "~/Files/somefiles/";
+        //String tempPath = "~/somefiles/";
+        //String serverMapPath = "~/UppladdadeRegisterfiler/";
 
         private string StorageRoot
         {
-            get { return Path.Combine(HostingEnvironment.MapPath(serverMapPath)); }
+            //get { return Path.Combine(HostingEnvironment.MapPath(serverMapPath)); }
+            get { return Path.Combine(ConfigurationManager.AppSettings["uploadFolder"]); }
+           
         }
 
-        private string UrlBase = "/Files/somefiles/";
-        String DeleteURL = "/FileUpload/DeleteFile/?file=";
-        String DeleteType = "GET";
+        //private string UrlBase = "/Files/somefiles/";
+        //String DeleteURL = "/FileUpload/DeleteFile/?file=";
+        //String DeleteType = "GET";
 
         public FileUploadController()
         {
-            filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
+            filesHelper = new FilesHelper(StorageRoot);
+            //filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
+
             _portalService =
                 new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
         }
@@ -49,7 +54,7 @@ namespace InrapporteringsPortal.Web.Controllers
             GetRegisterInfo();
             //_model.RegisterInfoText = GetRegisterInfoTexts();
             //_model.FilMask = "Ekb_kommunkod_period_datumoklockslag.txt";
-            _model.SelectedRegisterId = 0;
+            _model.SelectedRegisterId = "0";
 
             // Ladda drop down lists.  
             //TODO - hämta registerinfo från databasen
@@ -86,15 +91,16 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Upload()
+        public JsonResult Upload(FilesViewModel model)
         {
             var resultList = new List<ViewDataUploadFilesResult>();
 
+
             //TODO - test userinfo
-            var x = User.Identity.GetUserId();
-            var y = User.Identity.Name;
-            var z = User.Identity.AuthenticationType;
-            var w = User.Identity.IsAuthenticated;
+            //var x = User.Identity.GetUserId();
+            //var y = User.Identity.Name;
+            //var z = User.Identity.AuthenticationType;
+            //var w = User.Identity.IsAuthenticated;
 
             
             var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
@@ -103,7 +109,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
             try
             {
-                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod);
+                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod, Convert.ToInt32(model.SelectedRegisterId));
             }
             catch (Exception e)
             {
@@ -143,7 +149,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
         public void AddRegisterListToViewBag(int kommunKod)
         {
-            _model.SelectedRegisterId = 0;
+            _model.SelectedRegisterId = "0";
             //TODO - hämta för aktuell kommunKod
             ViewBag.RegisterList = this.GetRegisterList();
         }

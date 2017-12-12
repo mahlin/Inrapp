@@ -862,8 +862,8 @@
                     total: total
                 }), options);
             }
+            //Efter uppladdning - byt rubrik, nollställ dropdown och dölj knapparna
             $("#thText").text("Uppladdade filer");
-            var x = $('#ddlRegister').val();
             $('#ddlRegister').val("");
             $('#registerInfo').html("");
             $('.fileinput-button').hide();
@@ -1057,7 +1057,7 @@
             var rows = getTableRows();
             var numberOfFilesInTable = (rows.length) - 1;
             var chosenRegister = $('#ddlRegister').val();
-            var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister)-1)].AntalFiler;
+            var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister) - 1)].AntalFiler;
             if (numberOfFilesInTable == numberOfFilesForChosenRegister) {
                 $('.start').prop('disabled', false);
                 this.element.find('.fileinput-button input')

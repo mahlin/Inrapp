@@ -6,6 +6,7 @@
 </script>
 
 <form id="fileupload" method="POST" enctype="multipart/form-data" data-url="@Url.Action("Upload", "FileUpload")">
+    @Html.HiddenFor(m => m.SelectedRegisterId)
     <div class="row fileupload-buttonbar">
         <div class="col-lg-7">
             <!-- The fileinput-button span is used to style the file input field as button -->
@@ -14,11 +15,11 @@
                 <span>Välj fil...</span>
                 <input type="file" name="files[]" title="Inga filer valda" accept="txt/xls" multiple>
             </span>
-            <button type="submit" class="btn btn-primary start" >
+            <button type="submit" class="btn btn-primary start" id="btnSubmit">
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Ladda upp</span>
             </button>
-            <button type="reset" class="btn btn-warning cancel" style="visibility:hidden">@*  *@
+            <button type="reset" class="btn btn-warning cancel" style="visibility: hidden">
                 <i class="glyphicon glyphicon-ban-circle"></i>
                 <span>Cancel upload</span>
             </button>

@@ -10,7 +10,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
     {
         public ViewDataUploadFilesResult[] Files { get; set; }
         [Display(Name = "Välj register")]
-        public int? SelectedRegisterId { get; set; }
+        public string SelectedRegisterId { get; set; }
         public List<Register> RegisterList { get; set; }
         public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         public List<KeyValuePair<int, string>> FilMask { get; set; }

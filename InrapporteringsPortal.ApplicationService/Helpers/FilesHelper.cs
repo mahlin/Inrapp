@@ -32,6 +32,12 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             _portalRepository = new PortalRepository(db);
         }
 
+        public FilesHelper(String StorageRoot)
+        {
+            this.StorageRoot = StorageRoot;
+            _portalRepository = new PortalRepository(db);
+        }
+
         public void DeleteFiles(String pathToDelete)
         {
          
@@ -101,38 +107,36 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string rapportorId, string kommunKod)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string rapportorId, string kommunKod, int selectedRegisterId)
         {
             var httpRequest = ContentBase.Request;
-            System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
+            //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
+
+            //Kolla vilket register filen/filerna hör till och skapa mapp om det behövs
+            switch (selectedRegisterId)
+            {
+                case 1:
+                    StorageRoot = StorageRoot + "BU\\";
+                    break;
+                case 2:
+                    StorageRoot = StorageRoot + "EKB\\";
+                    break;
+                default:
+                    StorageRoot = StorageRoot + "LSS\\";
+                    break;
+            }
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);
-            // Create new folder for thumbs
-            Directory.CreateDirectory(fullPath + "/thumbs/");
 
-            //hämta ett leveransId
+            //hämta ett leveransId och skapa hashAddOn till filnamnet
             var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
-            var hash = GetHashAddOn(rapportorId, kommunKod, levId);
+            var hash = GetHashAddOn(kommunKod, levId);
+            var headers = httpRequest.Headers;
 
-            foreach (String inputTagName in httpRequest.Files)
+            if (string.IsNullOrEmpty(headers["X-File-Name"]))
             {
-
-                var headers = httpRequest.Headers;
-
-                var file = httpRequest.Files[inputTagName];
-                System.Diagnostics.Debug.WriteLine(file.FileName);
-
-                if (string.IsNullOrEmpty(headers["X-File-Name"]))
-                {
-
-                    UploadWholeFile(ContentBase, resultList, hash, levId);
-                }
-                else
-                {
-
-                    UploadPartialFile(headers["X-File-Name"], ContentBase, resultList);
-                }
+                UploadWholeFile(ContentBase, resultList, hash, levId);
             }
         }
 
@@ -145,14 +149,16 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 var file = request.Files[i];
 
                 //TODO - check filename depending on chosen registertype
-                if (file.ContentLength > 0 && Path.GetExtension(file.FileName) == ".txt")
+                if (file.ContentLength > 0 && (Path.GetExtension(file.FileName) == ".txt" || Path.GetExtension(file.FileName) == ".xls"))
                 {
                     String pathOnServer = Path.Combine(StorageRoot);
                     //var fullPath = Path.Combine(pathOnServer, Path.GetFileName(file.FileName));
                     var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
                     var extension = Path.GetExtension(file.FileName);
-                    var extendedFileName = fileNameWithoutExtension + hash;
-                    var fullPath = "C:/Socialstyrelsen/UploadedFiles/EKB/" + extendedFileName + extension;
+                    var filOfFilesAddOn = "_" + (i + 1).ToString() + "_" + (request.Files.Count).ToString();
+                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + extension;
+                    //var fullPath = "C:/Socialstyrelsen/UploadedFiles/EKB/" + extendedFileName + extension;
+                    var fullPath = Path.Combine(pathOnServer, Path.GetFileName(extendedFileName));
                     file.SaveAs(fullPath);
 
                     //if (file.ContentLength > 0)
@@ -164,7 +170,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                     //    string nameAndLocation = "C:/Socialstyrelsen/UploadedFiles/EKB/" + _FileName;
                     //    file.SaveAs(nameAndLocation);
                     //}
-                    statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName, (extendedFileName+extension), levId));
+                    statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName, (extendedFileName), levId));
                 }
             }
         }
@@ -209,12 +215,12 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName));
         }
 
-        private string GetHashAddOn(string rapportorId, string kommunKod, int levId)
+        private string GetHashAddOn(string kommunKod, int levId)
         {
             var hashAddOn = String.Empty;
 
             //TODO - filnr x av y
-            hashAddOn = "#" + kommunKod + "_" + levId + "_1_1";
+            hashAddOn = "#" + kommunKod + "_" + levId;
 
             return hashAddOn;
         }

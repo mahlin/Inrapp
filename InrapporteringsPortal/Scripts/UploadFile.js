@@ -1,15 +1,34 @@
 ﻿var $ = jQuery;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
-    
+
     $('.fileinput-button').hide();
     $('.start').hide();
-    //$('.start').prop('disabled', true);
 
-    //$(window).load(function () {
+    var filelist = [];
+    $('#fileupload').fileupload({
+        // your fileupload options
+    }).on("fileuploadadd",
+        function(e, data) {
+            for (var i = 0; i < data.files.length; i++) {
+                filelist.push(data.files[i]);
+            }
+        });
 
-    //});
+    $('#btnSubmit').click(function() {
+        var jqXHR = $('#fileupload').fileupload('send', { files: filelist })
+            .success(function (result, textStatus, jqXHR) {
+                $("#filTabell tbody tr.template-upload").remove();
+            })
+            .error(function (jqXHR, textStatus, errorThrown) {/* ... */ })
+            .complete(function(result, textStatus, jqXHR) {
+            });;
+    });
+
+    $(window).load(function () {
+
+    });
 
 });
 
@@ -20,6 +39,7 @@ $(document).on('change','#ddlRegister',
         //$('.cancel').trigger("click");
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
+        $("#SelectedRegisterId").val(selectedRegister);
         switch (selectedRegister) {
         case "1":
             $('#registerInfo').html(regInfoTexts[0].Value);
