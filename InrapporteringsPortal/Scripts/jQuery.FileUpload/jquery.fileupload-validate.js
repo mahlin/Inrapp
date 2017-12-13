@@ -14,12 +14,12 @@
 function CheckFileName(selectedRegister, fileName) {
     switch (selectedRegister) {
         case "1":
-            var tmp = regFilMasks[0].Value;
-            var re = new RegExp("\\BU_.");
-            if (match = re.exec(fileName))
+            var re = new RegExp(regFilMasks[0].Value, "i");
+            if (re.test(fileName)) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         case "2":
             var re = new RegExp(regFilMasks[1].Value, "i");
             if (re.test(fileName)) {
@@ -38,6 +38,34 @@ function CheckFileName(selectedRegister, fileName) {
             return false;
     }
     return true;
+}
+
+//TODO - använd SelectedRegisterId istället?
+function CheckKommunKodInFileName(fileName) {
+    var chunkedFileName = fileName.split("_");
+    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
+    var fileTypeB = ['BU'];
+    var fileTypeC = ['EKB'];
+    
+    if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
+        return CheckKommunKod(chunkedFileName[1]);
+    }
+    else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
+        return CheckKommunKod(chunkedFileName[2]);
+    }
+    else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
+        if (chunkedFileName[1].toUpperCase() === 'AO')
+            return CheckKommunKod(chunkedFileName[2]);
+        else
+            return CheckKommunKod(chunkedFileName[1]);
+    }
+}
+
+function CheckKommunKod(kommunKod) {
+    var validKommunKod = $('#GiltigKommunKod').val();
+    if (validKommunKod === kommunKod)
+        return true;
+    return false;
 }
 
 (function (factory) {
@@ -73,6 +101,7 @@ function CheckFileName(selectedRegister, fileName) {
                 minFileSize: '@',
                 maxNumberOfFiles: '@',
                 incorrectFileName: '@',
+                incorrectKommunKodInFileName: '@',
             disabled: '@disableValidation'
         }
     );
@@ -104,7 +133,8 @@ function CheckFileName(selectedRegister, fileName) {
                 acceptFileTypes: 'Felaktig filtyp',
                 maxFileSize: 'Filen är för stor',
                 minFileSize: ('Filen är tom'),
-                incorrectFileName: ('Felaktigt filnamn')
+                incorrectFileName: ('Felaktigt filnamn'),
+                incorrectKommunKodInFileName: ('Felaktig kommunkod i filnamnet')
             }
         },
 
@@ -136,6 +166,8 @@ function CheckFileName(selectedRegister, fileName) {
                     file.error = settings.i18n('minFileSize');
                 } else if (!CheckFileName(data.selectedRegister, file.name)) {
                     file.error = settings.i18n('incorrectFileName');
+                } else if (!CheckKommunKodInFileName(file.name)) {
+                    file.error = settings.i18n('incorrectKommunKodInFileName');
                 } else {
                     delete file.error;
                 }

@@ -14,6 +14,12 @@ $(document).ready(function() {
             for (var i = 0; i < data.files.length; i++) {
                 filelist.push(data.files[i]);
             }
+        })
+        .on("fileuploadfail",
+        function (e, data) {
+            for (var i = 0; i < data.files.length; i++) {
+                filelist.splice(data.files[i]);
+            }
         });
 
     $('#btnSubmit').click(function() {

@@ -16,5 +16,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public List<KeyValuePair<int, string>> FilMask { get; set; }
         public List<KeyValuePair<int, int>> FilAntal { get; set; }
         public List<FilloggDetaljDTO> HistorikLista { get; set; }
+        public string GiltigKommunKod { get; set; }
+
     }
 }
