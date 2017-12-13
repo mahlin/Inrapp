@@ -11,6 +11,35 @@
 
 /* global define, require, window */
 
+function CheckFileName(selectedRegister, fileName) {
+    switch (selectedRegister) {
+        case "1":
+            var tmp = regFilMasks[0].Value;
+            var re = new RegExp("\\BU_.");
+            if (match = re.exec(fileName))
+                return true;
+            else
+                return false;
+        case "2":
+            var re = new RegExp(regFilMasks[1].Value, "i");
+            if (re.test(fileName)) {
+                return true;
+            } else {
+                return false;
+            }
+        case "3":
+            var tmp = regFilMasks[2].Value;
+            var re = new RegExp("\\LSS_.");
+            if (match = re.exec(fileName))
+                return true;
+            else
+                return false;
+        default:
+            return false;
+    }
+    return true;
+}
+
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -32,17 +61,18 @@
     'use strict';
 
     // Append to the default processQueue:
-    $.blueimp.fileupload.prototype.options.processQueue.push(
-        {
-            action: 'validate',
-            // Always trigger this action,
-            // even if the previous action was rejected: 
-            always: true,
-            // Options taken from the global options map:
-            acceptFileTypes: '@',
-            maxFileSize: '@',
-            minFileSize: '@',
-            maxNumberOfFiles: '@',
+        $.blueimp.fileupload.prototype.options.processQueue.push(
+            {
+                action: 'validate',
+                // Always trigger this action,
+                // even if the previous action was rejected: 
+                always: true,
+                // Options taken from the global options map:
+                acceptFileTypes: '@',
+                maxFileSize: '@',
+                minFileSize: '@',
+                maxNumberOfFiles: '@',
+                incorrectFileName: '@',
             disabled: '@disableValidation'
         }
     );
@@ -73,7 +103,8 @@
                 maxNumberOfFiles: 'Maximalt antal filer har överskridits',
                 acceptFileTypes: 'Felaktig filtyp',
                 maxFileSize: 'Filen är för stor',
-                minFileSize: ('Filen är tom')
+                minFileSize: ('Filen är tom'),
+                incorrectFileName: ('Felaktigt filnamn')
             }
         },
 
@@ -103,6 +134,8 @@
                 } else if ($.type(fileSize) === 'number' &&
                     fileSize < options.minFileSize) {
                     file.error = settings.i18n('minFileSize');
+                } else if (!CheckFileName(data.selectedRegister, file.name)) {
+                    file.error = settings.i18n('incorrectFileName');
                 } else {
                     delete file.error;
                 }
@@ -119,4 +152,9 @@
 
     });
 
-}));
+    }
+
+));
+
+
+

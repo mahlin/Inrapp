@@ -43,7 +43,8 @@
     $.blueimp.fileupload.prototype._specialOptions.push(
         'filesContainer',
         'uploadTemplateId',
-        'downloadTemplateId'
+        'downloadTemplateId',
+        'selectedRegister'
     );
 
     // The UI version extends the file upload widget
@@ -68,6 +69,8 @@
             // The expected data type of the upload response, sets the dataType
             // option of the $.ajax upload requests:
             dataType: 'json',
+            //Chosen Register
+            selectedRegister: '2',
             
             // Error and info messages:
             messages: {
@@ -118,8 +121,9 @@
                     }).removeClass('processing');
                     that._renderPreviews(data);
                     }).done(function () {
-                        var x = data.files.length;
-                    data.context.find('.start').prop('disabled', false);
+                    if (!data.files.error) {
+                        data.context.find('.start').prop('disabled', false);
+                    }
                     if ((that._trigger('added', e, data) !== false) &&
                             (options.autoUpload || data.autoUpload) &&
                             data.autoUpload !== false) {

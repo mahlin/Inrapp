@@ -177,7 +177,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
             var registerFilmaskList = new List<KeyValuePair<int, string>>();
             registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^[A-Za-z]+$"));
-            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^[0-9]+([eE][-+]?[0-9]+)?$"));
+            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
             registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
             _model.FilMask = registerFilmaskList;
 
@@ -188,21 +188,25 @@ namespace InrapporteringsPortal.Web.Controllers
             reg1.RegisterKod = "BU";
             reg1.AntalFiler = 2;
             reg1.FilMask = "^[A-Za-z]+$";
+
             reg2.Namn = "Ekonomiskt bistånd";
             reg2.Id = 2;
             reg2.InfoText = str2;
             reg2.RegisterKod = "EKB";
             reg2.AntalFiler = 1;
-            reg2.FilMask = "^[0-9]+([eE][-+]?[0-9]+)?$";
+            reg2.FilMask = "^Ekb_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$";
+
             reg3.Namn = "Lagen om stöd och service";
             reg3.Id = 3;
             reg3.InfoText = str3;
             reg3.RegisterKod = "LSS";
             reg3.AntalFiler = 1;
             reg3.FilMask = "{c.*g}";
+
             registerList.Add(reg1);
             registerList.Add(reg2);
             registerList.Add( reg3);
+
             _model.RegisterList = registerList;
 
         }

@@ -26,9 +26,9 @@ $(document).ready(function() {
             });;
     });
 
-    $(window).load(function () {
-
-    });
+    //$(window).load(function () {
+        
+    //});
 
 });
 
@@ -36,7 +36,12 @@ $(document).ready(function() {
 $(document).on('change','#ddlRegister',
     function () {
         var selectedRegister = $('#ddlRegister').val();
-        //$('.cancel').trigger("click");
+
+        $('#fileupload').fileupload(
+            'option',
+            'selectedRegister',
+            selectedRegister
+        );
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
         $("#SelectedRegisterId").val(selectedRegister);
