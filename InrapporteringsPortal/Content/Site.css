@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 10px;
+    padding-top: 0px;
     padding-bottom: 20px;
 }
 
@@ -55,7 +55,14 @@ th.historyHeader {
 }
 
 .logga {
-     position: fixed;
+    position: fixed;
+    width: 100%;
+    /*margin-top: -10px;*/
+    /*margin-bottom: -10px;*/
+    padding-bottom: 0px;
+    z-index: 300;
+    background-color: #ffffff;
+    height: 51px;
 }
 
 .padding-top-55 {
