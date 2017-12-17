@@ -196,25 +196,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711301216497_InitialCreate.cs" />
-    <Compile Include="Migrations\201711301216497_InitialCreate.Designer.cs">
-      <DependentUpon>201711301216497_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711301351142_AddedKommunKod.cs" />
-    <Compile Include="Migrations\201711301351142_AddedKommunKod.Designer.cs">
-      <DependentUpon>201711301351142_AddedKommunKod.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712010745176_ChangedKommunKodBack.cs" />
-    <Compile Include="Migrations\201712010745176_ChangedKommunKodBack.Designer.cs">
-      <DependentUpon>201712010745176_ChangedKommunKodBack.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712010748135_AddedStringKommunKod.cs" />
-    <Compile Include="Migrations\201712010748135_AddedStringKommunKod.Designer.cs">
-      <DependentUpon>201712010748135_AddedStringKommunKod.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712010757574_RemoveIntKommunKod.cs" />
-    <Compile Include="Migrations\201712010757574_RemoveIntKommunKod.Designer.cs">
-      <DependentUpon>201712010757574_RemoveIntKommunKod.cs</DependentUpon>
+    <Compile Include="Migrations\201712171036249_ChangeTableName.cs" />
+    <Compile Include="Migrations\201712171036249_ChangeTableName.Designer.cs">
+      <DependentUpon>201712171036249_ChangeTableName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -665,20 +649,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711301216497_InitialCreate.resx">
-      <DependentUpon>201711301216497_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711301351142_AddedKommunKod.resx">
-      <DependentUpon>201711301351142_AddedKommunKod.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712010745176_ChangedKommunKodBack.resx">
-      <DependentUpon>201712010745176_ChangedKommunKodBack.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712010748135_AddedStringKommunKod.resx">
-      <DependentUpon>201712010748135_AddedStringKommunKod.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712010757574_RemoveIntKommunKod.resx">
-      <DependentUpon>201712010757574_RemoveIntKommunKod.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712171036249_ChangeTableName.resx">
+      <DependentUpon>201712171036249_ChangeTableName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
