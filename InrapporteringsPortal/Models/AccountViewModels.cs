@@ -72,6 +72,7 @@ namespace InrapporteringsPortal.Web.Models
         [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
+        [RegularExpression("([0-9]+)", ErrorMessage = "PINkoden måste vara numerisk.")]
         [Display(Name = "PINkod")]
         public string Password { get; set; }
 
