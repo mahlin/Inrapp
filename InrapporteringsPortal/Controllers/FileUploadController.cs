@@ -131,7 +131,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 //Save to database filelog
                 foreach (var itemFile in resultList)
                 {
-                    _portalService.SparaTillFillogg(itemFile.sosName,itemFile.leveransId );
+                    _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName,itemFile.leveransId );
                 }
                 return Json(files);
             }
@@ -177,8 +177,8 @@ namespace InrapporteringsPortal.Web.Controllers
             _model.FilAntal = registerFilAntalList;
 
             var registerFilmaskList = new List<KeyValuePair<int, string>>();
-            registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^BU_INSATS_\\d{4}_20\\d{2}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
-            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
+            registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^BU_INSATS_\\d{4}_20\\d{2}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
+            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
             registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
             _model.FilMask = registerFilmaskList;
 

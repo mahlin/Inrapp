@@ -13,7 +13,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId);
         string HamtaKommunKodForAnvandare(string userId);
 
-        void SparaTillFillogg(string filNamn, int leveransId);
+        void SparaTillFillogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
 
         int HamtaNyttLeveransId(string rapportorId, string kommunKod);
     }

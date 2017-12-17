@@ -47,9 +47,9 @@ namespace InrapporteringsPortal.ApplicationService
             throw new NotImplementedException();
         }
 
-        public void SparaTillFillogg(string filNamn, int leveransId)
+        public void SparaTillFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId)
         {
-            _portalRepository.SaveToFilelogg(filNamn,leveransId);
+            _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId);
         }
 
         public int HamtaNyttLeveransId(string rapportorId, string kommunKod)

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -89,7 +90,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Felaktigt användarnamn eller lösenord.");
+                    ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
                     return View(model);
             }
         }
@@ -142,6 +143,10 @@ namespace InrapporteringsPortal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            //Get the culture info of the language code
+            CultureInfo culture = CultureInfo.GetCultureInfo("sv");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
             return View();
         }
 
@@ -155,7 +160,7 @@ namespace InrapporteringsPortal.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                //TODO - hämta kommunkod från tabell beroend epå epostadress-domän
+                //TODO - hämta kommunkod från tabell beroende på epostadress-domän
                 user.KommunKod = "0330";
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

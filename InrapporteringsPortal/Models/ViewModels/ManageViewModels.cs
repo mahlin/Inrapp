@@ -30,12 +30,12 @@ namespace InrapporteringsPortal.Web.Models
         [Required]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nytt Lösenord")]
+        [Display(Name = "Nytt PINkod")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta lösenord")]
-        [Compare("NewPassword", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
+        [Display(Name = "Bekräfta PINkod")]
+        [Compare("NewPassword", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -43,18 +43,18 @@ namespace InrapporteringsPortal.Web.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Nuvarande lösenord")]
+        [Display(Name = "Nuvarande PINkod")]
         public string OldPassword { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nytt lösenord")]
+        [Display(Name = "Nytt PINkod")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta lösenord")]
-        [Compare("NewPassword", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
+        [Display(Name = "Bekräfta PINkod")]
+        [Compare("NewPassword", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
 

@@ -10,16 +10,16 @@
     <h4>Ändra dina kontouppgifter</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Lösenord:</dt>
+        <dt>PINkod:</dt>
         <dd>
             [
             @if (Model.HasPassword)
             {
-                @Html.ActionLink("Ändra lösenord", "ChangePassword")
+                @Html.ActionLink("Ändra PINkod", "ChangePassword")
             }
             else
             {
-                @Html.ActionLink("Ange lösenord", "SetPassword")
+                @Html.ActionLink("Ange PINkod", "SetPassword")
             }
             ]
         </dd>

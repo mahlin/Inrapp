@@ -78,17 +78,27 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return kommunKod;
         }
 
-        public void SaveToFilelogg(string filNamn, int leveransId)
+        public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId)
         {
-            var log = new Fillogg
+            var logOrg = new Fillogg
             {
                 LeveransId = leveransId,
-                Filnamn = filNamn,
+                Filnamn = ursprungligtFilNamn,
                 Datum = DateTime.Now,
                 Status = 1
             };
 
-            DbContext.Fillogg.Add(log);
+            DbContext.Fillogg.Add(logOrg);
+
+            var logNew = new Fillogg
+            {
+                LeveransId = leveransId,
+                Filnamn = nyttFilNamn,
+                Datum = DateTime.Now,
+                Status = 1
+            };
+
+            DbContext.Fillogg.Add(logNew);
             try
             {
                 DbContext.SaveChanges();

@@ -55,7 +55,7 @@ namespace InrapporteringsPortal.Web.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Lösenord")]
+        [Display(Name = "PINkod")]
         public string Password { get; set; }
 
         [Display(Name = "Kom ihåg mig?")]
@@ -64,20 +64,20 @@ namespace InrapporteringsPortal.Web.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [EmailAddress]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Lösenord")]
+        [Display(Name = "PINkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta lösenord")]
-        [Compare("Password", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
+        [Display(Name = "Bekräfta PINkod")]
+        [Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -89,14 +89,14 @@ namespace InrapporteringsPortal.Web.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Lösenord")]
+        [Display(Name = "PINkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta lösenord")]
-        [Compare("Password", ErrorMessage = "Lösenordet och verifieringen av lösenordet stämmer inte.")]
+        [Display(Name = "Bekräfta PINkod")]
+        [Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

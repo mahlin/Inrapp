@@ -14,7 +14,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetKommunKodForUser(string userId);
 
-        void SaveToFilelogg(string filNamn, int leveransId);
+        void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
 
         int GetNewLeveransId(string rapportorId, string kommunKod);
 

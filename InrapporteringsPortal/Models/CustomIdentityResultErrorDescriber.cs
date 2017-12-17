@@ -17,7 +17,7 @@ namespace InrapporteringsPortal.Web.Models
                     return "Ett okänt fel inträffade";
                     break;
                 case "Incorrect password.":
-                    return "Felaktigt lösenord";
+                    return "Felaktigt PINkod";
                     break;
                 case "A user with this login already exists.":
                     return "En användare med detta användarnamn finns redan.";
@@ -41,7 +41,7 @@ namespace InrapporteringsPortal.Web.Models
                     return "Rollnamnet '{role}' är redan upptaget.";
                     break;
                 case "User already has a password set.":
-                    return "Användaren har redan ett lösenord";
+                    return "Användaren har redan ett PINkod";
                     break;
                 case "User already in role '{role}'.":
                     return "Anändaren har redan rollen '{role}'.";
@@ -50,22 +50,22 @@ namespace InrapporteringsPortal.Web.Models
                     return "Användaren har ej rollen '{role}'.";
                     break;
                 case "Passwords must be at least {length} characters.":
-                    return "Lösenordet måste var minst {length} tecken långt.";
+                    return "PINkoden måste var minst {length} tecken långt.";
                     break;
                 case "Passwords must have at least one non alphanumeric character.":
-                    return "Lösenordet måste ha minst ett icke alfanumersikt tecken.";
+                    return "PINkoden måste ha minst ett icke alfanumersikt tecken.";
                     break;
                 case "Passwords must have at least one non letter or digit character.":
-                    return "Lösenordet måste ha minst ett icke alfanumersikt tecken.";
+                    return "PINkoden måste ha minst ett tecken som inte är alfanumersikt eller en siffra.";
                     break;
                 case "Passwords must have at least one digit ('0'-'9').":
-                    return "Lösenordet måste ha minst en siffra ('0'-'9').";
+                    return "PINkoden måste ha minst en siffra ('0'-'9').";
                     break;
                 case "Passwords must have at least one lowercase ('a'-'z').":
-                    return "Lösenordet måste ha minst en liten bokstav ('a'-'z').";
+                    return "PINkoden måste ha minst en liten bokstav ('a'-'z').";
                     break;
                 case "Passwords must have at least one uppercase ('A'-'Z').":
-                    return "Lösenordet måste ha minst en stor bokstav ('A'-'Z').";
+                    return "PINkoden måste ha minst en stor bokstav ('A'-'Z').";
                     break;
                 default:
                     return "";
