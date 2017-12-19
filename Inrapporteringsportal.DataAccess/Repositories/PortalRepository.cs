@@ -8,6 +8,7 @@ using System.Web.DynamicData;
 using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.DomainModel;
 
+
 namespace Inrapporteringsportal.DataAccess.Repositories
 {
     public class PortalRepository : IPortalRepository
@@ -105,9 +106,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             }
             catch (Exception e)
             {
-                //TODO - logga
-                //ErrorManager.WriteToErrorLog("Fakturaunderlag ", "InvoicingCode create", e.Message + " " + _msg);
-                //throw new Exception(e.Message + " " + _msg);
+                Console.WriteLine(e);
+                //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
                 throw new Exception(e.Message);
             }
         }

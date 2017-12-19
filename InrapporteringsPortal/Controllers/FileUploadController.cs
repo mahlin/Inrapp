@@ -62,11 +62,19 @@ namespace InrapporteringsPortal.Web.Controllers
             
             //TODO - hämta kommunId från current user
             //Hämta historiken för användarens kommun
-            var userId = User.Identity.GetUserId();
-            var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
-            _model.GiltigKommunKod = kommunKodForUser;
-            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
-            _model.HistorikLista = historyFileList.ToList();
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
+                _model.GiltigKommunKod = kommunKodForUser;
+                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
+                _model.HistorikLista = historyFileList.ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("FileUploaderController", "Index, Hämta historik", e.ToString());
+            }
 
             return View(_model);
         }
@@ -131,7 +139,15 @@ namespace InrapporteringsPortal.Web.Controllers
                 //Save to database filelog
                 foreach (var itemFile in resultList)
                 {
-                    _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName,itemFile.leveransId );
+                    try
+                    {
+                        _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        ErrorManager.WriteToErrorLog("FileUploaderController", "Upload, SaveToFileLog", e.ToString());
+                    }
                 }
                 return Json(files);
             }

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Dynamic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -35,8 +36,9 @@ namespace InrapporteringsPortal.Web.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // This needs to go before the other rules!
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            modelBuilder.Entity<ApplicationUser>().ToTable("Kontaktperson");
+            //modelBuilder.Entity<ApplicationUser>().ToTable("Kontaktperson");
             //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             //modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
             //modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");

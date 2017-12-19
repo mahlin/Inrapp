@@ -196,11 +196,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201712171036249_ChangeTableName.cs" />
-    <Compile Include="Migrations\201712171036249_ChangeTableName.Designer.cs">
-      <DependentUpon>201712171036249_ChangeTableName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomIdentityResultErrorDescriber.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -647,11 +642,6 @@
       <Project>{52AE6E89-A36B-49E7-8CE5-EF620296C136}</Project>
       <Name>InrapporteringsPortal.DomainModel</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712171036249_ChangeTableName.resx">
-      <DependentUpon>201712171036249_ChangeTableName.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
