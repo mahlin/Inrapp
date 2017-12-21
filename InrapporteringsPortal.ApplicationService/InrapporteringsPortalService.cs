@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
@@ -41,12 +42,7 @@ namespace InrapporteringsPortal.ApplicationService
             var kommunKod = _portalRepository.GetKommunKodForUser(userId);
             return kommunKod;
         }
-
-        public IEnumerable<KommunDetaljDTO> HamtaKommuner()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public void SparaTillFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId)
         {
             _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId);
@@ -56,6 +52,21 @@ namespace InrapporteringsPortal.ApplicationService
         {
             var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
             return levId;
+        }
+
+        public Organisation GetOrgForEmailDomain(string modelEmail)
+        {
+            MailAddress address = new MailAddress(modelEmail);
+            string domain = address.Host; // host contains yahoo.com
+            //var domain = modelEmail.Split('@');
+            var organisation= _portalRepository.GetOrgForEmailDomain(domain);
+            return organisation;
+        }
+
+        public string HamtaKommunKodForOrganisation(int orgId)
+        {
+            var kommunKod = _portalRepository.GetKommunKodForOrganisation(orgId);
+            return kommunKod;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace InrapporteringsPortal.DomainModel
 {
-    public class Leverans
+    public class Leverans2
     {
         public int Id { get; set; }
         public string ReporterId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity.Validation;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -6,7 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Inrapporteringsportal.DataAccess.Repositories;
+using InrapporteringsPortal.ApplicationService;
+using InrapporteringsPortal.ApplicationService.Interface;
+using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.DataAccess.IdentityModels;
+using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -20,10 +26,13 @@ namespace InrapporteringsPortal.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private CustomIdentityResultErrorDescriber _errorDecsriber;
+        private readonly IInrapporteringsPortalService _portalService;
 
         public AccountController()
         {
             _errorDecsriber = new CustomIdentityResultErrorDescriber();
+            _portalService =
+                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -31,6 +40,8 @@ namespace InrapporteringsPortal.Web.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
             _errorDecsriber = new CustomIdentityResultErrorDescriber();
+            _portalService =
+                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
         }
 
         public ApplicationSignInManager SignInManager
@@ -160,27 +171,70 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                //TODO - hämta kommunkod från tabell beroende på epostadress-domän
-                user.KommunKod = "0330";
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var organisation = GetOrganisationForEmailDomain(model.Email);
+                if (organisation == null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("",
+                        "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: 075 - 247 37 37");
                 }
-                AddErrors(result);
+                else
+                {
+
+                    var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
+                    user.OrganisationsId = organisation.OrganisationsId;
+                    user.OrganisationsId = 2;
+                    //user.Namn = "Kalle Anka";
+                    //user.SkapadAv = "MAH";
+                    //var nu = DateTime.Now;
+                    //var tmp = nu.ToString("yyyy-MM-dd HH:mm:ss");
+                    //user.SkapadDatum = null;
+                    //user.AndradAv = "MAH";
+                    //user.AndradDatum = null;
+                    try
+                    {
+                        var tmp = await UserManager.CreateAsync(user, model.Password);
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var error in ex.EntityValidationErrors)
+                        {
+                            Console.WriteLine("====================");
+                            Console.WriteLine("Entity {0} in state {1} has validation errors:",
+                                error.Entry.Entity.GetType().Name, error.Entry.State);
+                            foreach (var ve in error.ValidationErrors)
+                            {
+                                Console.WriteLine("\tProperty: {0}, Error: {1}",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                            Console.WriteLine();
+                        }
+                        throw;
+                    }
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private Organisation GetOrganisationForEmailDomain(string modelEmail)
+        {
+            var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
+            return organisation;
         }
 
         //

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace InrapporteringsPortal.DomainModel
 {
+    [Table("AspNetUsers")]
     public class AspNetUsers
     {
         public string Id { get; set; }
@@ -16,6 +18,7 @@ namespace InrapporteringsPortal.DomainModel
         public DateTime LockoutEndDateUtc { get; set; }
         public int LockoutEnabled { get; set; }
         public string UserName { get; set; }
-        public string KommunKod { get; set; }
+        public int OrganisationsId { get; set; }
+
     }
 }

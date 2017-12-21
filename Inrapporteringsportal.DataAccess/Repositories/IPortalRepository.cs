@@ -11,12 +11,15 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<Fillogg> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
         IEnumerable<int> GetLeveransIdnForKommun(string kommunId);
+        string GetKommunKodForOrganisation(int orgId);
 
         string GetKommunKodForUser(string userId);
 
         void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
 
         int GetNewLeveransId(string rapportorId, string kommunKod);
+
+        Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
     }
 

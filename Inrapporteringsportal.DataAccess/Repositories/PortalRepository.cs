@@ -54,9 +54,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return DbContext.Fillogg;
         }
 
-        private IEnumerable<Leverans> AllaLeveranser()
+        private IEnumerable<Leverans2> AllaLeveranser()
         {
             return DbContext.Leverans;
+        }
+
+        private IEnumerable<Organisation> AllaOrganisationer()
+        {
+            return DbContext.Organisation;
         }
 
         private IEnumerable<AspNetUsers> AllaUsers()
@@ -72,10 +77,18 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         }
 
+        public string GetKommunKodForOrganisation(int orgId)
+        {
+            //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
+            var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
+            return kommunKod;
+        }
+
         public string GetKommunKodForUser(string userId)
         {
             //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
-            var kommunKod = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.KommunKod).FirstOrDefault();
+            var orgId = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.OrganisationsId).FirstOrDefault();
+            var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
             return kommunKod;
         }
 
@@ -114,7 +127,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public int GetNewLeveransId(string rapportorId, string kommunKod)
         {
-            var leverans = new Leverans
+            var leverans = new Leverans2
             {
                 ReporterId = rapportorId,
                 CountyId = kommunKod
@@ -126,5 +139,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return leverans.Id;
         }
 
+        public Organisation GetOrgForEmailDomain(string modelEmailDomain)
+        {
+            var organisation = AllaOrganisationer().Where(a => a.Epostdoman == modelEmailDomain).SingleOrDefault();
+            return organisation;
+        }
     }
 }

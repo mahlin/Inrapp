@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOModel\FilloggDetaljDTO.cs" />
-    <Compile Include="DTOModel\KommunDetaljDTO.cs" />
+    <Compile Include="DTOModel\KontaktPersonDTO.cs" />
     <Compile Include="Helpers\ErrorManager.cs" />
     <Compile Include="Helpers\FileLogWriter.cs" />
     <Compile Include="Helpers\FilesHelper.cs" />

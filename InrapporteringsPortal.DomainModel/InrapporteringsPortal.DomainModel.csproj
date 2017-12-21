@@ -83,6 +83,7 @@
     <Compile Include="Fillogg.cs" />
     <Compile Include="Kommun.cs" />
     <Compile Include="Leverans.cs" />
+    <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>
