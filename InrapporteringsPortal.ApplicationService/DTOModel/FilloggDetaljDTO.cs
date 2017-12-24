@@ -14,7 +14,7 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
         public string Datum { get; set; }
         public int Status { get; set; }
 
-        internal static FilloggDetaljDTO FromFillogg(Fillogg fillogg)
+        internal static FilloggDetaljDTO FromFillogg(LevereradFil fillogg)
         {
 
             if (fillogg == null)
@@ -24,9 +24,7 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
             {
                 Id = fillogg.Id,
                 LeveransId = fillogg.LeveransId,
-                Filnamn = fillogg.Filnamn,
-                Datum = fillogg.Datum.ToString("yyyy-MM-dd"),
-                Status = fillogg.Status
+                Filnamn = fillogg.Filnamn
             };
         }
     }

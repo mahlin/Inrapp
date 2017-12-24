@@ -13,7 +13,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
     public class FilesHelper
     {
         private readonly IPortalRepository _portalRepository;
-        private readonly InrapporteringsPortalDbContext db = new InrapporteringsPortalDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
         String DeleteURL = null;
         String DeleteType = null;
         String StorageRoot = null;
@@ -107,7 +107,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string rapportorId, string kommunKod, int selectedRegisterId)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string kommunKod, int selectedRegisterId)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
@@ -130,7 +130,9 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             Directory.CreateDirectory(fullPath);
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
-            var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
+            //TODO - skicka med registerid
+            var orgId = _portalRepository.GetUserOrganisation(userId);
+            var levId = _portalRepository.GetNewLeveransId(userId, orgId, 1,kommunKod);
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 

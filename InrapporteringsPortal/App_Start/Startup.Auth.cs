@@ -1,6 +1,6 @@
 ﻿using System;
 using InrapporteringsPortal.DataAccess;
-using InrapporteringsPortal.DataAccess.IdentityModels;
+using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,13 +14,11 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 {
     public class PortalRepository : IPortalRepository
     {
-        private InrapporteringsPortalDbContext DbContext { get; }
-        private readonly Repository<Kommun, InrapporteringsPortalDbContext> _internalGenericRepository;
+        private ApplicationDbContext DbContext { get; }
 
-        public PortalRepository(InrapporteringsPortalDbContext dbContext)
+        public PortalRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
-            _internalGenericRepository = new Repository<Kommun, InrapporteringsPortalDbContext>(DbContext);
         }
 
         public Kommun GetByShortName(string shortName)
@@ -28,7 +27,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         }
 
         //TODO - 
-        public IEnumerable<Fillogg> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
+        public IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
         {
             //var tmp2 = (from l in DbContext.Leverans
             //    where l.Id == 1
@@ -48,89 +47,96 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return filloggar;
         }
 
-        private IEnumerable<Fillogg> AllaFilloggar()
+        private IEnumerable<LevereradFil> AllaFilloggar()
         {
             //return DbContext.Fillogg.Include(x => x.Leverans).Include(x => x.Reporter);
-            return DbContext.Fillogg;
+            return DbContext.LevereradFil;
         }
 
-        private IEnumerable<Leverans2> AllaLeveranser()
+        private IEnumerable<Leverans> AllaLeveranser()
         {
             return DbContext.Leverans;
         }
 
         private IEnumerable<Organisation> AllaOrganisationer()
         {
-            return DbContext.Organisation;
+            return DbContext.Organisation.Include(x => x.Kommuner).Include(x => x.Users);
         }
 
-        private IEnumerable<AspNetUsers> AllaUsers()
-        {
-            return DbContext.AspNetUsers;
-        }
 
-        public IEnumerable<int> GetLeveransIdnForKommun(string kommunId)
+        public IEnumerable<int> GetLeveransIdnForOrganisation(int orgId)
         {
-            var levIdnForKommun = AllaLeveranser().Where(a => a.CountyId == kommunId).Select(a => a.Id).ToList();
+            var levIdnForOrg = AllaLeveranser().Where(a => a.OrganisationId == orgId).Select(a => a.Id).ToList();
 
-            return levIdnForKommun;
+            return levIdnForOrg;
 
         }
 
         public string GetKommunKodForOrganisation(int orgId)
         {
             //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
-            var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
+            var kommunKod = DbContext.Kommun.Where(x => x.Id == orgId).Select(x => x.Kommunkod).FirstOrDefault();
             return kommunKod;
         }
 
-        public string GetKommunKodForUser(string userId)
-        {
-            //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
-            var orgId = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.OrganisationsId).FirstOrDefault();
-            var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
-            return kommunKod;
-        }
+        //public string GetKommunKodForUser(string userId)
+        //{
+        //    //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
+        //    //TODO - ska AspNetUsers finnas i DomainModel? ApplicationUser/IdentityUser ligger i DataAccess
+        //    //Jmfr video - ändrar ApplicationUser till User + DbContext/InModelCreating
+        //    //var orgId = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.OrganisationsId).FirstOrDefault();
+        //    var orgId = 1;
+        //    var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
+        //    return kommunKod;
+        //}
 
         public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId)
         {
-            var logOrg = new Fillogg
-            {
-                LeveransId = leveransId,
-                Filnamn = ursprungligtFilNamn,
-                Datum = DateTime.Now,
-                Status = 1
-            };
+            throw new NotImplementedException();
+            //var logOrg = new Fillogg
+            //{
+            //    LeveransId = leveransId,
+            //    Filnamn = ursprungligtFilNamn,
+            //    Datum = DateTime.Now,
+            //    Status = 1
+            //};
 
-            DbContext.Fillogg.Add(logOrg);
+            //DbContext.Fillogg.Add(logOrg);
 
-            var logNew = new Fillogg
-            {
-                LeveransId = leveransId,
-                Filnamn = nyttFilNamn,
-                Datum = DateTime.Now,
-                Status = 1
-            };
+            //var logNew = new Fillogg
+            //{
+            //    LeveransId = leveransId,
+            //    Filnamn = nyttFilNamn,
+            //    Datum = DateTime.Now,
+            //    Status = 1
+            //};
 
-            DbContext.Fillogg.Add(logNew);
-            try
-            {
-                DbContext.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
-                throw new Exception(e.Message);
-            }
+            //DbContext.Fillogg.Add(logNew);
+            //try
+            //{
+            //    DbContext.SaveChanges();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
+            //    throw new Exception(e.Message);
+            //}
         }
 
-        public int GetNewLeveransId(string rapportorId, string kommunKod)
+        public int GetNewLeveransId(string userId, int orgId, int regId, string period)
         {
-            var leverans = new Leverans2
+            var leverans = new Leverans
             {
-                ReporterId = rapportorId,
-                CountyId = kommunKod
+                OrganisationId = orgId,
+                ApplicationUserId = userId,
+                DelregisterId = regId,
+                Period = period,
+                Leveranstidpunkt = DateTime.Now,
+                SkapadDatum = DateTime.Now,
+                SkapadAv = userId,
+                AndradDatum = DateTime.Now,
+                AndradAv = userId
             };
 
             DbContext.Leverans.Add(leverans);
@@ -141,8 +147,17 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public Organisation GetOrgForEmailDomain(string modelEmailDomain)
         {
-            var organisation = AllaOrganisationer().Where(a => a.Epostdoman == modelEmailDomain).SingleOrDefault();
-            return organisation;
+            var o = DbContext.Organisation.SingleOrDefault();
+            var y = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain);
+
+            var organisation = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain).FirstOrDefault();
+            return o;
+        }
+
+        public int GetUserOrganisation(string userId)
+        {
+            var orgId = DbContext.Users.Where(u => u.Id == userId).Select(o => o.OrganisationId).SingleOrDefault();
+            return orgId;
         }
     }
 }

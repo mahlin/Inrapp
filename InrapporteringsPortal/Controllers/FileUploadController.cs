@@ -44,7 +44,7 @@ namespace InrapporteringsPortal.Web.Controllers
             //filesHelper = new FilesHelper(DeleteURL, DeleteType, StorageRoot, UrlBase, tempPath, serverMapPath);
 
             _portalService =
-                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
+                new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
         //[Authorize] 

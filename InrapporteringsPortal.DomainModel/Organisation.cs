@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace InrapporteringsPortal.DomainModel
 {
-    [Table("Organisation")]
     public class Organisation
     {
-        [Key]
-        public int OrganisationsId { get; set; }
+        //[Column("organisationsid")]
+        public int Id { get; set; }
         public string Organisationsnr { get; set; }
         public string Organisationsnamn { get; set; }
         public string Hemsida { get; set; }
-        public string Epostadress { get; set; }
+        public string EpostAdress { get; set; }
         public string Telefonnr { get; set; }
         public string Adress { get; set; }
         public string Postnr { get; set; }
@@ -25,5 +22,8 @@ namespace InrapporteringsPortal.DomainModel
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<Kommun> Kommuner { get; set; }
+        public virtual ICollection<Leverans> Leveranser { get; set; }
     }
 }

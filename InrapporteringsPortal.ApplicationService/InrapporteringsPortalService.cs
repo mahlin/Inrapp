@@ -22,24 +22,26 @@ namespace InrapporteringsPortal.ApplicationService
 
         public IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId)
         {
-            var historikLista = new List<FilloggDetaljDTO>();
-            //TODO - tidsintervall
-            var leveransIdList = _portalRepository.GetLeveransIdnForKommun(kommunId).OrderByDescending(x => x);
-            foreach (var id in leveransIdList)
-            {
-                var filloggs = _portalRepository.GetFilloggarForLeveransId(id, DateTime.Now, DateTime.Now);
-                foreach (var fillogg in filloggs)
-                {
-                    var filloggDetalj = (FilloggDetaljDTO.FromFillogg(fillogg));
-                    historikLista.Add(filloggDetalj);
-                }
-            }
-            return historikLista;
+            throw new NotImplementedException();
+            //var historikLista = new List<FilloggDetaljDTO>();
+            ////TODO - tidsintervall
+            //var leveransIdList = _portalRepository.GetLeveransIdnForKommun(kommunId).OrderByDescending(x => x);
+            //foreach (var id in leveransIdList)
+            //{
+            //    var filloggs = _portalRepository.GetFilloggarForLeveransId(id, DateTime.Now, DateTime.Now);
+            //    foreach (var fillogg in filloggs)
+            //    {
+            //        var filloggDetalj = (FilloggDetaljDTO.FromFillogg(fillogg));
+            //        historikLista.Add(filloggDetalj);
+            //    }
+            //}
+            //return historikLista;
         }
 
         public string HamtaKommunKodForAnvandare(string userId)
         {
-            var kommunKod = _portalRepository.GetKommunKodForUser(userId);
+            var orgId = _portalRepository.GetUserOrganisation(userId);
+            var kommunKod = _portalRepository.GetKommunKodForOrganisation(orgId);
             return kommunKod;
         }
         
@@ -48,9 +50,10 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId);
         }
 
-        public int HamtaNyttLeveransId(string rapportorId, string kommunKod)
+        public int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period)
         {
-            var levId = _portalRepository.GetNewLeveransId(rapportorId, kommunKod);
+            //TODO - skicka med regId
+            var levId = _portalRepository.GetNewLeveransId(userId, orgId, registerId,period);
             return levId;
         }
 
@@ -67,6 +70,12 @@ namespace InrapporteringsPortal.ApplicationService
         {
             var kommunKod = _portalRepository.GetKommunKodForOrganisation(orgId);
             return kommunKod;
+        }
+
+        public int GetUserOrganisation(string userId)
+        {
+            var orgId = _portalRepository.GetUserOrganisation(userId);
+            return orgId;
         }
     }
 }

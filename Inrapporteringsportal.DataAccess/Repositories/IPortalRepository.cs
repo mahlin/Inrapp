@@ -8,19 +8,21 @@ namespace Inrapporteringsportal.DataAccess.Repositories
     {
         Kommun GetByShortName(string shortName);
 
-        IEnumerable<Fillogg> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
+        IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
-        IEnumerable<int> GetLeveransIdnForKommun(string kommunId);
+        IEnumerable<int> GetLeveransIdnForOrganisation(int orgId);
+
         string GetKommunKodForOrganisation(int orgId);
 
-        string GetKommunKodForUser(string userId);
+        //string GetKommunKodForUser(string userId);
 
         void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
 
-        int GetNewLeveransId(string rapportorId, string kommunKod);
+        int GetNewLeveransId(string userId, int orgId, int regId, string period);
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
+        int GetUserOrganisation(string userId);
     }
 
 }

@@ -11,7 +11,6 @@ using Inrapporteringsportal.DataAccess.Repositories;
 using InrapporteringsPortal.ApplicationService;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
-using InrapporteringsPortal.DataAccess.IdentityModels;
 using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -32,7 +31,7 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             _errorDecsriber = new CustomIdentityResultErrorDescriber();
             _portalService =
-                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
+                new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -41,7 +40,7 @@ namespace InrapporteringsPortal.Web.Controllers
             SignInManager = signInManager;
             _errorDecsriber = new CustomIdentityResultErrorDescriber();
             _portalService =
-                new InrapporteringsPortalService(new PortalRepository(new InrapporteringsPortalDbContext()));
+                new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
         public ApplicationSignInManager SignInManager
@@ -171,18 +170,18 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var organisation = GetOrganisationForEmailDomain(model.Email);
-                if (organisation == null)
-                {
-                    ModelState.AddModelError("",
-                        "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: 075 - 247 37 37");
-                }
-                else
-                {
+                //var organisation = GetOrganisationForEmailDomain(model.Email);
+                //if (organisation == null)
+                //{
+                //    ModelState.AddModelError("",
+                //        "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: 075 - 247 37 37");
+                //}
+                //else
+                //{
 
                     var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-                    user.OrganisationsId = organisation.OrganisationsId;
-                    user.OrganisationsId = 2;
+                    //user.OrganisationId = organisation.Id;
+                    user.OrganisationId = 1;
                     //user.Namn = "Kalle Anka";
                     //user.SkapadAv = "MAH";
                     //var nu = DateTime.Now;
@@ -225,7 +224,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     }
                     AddErrors(result);
                 }
-            }
+            //}
 
             // If we got this far, something failed, redisplay form
             return View(model);

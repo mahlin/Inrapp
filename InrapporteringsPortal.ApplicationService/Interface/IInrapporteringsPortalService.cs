@@ -16,8 +16,9 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         void SparaTillFillogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
 
-        int HamtaNyttLeveransId(string rapportorId, string kommunKod);
+        int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period);
 
         Organisation GetOrgForEmailDomain(string modelEmail);
+        int GetUserOrganisation(string userId);
     }
 }
