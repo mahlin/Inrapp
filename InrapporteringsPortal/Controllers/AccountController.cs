@@ -182,33 +182,33 @@ namespace InrapporteringsPortal.Web.Controllers
                     var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
                     //user.OrganisationId = organisation.Id;
                     user.OrganisationId = 1;
-                    //user.Namn = "Kalle Anka";
-                    //user.SkapadAv = "MAH";
-                    //var nu = DateTime.Now;
-                    //var tmp = nu.ToString("yyyy-MM-dd HH:mm:ss");
-                    //user.SkapadDatum = null;
-                    //user.AndradAv = "MAH";
-                    //user.AndradDatum = null;
-                    try
-                    {
-                        var tmp = await UserManager.CreateAsync(user, model.Password);
-                    }
-                    catch (DbEntityValidationException ex)
-                    {
-                        foreach (var error in ex.EntityValidationErrors)
-                        {
-                            Console.WriteLine("====================");
-                            Console.WriteLine("Entity {0} in state {1} has validation errors:",
-                                error.Entry.Entity.GetType().Name, error.Entry.State);
-                            foreach (var ve in error.ValidationErrors)
-                            {
-                                Console.WriteLine("\tProperty: {0}, Error: {1}",
-                                    ve.PropertyName, ve.ErrorMessage);
-                            }
-                            Console.WriteLine();
-                        }
-                        throw;
-                    }
+                user.Namn = "Kalle Anka";
+                user.SkapadAv = "MAH";
+                //var nu = DateTime.Now;
+                //var tmp = nu.ToString("yyyy-MM-dd HH:mm:ss");
+                user.SkapadDatum = DateTime.Now;
+                user.AndradAv = "MAH";
+                user.AndradDatum = DateTime.Now;
+                //try
+                //    {
+                //        var tmp = await UserManager.CreateAsync(user, model.Password);
+                //    }
+                //    catch (DbEntityValidationException ex)
+                //    {
+                //        foreach (var error in ex.EntityValidationErrors)
+                //        {
+                //            Console.WriteLine("====================");
+                //            Console.WriteLine("Entity {0} in state {1} has validation errors:",
+                //                error.Entry.Entity.GetType().Name, error.Entry.State);
+                //            foreach (var ve in error.ValidationErrors)
+                //            {
+                //                Console.WriteLine("\tProperty: {0}, Error: {1}",
+                //                    ve.PropertyName, ve.ErrorMessage);
+                //            }
+                //            Console.WriteLine();
+                //        }
+                //        throw;
+                //    }
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
