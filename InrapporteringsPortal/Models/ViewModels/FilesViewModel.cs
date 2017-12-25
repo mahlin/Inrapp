@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using InrapporteringsPortal.ApplicationService.DTOModel;
-using InrapporteringsPortal.ApplicationService.Helpers;
+using InrapporteringsPortal.Web.Helpers;
+
 namespace InrapporteringsPortal.Web.Models.ViewModels
 {
     public class FilesViewModel
@@ -15,7 +15,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         public List<KeyValuePair<int, string>> FilMask { get; set; }
         public List<KeyValuePair<int, int>> FilAntal { get; set; }
-        public List<FilloggDetaljDTO> HistorikLista { get; set; }
+        //public List<FilloggDetaljDTO> HistorikLista { get; set; }
         public string GiltigKommunKod { get; set; }
 
     }

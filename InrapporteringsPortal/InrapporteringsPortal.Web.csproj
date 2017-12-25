@@ -235,8 +235,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ErrorManager.cs" />
+    <Compile Include="Helpers\FileLogWriter.cs" />
+    <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BusinessLogic\IInrapporteringsPortalService.cs" />
+    <Compile Include="Models\BusinessLogic\InrapporteringsPortalService.cs" />
     <Compile Include="Models\CustomIdentityResultErrorDescriber.cs" />
+    <Compile Include="Models\DataAccess\Repositories\IPortalRepository.cs" />
+    <Compile Include="Models\DataAccess\Repositories\PortalRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ViewModels\FilesViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
@@ -667,20 +674,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\InrapporteringsPortal.ApplicationService\InrapporteringsPortal.ApplicationService.csproj">
-      <Project>{BA65F843-CEC0-4FDC-8F97-DCCF84448C17}</Project>
-      <Name>InrapporteringsPortal.ApplicationService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Inrapporteringsportal.DataAccess\InrapporteringsPortal.DataAccess.csproj">
-      <Project>{20A4B770-B0B1-4B76-9CB1-949C685CE245}</Project>
-      <Name>InrapporteringsPortal.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InrapporteringsPortal.DomainModel\InrapporteringsPortal.DomainModel.csproj">
-      <Project>{52AE6E89-A36B-49E7-8CE5-EF620296C136}</Project>
-      <Name>InrapporteringsPortal.DomainModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

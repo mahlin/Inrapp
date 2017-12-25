@@ -65,7 +65,7 @@ namespace InrapporteringsPortal.Web.Models
     public class RegisterViewModel
     {
         [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Fältet Epostadress är inte en giltig epostadress.")]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
 

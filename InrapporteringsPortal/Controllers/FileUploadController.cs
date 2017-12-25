@@ -7,15 +7,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using Inrapporteringsportal.DataAccess.Repositories;
 using InrapporteringsPortal.Web.Models;
+using InrapporteringsPortal.Web.Models.BusinessLogic;
+using InrapporteringsPortal.Web.Models.DataAccess.Repositories;
+using InrapporteringsPortal.Web.Helpers;
 using InrapporteringsPortal.Web.Models.ViewModels;
-using InrapporteringsPortal.ApplicationService;
-using InrapporteringsPortal.ApplicationService.DTOModel;
-using InrapporteringsPortal.ApplicationService.Interface;
-using InrapporteringsPortal.ApplicationService.Helpers;
-using InrapporteringsPortal.DataAccess;
 using Microsoft.AspNet.Identity;
+using InrapporteringsPortal.Models;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
@@ -67,8 +65,8 @@ namespace InrapporteringsPortal.Web.Controllers
                 var userId = User.Identity.GetUserId();
                 var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
                 _model.GiltigKommunKod = kommunKodForUser;
-                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
-                _model.HistorikLista = historyFileList.ToList();
+                //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
+                //_model.HistorikLista = historyFileList.ToList();
             }
             catch (Exception e)
             {
