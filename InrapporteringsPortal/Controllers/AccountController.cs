@@ -232,6 +232,21 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private Organisation GetOrganisationForEmailDomain(string modelEmail)
         {
+            var db = new ApplicationDbContext();
+            var o = db.Organisation.SingleOrDefault();
+            var user = db.Organisation.Any(u => u.Epostdoman == "knivsta.se");
+
+            var test = from org in db.Organisation
+                where org.Epostdoman == "knivsta.se"
+                select org;
+            var t1 = test.FirstOrDefault();
+
+            var tmp = db.Organisation.Where(x => x.Epostdoman == "knivsta.se").Select(x => x.Id).Distinct();
+
+            //var organisation = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain).FirstOrDefault();
+
+
+            return t1;
             var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
             return organisation;
         }
