@@ -11,65 +11,53 @@ namespace InrapporteringsPortal.Web.Models
     {
         public string LocalizeErrorMessage(string errorMessage)
         {
+            //TODO - hantera {username} i inparameter
+            if (errorMessage.Length > 39)
+            {
+                var str1 = errorMessage.Substring(errorMessage.Length - 17, 16);
+                if (str1 == "is already taken")
+                    return "Användarnamnet är redan upptaget.";
+            }
             switch (errorMessage)
             {
                 case "An unknown failure has occurred.":
                     return "Ett okänt fel inträffade";
-                    break;
                 case "Incorrect password.":
                     return "Felaktigt PINkod";
-                    break;
                 case "A user with this login already exists.":
                     return "En användare med detta användarnamn finns redan.";
-                    break;
                 case "User name '{userName}' is invalid, can only contain letters or digits.":
                     return "Användarnamn '{userName}' är felaktigt, kan bara innehålla bokstäver eller siffror.";
-                    break;
                 case "Email '{email}' is invalid.":
                     return "Epostadressen '{}' är ogiltig.";
-                    break;
                 case "User Name '{userName}' is already taken.":
                     return "Användarnamn  '{userName}' är redan upptaget.";
-                    break;
                 case "Email '{email}' is already taken.":
                     return "Epostadress '{email}' används redan.";
-                    break;
                 case "Role name '{role}' is invalid.":
                     return "Rollnamnet '{role}' är ej giltigt";
-                    break;
                 case "Role name '{role}' is already taken.":
                     return "Rollnamnet '{role}' är redan upptaget.";
-                    break;
                 case "User already has a password set.":
                     return "Användaren har redan ett PINkod";
-                    break;
                 case "User already in role '{role}'.":
                     return "Anändaren har redan rollen '{role}'.";
-                    break;
                 case "User is not in role '{role}'.":
                     return "Användaren har ej rollen '{role}'.";
-                    break;
                 case "Passwords must be at least {length} characters.":
                     return "PINkoden måste var minst {length} tecken långt.";
-                    break;
                 case "Passwords must have at least one non alphanumeric character.":
                     return "PINkoden måste ha minst ett icke alfanumersikt tecken.";
-                    break;
                 case "Passwords must have at least one non letter or digit character.":
                     return "PINkoden måste ha minst ett tecken som inte är alfanumersikt eller en siffra.";
-                    break;
                 case "Passwords must have at least one digit ('0'-'9').":
                     return "PINkoden måste ha minst en siffra ('0'-'9').";
-                    break;
                 case "Passwords must have at least one lowercase ('a'-'z').":
                     return "PINkoden måste ha minst en liten bokstav ('a'-'z').";
-                    break;
                 case "Passwords must have at least one uppercase ('A'-'Z').":
                     return "PINkoden måste ha minst en stor bokstav ('A'-'Z').";
-                    break;
                 default:
                     return "";
-                    break;
             }
         }
 
