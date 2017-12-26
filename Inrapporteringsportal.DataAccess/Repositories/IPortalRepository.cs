@@ -8,7 +8,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
     {
         Kommun GetByShortName(string shortName);
 
-        IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
+        //IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
+
+        IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
         IEnumerable<int> GetLeveransIdnForOrganisation(int orgId);
 

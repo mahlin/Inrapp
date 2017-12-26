@@ -52,8 +52,6 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             //TODO - hämta registerinfotext, antal filer och filmask från databasen
             GetRegisterInfo();
-            //_model.RegisterInfoText = GetRegisterInfoTexts();
-            //_model.FilMask = "Ekb_kommunkod_period_datumoklockslag.txt";
             _model.SelectedRegisterId = "0";
 
             // Ladda drop down lists.  
@@ -66,8 +64,9 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
+                var orgIdForUser = _portalService.GetUserOrganisation(userId);
                 _model.GiltigKommunKod = kommunKodForUser;
-                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForKommun(kommunKodForUser);
+                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
                 _model.HistorikLista = historyFileList.ToList();
             }
             catch (Exception e)
@@ -104,13 +103,11 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             var resultList = new List<ViewDataUploadFilesResult>();
 
-
             //TODO - test userinfo
             //var x = User.Identity.GetUserId();
             //var y = User.Identity.Name;
             //var z = User.Identity.AuthenticationType;
             //var w = User.Identity.IsAuthenticated;
-
             
             var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
 

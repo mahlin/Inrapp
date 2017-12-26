@@ -178,34 +178,13 @@ namespace InrapporteringsPortal.Web.Controllers
                 }
                 else
                 {
-
                     var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
                     user.OrganisationId = organisation.Id;
-                    //user.OrganisationId = 1;
                     user.SkapadAv = "MAH";
                     user.SkapadDatum = DateTime.Now;
                     user.AndradAv = "MAH";
                     user.AndradDatum = DateTime.Now;
-                    //try
-                    //    {
-                    //        var tmp = await UserManager.CreateAsync(user, model.Password);
-                    //    }
-                    //    catch (DbEntityValidationException ex)
-                    //    {
-                    //        foreach (var error in ex.EntityValidationErrors)
-                    //        {
-                    //            Console.WriteLine("====================");
-                    //            Console.WriteLine("Entity {0} in state {1} has validation errors:",
-                    //                error.Entry.Entity.GetType().Name, error.Entry.State);
-                    //            foreach (var ve in error.ValidationErrors)
-                    //            {
-                    //                Console.WriteLine("\tProperty: {0}, Error: {1}",
-                    //                    ve.PropertyName, ve.ErrorMessage);
-                    //            }
-                    //            Console.WriteLine();
-                    //        }
-                    //        throw;
-                    //    }
+
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -221,30 +200,13 @@ namespace InrapporteringsPortal.Web.Controllers
                     }
                     AddErrors(result);
                 }
-                //}
-
-                // If we got this far, something failed, redisplay form
-                return View(model);
             }
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         private Organisation GetOrganisationForEmailDomain(string modelEmail)
         {
-            var db = new ApplicationDbContext();
-            var o = db.Organisation.SingleOrDefault();
-            var user = db.Organisation.Any(u => u.Epostdoman == "knivsta.se");
-
-            var test = from org in db.Organisation
-                where org.Epostdoman == "knivsta.se"
-                select org;
-            var t1 = test.FirstOrDefault();
-
-            var tmp = db.Organisation.Where(x => x.Epostdoman == "knivsta.se").Select(x => x.Id).Distinct();
-
-            //var organisation = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain).FirstOrDefault();
-
-
-            return t1;
             var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
             return organisation;
         }

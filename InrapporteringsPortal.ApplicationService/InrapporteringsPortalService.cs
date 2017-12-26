@@ -38,6 +38,23 @@ namespace InrapporteringsPortal.ApplicationService
             //return historikLista;
         }
 
+        public IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+            //TODO - tidsintervall
+            var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
+            foreach (var id in leveransIdList)
+            {
+                var filer = _portalRepository.GetFilerForLeveransId(id, DateTime.Now, DateTime.Now);
+                foreach (var fil in filer)
+                {
+                    var filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                    historikLista.Add(filloggDetalj);
+                }
+            }
+            return historikLista;
+        }
+
         public string HamtaKommunKodForAnvandare(string userId)
         {
             var orgId = _portalRepository.GetUserOrganisation(userId);
@@ -60,8 +77,7 @@ namespace InrapporteringsPortal.ApplicationService
         public Organisation GetOrgForEmailDomain(string modelEmail)
         {
             MailAddress address = new MailAddress(modelEmail);
-            string domain = address.Host; // host contains yahoo.com
-            //var domain = modelEmail.Split('@');
+            string domain = address.Host; 
             var organisation= _portalRepository.GetOrgForEmailDomain(domain);
             return organisation;
         }

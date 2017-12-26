@@ -11,6 +11,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
     public interface IInrapporteringsPortalService
     {
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId);
+        IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId);
+
         string HamtaKommunKodForOrganisation(int orgId);
         string HamtaKommunKodForAnvandare(string userId);
 

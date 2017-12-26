@@ -132,7 +132,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             //hämta ett leveransId och skapa hashAddOn till filnamnet
             //TODO - skicka med registerid
             var orgId = _portalRepository.GetUserOrganisation(userId);
-            var levId = _portalRepository.GetNewLeveransId(userId, orgId, 1,kommunKod);
+            var levId = _portalRepository.GetNewLeveransId(userId, orgId, 2,kommunKod);
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 
@@ -179,7 +179,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
         public IEnumerable<FilloggDetaljDTO> HamtaFillogg(int leveransId)
         {
-            var filloggar = _portalRepository.GetFilloggarForLeveransId(leveransId, DateTime.Now, DateTime.Now);
+            var filloggar = _portalRepository.GetFilerForLeveransId(leveransId, DateTime.Now, DateTime.Now);
 
             return null;
 

@@ -26,8 +26,29 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
+        ////TODO - 
+        //public IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
+        //{
+        //    //var tmp2 = (from l in DbContext.Leverans
+        //    //    where l.Id == 1
+        //    //    select l).SingleOrDefault();
+
+        //    //var tmp1 = (from f in DbContext.Fillogg
+        //    //    where f.LeveransId == 1
+        //    //            select f).SingleOrDefault(); 
+
+        //    //var tmp = (from f in DbContext.Fillogg
+        //    //    where f.LeveransId == leveransId
+        //    //    orderby f.Id 
+        //    //    select f).ToList();
+
+        //    var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId).OrderByDescending(x => x.LeveransId); ;
+
+        //    return filloggar;
+        //}
+
         //TODO - 
-        public IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
+        public IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
         {
             //var tmp2 = (from l in DbContext.Leverans
             //    where l.Id == 1
@@ -42,12 +63,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             //    orderby f.Id 
             //    select f).ToList();
 
-            var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId).OrderByDescending(x => x.LeveransId); ;
+            var filInfo = AllaFiler().Where(a => a.LeveransId == leveransId).OrderByDescending(x => x.LeveransId); ;
 
-            return filloggar;
+            return filInfo;
         }
 
-        private IEnumerable<LevereradFil> AllaFilloggar()
+        private IEnumerable<LevereradFil> AllaFiler()
         {
             //return DbContext.Fillogg.Include(x => x.Leverans).Include(x => x.Reporter);
             return DbContext.LevereradFil;
@@ -92,36 +113,31 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId)
         {
-            throw new NotImplementedException();
-            //var logOrg = new Fillogg
-            //{
-            //    LeveransId = leveransId,
-            //    Filnamn = ursprungligtFilNamn,
-            //    Datum = DateTime.Now,
-            //    Status = 1
-            //};
+            var logFil = new LevereradFil
+            {
+                LeveransId = leveransId,
+                Filnamn = ursprungligtFilNamn,
+                NyttFilnamn = nyttFilNamn,
+                Ordningsnr = 1,
+                SkapadDatum = DateTime.Now,
+                SkapadAv = "MAH",
+                AndradDatum = DateTime.Now,
+                AndradAv = "MAH",
+                Filstatus = "Levererad"
+            };
 
-            //DbContext.Fillogg.Add(logOrg);
+            DbContext.LevereradFil.Add(logFil);
 
-            //var logNew = new Fillogg
-            //{
-            //    LeveransId = leveransId,
-            //    Filnamn = nyttFilNamn,
-            //    Datum = DateTime.Now,
-            //    Status = 1
-            //};
-
-            //DbContext.Fillogg.Add(logNew);
-            //try
-            //{
-            //    DbContext.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
-            //    throw new Exception(e.Message);
-            //}
+            try
+            {
+                DbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
+                throw new Exception(e.Message);
+            }
         }
 
         public int GetNewLeveransId(string userId, int orgId, int regId, string period)
@@ -131,7 +147,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 OrganisationId = orgId,
                 ApplicationUserId = userId,
                 DelregisterId = regId,
-                Period = period,
+                Period = "Januari",
                 Leveranstidpunkt = DateTime.Now,
                 SkapadDatum = DateTime.Now,
                 SkapadAv = userId,
@@ -147,11 +163,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public Organisation GetOrgForEmailDomain(string modelEmailDomain)
         {
-            var o = DbContext.Organisation.SingleOrDefault();
-            var y = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain);
-
-            var organisation = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain).FirstOrDefault();
-            return o;
+            var organisation = DbContext.Organisation.Where(a => a.Epostdoman == modelEmailDomain).Select(o => o).FirstOrDefault();
+            return organisation;
         }
 
         public int GetUserOrganisation(string userId)
