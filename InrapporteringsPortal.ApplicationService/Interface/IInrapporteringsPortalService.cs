@@ -16,7 +16,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         string HamtaKommunKodForOrganisation(int orgId);
         string HamtaKommunKodForAnvandare(string userId);
 
-        void SparaTillFillogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId);
+        void SparaTillFillogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period);
 

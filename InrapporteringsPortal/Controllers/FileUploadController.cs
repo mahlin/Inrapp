@@ -138,7 +138,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     try
                     {
-                        _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId);
+                        _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId, itemFile.sequenceNumber);
                     }
                     catch (Exception e)
                     {

@@ -158,21 +158,12 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                     var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
                     var extension = Path.GetExtension(file.FileName);
                     var filOfFilesAddOn = "_" + (i + 1).ToString() + "_" + (request.Files.Count).ToString();
-                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + extension;
-                    //var fullPath = "C:/Socialstyrelsen/UploadedFiles/EKB/" + extendedFileName + extension;
+                    var timestamp = DateTime.Now.ToString("yyyyMMdd" + "T"+ "HHmmss"); 
+                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + "_" + timestamp + extension;
                     var fullPath = Path.Combine(pathOnServer, Path.GetFileName(extendedFileName));
                     file.SaveAs(fullPath);
 
-                    //if (file.ContentLength > 0)
-                    //{
-                    //    string _FileName = Path.GetFileName(file.FileName);
-                    //    string pathTmp = Request.PhysicalApplicationPath;
-                    //    //TODO - Hämta från config? Jmfr log
-                    //    //Location beroende av filtyp
-                    //    string nameAndLocation = "C:/Socialstyrelsen/UploadedFiles/EKB/" + _FileName;
-                    //    file.SaveAs(nameAndLocation);
-                    //}
-                    statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName, (extendedFileName), levId));
+                    statuses.Add(UploadResult(file.FileName, file.ContentLength, file.FileName, (extendedFileName), levId, i+1));
                 }
             }
         }
@@ -226,7 +217,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
             return hashAddOn;
         }
-        public ViewDataUploadFilesResult UploadResult(String FileName,int fileSize,String FileFullPath, String SosFileName, int LeveransId)
+        public ViewDataUploadFilesResult UploadResult(String FileName,int fileSize,String FileFullPath, String SosFileName, int LeveransId, int SequenceNumber)
         {
             String getType = System.Web.MimeMapping.GetMimeMapping(FileFullPath);
             var result = new ViewDataUploadFilesResult()
@@ -239,7 +230,8 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 thumbnailUrl = CheckThumb(getType, FileName),
                 deleteType = DeleteType,
                 sosName = SosFileName,
-                leveransId = LeveransId
+                leveransId = LeveransId,
+                sequenceNumber = SequenceNumber
             };
             return result;
         }
@@ -322,6 +314,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
         public string deleteType { get; set; }
         public string sosName { get; set; }
         public int leveransId { get; set; }
+        public int sequenceNumber { get; set; }
     }
     public class JsonFiles
     {

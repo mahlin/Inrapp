@@ -111,14 +111,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         //    return kommunKod;
         //}
 
-        public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId)
+        public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
             var logFil = new LevereradFil
             {
                 LeveransId = leveransId,
                 Filnamn = ursprungligtFilNamn,
                 NyttFilnamn = nyttFilNamn,
-                Ordningsnr = 1,
+                Ordningsnr = sequenceNumber,
                 SkapadDatum = DateTime.Now,
                 SkapadAv = "MAH",
                 AndradDatum = DateTime.Now,

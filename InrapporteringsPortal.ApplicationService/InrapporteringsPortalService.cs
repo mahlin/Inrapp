@@ -62,9 +62,9 @@ namespace InrapporteringsPortal.ApplicationService
             return kommunKod;
         }
         
-        public void SparaTillFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId)
+        public void SparaTillFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
-            _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId);
+            _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
         }
 
         public int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period)
