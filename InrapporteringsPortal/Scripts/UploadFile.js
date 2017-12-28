@@ -17,9 +17,28 @@ $(document).ready(function() {
         })
         .on("fileuploadfail",
         function (e, data) {
+            
             for (var i = 0; i < data.files.length; i++) {
-                filelist.splice(data.files[i]);
+                filelist.splice($.inArray(data.files[i], filelist), 1);
+                //filelist.splice(data.files[i]);
             }
+            //TODO - detta görs även i jquery.fileupload.js => dubblerad kod, fixa
+            //Check if desired number of files reached and no errors found => enable upload
+            var errorExists = false;
+            for (var i = 0; i < filelist.length; i++) {
+                if (filelist[i].error) {
+                    errorExists = true;
+                }
+            }
+            var chosenRegister = $('#ddlRegister').val();
+            var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister) - 1)].AntalFiler;
+            if (filelist.length === numberOfFilesForChosenRegister && !errorExists) {
+                $('.start').prop('disabled', false);
+                this.element.find('.fileinput-button input')
+                    .prop('disabled', true)
+                    .parent().addClass('disabled');
+            }
+            
         });
 
     $('#btnSubmit').click(function() {

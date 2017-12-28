@@ -1088,11 +1088,10 @@
 
 
                 //Check if desired number of files reached and no errors found => enable upload
+                errorExists = false;
                 for (var i = 0; i < files.length; i++) {
                     if (files[i].error) {
                         errorExists = true;
-                    } else {
-                        errorExists = false;
                     }
                 }
                 var rows = getTableRows();
@@ -1101,6 +1100,11 @@
                 var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister) - 1)].AntalFiler;
                 if (numberOfFilesInTable == numberOfFilesForChosenRegister && !errorExists) {
                     $('.start').prop('disabled', false);
+                    this.element.find('.fileinput-button input')
+                        .prop('disabled', true)
+                        .parent().addClass('disabled');
+                }
+                else if (numberOfFilesInTable == numberOfFilesForChosenRegister && errorExists) {
                     this.element.find('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');

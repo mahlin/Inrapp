@@ -70,7 +70,7 @@
             // option of the $.ajax upload requests:
             dataType: 'json',
             //Chosen Register
-            selectedRegister: '2',
+            selectedRegister: '0',
             
             // Error and info messages:
             messages: {
