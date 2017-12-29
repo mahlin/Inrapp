@@ -147,7 +147,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 OrganisationId = orgId,
                 ApplicationUserId = userId,
                 DelregisterId = regId,
-                Period = "Januari",
+                Period = "201801",
                 Leveranstidpunkt = DateTime.Now,
                 SkapadDatum = DateTime.Now,
                 SkapadAv = userId,
@@ -171,6 +171,44 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         {
             var orgId = DbContext.Users.Where(u => u.Id == userId).Select(o => o.OrganisationId).SingleOrDefault();
             return orgId;
+        }
+
+        public IEnumerable<RegisterInfo> GetAllRegisterInformation()
+        {
+            var registerInfoList = new List<RegisterInfo>();
+
+            var register = DbContext.AdmRegister.ToList();
+            var tmp = DbContext.AdmRegister.Include(x => x.AdmDelregister).ToList();
+            var tmp2 = DbContext.AdmDelregister.Include(f => f.AdmFilkrav).ToList();
+            var tmp3 = DbContext.AdmDelregister.Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil)).ToList();
+
+            var delregister = DbContext.AdmDelregister
+                .Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil))
+                .Where(x => x.Inrapporteringsportal.ToUpper() == "JA")
+                .ToList();
+
+            foreach (var item in delregister)
+            {
+
+                var regInfo = new RegisterInfo
+                {
+                    Id = item.Id,
+                    Namn = item.Delregisternamn,
+                    Kortnamn = item.Kortnamn,
+                    //AntalFiler = register.AntalFiler //saknas i modellen
+                    InfoText = item.AdmRegister.Beskrivning,
+                    Slussmapp = item.Slussmapp,
+                };
+                if (item.AdmFilkrav.Count > 0)
+                {
+                    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).Single();
+                    regInfo.FilMask = forvantadFil.Select(x => x.Filmask).FirstOrDefault();
+                    regInfo.RegExp = forvantadFil.Select(x => x.Regexp).FirstOrDefault();
+                }
+                registerInfoList.Add(regInfo);
+            }
+
+            return registerInfoList;
         }
     }
 }

@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 
 $(document).on('change','#ddlRegister',
-    function () {
+    function() {
         var selectedRegister = $('#ddlRegister').val();
 
         $('#fileupload').fileupload(
@@ -70,39 +70,56 @@ $(document).on('change','#ddlRegister',
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
         $("#SelectedRegisterId").val(selectedRegister);
-        switch (selectedRegister) {
-        case "1":
-            $('#registerInfo').html(regInfoTexts[0].Value);
-            $('.fileinput-button').show();
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
-            $('.start').show();
-            $('.start').prop('disabled', true);
-            break;
-        case "2":
-            $('#registerInfo').html(regInfoTexts[1].Value);
-            $('.fileinput-button').show();
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
-            $('.start').show();
-            $('.start').prop('disabled', true);
-            break;
-        case "3":
-            $('#registerInfo').html(regInfoTexts[2].Value);
-            $('.fileinput-button').show();
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
-            $('.start').show();
-            $('.start').prop('disabled', true);
-            break;
-        default:
-            $('#registerInfo').html("");
-            $('.fileinput-button').hide();
-            $('.start').hide();
-        }
+
+        registerLista.forEach(function (register, index) {
+            if (selectedRegister === register.Id.toString()) {
+                $('#registerInfo').html(register.InfoText);
+                $('.fileinput-button').show();
+                $('.fileinput-button input')
+                    .prop('disabled', false)
+                    .parent().removeClass('disabled');
+                $('.start').show();
+                $('.start').prop('disabled', true);
+            } else if (selectedRegister === ""){
+                $('#registerInfo').html("");
+                $('.fileinput-button').hide();
+                $('.start').hide();
+            }
+        });
+
+        //switch (selectedRegister) {
+        //    case "1":
+        //    $('#registerInfo').html(regInfoTexts[0].Value);
+        //    $('.fileinput-button').show();
+        //    $('.fileinput-button input')
+        //        .prop('disabled', false)
+        //        .parent().removeClass('disabled');
+        //    $('.start').show();
+        //    $('.start').prop('disabled', true);
+        //    break;
+        //case "2":
+        //    $('#registerInfo').html(regInfoTexts[1].Value);
+        //    $('.fileinput-button').show();
+        //    $('.fileinput-button input')
+        //        .prop('disabled', false)
+        //        .parent().removeClass('disabled');
+        //    $('.start').show();
+        //    $('.start').prop('disabled', true);
+        //    break;
+        //case "3":
+        //    $('#registerInfo').html(regInfoTexts[2].Value);
+        //    $('.fileinput-button').show();
+        //    $('.fileinput-button input')
+        //        .prop('disabled', false)
+        //        .parent().removeClass('disabled');
+        //    $('.start').show();
+        //    $('.start').prop('disabled', true);
+        //    break;
+        //default:
+        //    $('#registerInfo').html("");
+        //    $('.fileinput-button').hide();
+        //    $('.start').hide();
+        //}
         
     });
 

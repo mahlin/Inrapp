@@ -93,5 +93,11 @@ namespace InrapporteringsPortal.ApplicationService
             var orgId = _portalRepository.GetUserOrganisation(userId);
             return orgId;
         }
+
+        public IEnumerable<RegisterInfo> GetAllRegisterInformation()
+        {
+            var registerList = _portalRepository.GetAllRegisterInformation();
+            return registerList;
+        }
     }
 }

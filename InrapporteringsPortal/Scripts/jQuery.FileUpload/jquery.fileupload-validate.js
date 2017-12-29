@@ -12,32 +12,18 @@
 /* global define, require, window */
 
 function CheckFileName(selectedRegister, fileName) {
-    switch (selectedRegister) {
-        case "1":
-            var re = new RegExp(regFilMasks[0].Value, "i");
-            if (re.test(fileName)) {
-                return true;
-            } else {
-                return false;
-            }
-        case "2":
-            var re = new RegExp(regFilMasks[1].Value, "i");
-            if (re.test(fileName)) {
-                return true;
-            } else {
-                return false;
-            }
-        case "3":
-            var tmp = regFilMasks[2].Value;
-            var re = new RegExp("\\LSS_.");
-            if (match = re.exec(fileName))
-                return true;
-            else
-                return false;
-        default:
-            return false;
+    var re;
+    //Hämta regexp för valt register
+    registerLista.forEach(function (register, index) {
+        if (selectedRegister === register.Id.toString()) {
+            re = new RegExp(register.RegExp, "i");
+        }
+    });
+    if (re.test(fileName)) {
+        return true;
+    } else {
+        return false;
     }
-    return true;
 }
 
 //TODO - använd SelectedRegisterId istället?

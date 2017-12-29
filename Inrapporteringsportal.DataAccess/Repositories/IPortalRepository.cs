@@ -25,6 +25,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
         int GetUserOrganisation(string userId);
+
+        IEnumerable<RegisterInfo> GetAllRegisterInformation();
     }
 
 }

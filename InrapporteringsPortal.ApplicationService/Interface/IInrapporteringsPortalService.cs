@@ -22,5 +22,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         Organisation GetOrgForEmailDomain(string modelEmail);
         int GetUserOrganisation(string userId);
+
+        IEnumerable<RegisterInfo> GetAllRegisterInformation();
     }
 }

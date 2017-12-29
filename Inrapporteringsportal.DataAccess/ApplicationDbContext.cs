@@ -92,6 +92,63 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<LevereradFil>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<LevereradFil>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<LevereradFil>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmRegister
+            modelBuilder.Entity<AdmRegister>().ToTable("admRegister");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.Id).HasColumnName("registerid");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.Registernamn).HasColumnName("registernamn");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.Beskrivning).HasColumnName("beskrivning");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.Kortnamn).HasColumnName("kortnamn");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmDelregister
+            modelBuilder.Entity<AdmDelregister>().ToTable("admDelregister");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Id).HasColumnName("delregisterid");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.RegisterId).HasColumnName("registerid");
+            modelBuilder.Entity<AdmDelregister>()
+                .HasRequired(c => c.AdmRegister)
+                .WithMany(d => d.AdmDelregister)
+                .HasForeignKey(c => c.RegisterId);
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Delregisternamn).HasColumnName("delregisternamn");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Beskrivning).HasColumnName("beskrivning");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Kortnamn).HasColumnName("kortnamn");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Slussmapp).HasColumnName("slussmapp");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.Inrapporteringsportal).HasColumnName("inrapporteringsportal");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmDelregister>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmFilkrav
+            modelBuilder.Entity<AdmFilkrav>().ToTable("admFilkrav");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.Id).HasColumnName("filkravid");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.DelregisterId).HasColumnName("delregisterid");
+            modelBuilder.Entity<AdmFilkrav>()
+                .HasRequired(c => c.AdmDelregister)
+                .WithMany(d => d.AdmFilkrav)
+                .HasForeignKey(c => c.DelregisterId);
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmForvantadfil
+            modelBuilder.Entity<AdmForvantadfil>().ToTable("admForvantadfil");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Id).HasColumnName("forvantadfilid");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.FilkravId).HasColumnName("filkravid");
+            modelBuilder.Entity<AdmForvantadfil>()
+                .HasRequired(c => c.AdmFilkrav)
+                .WithMany(d => d.AdmForvantadfil)
+                .HasForeignKey(c => c.FilkravId);
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Filmask).HasColumnName("filmask");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Regexp).HasColumnName("regexp");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.AndradAv).HasColumnName("andradav");
         }
 
 
@@ -99,5 +156,9 @@ namespace InrapporteringsPortal.DataAccess
         public DbSet<Kommun> Kommun { get; set; }
         public DbSet<Leverans> Leverans { get; set; }
         public DbSet<LevereradFil> LevereradFil { get; set; }
+        public DbSet<AdmRegister> AdmRegister { get; set; }
+        public DbSet<AdmDelregister> AdmDelregister { get; set; }
+        public DbSet<AdmFilkrav> AdmFilkrav { get; set; }
+        public DbSet<AdmForvantadfil> AdmForvantadfil { get; set; }
     }
 }

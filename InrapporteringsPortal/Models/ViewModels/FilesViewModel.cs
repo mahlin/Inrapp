@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Helpers;
+using InrapporteringsPortal.DomainModel;
+
 namespace InrapporteringsPortal.Web.Models.ViewModels
 {
     public class FilesViewModel
@@ -11,7 +13,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public ViewDataUploadFilesResult[] Files { get; set; }
         [Display(Name = "Välj register")]
         public string SelectedRegisterId { get; set; }
-        public List<Register> RegisterList { get; set; }
+        public List<RegisterInfo> RegisterList { get; set; }
         public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         public List<KeyValuePair<int, string>> FilMask { get; set; }
         public List<KeyValuePair<int, int>> FilAntal { get; set; }

@@ -5,6 +5,7 @@
 @*<script src="@Url.Content("~/Scripts/custom/custom.js")" type="text/javascript"></script>*@
 
 <script>
+    var registerLista = @Html.Raw(Json.Encode(Model.RegisterList));
     var regInfoTexts = @Html.Raw(Json.Encode(Model.RegisterInfoText));
     var regFilMasks = @Html.Raw(Json.Encode(Model.FilMask));
 </script>

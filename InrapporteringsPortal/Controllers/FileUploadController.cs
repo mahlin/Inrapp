@@ -15,6 +15,7 @@ using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.DataAccess;
+using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 
 namespace InrapporteringsPortal.Web.Controllers
@@ -50,14 +51,15 @@ namespace InrapporteringsPortal.Web.Controllers
         //[Authorize] 
         public ActionResult Index()
         {
-            //TODO - hämta registerinfotext, antal filer och filmask från databasen
-            GetRegisterInfo();
-            _model.SelectedRegisterId = "0";
+            //Hämta info om valbara register
+            var registerInfoList = GetRegisterInfo().ToList();
+            _model.RegisterList = registerInfoList;
 
             // Ladda drop down lists.  
             //TODO - hämta registerinfo från databasen
-            this.ViewBag.RegisterList = this.GetRegisterList();
-            
+            this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
+            _model.SelectedRegisterId = "0";
+
             //TODO - hämta kommunId från current user
             //Hämta historiken för användarens kommun
             try
@@ -165,64 +167,79 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             _model.SelectedRegisterId = "0";
             //TODO - hämta för aktuell kommunKod
-            ViewBag.RegisterList = this.GetRegisterList();
+            ViewBag.RegisterList = CreateRegisterDropDownList(_model.RegisterList);
         }
 
-        private void GetRegisterInfo()
+        private IEnumerable<RegisterInfo> GetRegisterInfo()
         {
-            //TODO - Get registers information from db
-            var reg1 = new Register();
-            var reg2 = new Register();
-            var reg3 = new Register();
-            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
-            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            var registerInfoTextList = new List<KeyValuePair<int, string>>();
-            registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
-            registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
-            registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
-            _model.RegisterInfoText = registerInfoTextList;
+            var registerList= _portalService.GetAllRegisterInformation();
 
-            var registerFilAntalList = new List<KeyValuePair<int, int>>();
-            registerFilAntalList.Add(new KeyValuePair<int, int>(1, 2));
-            registerFilAntalList.Add(new KeyValuePair<int, int>(2, 1));
-            registerFilAntalList.Add(new KeyValuePair<int, int>(3, 1));
-            _model.FilAntal = registerFilAntalList;
+            //TODO - antal filer ska finnas att hämta i databasen "admForvantadfil"? Tills dess hårdkodat
+            foreach (var item in registerList)
+            {
+                if (item.Kortnamn == "BU")
+                {
+                    item.AntalFiler = 2;
+                }
+                else
+                {
+                    item.AntalFiler = 1;
+                }
+            }
 
-            var registerFilmaskList = new List<KeyValuePair<int, string>>();
-            registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^BU_INSATS_\\d{4}_20\\d{2}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
-            registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
-            registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
-            _model.FilMask = registerFilmaskList;
+            //var reg1 = new RegisterInfo();
+            //var reg2 = new RegisterInfo();
+            //var reg3 = new RegisterInfo();
+            //var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
+            //var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+            //var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+            //var registerInfoTextList = new List<KeyValuePair<int, string>>();
+            //registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
+            //registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
+            //registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
+            //_model.RegisterInfoText = registerInfoTextList;
 
-            var registerList = new List<Register>();
-            reg1.Namn = "Barn och ungdom";
-            reg1.Id = 1;
-            reg1.InfoText = str1;
-            reg1.RegisterKod = "BU";
-            reg1.AntalFiler = 2;
-            reg1.FilMask = "^[A-Za-z]+$";
+            //var registerFilAntalList = new List<KeyValuePair<int, int>>();
+            //registerFilAntalList.Add(new KeyValuePair<int, int>(1, 2));
+            //registerFilAntalList.Add(new KeyValuePair<int, int>(2, 1));
+            //registerFilAntalList.Add(new KeyValuePair<int, int>(3, 1));
+            //_model.FilAntal = registerFilAntalList;
 
-            reg2.Namn = "Ekonomiskt bistånd";
-            reg2.Id = 2;
-            reg2.InfoText = str2;
-            reg2.RegisterKod = "EKB";
-            reg2.AntalFiler = 1;
-            reg2.FilMask = "^Ekb_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$";
+            //var registerFilmaskList = new List<KeyValuePair<int, string>>();
+            //registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^BU_INSATS_\\d{4}_20\\d{2}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
+            //registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
+            //registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
+            //_model.FilMask = registerFilmaskList;
 
-            reg3.Namn = "Lagen om stöd och service";
-            reg3.Id = 3;
-            reg3.InfoText = str3;
-            reg3.RegisterKod = "LSS";
-            reg3.AntalFiler = 1;
-            reg3.FilMask = "{c.*g}";
+            //var registerList = new List<RegisterInfo>();
+            //reg1.Namn = "Barn och ungdom";
+            //reg1.Id = 1;
+            //reg1.InfoText = str1;
+            //reg1.Kortnamn = "BU";
+            //reg1.AntalFiler = 2;
+            //reg1.FilMask = "^[A-Za-z]+$";
 
-            registerList.Add(reg1);
-            registerList.Add(reg2);
-            registerList.Add( reg3);
+            //reg2.Namn = "Ekonomiskt bistånd";
+            //reg2.Id = 2;
+            //reg2.InfoText = str2;
+            //reg2.Kortnamn = "EKB";
+            //reg2.AntalFiler = 1;
+            //reg2.FilMask = "^Ekb_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$";
 
-            _model.RegisterList = registerList;
+            //reg3.Namn = "Lagen om stöd och service";
+            //reg3.Id = 3;
+            //reg3.InfoText = str3;
+            //reg3.Kortnamn = "LSS";
+            //reg3.AntalFiler = 1;
+            //reg3.FilMask = "{c.*g}";
 
+            //registerList.Add(reg1);
+            //registerList.Add(reg2);
+            //registerList.Add( reg3);
+
+            //_model.RegisterList = registerList;
+
+            return registerList;
         }
 
         private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
@@ -240,16 +257,14 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
         /// <summary>  
-        /// Get register method.  
+        /// Create list for register-dropdown  
         /// </summary>  
         /// <returns>Return register for drop down list.</returns>  
-        private IEnumerable<SelectListItem> GetRegisterList()
+        private IEnumerable<SelectListItem> CreateRegisterDropDownList(IEnumerable<RegisterInfo> registerInfoList)
         {
-            // Initialization.  
             SelectList lstobj = null;
 
-            // Loading.  
-            var list = LoadData()
+            var list = registerInfoList
                 .Select(p =>
                     new SelectListItem
                     {
@@ -260,41 +275,40 @@ namespace InrapporteringsPortal.Web.Controllers
             // Setting.  
             lstobj = new SelectList(list, "Value", "Text");
 
-            // info.  
             return lstobj;
         }
 
-        /// <summary>  
-        /// Load data method.  
-        /// </summary>  
-        /// <returns>Returns - Data</returns>  
-        private List<Register> LoadData()
-        {
-            //TODO - hämta från databasen
-            List<Register> regList = new List<Register>();
+        ///// <summary>  
+        ///// Load data method.  
+        ///// </summary>  
+        ///// <returns>Returns - Data</returns>  
+        //private List<Register> LoadData()
+        //{
+        //    //TODO - hämta från databasen
+        //    List<Register> regList = new List<Register>();
 
-            // Initialization.
-            Register reg1 = new Register();
-            Register reg2 = new Register();
-            Register reg3 = new Register();
+        //    // Initialization.
+        //    Register reg1 = new Register();
+        //    Register reg2 = new Register();
+        //    Register reg3 = new Register();
 
-            // Setting.  
-            reg1.Id = 1;
-            reg1.Namn = "BU";
-            reg2.Id = 2;
-            reg2.Namn = "EKB";
-            reg3.Id = 3;
-            reg3.Namn = "LSS";
+        //    // Setting.  
+        //    reg1.Id = 1;
+        //    reg1.Namn = "BU";
+        //    reg2.Id = 2;
+        //    reg2.Namn = "EKB";
+        //    reg3.Id = 3;
+        //    reg3.Namn = "LSS";
 
 
-            // Adding.  
-            regList.Add(reg1);
-            regList.Add(reg2);
-            regList.Add(reg3);
+        //    // Adding.  
+        //    regList.Add(reg1);
+        //    regList.Add(reg2);
+        //    regList.Add(reg3);
 
-            // info.  
-            return regList;
-        }
+        //    // info.  
+        //    return regList;
+        //}
 
 
     }
