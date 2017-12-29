@@ -104,12 +104,6 @@ namespace InrapporteringsPortal.Web.Controllers
         public JsonResult Upload(FilesViewModel model)
         {
             var resultList = new List<ViewDataUploadFilesResult>();
-
-            //TODO - test userinfo
-            //var x = User.Identity.GetUserId();
-            //var y = User.Identity.Name;
-            //var z = User.Identity.AuthenticationType;
-            //var w = User.Identity.IsAuthenticated;
             
             var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
 
@@ -117,7 +111,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
             try
             {
-                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod, Convert.ToInt32(model.SelectedRegisterId));
+                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
             }
             catch (Exception e)
             {
@@ -140,7 +134,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     try
                     {
-                        _portalService.SparaTillFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId, itemFile.sequenceNumber);
+                        _portalService.SparaTillDatabasFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId, itemFile.sequenceNumber);
                     }
                     catch (Exception e)
                     {

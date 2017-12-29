@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 using InrapporteringsPortal.DataAccess;
+using InrapporteringsPortal.DomainModel;
 
 namespace InrapporteringsPortal.ApplicationService.Helpers
 {
@@ -107,32 +108,34 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string kommunKod, int selectedRegisterId)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string kommunKod, int selectedRegisterId, IEnumerable<RegisterInfo> registerList)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
-
             //Kolla vilket register filen/filerna hör till och skapa mapp om det behövs
-            switch (selectedRegisterId)
-            {
-                case 1:
-                    StorageRoot = StorageRoot + "BU\\";
-                    break;
-                case 2:
-                    StorageRoot = StorageRoot + "EKB\\";
-                    break;
-                default:
-                    StorageRoot = StorageRoot + "LSS\\";
-                    break;
-            }
+            var slussmapp = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.Slussmapp).Single();
+            StorageRoot = StorageRoot + slussmapp + "\\";
+
+            //switch (selectedRegisterId)
+            //{
+            //    case 1:
+            //        StorageRoot = StorageRoot + "BU\\";
+            //        break;
+            //    case 2:
+            //        StorageRoot = StorageRoot + "EKB\\";
+            //        break;
+            //    default:
+            //        StorageRoot = StorageRoot + "LSS\\";
+            //        break;
+            //}
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
             //TODO - skicka med registerid
             var orgId = _portalRepository.GetUserOrganisation(userId);
-            var levId = _portalRepository.GetNewLeveransId(userId, orgId, 2,kommunKod);
+            var levId = _portalRepository.GetNewLeveransId(userId, orgId, selectedRegisterId, kommunKod);
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 

@@ -62,7 +62,7 @@ namespace InrapporteringsPortal.ApplicationService
             return kommunKod;
         }
         
-        public void SparaTillFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
+        public void SparaTillDatabasFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
             _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
         }
