@@ -2,6 +2,7 @@
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
         String tempPath = null;
         //ex:"~/Files/something/";
         String serverMapPath = null;
+
         public FilesHelper(String DeleteURL, String DeleteType, String StorageRoot, String UrlBase, String tempPath, String serverMapPath)
         {
             this.DeleteURL = DeleteURL;
@@ -142,6 +144,18 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             {
                 UploadWholeFile(ContentBase, resultList, hash, levId);
             }
+
+            //TODO - Test EncryptDecrypt
+            //var krypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\krypteradUtfil.txt";
+            //var dekrypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\dekrypteradUtfil.txt";
+            //var storKrypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\storKrypteradUtfil.txt";
+            //var storDekrypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\storDekrypteradUtfil.txt";
+
+            //EncryptDecrypt.AES_Encrypt("C:\\Socialstyrelsen\\KrypteringTest\\testfil.txt", krypteradUtfil);
+            //EncryptDecrypt.AES_Decrypt("C:\\Socialstyrelsen\\KrypteringTest\\krypteradUtfil.txt", dekrypteradUtfil);
+            //EncryptDecrypt.AES_Encrypt("C:\\Socialstyrelsen\\KrypteringTest\\Ekb_0330_201707_20170815T1011.txt", storKrypteradUtfil);
+            //EncryptDecrypt.AES_Decrypt("C:\\Socialstyrelsen\\KrypteringTest\\storKrypteradUtfil.txt", storDekrypteradUtfil);
+
         }
 
 
