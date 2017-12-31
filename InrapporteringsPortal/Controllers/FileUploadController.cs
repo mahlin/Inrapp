@@ -56,7 +56,6 @@ namespace InrapporteringsPortal.Web.Controllers
             _model.RegisterList = registerInfoList;
 
             // Ladda drop down lists.  
-            //TODO - hämta registerinfo från databasen
             this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
             _model.SelectedRegisterId = "0";
 
@@ -236,19 +235,19 @@ namespace InrapporteringsPortal.Web.Controllers
             return registerList;
         }
 
-        private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
-        {
-            //TODO - Get registers information texts from db
-            var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
-            var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            var registerInfoTextList = new List<KeyValuePair<int, string>>();
-            registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
-            registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
-            registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
+        //private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
+        //{
+        //    //TODO - Get registers information texts from db
+        //    var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
+        //    var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+        //    var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
+        //    var registerInfoTextList = new List<KeyValuePair<int, string>>();
+        //    registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
+        //    registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
+        //    registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
 
-            return registerInfoTextList;
-        }
+        //    return registerInfoTextList;
+        //}
 
         /// <summary>  
         /// Create list for register-dropdown  

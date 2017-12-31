@@ -133,7 +133,6 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             Directory.CreateDirectory(fullPath);
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
-            //TODO - skicka med registerid
             var orgId = _portalRepository.GetUserOrganisation(userId);
             var levId = _portalRepository.GetNewLeveransId(userId, orgId, selectedRegisterId, kommunKod);
             var hash = GetHashAddOn(kommunKod, levId);
@@ -215,7 +214,6 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
         {
             var hashAddOn = String.Empty;
 
-            //TODO - filnr x av y
             hashAddOn = "#" + kommunKod + "_" + levId;
 
             return hashAddOn;

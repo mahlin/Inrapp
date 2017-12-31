@@ -69,7 +69,6 @@ namespace InrapporteringsPortal.ApplicationService
 
         public int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period)
         {
-            //TODO - skicka med regId
             var levId = _portalRepository.GetNewLeveransId(userId, orgId, registerId,period);
             return levId;
         }
