@@ -5,7 +5,7 @@ namespace InrapporteringsPortal.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
     }
@@ -25,10 +25,10 @@ namespace InrapporteringsPortal.Web.Models
 
     public class VerifyCodeViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "Fältet Provider är obligatoriskt.")]
         public string Provider { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Fältet Kod är obligatoriskt.")]
         [Display(Name = "Kod")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
@@ -41,19 +41,19 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [Display(Name = "Epostadress")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [DataType(DataType.Password)]
         [Display(Name = "PINkod")]
         public string Password { get; set; }
@@ -69,7 +69,7 @@ namespace InrapporteringsPortal.Web.Models
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [RegularExpression("([0-9]+)", ErrorMessage = "PINkoden måste vara numerisk.")]
@@ -84,12 +84,12 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [EmailAddress]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "PINkod")]
@@ -105,7 +105,7 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [EmailAddress]
         [Display(Name = "Epostadress")]
         public string Email { get; set; }

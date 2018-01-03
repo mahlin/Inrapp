@@ -36,32 +36,32 @@
              
              Uncomment the following block after you have set up two-factor authentication
         *@
-        @*  
-            <dt>Phone Number:</dt>
+          
+            <dt>Mobilnummer:</dt>
             <dd>
-                @(Model.PhoneNumber ?? "None")
+                @(Model.PhoneNumber ?? "Saknas")
                 @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
+    {
+            <br />
+            <text>[&nbsp;&nbsp;@Html.ActionLink("Ändra", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+            @Html.AntiForgeryToken()
+            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+}
+}
+else
+{
+            <text>[&nbsp;&nbsp;@Html.ActionLink("Lägg till", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+}
             </dd>
-        *@
-        <dt>Tvåfaktorautentisering :</dt>
+        
+        @*<dt>Tvåfaktorautentisering :</dt>
         <dd>
             <p>
                 Det finns för närvarande inga leverantörer konfigurerade för tvåfaktorsautentisering för denna applikation.
                 Kontakta systemadminstratören för mer information.
-            </p>
+            </p>*@
             @*@if (Model.TwoFactor)
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -82,6 +82,6 @@
                         </text>
                     }
                 }*@
-        </dd>
+        @*</dd>*@
     </dl>
 </div>
