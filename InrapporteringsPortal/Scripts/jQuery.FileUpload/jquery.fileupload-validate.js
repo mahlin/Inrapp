@@ -31,7 +31,7 @@ function CheckFileName(selectedRegister, fileName) {
     return result;
 }
 
-//TODO - använd SelectedRegisterId istället?
+//TODO - använd SelectedRegisterId/kortnamn istället?
 function CheckKommunKodInFileName(fileName) {
     var chunkedFileName = fileName.split("_");
     var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
@@ -55,6 +55,40 @@ function CheckKommunKodInFileName(fileName) {
 function CheckKommunKod(kommunKod) {
     var validKommunKod = $('#GiltigKommunKod').val();
     if (validKommunKod === kommunKod)
+        return true;
+    return false;
+}
+
+function CheckPeriodInFileName(selectedRegister, fileName) {
+    var chunkedFileName = fileName.split("_");
+    var fileTypeA = ['SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
+    var fileTypeB = ['BU'];
+    var fileTypeC = ['EKB'];
+
+    //Get valid period for selected register
+    var validPeriod = "";
+    registerLista.forEach(function (register, index) {
+        if (selectedRegister === register.Id.toString()) {
+            validPeriod = register.Period
+        }
+    });
+
+    if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
+        return CheckPeriod(chunkedFileName[2], validPeriod);
+    }
+    else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
+        return CheckPeriod(chunkedFileName[3], validPeriod);
+    }
+    else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
+        if (chunkedFileName[1].toUpperCase() === 'AO')
+            return CheckPeriod(chunkedFileName[3], validPeriod);
+        else
+            return CheckPeriod(chunkedFileName[2], validPeriod);
+    }
+}
+
+function CheckPeriod(periodInFilename, validPeriod) {
+    if (periodInFilename === validPeriod)
         return true;
     return false;
 }
@@ -93,6 +127,7 @@ function CheckKommunKod(kommunKod) {
                 maxNumberOfFiles: '@',
                 incorrectFileName: '@',
                 incorrectKommunKodInFileName: '@',
+                incorrectPeriodInFileName: '@',
             disabled: '@disableValidation'
         }
     );
@@ -125,7 +160,8 @@ function CheckKommunKod(kommunKod) {
                 maxFileSize: 'Filen är för stor',
                 minFileSize: ('Filen är tom'),
                 incorrectFileName: ('Felaktigt filnamn'),
-                incorrectKommunKodInFileName: ('Felaktig kommunkod i filnamnet')
+                incorrectKommunKodInFileName: ('Felaktig kommunkod i filnamnet'),
+                incorrectPeriodInFileName: ('Felaktig period i filnamnet'),
             }
         },
 
@@ -159,6 +195,8 @@ function CheckKommunKod(kommunKod) {
                     file.error = settings.i18n('incorrectFileName');
                 } else if (!CheckKommunKodInFileName(file.name)) {
                     file.error = settings.i18n('incorrectKommunKodInFileName');
+                } else if (!CheckPeriodInFileName(data.selectedRegister, file.name)) {
+                    file.error = settings.i18n('incorrectPeriodInFileName');
                 } else {
                     delete file.error;
                 }
