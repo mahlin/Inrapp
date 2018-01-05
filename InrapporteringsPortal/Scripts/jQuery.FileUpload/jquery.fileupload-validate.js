@@ -13,17 +13,22 @@
 
 function CheckFileName(selectedRegister, fileName) {
     var re;
+    var result = false;
     //Hämta regexp för valt register
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            re = new RegExp(register.RegExp, "i");
+
+            register.RegExper.forEach(function (regexp, idx) {
+                re = new RegExp(regexp, "i");
+                //alert("Regexp" + idx + ": " + regexp);
+                if (re.test(fileName)) {
+                    result = true;
+                }
+            });
+            //re = new RegExp(register.RegExp, "i");
         }
     });
-    if (re.test(fileName)) {
-        return true;
-    } else {
-        return false;
-    }
+    return result;
 }
 
 //TODO - använd SelectedRegisterId istället?

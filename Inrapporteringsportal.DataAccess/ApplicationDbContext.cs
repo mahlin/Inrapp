@@ -74,8 +74,13 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<Leverans>().Property(e => e.OrganisationId).HasColumnName("organisationsid");
             modelBuilder.Entity<Leverans>().Property(e => e.ApplicationUserId).HasColumnName("kontaktpersonid");
             modelBuilder.Entity<Leverans>().Property(e => e.DelregisterId).HasColumnName("delregisterId");
-            modelBuilder.Entity<Leverans>().Property(e => e.Period).HasColumnName("period");
+            modelBuilder.Entity<Leverans>().Property(e => e.ForvantadleveransId).HasColumnName("forvantadleveransId");
             modelBuilder.Entity<Leverans>().Property(e => e.Leveranstidpunkt).HasColumnName("leveranstidpunkt");
+            modelBuilder.Entity<Leverans>().Property(e => e.Leveransstatus).HasColumnName("leveransstatus");
+            modelBuilder.Entity<Leverans>()
+                .HasRequired(c => c.AdmForvantadleverans)
+                .WithMany(d => d.Leverans)
+                .HasForeignKey(c => c.ForvantadleveransId);
             modelBuilder.Entity<Leverans>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<Leverans>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<Leverans>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
@@ -99,6 +104,7 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmRegister>().Property(e => e.Registernamn).HasColumnName("registernamn");
             modelBuilder.Entity<AdmRegister>().Property(e => e.Beskrivning).HasColumnName("beskrivning");
             modelBuilder.Entity<AdmRegister>().Property(e => e.Kortnamn).HasColumnName("kortnamn");
+            modelBuilder.Entity<AdmRegister>().Property(e => e.Inrapporteringsportal).HasColumnName("inrapporteringsportal");
             modelBuilder.Entity<AdmRegister>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<AdmRegister>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmRegister>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
@@ -134,6 +140,30 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmForvantadleverans
+            modelBuilder.Entity<AdmForvantadleverans>().ToTable("admForvantadleverans");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Id).HasColumnName("forvantadleveransid");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.FilkravId).HasColumnName("filkravId");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.DelregisterId).HasColumnName("delregisterid");
+            modelBuilder.Entity<AdmForvantadleverans>()
+                .HasRequired(c => c.AdmDelregister)
+                .WithMany(d => d.AdmForvantadleverans)
+                .HasForeignKey(c => c.DelregisterId);
+            modelBuilder.Entity<AdmForvantadleverans>()
+                .HasRequired(c => c.AdmFilkrav)
+                .WithMany(d => d.AdmForvantadleverans)
+                .HasForeignKey(c => c.FilkravId);
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Rapporteringsstart).HasColumnName("rapporteringsstart");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Rapporteringsslut).HasColumnName("rapporteringsslut");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Rapporteringsenast).HasColumnName("rapporteringsenast");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Paminnelse1).HasColumnName("paminnelse1");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Paminnelse2).HasColumnName("paminnelse2");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.Paminnelse3).HasColumnName("paminnelse3");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmForvantadleverans>().Property(e => e.AndradAv).HasColumnName("andradav");
 
             //AdmForvantadfil
             modelBuilder.Entity<AdmForvantadfil>().ToTable("admForvantadfil");

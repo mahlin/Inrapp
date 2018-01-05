@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
 
-
     $('.fileinput-button').hide();
     $('.start').hide();
 
@@ -30,9 +29,15 @@ $(document).ready(function() {
                     errorExists = true;
                 }
             }
-            var chosenRegister = $('#ddlRegister').val();
-            var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister) - 1)].AntalFiler;
-            if (filelist.length === numberOfFilesForChosenRegister && !errorExists) {
+            var selectedRegister = $('#ddlRegister').val();
+            var numberOfFilesForSelectedRegister = 0;
+            //get number of required files for chosen register
+            registerLista.forEach(function(register, index) {
+                if (selectedRegister === register.Id.toString()) {
+                    numberOfFilesForSelectedRegister = register.AntalFiler;
+                }
+            });
+            if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
                 $('.start').prop('disabled', false);
                 this.element.find('.fileinput-button input')
                     .prop('disabled', true)

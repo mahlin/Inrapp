@@ -105,12 +105,13 @@ namespace InrapporteringsPortal.Web.Controllers
             var resultList = new List<ViewDataUploadFilesResult>();
             
             var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
+            var userName = User.Identity.GetUserName();
 
             var CurrentContext = HttpContext;
 
             try
             {
-                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
+                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName, kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
             }
             catch (Exception e)
             {
@@ -133,7 +134,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     try
                     {
-                        _portalService.SparaTillDatabasFillogg(itemFile.name, itemFile.sosName, itemFile.leveransId, itemFile.sequenceNumber);
+                        _portalService.SparaTillDatabasFillogg(userName, itemFile.name, itemFile.sosName, itemFile.leveransId, itemFile.sequenceNumber);
                     }
                     catch (Exception e)
                     {

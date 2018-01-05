@@ -1096,15 +1096,21 @@
                 }
                 var rows = getTableRows();
                 var numberOfFilesInTable = (rows.length) - 1;
-                var chosenRegister = $('#ddlRegister').val();
-                var numberOfFilesForChosenRegister = register[(parseInt(chosenRegister) - 1)].AntalFiler;
-                if (numberOfFilesInTable == numberOfFilesForChosenRegister && !errorExists) {
+                var selectedRegister = $('#ddlRegister').val();
+                var numberOfFilesForSelectedRegister = 0;
+                //get number of required files for chosen register
+                registerLista.forEach(function(register, index) {
+                    if (selectedRegister === register.Id.toString()) {
+                        numberOfFilesForSelectedRegister = register.AntalFiler;
+                    }
+                });
+                if (numberOfFilesInTable == numberOfFilesForSelectedRegister && !errorExists) {
                     $('.start').prop('disabled', false);
                     this.element.find('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');
                 }
-                else if (numberOfFilesInTable == numberOfFilesForChosenRegister && errorExists) {
+                else if (numberOfFilesInTable == numberOfFilesForSelectedRegister && errorExists) {
                     this.element.find('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');

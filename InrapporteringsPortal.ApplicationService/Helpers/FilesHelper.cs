@@ -110,33 +110,22 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string kommunKod, int selectedRegisterId, IEnumerable<RegisterInfo> registerList)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, IEnumerable<RegisterInfo> registerList)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
             //Kolla vilket register filen/filerna hör till och skapa mapp om det behövs
             var slussmapp = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.Slussmapp).Single();
+            var forvantadLevId = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.ForvantadLevransId).Single();
             StorageRoot = StorageRoot + slussmapp + "\\";
-
-            //switch (selectedRegisterId)
-            //{
-            //    case 1:
-            //        StorageRoot = StorageRoot + "BU\\";
-            //        break;
-            //    case 2:
-            //        StorageRoot = StorageRoot + "EKB\\";
-            //        break;
-            //    default:
-            //        StorageRoot = StorageRoot + "LSS\\";
-            //        break;
-            //}
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
             var orgId = _portalRepository.GetUserOrganisation(userId);
-            var levId = _portalRepository.GetNewLeveransId(userId, orgId, selectedRegisterId, kommunKod);
+            //TODO - skicka med forvantadleveransid
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, forvantadLevId);
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 

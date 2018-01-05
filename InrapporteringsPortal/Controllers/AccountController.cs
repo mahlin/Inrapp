@@ -184,6 +184,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     user.SkapadDatum = DateTime.Now;
                     user.AndradAv = "MAH";
                     user.AndradDatum = DateTime.Now;
+                    user.Namn = "Findus Åhlin";
 
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)

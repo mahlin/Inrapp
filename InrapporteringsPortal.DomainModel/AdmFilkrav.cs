@@ -16,6 +16,7 @@ namespace InrapporteringsPortal.DomainModel
         public string AndradAv { get; set; }
         public virtual AdmDelregister AdmDelregister { get; set; }
         public virtual ICollection<AdmForvantadfil> AdmForvantadfil { get; set; }
+        public virtual ICollection<AdmForvantadleverans> AdmForvantadleverans { get; set; }
 
     }
 }

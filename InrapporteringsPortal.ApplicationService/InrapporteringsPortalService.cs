@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Web;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
@@ -62,14 +63,14 @@ namespace InrapporteringsPortal.ApplicationService
             return kommunKod;
         }
         
-        public void SparaTillDatabasFillogg(string ursprungligFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
+        public void SparaTillDatabasFillogg(string userName, string ursprungligFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
-            _portalRepository.SaveToFilelogg(ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
+            _portalRepository.SaveToFilelogg(userName, ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
         }
 
-        public int HamtaNyttLeveransId(string userId, int orgId, int registerId, string period)
+        public int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int forvLevId)
         {
-            var levId = _portalRepository.GetNewLeveransId(userId, orgId, registerId,period);
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, registerId, forvLevId);
             return levId;
         }
 

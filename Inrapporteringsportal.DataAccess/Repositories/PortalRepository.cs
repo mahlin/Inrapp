@@ -111,7 +111,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         //    return kommunKod;
         //}
 
-        public void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
+        public void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
             var logFil = new LevereradFil
             {
@@ -120,9 +120,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 NyttFilnamn = nyttFilNamn,
                 Ordningsnr = sequenceNumber,
                 SkapadDatum = DateTime.Now,
-                SkapadAv = "MAH",
+                SkapadAv = userName,
                 AndradDatum = DateTime.Now,
-                AndradAv = "MAH",
+                AndradAv = userName,
                 Filstatus = "Levererad"
             };
 
@@ -140,19 +140,21 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             }
         }
 
-        public int GetNewLeveransId(string userId, int orgId, int regId, string period)
+        public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId)
         {
+            //TODO - sätt SkapdAv resp AndradAv = UserName när kolumnen är lika stor, dvs nvarchar(256)
             var leverans = new Leverans
             {
+                ForvantadleveransId = forvLevId,
                 OrganisationId = orgId,
                 ApplicationUserId = userId,
                 DelregisterId = regId,
-                Period = "201801",
                 Leveranstidpunkt = DateTime.Now,
+                Leveransstatus = "Levererad",
                 SkapadDatum = DateTime.Now,
-                SkapadAv = userId,
+                SkapadAv = userName,
                 AndradDatum = DateTime.Now,
-                AndradAv = userId
+                AndradAv = userName
             };
 
             DbContext.Leverans.Add(leverans);
@@ -184,7 +186,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             var delregister = DbContext.AdmDelregister
                 .Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil))
-                .Where(x => x.Inrapporteringsportal.ToUpper() == "JA")
+                .Where(x => x.Inrapporteringsportal)
                 .ToList();
 
             foreach (var item in delregister)
@@ -195,20 +197,69 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                     Id = item.Id,
                     Namn = item.Delregisternamn,
                     Kortnamn = item.Kortnamn,
-                    //AntalFiler = register.AntalFiler //saknas i modellen
                     InfoText = item.AdmRegister.Beskrivning,
                     Slussmapp = item.Slussmapp,
                 };
-                if (item.AdmFilkrav.Count > 0)
+                //if (item.AdmFilkrav.Count > 0)
+                //{
+                //    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).Single();
+                //    regInfo.FilMask = forvantadFil.Select(x => x.Filmask).FirstOrDefault();
+                //    regInfo.RegExp = forvantadFil.Select(x => x.Regexp).FirstOrDefault();
+                //}
+
+                var filmaskList = new List<string>();
+                var regExpList = new List<string>();
+
+
+                //Antal filer, filmask samt regexp
+                if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
                 {
-                    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).Single();
-                    regInfo.FilMask = forvantadFil.Select(x => x.Filmask).FirstOrDefault();
-                    regInfo.RegExp = forvantadFil.Select(x => x.Regexp).FirstOrDefault();
+                    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).ToList();
+
+                    regInfo.AntalFiler = forvantadFil.Count;
+                    foreach (var forvFil in forvantadFil)
+                    {
+                        filmaskList.Add(forvFil.Select(x => x.Filmask).FirstOrDefault());
+                        regExpList.Add(forvFil.Select(x => x.Regexp).FirstOrDefault());
+
+                    }
+                    //get period och forvantadleveransId
+                    GetPeriodForAktuellLeverans(item.AdmFilkrav, regInfo);
                 }
+
+                regInfo.FilMasker = filmaskList;
+                regInfo.RegExper = regExpList;
+
                 registerInfoList.Add(regInfo);
             }
 
             return registerInfoList;
+        }
+
+        public void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo)
+        {
+            string period = String.Empty;
+            DateTime startDate;
+            DateTime endDate;
+
+            DateTime dagensDatum = DateTime.Now;
+
+            foreach (var filkrav in itemAdmFilkrav) //Todo - kan vara fler? Antar endast en så länge
+            {
+                //För varje filkrav - hämta förväntad leverans med rätt period utifrån dagens datum
+                var forvantadLeverans = filkrav.AdmForvantadleverans.FirstOrDefault();
+                if (forvantadLeverans != null)
+                {
+                    startDate = forvantadLeverans.Rapporteringsstart;
+                    endDate = forvantadLeverans.Rapporteringsslut;
+                    if (dagensDatum >= startDate && dagensDatum <= endDate)
+                    {
+                        regInfo.Period = forvantadLeverans.Period;
+                        regInfo.ForvantadLevransId = forvantadLeverans.Id;
+                    }
+                }
+                
+            }
         }
     }
 }

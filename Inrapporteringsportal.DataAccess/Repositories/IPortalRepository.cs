@@ -18,15 +18,17 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         //string GetKommunKodForUser(string userId);
 
-        void SaveToFilelogg(string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
+        void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
-        int GetNewLeveransId(string userId, int orgId, int regId, string period);
+        int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId);
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
         int GetUserOrganisation(string userId);
 
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
+
+        void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
     }
 
 }

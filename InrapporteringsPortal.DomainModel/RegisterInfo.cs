@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Web;
 
 namespace InrapporteringsPortal.DomainModel
@@ -15,5 +16,9 @@ namespace InrapporteringsPortal.DomainModel
         public string Slussmapp { get; set; }
         public string FilMask { get; set; }
         public string RegExp { get; set; }
+        public string Period { get; set; }
+        public int ForvantadLevransId { get; set; }
+        public IEnumerable<string> FilMasker { get; set; }
+        public IEnumerable<string> RegExper { get; set; }
     }
 }
