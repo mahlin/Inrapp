@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
@@ -27,10 +29,19 @@ namespace InrapporteringsPortal.Web
 
     public class SmsService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your SMS service here to send a text message.
-            return Task.FromResult(0);
+
+            var usr = WebConfigurationManager.AppSettings["SMSUser"];
+            var pwd = WebConfigurationManager.AppSettings["SMSPwd"];
+            var tmpUrl = "https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" +
+                         message.Destination + "&sender=0703590841&msg=" + message.Body;
+
+            HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
+
+            //HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=sms5YF=DC&pass=kH4aeI&nr=0703590841&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
+
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
         }
     }
 
