@@ -34,14 +34,13 @@ namespace InrapporteringsPortal.Web
 
             var usr = WebConfigurationManager.AppSettings["SMSUser"];
             var pwd = WebConfigurationManager.AppSettings["SMSPwd"];
-            var tmpUrl = "https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" +
-                         message.Destination + "&sender=0703590841&msg=" + message.Body;
+            var sender = WebConfigurationManager.AppSettings["SMSSender"];
 
-            HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
-
-            //HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=sms5YF=DC&pass=kH4aeI&nr=0703590841&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
+            HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=" + sender + "&msg=" + message.Body) as HttpWebRequest;
 
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+            //HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=sms5YF=DC&pass=kH4aeI&nr=0703590841&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
         }
     }
 
@@ -82,7 +81,7 @@ namespace InrapporteringsPortal.Web
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
             {
-                MessageFormat = "Din säkerhetskod är {0}"
+                MessageFormat = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att logga in ange följande säkerhetskod på webbsidan: {0}"
             });
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {

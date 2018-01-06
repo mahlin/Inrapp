@@ -98,7 +98,13 @@ namespace InrapporteringsPortal.Web.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new SendCodeViewModel
+                    {
+                        Providers = null,
+                        ReturnUrl = returnUrl,
+                        RememberMe = model.RememberMe,
+                        SelectedProvider = "Phone Code"
+                    });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
@@ -184,7 +190,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     user.SkapadDatum = DateTime.Now;
                     user.AndradAv = model.Email;
                     user.AndradDatum = DateTime.Now;
-                    user.Namn = "Findus Åhlin";
+                    user.Namn = model.Namn;
 
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)

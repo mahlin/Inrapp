@@ -123,7 +123,8 @@ namespace InrapporteringsPortal.Web.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Din säkerhetskod är: " + code
+                    Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att rapportera uppgifter behöver du verifiera ditt mobilnummer. Ange följande säkerhetskod på webbsidan: " + code
+                           
                 };
                 await UserManager.SmsService.SendAsync(message);
             }

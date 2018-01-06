@@ -64,6 +64,10 @@ namespace InrapporteringsPortal.Web.Models
 
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "Fältet Namn är obligatoriskt.")]
+        [Display(Name = "Namn")]
+        public string Namn { get; set; }
+
         [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
         [EmailAddress]
         [Display(Name = "Epostadress")]
