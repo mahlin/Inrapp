@@ -24,5 +24,6 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         int GetUserOrganisation(string userId);
 
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
+        void SaveToLoginLog(string userid);
     }
 }

@@ -261,5 +261,26 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 
             }
         }
+
+        public void SaveToLoginLog(string userid)
+        {
+            var inloggning = new Inloggning
+            {
+                ApplicationUserId = userid,
+                Inloggningstidpunkt = DateTime.Now
+            };
+
+            DbContext.Inloggning.Add(inloggning);
+
+            try
+            {
+                DbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

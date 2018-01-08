@@ -29,6 +29,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
+
+        void SaveToLoginLog(string userid);
     }
 
 }

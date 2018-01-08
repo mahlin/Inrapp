@@ -23,40 +23,54 @@
             }
             ]
         </dd>
-        <dt>Phone Number:</dt>
+        <dt>Mobilnummer:</dt>
         <dd>
             @(Model.PhoneNumber ?? "None") [
             @if (Model.PhoneNumber != null)
-            {
-                @Html.ActionLink("Ändra", "AddPhoneNumber")
-                @: &nbsp;|&nbsp;
-                @Html.ActionLink("Ta bort", "RemovePhoneNumber")
-            }
-            else
-            {
-                    @Html.ActionLink("Lägg till", "AddPhoneNumber")
-            }
+    {
+        @Html.ActionLink("Ändra", "AddPhoneNumber")
+        @: &nbsp;|&nbsp;
+        @Html.ActionLink("Ta bort", "RemovePhoneNumber", "Manage", null)
+}
+else
+{
+        @Html.ActionLink("Lägg till", "AddPhoneNumber")
+}
             ]
         </dd>
         
 
-        <dt>Mobilnummer:</dt>
-        <dd>
+        @*<dt>Mobilnummer:</dt>
+        <dd nowrap>
             @(Model.PhoneNumber ?? "Saknas") 
             @if (Model.PhoneNumber != null)
             {
-                <text>[&nbsp;&nbsp;@Html.ActionLink("Ändra", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
+                <div class="input-group">
+                    <div>
+                        @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form", style = "width: 150px;;" }))
+                        {
                             @Html.AntiForgeryToken()
-                            <text>[<input type="submit" value="Ta bort" class="btn-link" />]</text>
-                }
+                            <text>[<input type="submit" value="Ändra" class="btn-link"/>]</text>
+                        }
+                    </div>
+                    <div>
+                        @using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>[<input type="submit" value="Ta bort" class="btn-link"/>]</text>
+                        }
+                    </div>
+                </div>
             }
             else
             {
-                        <text>[&nbsp;&nbsp;@Html.ActionLink("Lägg till", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>[<input type="submit" value="Lägg till" class="btn-link" />]</text>
+                }
             }
-        </dd>
+        </dd>*@
         
         @*<dt>Tvåfaktorautentisering :</dt>
         <dd>

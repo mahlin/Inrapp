@@ -94,6 +94,8 @@ namespace InrapporteringsPortal.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = UserManager.FindByEmail(model.Email);
+                    _portalService.SaveToLoginLog(user.Id);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -103,7 +105,8 @@ namespace InrapporteringsPortal.Web.Controllers
                         Providers = null,
                         ReturnUrl = returnUrl,
                         RememberMe = model.RememberMe,
-                        SelectedProvider = "Phone Code"
+                        SelectedProvider = "Phone Code",
+                        UserEmail = model.Email
                     });
                 case SignInStatus.Failure:
                 default:
@@ -115,14 +118,15 @@ namespace InrapporteringsPortal.Web.Controllers
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe, string userEmail = "")
         {
             // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
             }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe, UserEmail = userEmail});
         }
 
         //
@@ -145,6 +149,9 @@ namespace InrapporteringsPortal.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //TODO- get userid. Logga i db
+                    var user = UserManager.FindByEmail(model.UserEmail);
+                    _portalService.SaveToLoginLog(user.Id);
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -381,13 +388,7 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode",
-                new
-                {
-                    Provider = model.SelectedProvider,
-                    ReturnUrl = model.ReturnUrl,
-                    RememberMe = model.RememberMe
-                });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe, UserEmail = model.UserEmail});
         }
 
         //

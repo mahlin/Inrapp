@@ -99,5 +99,10 @@ namespace InrapporteringsPortal.ApplicationService
             var registerList = _portalRepository.GetAllRegisterInformation();
             return registerList;
         }
+
+        public void SaveToLoginLog(string userid)
+        {
+            _portalRepository.SaveToLoginLog(userid);
+        }
     }
 }

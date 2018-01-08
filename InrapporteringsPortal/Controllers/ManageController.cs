@@ -3,6 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Inrapporteringsportal.DataAccess.Repositories;
+using InrapporteringsPortal.ApplicationService;
+using InrapporteringsPortal.ApplicationService.Interface;
+using InrapporteringsPortal.DataAccess;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -15,15 +19,20 @@ namespace InrapporteringsPortal.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IInrapporteringsPortalService _portalService;
 
         public ManageController()
         {
+            _portalService =
+                new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _portalService =
+                new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
         public ApplicationSignInManager SignInManager
@@ -106,6 +115,8 @@ namespace InrapporteringsPortal.Web.Controllers
             return View();
         }
 
+
+
         //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
@@ -123,7 +134,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att rapportera uppgifter behöver du verifiera ditt mobilnummer. Ange följande säkerhetskod på webbsidan: " + code
+                    Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registera dig ange följande säkerhetskod på webbsidan: " + code
                            
                 };
                 await UserManager.SmsService.SendAsync(message);
@@ -187,6 +198,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    _portalService.SaveToLoginLog(user.Id);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
@@ -195,10 +207,7 @@ namespace InrapporteringsPortal.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemovePhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<ActionResult> RemovePhoneNumber()
         {
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);

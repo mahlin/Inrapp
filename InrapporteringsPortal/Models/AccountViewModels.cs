@@ -21,6 +21,7 @@ namespace InrapporteringsPortal.Web.Models
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
+        public string UserEmail { get; set; }
     }
 
     public class VerifyCodeViewModel
@@ -37,6 +38,8 @@ namespace InrapporteringsPortal.Web.Models
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
+
+        public string UserEmail { get; set; }
     }
 
     public class ForgotViewModel

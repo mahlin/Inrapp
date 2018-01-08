@@ -59,6 +59,11 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<ApplicationUser>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.AndradAv).HasColumnName("andradav");
 
+            //Inloggning
+            modelBuilder.Entity<Inloggning>().Property(e => e.Id).HasColumnName("inloggningsid");
+            modelBuilder.Entity<Inloggning>().Property(e => e.ApplicationUserId).HasColumnName("kontaktpersonid");
+            modelBuilder.Entity<Inloggning>().Property(e => e.Inloggningstidpunkt).HasColumnName("inloggningstidpunkt");
+
             //Kommun
             modelBuilder.Entity<Kommun>().Property(e => e.Id).HasColumnName("organisationsid");
             modelBuilder.Entity<Kommun>().Property(e => e.Kommunkod).HasColumnName("kommunkod");
@@ -190,5 +195,6 @@ namespace InrapporteringsPortal.DataAccess
         public DbSet<AdmDelregister> AdmDelregister { get; set; }
         public DbSet<AdmFilkrav> AdmFilkrav { get; set; }
         public DbSet<AdmForvantadfil> AdmForvantadfil { get; set; }
+        public DbSet<Inloggning> Inloggning { get; set; }
     }
 }

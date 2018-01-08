@@ -27,7 +27,7 @@ namespace InrapporteringsPortal.Web.Models
 
     public class SetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nytt PINkod")]
@@ -41,12 +41,12 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [DataType(DataType.Password)]
         [Display(Name = "Nuvarande PINkod")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
         [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nytt PINkod")]
@@ -60,7 +60,7 @@ namespace InrapporteringsPortal.Web.Models
 
     public class AddPhoneNumberViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
         [Phone]
         [Display(Name = "Mobilnummer")]
         public string Number { get; set; }
@@ -68,11 +68,11 @@ namespace InrapporteringsPortal.Web.Models
 
     public class VerifyPhoneNumberViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Fältet Kod är obligatoriskt.")]
         [Display(Name = "Kod")]
         public string Code { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
         [Phone]
         [Display(Name = "Mobilnummer")]
         public string PhoneNumber { get; set; }
