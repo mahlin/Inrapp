@@ -197,7 +197,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                     Id = item.Id,
                     Namn = item.Delregisternamn,
                     Kortnamn = item.Kortnamn,
-                    InfoText = item.AdmRegister.Beskrivning,
+                    InfoText = item.AdmRegister.Beskrivning + "<br>" + item.Beskrivning,
                     Slussmapp = item.Slussmapp,
                 };
                 //if (item.AdmFilkrav.Count > 0)
@@ -217,11 +217,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                     var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).ToList();
 
                     regInfo.AntalFiler = forvantadFil.Count;
+                    regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
                     foreach (var forvFil in forvantadFil)
                     {
                         filmaskList.Add(forvFil.Select(x => x.Filmask).FirstOrDefault());
                         regExpList.Add(forvFil.Select(x => x.Regexp).FirstOrDefault());
-
+                        regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + forvFil.Select(x => x.Filmask).FirstOrDefault();
                     }
                     //get period och forvantadleveransId
                     GetPeriodForAktuellLeverans(item.AdmFilkrav, regInfo);

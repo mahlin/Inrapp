@@ -169,17 +169,17 @@ namespace InrapporteringsPortal.Web.Controllers
             var registerList= _portalService.GetAllRegisterInformation();
 
             //TODO - antal filer ska finnas att hämta i databasen "admForvantadfil"? Tills dess hårdkodat
-            foreach (var item in registerList)
-            {
-                if (item.Kortnamn == "BU")
-                {
-                    item.AntalFiler = 2;
-                }
-                else
-                {
-                    item.AntalFiler = 1;
-                }
-            }
+            //foreach (var item in registerList)
+            //{
+            //    if (item.Kortnamn == "BU")
+            //    {
+            //        item.AntalFiler = 2;
+            //    }
+            //    else
+            //    {
+            //        item.AntalFiler = 1;
+            //    }
+            //}
 
             //var reg1 = new RegisterInfo();
             //var reg2 = new RegisterInfo();
