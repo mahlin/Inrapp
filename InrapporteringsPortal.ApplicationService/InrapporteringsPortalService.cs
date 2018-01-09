@@ -42,18 +42,28 @@ namespace InrapporteringsPortal.ApplicationService
         public IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId)
         {
             var historikLista = new List<FilloggDetaljDTO>();
-            //TODO - tidsintervall
-            var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
-            foreach (var id in leveransIdList)
+            //TODO - tidsintervall?
+            //var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
+            var leveransList = _portalRepository.GetLeveranserForOrganisation(orgId);
+            foreach (var leverans in leveransList)
             {
-                var filer = _portalRepository.GetFilerForLeveransId(id, DateTime.Now, DateTime.Now);
+                var filloggDetalj = new FilloggDetaljDTO();
+
+                var filer = _portalRepository.GetFilerForLeveransId(leverans.Id);
+                var registerKortnamn = _portalRepository.GetRegisterKortnamn(leverans.DelregisterId);
                 foreach (var fil in filer)
                 {
-                    var filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                    filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                    filloggDetalj.Kontaktperson = leverans.ApplicationUserId;
+                    filloggDetalj.Leveransstatus = leverans.Leveransstatus;
+                    filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
+                    filloggDetalj.RegisterKortnamn = registerKortnamn;
                     historikLista.Add(filloggDetalj);
                 }
             }
-            return historikLista;
+            var sorteradHistorikLista = historikLista.OrderBy(x => x.RegisterKortnamn).ToList();
+
+            return sorteradHistorikLista;
         }
 
         public string HamtaKommunKodForAnvandare(string userId)

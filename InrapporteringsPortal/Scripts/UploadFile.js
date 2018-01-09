@@ -44,6 +44,11 @@ $(document).ready(function() {
                     .parent().addClass('disabled');
             }
             
+        })
+        .on('fileuploaddone',
+        function (e, data) {
+            //reset filelist
+            filelist = [];
         });
 
     $('#btnSubmit').click(function() {
@@ -72,6 +77,8 @@ $(document).on('change','#ddlRegister',
             'selectedRegister',
             selectedRegister
         );
+
+        filelist = [];
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
         $("#SelectedRegisterId").val(selectedRegister);

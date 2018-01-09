@@ -175,7 +175,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
         public IEnumerable<FilloggDetaljDTO> HamtaFillogg(int leveransId)
         {
-            var filloggar = _portalRepository.GetFilerForLeveransId(leveransId, DateTime.Now, DateTime.Now);
+            var filloggar = _portalRepository.GetFilerForLeveransId(leveransId);
 
             return null;
 

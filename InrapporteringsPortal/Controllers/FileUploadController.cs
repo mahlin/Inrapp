@@ -142,6 +142,11 @@ namespace InrapporteringsPortal.Web.Controllers
                         ErrorManager.WriteToErrorLog("FileUploaderController", "Upload, SaveToFileLog", e.ToString());
                     }
                 }
+                //TODO - refresh Historiklistan, annan model
+                //var userId = User.Identity.GetUserId();
+                //var orgIdForUser = _portalService.GetUserOrganisation(userId);
+                //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+                //model.HistorikLista = historyFileList.ToList();
                 return Json(files);
             }
         }

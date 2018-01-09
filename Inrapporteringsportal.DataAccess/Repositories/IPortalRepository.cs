@@ -10,11 +10,15 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         //IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
-        IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
+        IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId);
 
         IEnumerable<int> GetLeveransIdnForOrganisation(int orgId);
 
+        IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId);
+
         string GetKommunKodForOrganisation(int orgId);
+
+        string GetRegisterKortnamn(int delregId);
 
         //string GetKommunKodForUser(string userId);
 

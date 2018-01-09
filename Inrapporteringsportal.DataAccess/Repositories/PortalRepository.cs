@@ -48,7 +48,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         //}
 
         //TODO - 
-        public IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
+        public IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId)
         {
             //var tmp2 = (from l in DbContext.Leverans
             //    where l.Id == 1
@@ -88,6 +88,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         public IEnumerable<int> GetLeveransIdnForOrganisation(int orgId)
         {
             var levIdnForOrg = AllaLeveranser().Where(a => a.OrganisationId == orgId).Select(a => a.Id).ToList();
+
+            return levIdnForOrg;
+
+        }
+
+        public IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId)
+        {
+            var levIdnForOrg = AllaLeveranser().Where(a => a.OrganisationId == orgId).ToList();
 
             return levIdnForOrg;
 
@@ -178,11 +186,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         public IEnumerable<RegisterInfo> GetAllRegisterInformation()
         {
             var registerInfoList = new List<RegisterInfo>();
-
-            var register = DbContext.AdmRegister.ToList();
-            var tmp = DbContext.AdmRegister.Include(x => x.AdmDelregister).ToList();
-            var tmp2 = DbContext.AdmDelregister.Include(f => f.AdmFilkrav).ToList();
-            var tmp3 = DbContext.AdmDelregister.Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil)).ToList();
 
             var delregister = DbContext.AdmDelregister
                 .Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil))
@@ -282,6 +285,16 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 Console.WriteLine(e);
                 throw new Exception(e.Message);
             }
+        }
+
+        public string GetRegisterKortnamn(int delregId)
+        {
+            //var register = DbContext.AdmRegister.ToList();
+            //var tmp = DbContext.AdmRegister.Include(x => x.AdmDelregister).ToList();
+            //var tmp2 = DbContext.AdmDelregister.Include(f => f.AdmFilkrav).ToList();
+            var namn = DbContext.AdmDelregister.Where(x => x.Id == delregId).Select(q => q.Kortnamn).FirstOrDefault();
+            return namn;
+
         }
     }
 }

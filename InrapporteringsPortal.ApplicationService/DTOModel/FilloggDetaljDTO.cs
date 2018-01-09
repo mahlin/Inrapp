@@ -10,9 +10,13 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
     {
         public int Id { get; set; }
         public int LeveransId { get; set; }
+        public string RegisterKortnamn { get; set; }
         public string Filnamn { get; set; }
-        public string Datum { get; set; }
-        public int Status { get; set; }
+        public string Period { get; set; }
+        public DateTime Leveranstidpunkt { get; set; }
+        public string Leveransstatus { get; set; }
+        public string Kontaktperson { get; set; }
+        public string Filstatus { get; set; }
 
         internal static FilloggDetaljDTO FromFillogg(LevereradFil fillogg)
         {
@@ -24,7 +28,8 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
             {
                 Id = fillogg.Id,
                 LeveransId = fillogg.LeveransId,
-                Filnamn = fillogg.Filnamn
+                Filnamn = fillogg.Filnamn,
+                Filstatus = fillogg.Filstatus
             };
         }
     }

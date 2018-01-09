@@ -77,9 +77,11 @@
 <table class="table table-striped">
     <thead>
         <tr class="historyHeader" style="background-color: #f9f9f9;">
+            <th>Register</th>
+            <th>Leveranstidpunkt</th>
+            <th>Leveransstatus</th>
             <th>Filnamn</th>
-            <th>Uppladdad</th>
-            <th>Status</th>
+            <th>Filstatus</th>
         </tr>
     </thead>
     <tbody>
@@ -87,11 +89,13 @@
     {
         foreach (FilloggDetaljDTO loggRad in Model.HistorikLista)
         {
-            <tr>
-                <td>@loggRad.Filnamn</td>
-                <td>@loggRad.Datum</td>
-                <td>@loggRad.Status</td>
-            </tr>
+        <tr>
+            <td>@loggRad.RegisterKortnamn</td>
+            <td>@loggRad.Leveranstidpunkt</td>
+            <td>@loggRad.Leveransstatus</td>
+            <td>@loggRad.Filnamn</td>
+            <td>@loggRad.Filstatus</td>
+        </tr>
         }
     }
     </tbody>

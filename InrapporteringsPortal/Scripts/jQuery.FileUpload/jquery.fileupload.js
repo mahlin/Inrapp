@@ -933,17 +933,8 @@
                             // Set timer for bitrate progress calculation:
                             options._bitrateTimer = new that._BitrateTimer();
                             jqXHR = jqXHR ||
-                            (
-                                ((aborted ||
-                                            that._trigger(
-                                                'send',
-                                                $.Event('send', { delegatedEvent: e }),
-                                                options
-                                            ) ===
-                                            false) &&
-                                        that._getXHRPromise(false, options.context, aborted)) ||
-                                    that._chunkedUpload(options) ||
-                                    $.ajax(options)
+                                (((aborted ||
+                                    that._trigger('send', $.Event('send', { delegatedEvent: e }), options) === false) && that._getXHRPromise(false, options.context, aborted)) || that._chunkedUpload(options) || $.ajax(options)
                             ).done(function(result, textStatus, jqXHR) {
                                 that._onDone(result, textStatus, jqXHR, options);
                             }).fail(function(jqXHR, textStatus, errorThrown) {
