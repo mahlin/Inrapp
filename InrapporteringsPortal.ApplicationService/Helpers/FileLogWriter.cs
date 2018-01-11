@@ -34,7 +34,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
         }
 
-    private void WriteLogToFile(string logMessage , string logFile)
+        private void WriteLogToFile(string logMessage , string logFile)
         {
             using (StreamWriter resource_0 = new StreamWriter(logFile, true, Encoding.Unicode))
                 resource_0.WriteLine(logMessage);

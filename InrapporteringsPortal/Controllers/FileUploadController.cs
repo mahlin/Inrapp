@@ -51,18 +51,19 @@ namespace InrapporteringsPortal.Web.Controllers
         //[Authorize] 
         public ActionResult Index()
         {
-            //Hämta info om valbara register
-            var registerInfoList = GetRegisterInfo().ToList();
-            _model.RegisterList = registerInfoList;
-
-            // Ladda drop down lists.  
-            this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
-            _model.SelectedRegisterId = "0";
-
-            //TODO - hämta kommunId från current user
-            //Hämta historiken för användarens kommun
             try
             {
+                //Hämta info om valbara register
+                var registerInfoList = GetRegisterInfo().ToList();
+                _model.RegisterList = registerInfoList;
+
+                // Ladda drop down lists.  
+                this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
+                _model.SelectedRegisterId = "0";
+
+                //TODO - hämta kommunId från current user
+                //Hämta historiken för användarens kommun
+
                 var userId = User.Identity.GetUserId();
                 var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
                 var orgIdForUser = _portalService.GetUserOrganisation(userId);
@@ -73,7 +74,14 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("FileUploaderController", "Index, Hämta historik", e.ToString());
+                ErrorManager.WriteToErrorLog("FileUploadController", "Index", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade i filuppladdningssidan.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
             }
 
             return View(_model);
@@ -103,22 +111,29 @@ namespace InrapporteringsPortal.Web.Controllers
         public JsonResult Upload(FilesViewModel model)
         {
             var resultList = new List<ViewDataUploadFilesResult>();
-            
-            var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
-            var userName = User.Identity.GetUserName();
-
-            var CurrentContext = HttpContext;
-
+            var userName = "";
             try
             {
-                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName, kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
+                var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
+                userName = User.Identity.GetUserName();
+
+                var CurrentContext = HttpContext;
+
+                filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName,
+                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
+                ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid uppladdning av fil.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                RedirectToAction("CustomError", new { model = errorModel });
             }
-
 
             JsonFiles files = new JsonFiles(resultList);
 
@@ -139,7 +154,14 @@ namespace InrapporteringsPortal.Web.Controllers
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        ErrorManager.WriteToErrorLog("FileUploaderController", "Upload, SaveToFileLog", e.ToString());
+                        ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult);
+                        var errorModel = new CustomErrorPageModel
+                        {
+                            Information = "Ett fel inträffade när filen skulle sparas till registrets logg.",
+                            ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                            ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                        };
+                        RedirectToAction("CustomError", new { model = errorModel});
                     }
                 }
                 //TODO - refresh Historiklistan, annan model
@@ -275,6 +297,11 @@ namespace InrapporteringsPortal.Web.Controllers
             lstobj = new SelectList(list, "Value", "Text");
 
             return lstobj;
+        }
+
+        public ActionResult CustomError(CustomErrorPageModel model)
+        {
+            return View(model);
         }
 
         ///// <summary>  

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.Entity.Validation;
 using System.Globalization;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Inrapporteringsportal.DataAccess.Repositories;
 using InrapporteringsPortal.ApplicationService;
+using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.DomainModel;
@@ -88,31 +90,49 @@ namespace InrapporteringsPortal.Web.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            try
             {
-                case SignInStatus.Success:
-                    var user = UserManager.FindByEmail(model.Email);
-                    _portalService.SaveToLoginLog(user.Id);
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new SendCodeViewModel
-                    {
-                        Providers = null,
-                        ReturnUrl = returnUrl,
-                        RememberMe = model.RememberMe,
-                        SelectedProvider = "Phone Code",
-                        UserEmail = model.Email
-                    });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
-                    return View(model);
+
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, change to shouldLockout: true
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        var user = UserManager.FindByEmail(model.Email);
+                        _portalService.SaveToLoginLog(user.Id);
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new SendCodeViewModel
+                        {
+                            Providers = null,
+                            ReturnUrl = returnUrl,
+                            RememberMe = model.RememberMe,
+                            SelectedProvider = "Phone Code",
+                            UserEmail = model.Email
+                        });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
+                        return View(model);
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "Login", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid inloggningen",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+
+            }
+
         }
 
         //
@@ -145,20 +165,34 @@ namespace InrapporteringsPortal.Web.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
+            try { 
+                var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        //TODO- get userid. Logga i db
+                        var user = UserManager.FindByEmail(model.UserEmail);
+                        _portalService.SaveToLoginLog(user.Id);
+                        return RedirectToLocal(model.ReturnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid code.");
+                        return View(model);
+                }
+            }
+            catch (Exception e)
             {
-                case SignInStatus.Success:
-                    //TODO- get userid. Logga i db
-                    var user = UserManager.FindByEmail(model.UserEmail);
-                    _portalService.SaveToLoginLog(user.Id);
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "VerifyCode", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid verifiering av kod.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
             }
         }
 
@@ -183,40 +217,55 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var organisation = GetOrganisationForEmailDomain(model.Email);
-                if (organisation == null)
+                try
                 {
-                    ModelState.AddModelError("",
-                        "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: 075 - 247 37 37");
-                }
-                else
-                {
-                    var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-                    user.OrganisationId = organisation.Id;
-                    user.SkapadAv = model.Email;
-                    user.SkapadDatum = DateTime.Now;
-                    user.AndradAv = model.Email;
-                    user.AndradDatum = DateTime.Now;
-                    user.Namn = model.Namn;
-
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
+                    var organisation = GetOrganisationForEmailDomain(model.Email);
+                    if (organisation == null)
                     {
-                        //TODO - ta fram nästa rad för att kräva 2faktor-inloggning
-                        //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                        return RedirectToAction("AddPhoneNumber", "Manage");
-
-                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                        //return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("",
+                            "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: " + ConfigurationManager.AppSettings["ContactPhonenumber"]);
                     }
-                    AddErrors(result);
+                    else
+                    {
+                        var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
+                        user.OrganisationId = organisation.Id;
+                        user.SkapadAv = model.Email;
+                        user.SkapadDatum = DateTime.Now;
+                        user.AndradAv = model.Email;
+                        user.AndradDatum = DateTime.Now;
+                        user.Namn = model.Namn;
+
+                        var result = await UserManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
+                        {
+                            //TODO - ta fram nästa rad för att kräva 2faktor-inloggning
+                            //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                            return RedirectToAction("AddPhoneNumber", "Manage");
+
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // Send an email with this link
+                            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                            //return RedirectToAction("Index", "Home");
+                        }
+                        AddErrors(result);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    ErrorManager.WriteToErrorLog("AccountController", "Register", e.ToString(), e.HResult);
+                    var errorModel = new CustomErrorPageModel
+                    {
+                        Information = "Ett fel inträffade vid registreringen.",
+                        ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                        ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                    };
+                    return View("CustomError", errorModel);
                 }
             }
             // If we got this far, something failed, redisplay form
@@ -225,8 +274,8 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private Organisation GetOrganisationForEmailDomain(string modelEmail)
         {
-            var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
-            return organisation;
+                var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
+                return organisation;
         }
 
         //

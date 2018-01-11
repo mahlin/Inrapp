@@ -136,16 +136,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             DbContext.LevereradFil.Add(logFil);
 
-            try
-            {
-                DbContext.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                //ErrorManager.WriteToErrorLog("FileUploaderController", "Upload", e.ToString());
-                throw new Exception(e.Message);
-            }
+            DbContext.SaveChanges();
         }
 
         public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId)
@@ -276,15 +267,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             DbContext.Inloggning.Add(inloggning);
 
-            try
-            {
-                DbContext.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw new Exception(e.Message);
-            }
+            DbContext.SaveChanges();
+
         }
 
         public string GetRegisterKortnamn(int delregId)

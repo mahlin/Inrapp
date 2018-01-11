@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace InrapporteringsPortal.ApplicationService.Helpers
 {
@@ -14,19 +15,21 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 string errorMessage = "";
                 if (errorcode != 0)
                 {
-                    errorMessage = "Code: " + errorcode + "\n" + "Message: " + message;
+                    errorMessage = "Code: " + errorcode + "\r\n Message: " + message;
                 }
                 else
                 {
                     errorMessage = "Message: " + message;
                 }
+                
                 FileLogWriter _log = new FileLogWriter();
            
-                _log.WriteExceptionLog("An exception occurred in " + className + ", " + methodName + ". Error: " + errorMessage);
+                _log.WriteExceptionLog("An exception occurred in " + className + ", " + methodName + ".\r\n " + errorMessage);
             }
             catch (Exception e)
             {
                 //ToDO..
+                Console.WriteLine(e);
                 var t = e.ToString();
             }
         }
