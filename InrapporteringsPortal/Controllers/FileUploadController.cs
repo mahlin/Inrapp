@@ -48,7 +48,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
-        //[Authorize] 
+        [Authorize] 
         public ActionResult Index()
         {
             try
@@ -108,6 +108,7 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult Upload(FilesViewModel model)
         {
             var resultList = new List<ViewDataUploadFilesResult>();

@@ -242,6 +242,16 @@ namespace InrapporteringsPortal.Web.Controllers
                             //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                            ////Verifiera epostadress
+                            //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },protocol: Request.Url.Scheme);
+                            //await UserManager.SendEmailAsync(user.Id,
+                            //    "Confirm your account",
+                            //    "Please confirm your account by clicking this link: <a href=\""
+                            //    + callbackUrl + "\">link</a>");
+                            //// ViewBag.Link = callbackUrl;   // Used only for initial demo.
+                            //return View("DisplayEmail");
+
                             return RedirectToAction("AddPhoneNumber", "Manage");
 
                             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

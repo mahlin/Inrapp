@@ -31,7 +31,6 @@ namespace InrapporteringsPortal.Web
     {
         public async Task SendAsync(IdentityMessage message)
         {
-
             var usr = WebConfigurationManager.AppSettings["SMSUser"];
             var pwd = WebConfigurationManager.AppSettings["SMSPwd"];
             var sender = WebConfigurationManager.AppSettings["SMSSender"];
@@ -39,8 +38,6 @@ namespace InrapporteringsPortal.Web
             HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=" + sender + "&msg=" + message.Body) as HttpWebRequest;
 
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-            //HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=sms5YF=DC&pass=kH4aeI&nr=0703590841&sender=0703590841&msg=" + message.Body) as HttpWebRequest;
         }
     }
 
