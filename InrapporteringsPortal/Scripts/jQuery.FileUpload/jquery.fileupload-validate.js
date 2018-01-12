@@ -93,6 +93,47 @@ function CheckPeriod(periodInFilename, validPeriod) {
     return false;
 }
 
+function DoubletFiles(selectedRegister) {
+    var re;
+    var result = false;
+    var x = window.filelist;
+
+    registerLista.forEach(function (register, index) {
+        //alert("index:" + index + ", valt register: " + selectedRegister + ", regsiterId: " + register.Id.toString());
+        if (selectedRegister === register.Id.toString()) {
+
+            //Om valt register har fler regularexpressions att uppfylla, kolla att bara en fil för varje regexp laddas upp
+            if (register.RegExper.length > 1) {
+                var arrUsedRegexp = new Array(register.RegExper.length);
+
+                for (var i = 0; i < arrUsedRegexp.length; ++i) {
+                    arrUsedRegexp[i] = false;
+                }
+
+                register.RegExper.forEach(function(regexp, idx) {
+                    var re = new RegExp(regexp, "i");
+
+                    window.filelist.forEach(function(file, i) {
+                        //alert("Regexp" + idx + ": " + regexp);
+                        if (re.test(file.name)) {
+                            if (arrUsedRegexp[idx] === true)
+                                result = true;
+                            else
+                                arrUsedRegexp[idx] = true;
+                        }
+                    });
+                });
+            }
+        }
+    });
+    return result;
+}
+
+function getTableRows() {
+    return $('#filTabell tr');
+};
+
+
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -128,6 +169,7 @@ function CheckPeriod(periodInFilename, validPeriod) {
                 incorrectFileName: '@',
                 incorrectKommunKodInFileName: '@',
                 incorrectPeriodInFileName: '@',
+                filetypAlreadySelected: '@',
             disabled: '@disableValidation'
         }
     );
@@ -162,6 +204,7 @@ function CheckPeriod(periodInFilename, validPeriod) {
                 incorrectFileName: ('Felaktigt filnamn'),
                 incorrectKommunKodInFileName: ('Felaktig kommunkod i filnamnet'),
                 incorrectPeriodInFileName: ('Felaktig period i filnamnet'),
+                filetypAlreadySelected: ('En fil av denna typ är redan vald'),
             }
         },
 
@@ -197,6 +240,8 @@ function CheckPeriod(periodInFilename, validPeriod) {
                     file.error = settings.i18n('incorrectKommunKodInFileName');
                 } else if (!CheckPeriodInFileName(data.selectedRegister, file.name)) {
                     file.error = settings.i18n('incorrectPeriodInFileName');
+                } else if (DoubletFiles(data.selectedRegister)) {
+                    file.error = settings.i18n('filetypAlreadySelected');
                 } else {
                     delete file.error;
                 }

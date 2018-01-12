@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('.fileinput-button').hide();
     $('.start').hide();
 
-    var filelist = [];
+    window.filelist = [];
     $('#fileupload').fileupload({
         // your fileupload options
     }).on("fileuploadadd",
