@@ -192,7 +192,7 @@ namespace InrapporteringsPortal.Web.Controllers
             ViewBag.RegisterList = CreateRegisterDropDownList(_model.RegisterList);
         }
 
-        private IEnumerable<RegisterInfo> GetRegisterInfo()
+        public IEnumerable<RegisterInfo> GetRegisterInfo()
         {
             var registerList= _portalService.GetAllRegisterInformation();
 

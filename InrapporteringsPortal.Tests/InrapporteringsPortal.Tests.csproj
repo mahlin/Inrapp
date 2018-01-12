@@ -99,6 +99,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InrapporteringsPortal.DomainModel\InrapporteringsPortal.DomainModel.csproj">
+      <Project>{52AE6E89-A36B-49E7-8CE5-EF620296C136}</Project>
+      <Name>InrapporteringsPortal.DomainModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InrapporteringsPortal\InrapporteringsPortal.Web.csproj">
       <Project>{9ED802A7-DD7F-4A2F-913F-562A8FCB9216}</Project>
       <Name>InrapporteringsPortal.Web</Name>
