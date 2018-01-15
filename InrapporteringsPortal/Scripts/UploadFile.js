@@ -1,6 +1,13 @@
 ﻿var $ = jQuery;
 
-$(document).ready(function() {
+$(document).ready(function () {
+
+    $(function () {
+        $('#ddlRegister > option').each(function () {
+            $(this).attr("title", $(this).text());
+            //alert($(this).text() + ' ' + $(this).val() + ' ' + $(this).attr("title"));
+        });
+    });
 
     $('.fileinput-button').hide();
     $('.start').hide();
@@ -66,6 +73,13 @@ $(document).ready(function() {
     //});
 
 });
+
+//$(document).on('mouseover','#ddlRegister',
+//    function () {
+//        var x = $(this);
+//        alert($(this).attr("title").val());
+//    });
+
 
 
 $(document).on('change','#ddlRegister',

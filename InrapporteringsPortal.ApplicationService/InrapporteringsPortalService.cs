@@ -61,7 +61,7 @@ namespace InrapporteringsPortal.ApplicationService
                     historikLista.Add(filloggDetalj);
                 }
             }
-            var sorteradHistorikLista = historikLista.OrderBy(x => x.RegisterKortnamn).ToList();
+            var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
 
             return sorteradHistorikLista;
         }

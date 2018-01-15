@@ -4,6 +4,12 @@
     ViewBag.Title = "Logga in";
 }
 
+<script type="text/javascript">
+    $(function () {
+        $("#txtName").focus();
+    });
+</script>
+
 <br/><br/>
 <div class="row">
     <div class="col-md-8">
@@ -17,7 +23,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "txtName" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>

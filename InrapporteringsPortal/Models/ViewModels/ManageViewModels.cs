@@ -61,7 +61,7 @@ namespace InrapporteringsPortal.Web.Models
     public class AddPhoneNumberViewModel
     {
         [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
-        [Phone]
+        [Phone(ErrorMessage = "Inte ett giltigt mobilnummer")]
         [Display(Name = "Mobilnummer")]
         public string Number { get; set; }
     }
@@ -73,7 +73,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Code { get; set; }
 
         [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
-        [Phone]
+        [Phone (ErrorMessage = "Inte ett giltigt mobilnummer")]
         [Display(Name = "Mobilnummer")]
         public string PhoneNumber { get; set; }
     }

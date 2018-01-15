@@ -61,9 +61,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
                 _model.SelectedRegisterId = "0";
 
-                //TODO - hämta kommunId från current user
-                //Hämta historiken för användarens kommun
-
+                //Hämta historiken för användarens organisation/kommun
                 var userId = User.Identity.GetUserId();
                 var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
                 var orgIdForUser = _portalService.GetUserOrganisation(userId);
