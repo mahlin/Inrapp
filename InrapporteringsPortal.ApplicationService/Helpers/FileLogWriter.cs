@@ -30,14 +30,22 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
             //Check if path and file exists. Create otherwise
             //if (!string.IsNullOrWhiteSpace(errorLogFilePath) && !Directory.Exists(errorLogFilePath)) Directory.CreateDirectory(errorLogFilePath);
-            if (!string.IsNullOrWhiteSpace(errorLogFile) && !File.Exists(errorLogFile)) File.Create(errorLogFile);
-
+            if (!string.IsNullOrWhiteSpace(errorLogFile) && !File.Exists(errorLogFile))
+            {
+                var errorfile = File.Create(errorLogFile);
+                errorfile.Close();
+            }
         }
 
         private void WriteLogToFile(string logMessage , string logFile)
         {
+            //using (StreamWriter resource_0 = new StreamWriter(logFile, true, Encoding.Unicode))
+            //    resource_0.WriteLine(logMessage);
+
             using (StreamWriter resource_0 = new StreamWriter(logFile, true, Encoding.Unicode))
+            {
                 resource_0.WriteLine(logMessage);
+            }
         }
 
         public void WriteExceptionLog(string logMessage)
