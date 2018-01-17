@@ -284,7 +284,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private Organisation GetOrganisationForEmailDomain(string modelEmail)
         {
-                var organisation = _portalService.GetOrgForEmailDomain(modelEmail);
+                var organisation = _portalService.HamtaOrgForEmailDomain(modelEmail);
                 return organisation;
         }
 

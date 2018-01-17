@@ -280,5 +280,11 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return namn;
 
         }
+
+        public string GetInformationText(string infoTyp)
+        {
+            var text = DbContext.AdmInformation.Where(x => x.Informationstyp == infoTyp).Select(q => q.Text).SingleOrDefault();
+            return text;
+        }
     }
 }

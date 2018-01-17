@@ -20,9 +20,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetRegisterKortnamn(int delregId);
 
-        //string GetKommunKodForUser(string userId);
-
-        void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
+        string GetInformationText(string infoTyp);
 
         int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId);
 
@@ -33,6 +31,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
+        void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid);
     }

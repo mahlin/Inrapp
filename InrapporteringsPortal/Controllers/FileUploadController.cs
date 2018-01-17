@@ -64,7 +64,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 //Hämta historiken för användarens organisation/kommun
                 var userId = User.Identity.GetUserId();
                 var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
-                var orgIdForUser = _portalService.GetUserOrganisation(userId);
+                var orgIdForUser = _portalService.HamtaUserOrganisation(userId);
                 _model.GiltigKommunKod = kommunKodForUser;
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
                 _model.HistorikLista = historyFileList.ToList();
@@ -192,7 +192,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
         public IEnumerable<RegisterInfo> GetRegisterInfo()
         {
-            var registerList= _portalService.GetAllRegisterInformation();
+            var registerList= _portalService.HamtaAllRegisterInformation();
 
             //TODO - antal filer ska finnas att hämta i databasen "admForvantadfil"? Tills dess hårdkodat
             //foreach (var item in registerList)

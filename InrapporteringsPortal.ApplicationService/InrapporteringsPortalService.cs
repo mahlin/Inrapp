@@ -84,7 +84,7 @@ namespace InrapporteringsPortal.ApplicationService
             return levId;
         }
 
-        public Organisation GetOrgForEmailDomain(string modelEmail)
+        public Organisation HamtaOrgForEmailDomain(string modelEmail)
         {
             MailAddress address = new MailAddress(modelEmail);
             string domain = address.Host; 
@@ -98,13 +98,13 @@ namespace InrapporteringsPortal.ApplicationService
             return kommunKod;
         }
 
-        public int GetUserOrganisation(string userId)
+        public int HamtaUserOrganisation(string userId)
         {
             var orgId = _portalRepository.GetUserOrganisation(userId);
             return orgId;
         }
 
-        public IEnumerable<RegisterInfo> GetAllRegisterInformation()
+        public IEnumerable<RegisterInfo> HamtaAllRegisterInformation()
         {
             var registerList = _portalRepository.GetAllRegisterInformation();
             return registerList;
@@ -114,5 +114,13 @@ namespace InrapporteringsPortal.ApplicationService
         {
             _portalRepository.SaveToLoginLog(userid);
         }
+
+        public string HamtaInformationsText(string infoTyp)
+        {
+            var infoText = _portalRepository.GetInformationText(infoTyp);
+            return infoText;
+        }
+
+
     }
 }

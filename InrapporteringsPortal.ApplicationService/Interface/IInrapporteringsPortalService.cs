@@ -16,14 +16,18 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         string HamtaKommunKodForOrganisation(int orgId);
         string HamtaKommunKodForAnvandare(string userId);
 
-        void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
-
         int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int forvLevId);
 
-        Organisation GetOrgForEmailDomain(string modelEmail);
-        int GetUserOrganisation(string userId);
+        string HamtaInformationsText(string infoTyp);
 
-        IEnumerable<RegisterInfo> GetAllRegisterInformation();
+        Organisation HamtaOrgForEmailDomain(string modelEmail);
+
+        int HamtaUserOrganisation(string userId);
+
+        void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
+
+        IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
+
         void SaveToLoginLog(string userid);
     }
 }

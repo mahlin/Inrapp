@@ -93,6 +93,7 @@
     <Compile Include="AdmFilkrav.cs" />
     <Compile Include="AdmForvantadfil.cs" />
     <Compile Include="AdmForvantadleverans.cs" />
+    <Compile Include="AdmInformation.cs" />
     <Compile Include="AdmRegister.cs" />
     <Compile Include="AdmDelregister.cs" />
     <Compile Include="ApplicationUser.cs" />
