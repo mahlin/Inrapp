@@ -89,9 +89,20 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 return View(model);
             }
-
             try
             {
+                ////TODO - släpp fram detta när verifiering av epostadress är på plats
+                //// Require the user to have a confirmed email before they can log on.
+                //var userLogin = await _userManager.FindByEmailAsync(model.Email);
+                //if (userLogin != null)
+                //{
+                //    if (!await _userManager.IsEmailConfirmedAsync(userLogin.Id))
+                //    {
+                //        ModelState.AddModelError(string.Empty,
+                //            "Du måste ha en bekräftad epostadress för att logga in.");
+                //        return View(model);
+                //    }
+                //}
 
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -240,19 +251,20 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             //TODO - ta fram nästa rad för att kräva 2faktor-inloggning
                             //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            //TODO - signa ej in förrän allt är klart?
+                            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                            ////Verifiera epostadress
-                            //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },protocol: Request.Url.Scheme);
-                            //await UserManager.SendEmailAsync(user.Id,
-                            //    "Confirm your account",
-                            //    "Please confirm your account by clicking this link: <a href=\""
-                            //    + callbackUrl + "\">link</a>");
-                            //// ViewBag.Link = callbackUrl;   // Used only for initial demo.
-                            //return View("DisplayEmail");
+                            //Verifiera epostadress
+                            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id,
+                                "Confirm your account",
+                                "Please confirm your account by clicking this link: <a href=\""
+                                + callbackUrl + "\">link</a>");
+                            // ViewBag.Link = callbackUrl;   // Used only for initial demo.
+                            return View("ConfirmEmail");
 
-                            return RedirectToAction("AddPhoneNumber", "Manage");
+                            //return RedirectToAction("AddPhoneNumber", "Manage");
 
                             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                             // Send an email with this link
