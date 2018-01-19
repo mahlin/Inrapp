@@ -110,7 +110,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, IEnumerable<RegisterInfo> registerList)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, List<RegisterInfo> registerList)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
@@ -162,9 +162,9 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                     //var fullPath = Path.Combine(pathOnServer, Path.GetFileName(file.FileName));
                     var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
                     var extension = Path.GetExtension(file.FileName);
-                    var filOfFilesAddOn = "_" + (i + 1).ToString() + "_" + (request.Files.Count).ToString();
+                    var filOfFilesAddOn = "!" + (i + 1).ToString() + "!" + (request.Files.Count).ToString();
                     var timestamp = DateTime.Now.ToString("yyyyMMdd" + "T"+ "HHmmss"); 
-                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + "_" + timestamp + extension;
+                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + "!" + timestamp + extension;
                     var fullPath = Path.Combine(pathOnServer, Path.GetFileName(extendedFileName));
                     file.SaveAs(fullPath);
 
@@ -217,7 +217,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
         {
             var hashAddOn = String.Empty;
 
-            hashAddOn = "#" + kommunKod + "_" + levId;
+            hashAddOn = "#" + kommunKod + "!" + levId;
 
             return hashAddOn;
         }
