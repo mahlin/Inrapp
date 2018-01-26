@@ -60,7 +60,7 @@ namespace InrapporteringsPortal.ApplicationService
                     filloggDetalj.Leveransstatus = leverans.Leveransstatus;
                     filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
                     filloggDetalj.RegisterKortnamn = registerKortnamn;
-                    filloggDetalj.Resultatfil = "  -  ";
+                    filloggDetalj.Resultatfil = "Ej kontrollerad";
                     historikLista.Add(filloggDetalj);
 
                     if (aterkoppling != null)
