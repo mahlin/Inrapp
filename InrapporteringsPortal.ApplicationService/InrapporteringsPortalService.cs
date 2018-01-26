@@ -48,6 +48,8 @@ namespace InrapporteringsPortal.ApplicationService
             foreach (var leverans in leveransList)
             {
                 var filloggDetalj = new FilloggDetaljDTO();
+                //Kolla om återkopplingsfil finns för aktuell leverans
+                var aterkoppling = _portalRepository.GetAterkopplingForLeverans(leverans.Id);
 
                 var filer = _portalRepository.GetFilerForLeveransId(leverans.Id);
                 var registerKortnamn = _portalRepository.GetRegisterKortnamn(leverans.DelregisterId);
@@ -58,7 +60,14 @@ namespace InrapporteringsPortal.ApplicationService
                     filloggDetalj.Leveransstatus = leverans.Leveransstatus;
                     filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
                     filloggDetalj.RegisterKortnamn = registerKortnamn;
+                    filloggDetalj.Resultatfil = "  -  ";
                     historikLista.Add(filloggDetalj);
+
+                    if (aterkoppling != null)
+                    {
+                        filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
+                        filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+                    }
                 }
             }
             var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();

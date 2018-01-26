@@ -17,6 +17,8 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
         public string Leveransstatus { get; set; }
         public string Kontaktperson { get; set; }
         public string Filstatus { get; set; }
+        public string Resultatfil { get; set; }
+
 
         internal static FilloggDetaljDTO FromFillogg(LevereradFil fillogg)
         {

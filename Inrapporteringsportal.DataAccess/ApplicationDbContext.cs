@@ -187,7 +187,7 @@ namespace InrapporteringsPortal.DataAccess
             //Aterkoppling
             modelBuilder.Entity<Aterkoppling>().Property(e => e.Id).HasColumnName("aterkopplingsid");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.LeveransId).HasColumnName("leveransId");
-            modelBuilder.Entity<Aterkoppling>().Property(e => e.Leveransstatus).HasColumnName("everansstatus");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.Leveransstatus).HasColumnName("leveransstatus");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.Resultatfil).HasColumnName("resultatfil");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.Aterkopplingstidpunkt).HasColumnName("aterkopplingstidpunkt");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");

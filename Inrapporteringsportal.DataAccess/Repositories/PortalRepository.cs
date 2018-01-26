@@ -234,19 +234,20 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             foreach (var filkrav in itemAdmFilkrav) //Todo - kan vara fler? Antar endast en så länge
             {
-                //För varje filkrav - hämta förväntad leverans med rätt period utifrån dagens datum
-                var forvantadLeverans = filkrav.AdmForvantadleverans.FirstOrDefault();
-                if (forvantadLeverans != null)
+                //För varje filkrav - hämta varje förväntad leverans och sätt rätt period utifrån dagens datum
+                foreach (var item in filkrav.AdmForvantadleverans)
                 {
-                    startDate = forvantadLeverans.Rapporteringsstart;
-                    endDate = forvantadLeverans.Rapporteringsslut;
-                    if (dagensDatum >= startDate && dagensDatum <= endDate)
+                    if (item != null)
                     {
-                        regInfo.Period = forvantadLeverans.Period;
-                        regInfo.ForvantadLevransId = forvantadLeverans.Id;
+                        startDate = item.Rapporteringsstart;
+                        endDate = item.Rapporteringsslut;
+                        if (dagensDatum >= startDate && dagensDatum <= endDate)
+                        {
+                            regInfo.Period = item.Period;
+                            regInfo.ForvantadLevransId = item.Id;
+                        }
                     }
                 }
-                
             }
         }
 
@@ -288,6 +289,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             return org;
 
+        }
+
+        public Aterkoppling GetAterkopplingForLeverans(int levId)
+        {
+            var aterkoppling = DbContext.Aterkoppling.Where(x => x.LeveransId == levId).FirstOrDefault();
+            return aterkoppling;
         }
     }
 }

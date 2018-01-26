@@ -33,6 +33,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
+
+        Aterkoppling GetAterkopplingForLeverans(int levId);
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid);

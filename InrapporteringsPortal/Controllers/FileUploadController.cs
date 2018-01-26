@@ -181,38 +181,52 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
 
-        public ActionResult DownloadFile()
+        public ActionResult DownloadFile(string filename)
         {
-            string filename = "Test29.xls";
-            var dir = WebConfigurationManager.AppSettings["DirForFeedback"];
-            string filepath = dir + filename;
-            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-            string contentType = MimeMapping.GetMimeMapping(filepath);
-
-            var cd = new System.Net.Mime.ContentDisposition
+            try
             {
-                FileName = filename,
-                Inline = true,
-            };
+                var dir = WebConfigurationManager.AppSettings["DirForFeedback"];
+                string filepath = dir + filename;
+                byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+                string contentType = MimeMapping.GetMimeMapping(filepath);
 
-            Response.Headers.Add("Content-Disposition", cd.ToString());
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = filename,
+                    Inline = true,
+                };
 
-            var a =  File(filedata, contentType);
-            //View file
-            var x =  File(filedata, MediaTypeNames.Text.Plain);
-            //Download file
-            var y =  File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
+                Response.Headers.Add("Content-Disposition", cd.ToString());
 
-            //Öppnar excel
-            return File(filedata, contentType);
+                var a =  File(filedata, contentType);
+                //View file
+                var x =  File(filedata, MediaTypeNames.Text.Plain);
+                //Download file
+                var y =  File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
 
-            //Funkar ej
-            //return File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
+                //Öppnar excel
+                return File(filedata, contentType);
 
-            //Öppnar filen as is
-            //return File(filedata, MediaTypeNames.Text.Plain);
+                    //Funkar ej
+                    //return File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
 
+                    //Öppnar filen as is
+                    //return File(filedata, MediaTypeNames.Text.Plain);
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("FileUploadController", "DownloadFile", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid öppningen av återkopplingsfilen",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+
+            }
         }
 
 
