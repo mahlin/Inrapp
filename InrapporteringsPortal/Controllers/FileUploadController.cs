@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Inrapporteringsportal.DataAccess.Repositories;
@@ -63,8 +65,14 @@ namespace InrapporteringsPortal.Web.Controllers
 
                 //Hämta historiken för användarens organisation/kommun
                 var userId = User.Identity.GetUserId();
-                var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
-                var orgIdForUser = _portalService.HamtaUserOrganisation(userId);
+                var userOrg = _portalService.HamtaOrgForAnvandare(userId);
+                //var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
+                //var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
+
+                //TODO - ny databas - hämta från Organisationstabellen istället
+                var kommunKodForUser = userOrg.Kommunkod;
+                var orgIdForUser = userOrg.Id;
+
                 _model.GiltigKommunKod = kommunKodForUser;
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
                 _model.HistorikLista = historyFileList.ToList();
@@ -171,6 +179,44 @@ namespace InrapporteringsPortal.Web.Controllers
                 return Json(files);
             }
         }
+
+
+        public ActionResult DownloadFile()
+        {
+            string filename = "Test29.xls";
+            var dir = WebConfigurationManager.AppSettings["DirForFeedback"];
+            string filepath = dir + filename;
+            byte[] filedata = System.IO.File.ReadAllBytes(filepath);
+            string contentType = MimeMapping.GetMimeMapping(filepath);
+
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = filename,
+                Inline = true,
+            };
+
+            Response.Headers.Add("Content-Disposition", cd.ToString());
+
+            var a =  File(filedata, contentType);
+            //View file
+            var x =  File(filedata, MediaTypeNames.Text.Plain);
+            //Download file
+            var y =  File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
+
+            //Öppnar excel
+            return File(filedata, contentType);
+
+            //Funkar ej
+            //return File(filedata, MediaTypeNames.Text.Plain, "Test.txt");
+
+            //Öppnar filen as is
+            //return File(filedata, MediaTypeNames.Text.Plain);
+
+
+        }
+
+
+
         public JsonResult GetFileList()
         {
             var list=filesHelper.GetFileList();
@@ -262,20 +308,7 @@ namespace InrapporteringsPortal.Web.Controllers
             return registerList;
         }
 
-        //private List<KeyValuePair<int, string>> GetRegisterInfoTexts()
-        //{
-        //    //TODO - Get registers information texts from db
-        //    var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
-        //    var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-        //    var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-        //    var registerInfoTextList = new List<KeyValuePair<int, string>>();
-        //    registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
-        //    registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
-        //    registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
-
-        //    return registerInfoTextList;
-        //}
-
+        
         /// <summary>  
         /// Create list for register-dropdown  
         /// </summary>  
@@ -302,39 +335,5 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             return View(model);
         }
-
-        ///// <summary>  
-        ///// Load data method.  
-        ///// </summary>  
-        ///// <returns>Returns - Data</returns>  
-        //private List<Register> LoadData()
-        //{
-        //    //TODO - hämta från databasen
-        //    List<Register> regList = new List<Register>();
-
-        //    // Initialization.
-        //    Register reg1 = new Register();
-        //    Register reg2 = new Register();
-        //    Register reg3 = new Register();
-
-        //    // Setting.  
-        //    reg1.Id = 1;
-        //    reg1.Namn = "BU";
-        //    reg2.Id = 2;
-        //    reg2.Namn = "EKB";
-        //    reg3.Id = 3;
-        //    reg3.Namn = "LSS";
-
-
-        //    // Adding.  
-        //    regList.Add(reg1);
-        //    regList.Add(reg2);
-        //    regList.Add(reg3);
-
-        //    // info.  
-        //    return regList;
-        //}
-
-
     }
 }

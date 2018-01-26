@@ -6,7 +6,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 {
     public interface IPortalRepository
     {
-        Kommun GetByShortName(string shortName);
+        //Kommun GetByShortName(string shortName);
 
         //IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom);
 
@@ -26,7 +26,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
-        int GetUserOrganisation(string userId);
+        Organisation GetOrgForUser(string userId);
+
+        int GetUserOrganisationId(string userId);
 
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 

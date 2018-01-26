@@ -123,7 +123,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             Directory.CreateDirectory(fullPath);
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
-            var orgId = _portalRepository.GetUserOrganisation(userId);
+            var orgId = _portalRepository.GetUserOrganisationId(userId);
             //TODO - skicka med forvantadleveransid
             var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, forvantadLevId);
             var hash = GetHashAddOn(kommunKod, levId);

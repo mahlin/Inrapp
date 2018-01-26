@@ -22,7 +22,9 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         Organisation HamtaOrgForEmailDomain(string modelEmail);
 
-        int HamtaUserOrganisation(string userId);
+        Organisation HamtaOrgForAnvandare(string userId);
+
+        int HamtaUserOrganisationId(string userId);
 
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 

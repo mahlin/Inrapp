@@ -21,10 +21,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext = dbContext;
         }
 
-        public Kommun GetByShortName(string shortName)
-        {
-            throw new NotImplementedException();
-        }
+        //public Kommun GetByShortName(string shortName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         ////TODO - 
         //public IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
@@ -81,7 +81,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         private IEnumerable<Organisation> AllaOrganisationer()
         {
-            return DbContext.Organisation.Include(x => x.Kommuner).Include(x => x.Users);
+            return DbContext.Organisation.Include(x => x.Users);
         }
 
 
@@ -104,7 +104,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         public string GetKommunKodForOrganisation(int orgId)
         {
             //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
-            var kommunKod = DbContext.Kommun.Where(x => x.Id == orgId).Select(x => x.Kommunkod).FirstOrDefault();
+            var kommunKod = DbContext.Organisation.Where(x => x.Id == orgId).Select(x => x.Kommunkod).FirstOrDefault();
             return kommunKod;
         }
 
@@ -168,7 +168,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return organisation;
         }
 
-        public int GetUserOrganisation(string userId)
+        public int GetUserOrganisationId(string userId)
         {
             var orgId = DbContext.Users.Where(u => u.Id == userId).Select(o => o.OrganisationId).SingleOrDefault();
             return orgId;
@@ -194,16 +194,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                     InfoText = item.AdmRegister.Beskrivning + "<br>" + item.Beskrivning,
                     Slussmapp = item.Slussmapp,
                 };
-                //if (item.AdmFilkrav.Count > 0)
-                //{
-                //    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).Single();
-                //    regInfo.FilMask = forvantadFil.Select(x => x.Filmask).FirstOrDefault();
-                //    regInfo.RegExp = forvantadFil.Select(x => x.Regexp).FirstOrDefault();
-                //}
 
                 var filmaskList = new List<string>();
                 var regExpList = new List<string>();
-
 
                 //Antal filer, filmask samt regexp
                 if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
@@ -285,6 +278,16 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         {
             var text = DbContext.AdmInformation.Where(x => x.Informationstyp == infoTyp).Select(q => q.Text).SingleOrDefault();
             return text;
+        }
+
+        public Organisation GetOrgForUser(string userId)
+        {
+            var orgId = GetUserOrganisationId(userId);
+
+            var org = AllaOrganisationer().Where(o => o.Id == orgId).Select(o => o).FirstOrDefault();
+
+            return org;
+
         }
     }
 }

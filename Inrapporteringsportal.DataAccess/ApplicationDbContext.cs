@@ -34,6 +34,10 @@ namespace InrapporteringsPortal.DataAccess
         {
             //Organisation
             modelBuilder.Entity<Organisation>().Property(e => e.Id).HasColumnName("organisationsid");
+            modelBuilder.Entity<Organisation>().Property(e => e.Landstingskod).HasColumnName("landstingskod");
+            modelBuilder.Entity<Organisation>().Property(e => e.Kommunkod).HasColumnName("kommunkod");
+            modelBuilder.Entity<Organisation>().Property(e => e.Inrapporteringskod).HasColumnName("inrapporteringskod");
+            modelBuilder.Entity<Organisation>().Property(e => e.Organisationstyp).HasColumnName("organisationstyp");
             modelBuilder.Entity<Organisation>().Property(e => e.Organisationsnr).HasColumnName("organisationsnr");
             modelBuilder.Entity<Organisation>().Property(e => e.Organisationsnamn).HasColumnName("organisationsnamn");
             modelBuilder.Entity<Organisation>().Property(e => e.Hemsida).HasColumnName("hemsida");
@@ -63,16 +67,6 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<Inloggning>().Property(e => e.Id).HasColumnName("inloggningsid");
             modelBuilder.Entity<Inloggning>().Property(e => e.ApplicationUserId).HasColumnName("kontaktpersonid");
             modelBuilder.Entity<Inloggning>().Property(e => e.Inloggningstidpunkt).HasColumnName("inloggningstidpunkt");
-
-            //Kommun
-            modelBuilder.Entity<Kommun>().Property(e => e.Id).HasColumnName("organisationsid");
-            modelBuilder.Entity<Kommun>().Property(e => e.Kommunkod).HasColumnName("kommunkod");
-            modelBuilder.Entity<Kommun>().Property(e => e.Lan).HasColumnName("lan");
-            modelBuilder.Entity<Kommun>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
-            modelBuilder.Entity<Kommun>().Property(e => e.SkapadAv).HasColumnName("skapadav");
-            modelBuilder.Entity<Kommun>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
-            modelBuilder.Entity<Kommun>().Property(e => e.AndradAv).HasColumnName("andradav");
-            modelBuilder.Entity<Kommun>().HasRequired(o => o.Organisation).WithOptional();
 
             //Leverans
             modelBuilder.Entity<Leverans>().Property(e => e.Id).HasColumnName("leveransid");
@@ -190,6 +184,17 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.AndradAv).HasColumnName("andradav");
 
+            //Aterkoppling
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.Id).HasColumnName("aterkopplingsid");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.LeveransId).HasColumnName("leveransId");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.Leveransstatus).HasColumnName("everansstatus");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.Resultatfil).HasColumnName("resultatfil");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.Aterkopplingstidpunkt).HasColumnName("aterkopplingstidpunkt");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<Aterkoppling>().Property(e => e.AndradAv).HasColumnName("andradav");
+
 
             //AdmInformation
             modelBuilder.Entity<AdmInformation>().ToTable("admInformation");
@@ -203,13 +208,13 @@ namespace InrapporteringsPortal.DataAccess
 
 
         public DbSet<Organisation> Organisation { get; set; }
-        public DbSet<Kommun> Kommun { get; set; }
         public DbSet<Leverans> Leverans { get; set; }
         public DbSet<LevereradFil> LevereradFil { get; set; }
         public DbSet<AdmRegister> AdmRegister { get; set; }
         public DbSet<AdmDelregister> AdmDelregister { get; set; }
         public DbSet<AdmFilkrav> AdmFilkrav { get; set; }
         public DbSet<AdmForvantadfil> AdmForvantadfil { get; set; }
+        public DbSet<Aterkoppling> Aterkoppling { get; set; }
         public DbSet<AdmInformation> AdmInformation { get; set; }
         public DbSet<Inloggning> Inloggning { get; set; }
     }

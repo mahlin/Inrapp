@@ -9,6 +9,10 @@ namespace InrapporteringsPortal.DomainModel
     {
         //[Column("organisationsid")]
         public int Id { get; set; }
+        public string Landstingskod { get; set; }
+        public string Kommunkod { get; set; }
+        public string Inrapporteringskod { get; set; }
+        public string Organisationstyp { get; set; }
         public string Organisationsnr { get; set; }
         public string Organisationsnamn { get; set; }
         public string Hemsida { get; set; }
@@ -23,7 +27,6 @@ namespace InrapporteringsPortal.DomainModel
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
-        public virtual ICollection<Kommun> Kommuner { get; set; }
         public virtual ICollection<Leverans> Leveranser { get; set; }
     }
 }

@@ -98,8 +98,8 @@
     <Compile Include="AdmRegister.cs" />
     <Compile Include="AdmDelregister.cs" />
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Aterkoppling.cs" />
     <Compile Include="Inloggning.cs" />
-    <Compile Include="Kommun.cs" />
     <Compile Include="Leverans.cs" />
     <Compile Include="LevereradFil.cs" />
     <Compile Include="Organisation.cs" />

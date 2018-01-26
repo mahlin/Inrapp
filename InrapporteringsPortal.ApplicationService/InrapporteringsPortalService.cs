@@ -68,7 +68,7 @@ namespace InrapporteringsPortal.ApplicationService
 
         public string HamtaKommunKodForAnvandare(string userId)
         {
-            var orgId = _portalRepository.GetUserOrganisation(userId);
+            var orgId = _portalRepository.GetUserOrganisationId(userId);
             var kommunKod = _portalRepository.GetKommunKodForOrganisation(orgId);
             return kommunKod;
         }
@@ -98,9 +98,9 @@ namespace InrapporteringsPortal.ApplicationService
             return kommunKod;
         }
 
-        public int HamtaUserOrganisation(string userId)
+        public int HamtaUserOrganisationId(string userId)
         {
-            var orgId = _portalRepository.GetUserOrganisation(userId);
+            var orgId = _portalRepository.GetUserOrganisationId(userId);
             return orgId;
         }
 
@@ -121,6 +121,10 @@ namespace InrapporteringsPortal.ApplicationService
             return infoText;
         }
 
-
+        public Organisation HamtaOrgForAnvandare(string userId)
+        {
+            var org = _portalRepository.GetOrgForUser(userId);
+            return org;
+        }
     }
 }
