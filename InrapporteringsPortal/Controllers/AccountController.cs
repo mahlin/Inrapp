@@ -240,19 +240,26 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             //TODO - ta fram nästa rad för att kräva 2faktor-inloggning
                             //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            //TODO - signa ej in förrän allt är klart?
+                            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                            ////Verifiera epostadress
-                            //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code },protocol: Request.Url.Scheme);
-                            //await UserManager.SendEmailAsync(user.Id,
-                            //    "Confirm your account",
-                            //    "Please confirm your account by clicking this link: <a href=\""
-                            //    + callbackUrl + "\">link</a>");
-                            //// ViewBag.Link = callbackUrl;   // Used only for initial demo.
-                            //return View("DisplayEmail");
+                            //Verifiera epostadress
+                            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            //TODO mail
+                            await UserManager.SendEmailAsync(user.Id,
+                                "Confirm your account",
+                                "Please confirm your account by clicking this link: <a href=\""
+                                + callbackUrl + "\">link</a>");
+                            // ViewBag.Link = callbackUrl;   // Used only for initial demo.
 
-                            return RedirectToAction("AddPhoneNumber", "Manage");
+                            return View("DisplayEmail");
+
+                            //ViewBag.Text = "Please confirm your account by clicking this link: <a href=\"" +
+                            //               callbackUrl + "\">link</a>";
+                            //return View("ConfirmEmail");
+
+                            //return RedirectToAction("AddPhoneNumber", "Manage");
 
                             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                             // Send an email with this link

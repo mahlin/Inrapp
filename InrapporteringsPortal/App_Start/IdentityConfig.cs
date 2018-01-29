@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,6 +27,38 @@ namespace InrapporteringsPortal.Web
         {
             // Plug in your email service here to send an email.
             return Task.FromResult(0);
+        }
+
+        private void SendMail(IdentityMessage message)
+        {
+            #region formatter
+            string text = string.Format("Vänligen klicka på den här länken till {0}: {1}", message.Subject, message.Body);
+            string html = "Vänligen bekräfta ditt konto genom att klicka på den här länken: <a href=\"" + message.Body + "\">link</a><br/>";
+
+            html += HttpUtility.HtmlEncode(@"Or copy the following link on the browser:" + message.Body);
+            #endregion
+
+            MailMessage msg = new MailMessage();
+            //TODO
+           // msg.From = new MailAddress("inrapportering@socialstyrelsen.se");
+            msg.From = new MailAddress("test-irportal@socialstyrelsen.se");
+            //TODO
+            msg.To.Add(new MailAddress("marie.ahlin@consid.se"));
+            //msg.To.Add(new MailAddress(message.Destination));
+            msg.Subject = message.Subject;
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
+
+            var credentials = new NetworkCredential(
+                ConfigurationManager.AppSettings["MailSender"],
+                ConfigurationManager.AppSettings["MailPwd"]);
+
+            //TODO - mailserver
+            //SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            SmtpClient smtpClient = new SmtpClient("exchange.sos.se");
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
         }
     }
 

@@ -2,9 +2,11 @@
     ViewBag.Title = "Bekräfta epostadress";
 }
 
-<h2>@ViewBag.Title</h2>
+
+@Html.Raw(ViewBag.Text)
 <div>
     <p>
-        Tack för att du bekräftat din epostadress. @Html.ActionLink("Klicka här för att logga in.", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        Tack för att du bekräftat din epostadress.
+        @Html.ActionLink("Klicka här för att registrera ett mobilnummer.", "AddPhoneNumber", "Manage", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
 </div>

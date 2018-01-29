@@ -338,7 +338,7 @@ $.extend( $.validator, {
 	    equalTo: "Ange samma v&auml;rde igen.",
 	    range: $.validator.format("Ange ett v&auml;rde mellan {0} och {1}."),
 	    max: $.validator.format("Ange ett v&auml;rde som &auml;r mindre eller lika med {0}."),
-	    min: $.validator.format("Ange ett v&auml;rde som &auml;
+        min: $.validator.format("Ange ett v&auml;rde som &auml;r större eller lika med {0}."),
 	},
 
 	autoCreateRanges: false,
