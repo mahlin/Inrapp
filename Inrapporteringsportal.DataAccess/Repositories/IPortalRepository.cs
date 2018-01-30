@@ -37,7 +37,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         Aterkoppling GetAterkopplingForLeverans(int levId);
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
-        void SaveToLoginLog(string userid);
+        void SaveToLoginLog(string userid, string userName);
     }
 
 }

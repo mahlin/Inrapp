@@ -11,10 +11,8 @@ namespace InrapporteringsPortal.DomainModel
         public int LeveransId { get; set; }
         public string Leveransstatus { get; set; }
         public string Resultatfil { get; set; }
-        public DateTime Aterkopplingstidpunkt { get; set; }
         public DateTime SkapadDatum { get; set; }
         public string SkapadAv { get; set; }
-        public DateTime AndradDatum { get; set; }
-        public string AndradAv { get; set; }
+
     }
 }

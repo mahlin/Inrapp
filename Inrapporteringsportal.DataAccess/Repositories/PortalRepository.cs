@@ -251,12 +251,13 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             }
         }
 
-        public void SaveToLoginLog(string userid)
+        public void SaveToLoginLog(string userid, string userName)
         {
             var inloggning = new Inloggning
             {
                 ApplicationUserId = userid,
-                Inloggningstidpunkt = DateTime.Now
+                SkapadDatum = DateTime.Now,
+                SkapadAv = userName
             };
 
             DbContext.Inloggning.Add(inloggning);

@@ -26,38 +26,38 @@ namespace InrapporteringsPortal.Web
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            SendMail(message);
             return Task.FromResult(0);
         }
 
         private void SendMail(IdentityMessage message)
         {
             #region formatter
-            string text = string.Format("Vänligen klicka på den här länken till {0}: {1}", message.Subject, message.Body);
-            string html = "Vänligen bekräfta ditt konto genom att klicka på den här länken: <a href=\"" + message.Body + "\">link</a><br/>";
+            string text = string.Format("Vänligen klicka på den här länken för att bekäfta ditt konto:  {1}", message.Subject, message.Body);
+            string html = "Vänligen bekräfta ditt konto i Socialstyrelsens inrapporteringsportal genom att klicka på den här länken: <a href=" + message.Body + "\">Bekräfta epost</a><br/>";
 
-            html += HttpUtility.HtmlEncode(@"Or copy the following link on the browser:" + message.Body);
+            //html += HttpUtility.HtmlEncode(@"Or copy the following link on the browser:" + message.Body);
             #endregion
 
             MailMessage msg = new MailMessage();
             //TODO
            // msg.From = new MailAddress("inrapportering@socialstyrelsen.se");
-            msg.From = new MailAddress("test-irportal@socialstyrelsen.se");
+            msg.From = new MailAddress(ConfigurationManager.AppSettings["MailSender"]);
             //TODO
-            msg.To.Add(new MailAddress("marie.ahlin@consid.se"));
-            //msg.To.Add(new MailAddress(message.Destination));
+            //msg.To.Add(new MailAddress("marie.ahlin@socialstyrelsen.se"));
+            msg.To.Add(new MailAddress(message.Destination));
             msg.Subject = message.Subject;
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
-            var credentials = new NetworkCredential(
-                ConfigurationManager.AppSettings["MailSender"],
-                ConfigurationManager.AppSettings["MailPwd"]);
+            //var credentials = new NetworkCredential(
+            //    ConfigurationManager.AppSettings["MailSender"],
+            //    ConfigurationManager.AppSettings["MailPwd"]);
 
             //TODO - mailserver
-            //SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-            SmtpClient smtpClient = new SmtpClient("exchange.sos.se");
-            smtpClient.Credentials = credentials;
-            smtpClient.EnableSsl = true;
+            SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
+            //smtpClient.Credentials = credentials;
+            //smtpClient.EnableSsl = true;
             smtpClient.Send(msg);
         }
     }

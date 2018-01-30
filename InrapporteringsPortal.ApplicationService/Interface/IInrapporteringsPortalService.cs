@@ -30,6 +30,6 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
-        void SaveToLoginLog(string userid);
+        void SaveToLoginLog(string userid, string userName);
     }
 }

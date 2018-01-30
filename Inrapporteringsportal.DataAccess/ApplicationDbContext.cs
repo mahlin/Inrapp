@@ -66,7 +66,8 @@ namespace InrapporteringsPortal.DataAccess
             //Inloggning
             modelBuilder.Entity<Inloggning>().Property(e => e.Id).HasColumnName("inloggningsid");
             modelBuilder.Entity<Inloggning>().Property(e => e.ApplicationUserId).HasColumnName("kontaktpersonid");
-            modelBuilder.Entity<Inloggning>().Property(e => e.Inloggningstidpunkt).HasColumnName("inloggningstidpunkt");
+            modelBuilder.Entity<Inloggning>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<Inloggning>().Property(e => e.SkapadAv).HasColumnName("skapadav");
 
             //Leverans
             modelBuilder.Entity<Leverans>().Property(e => e.Id).HasColumnName("leveransid");
@@ -189,11 +190,8 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<Aterkoppling>().Property(e => e.LeveransId).HasColumnName("leveransId");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.Leveransstatus).HasColumnName("leveransstatus");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.Resultatfil).HasColumnName("resultatfil");
-            modelBuilder.Entity<Aterkoppling>().Property(e => e.Aterkopplingstidpunkt).HasColumnName("aterkopplingstidpunkt");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<Aterkoppling>().Property(e => e.SkapadAv).HasColumnName("skapadav");
-            modelBuilder.Entity<Aterkoppling>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
-            modelBuilder.Entity<Aterkoppling>().Property(e => e.AndradAv).HasColumnName("andradav");
 
 
             //AdmInformation

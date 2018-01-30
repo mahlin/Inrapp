@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Bekräfta epostadress";
+    ViewBag.Title = "Epostadress bekräftad";
 }
 
-
-@Html.Raw(ViewBag.Text)
+<br /><br />
+@Html.Raw(ViewBag.Title)
 <div>
     <p>
-        Tack för att du bekräftat din epostadress.
+        Tack för att du bekräftat din epostadress.<br />
         @Html.ActionLink("Klicka här för att registrera ett mobilnummer.", "AddPhoneNumber", "Manage", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
 </div>

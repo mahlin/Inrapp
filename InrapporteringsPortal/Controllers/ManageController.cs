@@ -203,7 +203,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     if (user != null)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        _portalService.SaveToLoginLog(user.Id);
+                        _portalService.SaveToLoginLog(user.Id, user.UserName);
                     }
                     return RedirectToAction("Index", new {Message = ManageMessageId.AddPhoneSuccess});
                 }

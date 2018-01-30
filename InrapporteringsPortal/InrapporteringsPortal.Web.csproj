@@ -557,7 +557,9 @@
     <Content Include="Scripts\blueimp-gallery2\js\blueimp-gallery.min.js.map" />
     <Content Include="Scripts\blueimp-gallery2\js\blueimp-helper.min.js.map" />
     <Content Include="Scripts\blueimp-gallery2\js\jquery.blueimp-gallery.min.js.map" />
-    <Content Include="PrivateSettings.config" />
+    <None Include="PrivateSettings.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -651,9 +653,9 @@
     <Content Include="Views\FileUpload\Index.cshtml" />
     <Content Include="Views\FileUpload\Show.cshtml" />
     <Content Include="Views\FileUpload\_Files.cshtml" />
-    <Content Include="ConnectionStrings.config">
+    <None Include="ConnectionStrings.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Views\Shared\CustomError.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
   </ItemGroup>

@@ -100,7 +100,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     case SignInStatus.Success:
                         var user = UserManager.FindByEmail(model.Email);
-                        _portalService.SaveToLoginLog(user.Id);
+                        _portalService.SaveToLoginLog(user.Id, user.UserName);
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -172,7 +172,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     case SignInStatus.Success:
                         //TODO- get userid. Logga i db
                         var user = UserManager.FindByEmail(model.UserEmail);
-                        _portalService.SaveToLoginLog(user.Id);
+                        _portalService.SaveToLoginLog(user.Id, user.UserName);
                         return RedirectToLocal(model.ReturnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");
@@ -248,9 +248,8 @@ namespace InrapporteringsPortal.Web.Controllers
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                             //TODO mail
                             await UserManager.SendEmailAsync(user.Id,
-                                "Confirm your account",
-                                "Please confirm your account by clicking this link: <a href=\""
-                                + callbackUrl + "\">link</a>");
+                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
+                                callbackUrl);
                             // ViewBag.Link = callbackUrl;   // Used only for initial demo.
 
                             return View("DisplayEmail");

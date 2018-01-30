@@ -119,9 +119,9 @@ namespace InrapporteringsPortal.ApplicationService
             return registerList;
         }
 
-        public void SaveToLoginLog(string userid)
+        public void SaveToLoginLog(string userid, string userName)
         {
-            _portalRepository.SaveToLoginLog(userid);
+            _portalRepository.SaveToLoginLog(userid, userName);
         }
 
         public string HamtaInformationsText(string infoTyp)
