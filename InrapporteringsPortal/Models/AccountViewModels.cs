@@ -42,6 +42,25 @@ namespace InrapporteringsPortal.Web.Models
         public string UserEmail { get; set; }
     }
 
+
+    public class RegisterVerifyPhoneNumberViewModel
+    {
+        [Required(ErrorMessage = "Fältet Kod är obligatoriskt.")]
+        [Display(Name = "Kod")]
+        public string Code { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Id { get; set; }
+    }
+
+    public class RegisterPhoneNumberViewModel
+    {
+        [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
+        [Phone(ErrorMessage = "Inte ett giltigt mobilnummer")]
+        [Display(Name = "Mobilnummer")]
+        public string Number { get; set; }
+        public string Id { get; set; }
+    }
+
     public class ForgotViewModel
     {
         [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
@@ -88,6 +107,7 @@ namespace InrapporteringsPortal.Web.Models
         [Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
+
 
     public class ResetPasswordViewModel
     {

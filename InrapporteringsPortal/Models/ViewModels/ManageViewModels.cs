@@ -66,6 +66,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Number { get; set; }
     }
 
+
     public class VerifyPhoneNumberViewModel
     {
         [Required(ErrorMessage = "Fältet Kod är obligatoriskt.")]

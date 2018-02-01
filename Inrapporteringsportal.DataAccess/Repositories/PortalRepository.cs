@@ -198,23 +198,29 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 var filmaskList = new List<string>();
                 var regExpList = new List<string>();
 
+                var filmaskListB = new List<string>();
+                var regExpListB = new List<string>();
+
                 //Antal filer, filmask samt regexp
                 if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
                 {
-                    var forvantadFil = item.AdmFilkrav.Select(x => x.AdmForvantadfil).ToList();
+                    var forvantadFil= item.AdmFilkrav.Select(x => x.AdmForvantadfil);
 
-                    regInfo.AntalFiler = forvantadFil.Count;
-                    regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
                     foreach (var forvFil in forvantadFil)
                     {
-                        filmaskList.Add(forvFil.Select(x => x.Filmask).FirstOrDefault());
-                        regExpList.Add(forvFil.Select(x => x.Regexp).FirstOrDefault());
-                        regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + forvFil.Select(x => x.Filmask).FirstOrDefault();
+                        regInfo.AntalFiler = forvFil.Count();
+                        foreach (var fil in forvFil)
+                        {
+                            filmaskListB.Add(fil.Filmask);
+                            regExpListB.Add(fil.Regexp);
+                            regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
+                        }
                     }
                     //get period och forvantadleveransId
                     GetPeriodForAktuellLeverans(item.AdmFilkrav, regInfo);
                 }
 
+                regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
                 regInfo.FilMasker = filmaskList;
                 regInfo.RegExper = regExpList;
 

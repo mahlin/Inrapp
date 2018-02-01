@@ -7,19 +7,20 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
     {
          #region Public Methods
 
-        public static void WriteToErrorLog(string className, string methodName, string message, int errorcode = 0)
+        public static void WriteToErrorLog(string className, string methodName, string message, int errorcode = 0, string userName = "")
         {
 
             try
             {
-                string errorMessage = "";
+                string errorMessage = "Username: " + userName + "\r\n";
+
                 if (errorcode != 0)
                 {
-                    errorMessage = "Code: " + errorcode + "\r\n Message: " + message;
+                    errorMessage = errorMessage + "Code: " + errorcode + "\r\n Message: " + message;
                 }
                 else
                 {
-                    errorMessage = "Message: " + message;
+                    errorMessage = errorMessage + "Message: " + message;
                 }
                 
                 FileLogWriter _log = new FileLogWriter();
@@ -31,6 +32,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 //ToDO..
                 Console.WriteLine(e);
                 var t = e.ToString();
+                throw;
             }
         }
 

@@ -211,7 +211,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("ManageController", "VerifyPhoneNumber", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("ManageController", "VerifyPhoneNumber", e.ToString(), e.HResult, User.Identity.Name);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade vid verifiering av mobilnummer.",

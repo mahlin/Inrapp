@@ -80,7 +80,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("FileUploadController", "Index", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("FileUploadController", "Index", e.ToString(), e.HResult, User.Identity.Name);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade i filuppladdningssidan.",
@@ -132,7 +132,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade vid uppladdning av fil.",
@@ -161,7 +161,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult);
+                        ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
                         var errorModel = new CustomErrorPageModel
                         {
                             Information = "Ett fel inträffade när filen skulle sparas till registrets logg.",
@@ -217,7 +217,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("FileUploadController", "DownloadFile", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("FileUploadController", "DownloadFile", e.ToString(), e.HResult, User.Identity.Name);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade vid öppningen av återkopplingsfilen",

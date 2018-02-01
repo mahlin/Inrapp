@@ -36,7 +36,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -47,26 +47,14 @@ namespace InrapporteringsPortal.Web.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
+            get { return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>(); }
+            private set { _signInManager = value; }
         }
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
         }
 
         //
@@ -92,10 +80,10 @@ namespace InrapporteringsPortal.Web.Controllers
 
             try
             {
-
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,
+                    shouldLockout: false);
                 switch (result)
                 {
                     case SignInStatus.Success:
@@ -122,7 +110,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("AccountController", "Login", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("AccountController", "Login", e.ToString(), e.HResult, model.Email);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade vid inloggningen",
@@ -141,10 +129,10 @@ namespace InrapporteringsPortal.Web.Controllers
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe, string userEmail = "")
         {
             // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Error");
-            }
+            //if (!await SignInManager.HasBeenVerifiedAsync())
+            //{
+            //    return View("Error");
+            //}
 
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe, UserEmail = userEmail});
         }
@@ -185,7 +173,7 @@ namespace InrapporteringsPortal.Web.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                ErrorManager.WriteToErrorLog("AccountController", "VerifyCode", e.ToString(), e.HResult);
+                ErrorManager.WriteToErrorLog("AccountController", "VerifyCode", e.ToString(), e.HResult, model.UserEmail);
                 var errorModel = new CustomErrorPageModel
                 {
                     Information = "Ett fel inträffade vid verifiering av kod.",
@@ -239,7 +227,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         if (result.Succeeded)
                         {
                             //TODO - ta fram nästa rad för att kräva 2faktor-inloggning
-                            //await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
+                            await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
                             //TODO - signa ej in förrän allt är klart?
                             //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -247,9 +235,9 @@ namespace InrapporteringsPortal.Web.Controllers
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                             //TODO mail
-                            await UserManager.SendEmailAsync(user.Id,
-                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
-                                callbackUrl);
+                            //await UserManager.SendEmailAsync(user.Id,
+                            //    "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
+                            //    callbackUrl);
                             // ViewBag.Link = callbackUrl;   // Used only for initial demo.
 
                             return View("DisplayEmail");
@@ -274,7 +262,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    ErrorManager.WriteToErrorLog("AccountController", "Register", e.ToString(), e.HResult);
+                    ErrorManager.WriteToErrorLog("AccountController", "Register", e.ToString(), e.HResult, model.Email);
                     var errorModel = new CustomErrorPageModel
                     {
                         Information = "Ett fel inträffade vid registreringen.",
@@ -304,7 +292,135 @@ namespace InrapporteringsPortal.Web.Controllers
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            if (result.Succeeded)
+            {
+                var user = UserManager.FindById(userId);
+                var model = new RegisterPhoneNumberViewModel();
+                model.Id = userId;
+                return View("ConfirmEmail", model);
+            }
+            else
+            {
+                return View("Error");
+            }
+
+            //return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        // GET: AddPhoneNumber
+        [AllowAnonymous]
+        public ActionResult AddPhoneNumber(string id = "")
+        {
+            var model = new RegisterPhoneNumberViewModel();
+            model.Id = id;
+            return View(model);
+        }
+
+        //
+        // POST: /AddPhoneNumber
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddPhoneNumber(RegisterPhoneNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Generate the token and send it
+            //TODO - test
+            //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //// Generate the token and send it
+            //if (!await SignInManager.SendTwoFactorCodeAsync("Phone Code"))
+            //{
+            //    return View("Error");
+            //}
+            ////return RedirectToAction("VerifyCode", new { Provider = "Phone Code"});
+            //return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+
+            try
+            {
+                var code = await UserManager.GenerateChangePhoneNumberTokenAsync(model.Id, model.Number);
+
+                if (UserManager.SmsService != null)
+                {
+                    var message = new IdentityMessage
+                    {
+                        Destination = model.Number,
+                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registera dig ange följande säkerhetskod på webbsidan: " + code
+
+                    };
+                    await UserManager.SmsService.SendAsync(message);
+                }
+                return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number, Id = model.Id });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "Register", e.ToString(), e.HResult, model.Id);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid registreringen.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
+
+        }
+
+        //
+        // GET: /Manage/VerifyPhoneNumber
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber, string id)
+        {
+            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, phoneNumber);
+            // Send an SMS through the SMS provider to verify the phone number
+            return phoneNumber == null ? View("Error") : View(new RegisterVerifyPhoneNumberViewModel { PhoneNumber = phoneNumber, Id = id });
+        }
+
+        //
+        // POST: /Manage/VerifyPhoneNumber
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> VerifyPhoneNumber(RegisterVerifyPhoneNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                var result =
+                    await UserManager.ChangePhoneNumberAsync(model.Id, model.PhoneNumber, model.Code);
+                if (result.Succeeded)
+                {
+                    var user = await UserManager.FindByIdAsync(model.Id);
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        _portalService.SaveToLoginLog(user.Id, user.UserName);
+                    }
+                    return RedirectToAction("Index", "FileUpload");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "VerifyPhoneNumber", e.ToString(), e.HResult, User.Identity.GetUserName());
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid verifiering av mobilnummer.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
+            // If we got this far, something failed, redisplay form
+            ModelState.AddModelError("", "Misslyckades att bekräfta mobilnummer");
+            return View(model);
         }
 
         //

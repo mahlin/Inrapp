@@ -1,12 +1,18 @@
-﻿@{
+﻿@model InrapporteringsPortal.Web.Models.RegisterPhoneNumberViewModel
+@{
     ViewBag.Title = "Epostadress bekräftad";
 }
 
+@Html.Hidden(Model.Id)
+
 <br /><br />
-@Html.Raw(ViewBag.Title)
+<h4>@Html.Raw(ViewBag.Title)</h4>
+<br />
 <div>
     <p>
         Tack för att du bekräftat din epostadress.<br />
-        @Html.ActionLink("Klicka här för att registrera ett mobilnummer.", "AddPhoneNumber", "Manage", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        @Html.ActionLink("Klicka här för att registrera ett mobilnummer.", "AddPhoneNumber", "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
+
+
     </p>
 </div>

@@ -658,6 +658,8 @@
     </None>
     <Content Include="Views\Shared\CustomError.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Account\VerifyPhoneNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
