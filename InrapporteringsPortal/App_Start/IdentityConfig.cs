@@ -35,13 +35,10 @@ namespace InrapporteringsPortal.Web
             #region formatter
             string text = string.Format("Vänligen klicka på den här länken för att bekäfta ditt konto:  {1}", message.Subject, message.Body);
             string html = "Vänligen bekräfta ditt konto i Socialstyrelsens inrapporteringsportal genom att klicka på den här länken: <a href=" + message.Body + "\">Bekräfta epost</a><br/>";
-
-            //html += HttpUtility.HtmlEncode(@"Or copy the following link on the browser:" + message.Body);
             #endregion
 
             MailMessage msg = new MailMessage();
             //TODO
-           // msg.From = new MailAddress("inrapportering@socialstyrelsen.se");
             msg.From = new MailAddress(ConfigurationManager.AppSettings["MailSender"]);
             //TODO
             //msg.To.Add(new MailAddress("marie.ahlin@socialstyrelsen.se"));
@@ -57,7 +54,10 @@ namespace InrapporteringsPortal.Web
             //TODO - mailserver
             SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
             //smtpClient.Credentials = credentials;
-            //smtpClient.EnableSsl = true;
+            if (ConfigurationManager.AppSettings["EnableSsl"] == "True")
+            {
+                smtpClient.EnableSsl = true;
+            }
             smtpClient.Send(msg);
         }
     }

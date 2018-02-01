@@ -198,9 +198,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 var filmaskList = new List<string>();
                 var regExpList = new List<string>();
 
-                var filmaskListB = new List<string>();
-                var regExpListB = new List<string>();
-
                 //Antal filer, filmask samt regexp
                 if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
                 {
@@ -211,8 +208,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                         regInfo.AntalFiler = forvFil.Count();
                         foreach (var fil in forvFil)
                         {
-                            filmaskListB.Add(fil.Filmask);
-                            regExpListB.Add(fil.Regexp);
+                            filmaskList.Add(fil.Filmask);
+                            regExpList.Add(fil.Regexp);
                             regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
                         }
                     }

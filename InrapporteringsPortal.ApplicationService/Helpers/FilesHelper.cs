@@ -156,7 +156,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 var file = request.Files[i];
 
                 //TODO - check filename depending on chosen registertype
-                if (file.ContentLength > 0 && (Path.GetExtension(file.FileName) == ".txt" || Path.GetExtension(file.FileName) == ".xls"))
+                if (file.ContentLength > 0 && (Path.GetExtension(file.FileName).ToLower() == ".txt" || Path.GetExtension(file.FileName).ToLower() == ".xls"))
                 {
                     String pathOnServer = Path.Combine(StorageRoot);
                     //var fullPath = Path.Combine(pathOnServer, Path.GetFileName(file.FileName));
