@@ -25,10 +25,15 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         Organisation HamtaOrgForAnvandare(string userId);
 
         int HamtaUserOrganisationId(string userId);
+        IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
+
+        IEnumerable<Roll> HamtaValdaRegistersForAnvandare(int userId);
 
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
-        IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
+        void SparaValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList);
+
+        void UppdateraValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList);
 
         void SaveToLoginLog(string userid, string userName);
     }

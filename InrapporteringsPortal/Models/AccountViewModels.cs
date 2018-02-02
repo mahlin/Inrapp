@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
+using InrapporteringsPortal.DomainModel;
 
 namespace InrapporteringsPortal.Web.Models
 {
@@ -104,8 +107,23 @@ namespace InrapporteringsPortal.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Bekräfta PINkod")]
-        [Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
+        public List<RegisterInfo> RegisterList { get; set; }
+        public IEnumerable<SelectListItem> RegisterChoices { get; set; }
+        private List<int> selectedRegisters;
+        public List<int> SelectedRegisters
+        {
+            get
+            {
+                if (selectedRegisters == null)
+                {
+                    selectedRegisters = RegisterList.Select(m => m.Id).ToList();
+                }
+                return selectedRegisters;
+            }
+            set { selectedRegisters = value; }
+        }
     }
 
 
@@ -124,7 +142,7 @@ namespace InrapporteringsPortal.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Bekräfta PINkod")]
-        [Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

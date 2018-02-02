@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Validation;
 using System.Globalization;
@@ -189,11 +190,29 @@ namespace InrapporteringsPortal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var model = new RegisterViewModel();
+            //Hämta info om valbara register
+            var registerInfoList = _portalService.HamtaAllRegisterInformation().ToList();
+            model.RegisterList = registerInfoList;
+            model.SelectedRegisters = new List<int> {12, 7};
+            var tmpSelItem = new SelectListItem
+            {
+                Value = "12",
+                Text = "Maries"
+            };
+            var tmpSelItem2 = new SelectListItem
+            {
+                Value = "7",
+                Text = "Findus"
+            };
+            model.RegisterChoices = new List<SelectListItem>{ tmpSelItem, tmpSelItem2 };
+            this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
+
             //Get the culture info of the language code
             CultureInfo culture = CultureInfo.GetCultureInfo("sv");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
-            return View();
+            return View(model);
         }
 
         //
@@ -207,6 +226,11 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 try
                 {
+                    //TODO - test listbox
+                    var tmp = model.SelectedRegisters;
+                    //var newRegisters = repository.Categories.Where(m => carEditViewModel.SelectedCategories.Contains(m.Id));
+
+
                     var organisation = GetOrganisationForEmailDomain(model.Email);
                     if (organisation == null)
                     {
@@ -511,8 +535,7 @@ namespace InrapporteringsPortal.Web.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -552,6 +575,28 @@ namespace InrapporteringsPortal.Web.Controllers
                 //ModelState.AddModelError("", error);
                 ModelState.AddModelError("", _errorDecsriber.LocalizeErrorMessage(error));
             }
+        }
+
+        /// <summary>  
+        /// Create list for register-dropdown  
+        /// </summary>  
+        /// <returns>Return register for drop down list.</returns>  
+        private IEnumerable<SelectListItem> CreateRegisterDropDownList(IEnumerable<RegisterInfo> registerInfoList)
+        {
+            SelectList lstobj = null;
+
+            var list = registerInfoList
+                .Select(p =>
+                    new SelectListItem
+                    {
+                        Value = p.Id.ToString(),
+                        Text = p.Namn
+                    });
+
+            // Setting.  
+            lstobj = new SelectList(list, "Value", "Text");
+
+            return lstobj;
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

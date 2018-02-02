@@ -21,31 +21,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext = dbContext;
         }
 
-        //public Kommun GetByShortName(string shortName)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        ////TODO - 
-        //public IEnumerable<LevereradFil> GetFilloggarForLeveransId(int leveransId, DateTime datumFrom, DateTime datumTom)
-        //{
-        //    //var tmp2 = (from l in DbContext.Leverans
-        //    //    where l.Id == 1
-        //    //    select l).SingleOrDefault();
-
-        //    //var tmp1 = (from f in DbContext.Fillogg
-        //    //    where f.LeveransId == 1
-        //    //            select f).SingleOrDefault(); 
-
-        //    //var tmp = (from f in DbContext.Fillogg
-        //    //    where f.LeveransId == leveransId
-        //    //    orderby f.Id 
-        //    //    select f).ToList();
-
-        //    var filloggar = AllaFilloggar().Where(a => a.LeveransId == leveransId).OrderByDescending(x => x.LeveransId); ;
-
-        //    return filloggar;
-        //}
 
         //TODO - 
         public IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId)
@@ -108,16 +83,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return kommunKod;
         }
 
-        //public string GetKommunKodForUser(string userId)
-        //{
-        //    //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
-        //    //TODO - ska AspNetUsers finnas i DomainModel? ApplicationUser/IdentityUser ligger i DataAccess
-        //    //Jmfr video - ändrar ApplicationUser till User + DbContext/InModelCreating
-        //    //var orgId = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.OrganisationsId).FirstOrDefault();
-        //    var orgId = 1;
-        //    var kommunKod = DbContext.Kommun.Where(a => a.OrganisationsId == orgId).Select(a => a.KommunKod).FirstOrDefault();
-        //    return kommunKod;
-        //}
 
         public void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber)
         {
@@ -299,6 +264,53 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         {
             var aterkoppling = DbContext.Aterkoppling.Where(x => x.LeveransId == levId).FirstOrDefault();
             return aterkoppling;
+        }
+
+        public IEnumerable<Roll> GetChosenRegistersForUser(int userId)
+        {
+            var rollList = new List<Roll>();
+
+            rollList = DbContext.Roll.Where(x => x.ApplicationUserId == userId).ToList();
+
+            return rollList;
+        }
+
+        public void SaveChosenRegistersForUser(int userId, string userName, List<int> regIdList)
+        {
+            foreach (var regId in regIdList)
+            {
+                var roll = new Roll
+                {
+                    DelregisterId = regId,
+                    ApplicationUserId = userId,
+                    SkapadDatum = DateTime.Now,
+                    SkapadAv = userName
+                };
+
+                DbContext.Roll.Add(roll);
+            }
+            DbContext.SaveChanges();
+        }
+
+        public void UpdateChosenRegistersForUser(int userId, string userName, List<int> regIdList)
+        {
+            //delete prevoious choices
+            DbContext.Roll.RemoveRange(DbContext.Roll.Where(x => x.ApplicationUserId == userId));
+
+            //Insert new choices
+            foreach (var regId in regIdList)
+            {
+                var roll = new Roll
+                {
+                    DelregisterId = regId,
+                    ApplicationUserId = userId,
+                    SkapadDatum = DateTime.Now,
+                    SkapadAv = userName
+                };
+
+                DbContext.Roll.Add(roll);
+            }
+            DbContext.SaveChanges();
         }
     }
 }

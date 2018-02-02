@@ -69,6 +69,15 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<Inloggning>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<Inloggning>().Property(e => e.SkapadAv).HasColumnName("skapadav");
 
+            //Roll
+            modelBuilder.Entity<Roll>().Property(e => e.Id).HasColumnName("rollid");
+            modelBuilder.Entity<Roll>().Property(e => e.DelregisterId).HasColumnName("delregisterId");
+            modelBuilder.Entity<Roll>().Property(e => e.ApplicationUserId).HasColumnName("kontaktpersonid");
+            modelBuilder.Entity<Roll>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<Roll>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<Roll>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<Roll>().Property(e => e.AndradAv).HasColumnName("andradav");
+
             //Leverans
             modelBuilder.Entity<Leverans>().Property(e => e.Id).HasColumnName("leveransid");
             modelBuilder.Entity<Leverans>().Property(e => e.OrganisationId).HasColumnName("organisationsid");
@@ -215,5 +224,6 @@ namespace InrapporteringsPortal.DataAccess
         public DbSet<Aterkoppling> Aterkoppling { get; set; }
         public DbSet<AdmInformation> AdmInformation { get; set; }
         public DbSet<Inloggning> Inloggning { get; set; }
+        public DbSet<Roll> Roll { get; set; }
     }
 }

@@ -135,5 +135,21 @@ namespace InrapporteringsPortal.ApplicationService
             var org = _portalRepository.GetOrgForUser(userId);
             return org;
         }
+
+        public IEnumerable<Roll> HamtaValdaRegistersForAnvandare(int userId)
+        {
+            var registerList = _portalRepository.GetChosenRegistersForUser(userId);
+            return registerList;
+        }
+
+        public void SparaValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList)
+        {
+            _portalRepository.SaveChosenRegistersForUser(userId,userName,regIdList);
+        }
+
+        public void UppdateraValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList)
+        {
+            _portalRepository.UpdateChosenRegistersForUser(userId,userName,regIdList);
+        }
     }
 }

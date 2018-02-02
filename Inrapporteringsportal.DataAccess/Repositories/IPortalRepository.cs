@@ -35,9 +35,16 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
 
         Aterkoppling GetAterkopplingForLeverans(int levId);
+
+        IEnumerable<Roll> GetChosenRegistersForUser(int userId);
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);
+
+        void SaveChosenRegistersForUser(int userId, string userName, List<int> regIdList);
+
+        void UpdateChosenRegistersForUser(int userId, string userName, List<int> regIdList);
     }
 
 }
