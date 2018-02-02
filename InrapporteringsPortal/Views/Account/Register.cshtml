@@ -9,15 +9,53 @@
     <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" />*@
 
 <script type="text/javascript">
+
+    var register = @Html.Raw(Json.Encode(Model.RegisterList));
+
+    $(document).ready(function () {
+        $('[id*=RegList]').multiselect({
+            onChange: function (option, checked, select) {
+                alert('Changed option ' + $(option).val() + ' , namn: '+ $(option).text());
+                $.each(register, function(index, item) {
+                    if (item.Id === parseInt($(option).val())) {
+                        item.Selected = true;
+                    }
+                    alert('Id: ' + item.Id + ', namn: ' + item.Namn + ', vald: ' + item.Selected);
+                });
+                //alert('selected: ' + $('#RegList option:selected').val());
+                //alert('selected2: ' + $(option)).map(function (a, item) { return item.value; });
+            },
+            includeSelectAllOption: true,
+            nonSelectedText: 'Inget valt',
+            allSelectedText: 'Alla valda',
+            selectAllText: "Välj alla",
+            nSelectedText: "valda"
+        });
+    });
+
     $(function () {
         $("#txtName").focus();
     });
 
-    $(function () {
-        $('[id*=RegList]').multiselect({
-            includeSelectAllOption: true
-        });
-    });
+    //$(function () {
+    //    $('[id*=RegList]').multiselect({
+    //        includeSelectAllOption: true,
+    //        nonSelectedText: 'Inget valt',
+    //        allSelectedText: 'Alla valda',
+    //        selectAllText: "Välj alla",
+    //        nSelectedText: "valda"
+    //    });
+    //});
+
+    function checkChosen() {
+        alert("Hej");
+        //  get all option elements
+        $('#example option:selected');
+ 
+        // get all option element values
+        $('#example option:selected').map(function(a, item){return item.value;});
+    }
+
 </script>
 
 
@@ -52,23 +90,8 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { maxlength = 4, @class = "form-control" })
         </div>
     </div>
-
     @*<div class="form-group">
         @Html.Label("Välj register", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            <select id="RegList" multiple="multiple">
-                <option value="1">Navdeep-Asp.net</option>
-                <option value="2">Pankaj-C#</option>
-                <option value="3">Bikesh-Asp.Net</option>
-                <option value="4">Pritam-Salesforce</option>
-                <option value="5">Payal-Salesforce</option>
-                <option value="6">Sujata-SSRS</option>
-                <option value="7">Harikant-UI</option>
-            </select>
-        </div>
-    </div>*@
-    @*<div class="form-group">
-        @Html.Label("Välj register2", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             <select id="RegList" multiple="multiple">
                 @for (var i = 0; i < Model.RegisterList.Count; i++)

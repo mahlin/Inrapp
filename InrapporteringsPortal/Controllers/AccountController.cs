@@ -227,7 +227,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 try
                 {
                     //TODO - test listbox
-                    var tmp = model.SelectedRegisters;
+                    //var tmp = model.SelectedRegisters;
                     //var newRegisters = repository.Categories.Where(m => carEditViewModel.SelectedCategories.Contains(m.Id));
 
 

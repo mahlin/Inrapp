@@ -18,6 +18,7 @@ namespace InrapporteringsPortal.DomainModel
         public string RegExp { get; set; }
         public string Period { get; set; }
         public int ForvantadLevransId { get; set; }
+        public bool Selected { get; set; } = false;
         public IEnumerable<string> FilMasker { get; set; }
         public IEnumerable<string> RegExper { get; set; }
     }
