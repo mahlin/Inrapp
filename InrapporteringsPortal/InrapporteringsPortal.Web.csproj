@@ -663,6 +663,8 @@
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\AddPhoneNumber.cshtml" />
     <Content Include="Views\Account\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Home\Closed.cshtml" />
+    <Content Include="Views\Shared\_LayoutClosed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
