@@ -10,82 +10,19 @@
     var register = @Html.Raw(Json.Encode(Model.RegisterList));
 
     $(document).ready(function () {
-        //Sätt checkboxar i select-listan utifrån modellen
-        //$.each(register, function (index, item) {
-        //    //if (register(index).selected === true) {
-        //    //    $('option[12]', $('#RegList')).prop('selected', true);
-        //    //}
-        //});
-
-
-
-        //$.each(register, function (index, item) {
-        //    alert('register, loop, före: ' + item.Id + ', Selected: ' + item.Selected );
-            //if ($('#RegisterList_' + index + '__Selected').val() === 'True') {
-            //    item.Selected = true;
-            //    item.prop('selected', true);
-            //}
-            //$("#RegList > option").each(function (i) {
-            //    if (register(i).selected === true) {
-            //        this.prop('selected', true);
-            //    }
-            //});
-
-            //if (register(index).selected === true) {
-
-            //}
-        //    alert('register, loop, efter: ' + item.Id + ', Selected: ' + item.Selected);
-        //    //alert('Option1: ' + $('option[value="1"]').val());
-        //    $('options').each(function(i) {
-        //        alert("i: " + i);
-        //    });
-
-        //});
 
         $('[id*=RegList]').multiselect({
             onInitialized: function() {
-                //$("#RegList > option").each(function (i, item) {
-                //    alert($("#RegList > option")[i].value);
-                //    alert('loop alla i selectlist vid initiering: ' + this.text + ', ' + this.value + ', ' + this.selected + ', index: ' + i);
-                //    $.each(register, function (index, item) {
-                //        if (item.Id === this.value) {
-                //            alert('register valt: ' + item.Namn);
-                //        }
-                //    });
-                //    if (register(i).selected === true) {
-                //    this.selected = true;
-                //    this.prop('selected', true);
-                //    var list = $('#RegList').val();
-                //    var tmp = item;
-                //    var tmp2 = item.val();
-                //    $('option[value="7"]', $('#RegList')).prop('selected', true);
-                //    }
-                //    alert('initiering, efter sättning: ' + this.text + ' ' + this.value + this.selected);
-                //});
                 $.each(register, function (index, item) {
-                    //alert('loop alla i registerList vid initiering: ' + item.Namn + ', ' + item.Id + ', ' + item.Selected + ', index: ' + index);
                     if (item.Selected) {
-                        //alert(register[index].Namn);
-                        //alert($("#RegList > option")[index].selected);
                         $("#RegList > option")[index].selected = true;
                         $("#RegList > option")[index].checked = true;
-                        //$("#RegList > option:selected")[index].prop('selected', true);
-                        //$("option")[i].value, $('#example-refresh')).prop('selected', true);
-                        //alert("efter: " + $("#RegList > option")[index].selected);
                     }
                 });
-                //$('#RegList').multiselect('refresh');
                 this.refresh();
-                //$("#RegList > option: selected").each(function(i, item) {
-                //    alert('Valda: ' + $("#RegList > option:selected").value);
-                //});
             },
             onChange: function (option, checked, select) {
-                //alert('Changed option ' + $(option).val() + ' , namn: ' + $(option).text());
                 $.each(register, function(index, item) {
-                    //if (item.Id === parseInt($(option).val())) {
-                    //    item.Selected = true;
-                    //}
                     if ($('#RegisterList_' + index + '__Id').val() === $(option).val()) {
                         if ($('#RegisterList_' + index + '__Selected').val() === 'False')
                             $('#RegisterList_' + index + '__Selected').val('True');
@@ -93,14 +30,6 @@
                             $('#RegisterList_' + index + '__Selected').val('False');
                     }
                 });
-                //alert('Valda: ' + $('#RegList option:selected').val());
-                //$("#RegList > option:selected").each(function() {
-                //    alert('loop valda: ' + this.text + ' ' + this.value + this.selected);
-                //});
-                //$.each(register, function (index, item) {
-                //    alert('model, loop, efter: ' + $('#RegisterList_' + index + '__Namn').val() + ', Selected: ' + $('#RegisterList_' + index + '__Selected').val() );
-                //    //if ($('#RegisterList_' + index + '__Selected').val() === 'True') {
-                //});
             },
             includeSelectAllOption: true,
             nonSelectedText: 'Inget valt',

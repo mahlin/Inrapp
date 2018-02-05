@@ -15,21 +15,11 @@
     $(document).ready(function () {
         $('[id*=RegList]').multiselect({
             onChange: function (option, checked, select) {
-                //alert('Changed option ' + $(option).val() + ' , namn: ' + $(option).text());
                 $.each(register, function(index, item) {
-                    //if (item.Id === parseInt($(option).val())) {
-                    //    item.Selected = true;
-                    //}
                     if ($('#RegisterList_' + index + '__Id').val() === $(option).val()) {
                         $('#RegisterList_' + index + '__Selected').val('True');
                     }
-                    //alert('Reglist: ' + $('#RegisterList_' + index + '__Id').val() + ', Selected: ' + $('#RegisterList_' + index + '__Selected').val());
-
-                    //alert('Id: ' + item.Id + ', namn: ' + item.Namn + ', vald: ' + item.Selected);
                 });
-
-                //alert('selected: ' + $('#RegList option:selected').val());
-                //alert('selected2: ' + $(option)).map(function (a, item) { return item.value; });
             },
             includeSelectAllOption: true,
             nonSelectedText: 'Inget valt',
@@ -42,16 +32,7 @@
     $(function () {
         $("#txtName").focus();
     });
-
-    //$(function () {
-    //    $('[id*=RegList]').multiselect({
-    //        includeSelectAllOption: true,
-    //        nonSelectedText: 'Inget valt',
-    //        allSelectedText: 'Alla valda',
-    //        selectAllText: "Välj alla",
-    //        nSelectedText: "valda"
-    //    });
-    //});
+    
 
     function checkChosen() {
         alert("Hej");
