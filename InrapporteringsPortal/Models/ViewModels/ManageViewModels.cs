@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -12,6 +13,7 @@ namespace InrapporteringsPortal.Web.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public List<RegisterInfo> RegisterList { get; set; }
     }
 
     public class ManageLoginsViewModel

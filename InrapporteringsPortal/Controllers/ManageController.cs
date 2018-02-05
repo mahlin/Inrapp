@@ -72,6 +72,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 : message == ManageMessageId.Error ? "Ett fel har uppstått."
                 : message == ManageMessageId.AddPhoneSuccess ? "Ditt mobilnummer har sparats."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ditt mobilnummer har tagits bort."
+                : message == ManageMessageId.ChangeChosenRegister ? "Valda register har registrerats."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -81,7 +82,8 @@ namespace InrapporteringsPortal.Web.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                RegisterList = _portalService.HamtaRegistersMedAnvandaresVal(userId).ToList()
             };
             return View(model);
         }
@@ -327,6 +329,19 @@ namespace InrapporteringsPortal.Web.Controllers
             });
         }
 
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeChosenRegisters(IndexViewModel model)
+        {
+            //Uppdatera valda register
+            _portalService.UppdateraValdaRegistersForAnvandare(User.Identity.GetUserId(), User.Identity.GetUserName(), model.RegisterList);
+
+            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeChosenRegister });
+        }
+
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
@@ -409,6 +424,7 @@ namespace InrapporteringsPortal.Web.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+            ChangeChosenRegister,
             Error
         }
 

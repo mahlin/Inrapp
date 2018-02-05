@@ -266,7 +266,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return aterkoppling;
         }
 
-        public IEnumerable<Roll> GetChosenRegistersForUser(int userId)
+        public IEnumerable<Roll> GetChosenRegistersForUser(string userId)
         {
             var rollList = new List<Roll>();
 
@@ -275,40 +275,50 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return rollList;
         }
 
-        public void SaveChosenRegistersForUser(int userId, string userName, List<int> regIdList)
+        public void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList)
         {
-            foreach (var regId in regIdList)
+            foreach (var register in registerList)
             {
-                var roll = new Roll
+                if (register.Selected)
                 {
-                    DelregisterId = regId,
-                    ApplicationUserId = userId,
-                    SkapadDatum = DateTime.Now,
-                    SkapadAv = userName
-                };
+                    var roll = new Roll
+                    {
+                        DelregisterId = register.Id,
+                        ApplicationUserId = userId,
+                        SkapadDatum = DateTime.Now,
+                        SkapadAv = userName,
+                        AndradDatum = DateTime.Now,
+                        AndradAv = userName
+                    };
 
-                DbContext.Roll.Add(roll);
+                    DbContext.Roll.Add(roll);
+                }
             }
             DbContext.SaveChanges();
         }
 
-        public void UpdateChosenRegistersForUser(int userId, string userName, List<int> regIdList)
+        public void UpdateChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList)
         {
             //delete prevoious choices
             DbContext.Roll.RemoveRange(DbContext.Roll.Where(x => x.ApplicationUserId == userId));
 
             //Insert new choices
-            foreach (var regId in regIdList)
+            foreach (var register in registerList)
             {
-                var roll = new Roll
+                if (register.Selected)
                 {
-                    DelregisterId = regId,
-                    ApplicationUserId = userId,
-                    SkapadDatum = DateTime.Now,
-                    SkapadAv = userName
-                };
+                    var roll = new Roll
+                    {
+                        DelregisterId = register.Id,
+                        ApplicationUserId = userId,
+                        SkapadDatum = DateTime.Now,
+                        SkapadAv = userName,
+                        AndradDatum = DateTime.Now,
+                        AndradAv = userName
+                    };
 
-                DbContext.Roll.Add(roll);
+                    DbContext.Roll.Add(roll);
+                }
             }
             DbContext.SaveChanges();
         }

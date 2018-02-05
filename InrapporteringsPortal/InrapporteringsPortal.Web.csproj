@@ -540,6 +540,8 @@
     <Content Include="Scripts\blueimp-gallery2\js\blueimp-helper.min.js" />
     <Content Include="Scripts\blueimp-gallery2\js\jquery.blueimp-gallery.js" />
     <Content Include="Scripts\blueimp-gallery2\js\jquery.blueimp-gallery.min.js" />
+    <Content Include="Scripts\bootstrap-multiselect\dist\css\bootstrap-multiselect.css" />
+    <Content Include="Scripts\bootstrap-multiselect\dist\js\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -562,6 +564,7 @@
     </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <Content Include="Scripts\bootstrap-multiselect\dist\less\bootstrap-multiselect.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\custom\custom.js" />
     <Content Include="Scripts\cldr.js" />

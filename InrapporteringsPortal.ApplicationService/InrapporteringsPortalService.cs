@@ -136,20 +136,53 @@ namespace InrapporteringsPortal.ApplicationService
             return org;
         }
 
-        public IEnumerable<Roll> HamtaValdaRegistersForAnvandare(int userId)
+        public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId)
         {
             var registerList = _portalRepository.GetChosenRegistersForUser(userId);
-            return registerList;
+            var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+            var userRegisterList = new List<RegisterInfo>();
+
+            foreach (var register in allaRegisterList)
+            {
+                foreach (var userRegister in registerList)
+                {
+                    if (register.Id == userRegister.DelregisterId)
+                    {
+                        userRegisterList.Add(register);
+                    }
+                }
+            }
+
+            return userRegisterList;
         }
 
-        public void SparaValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList)
+        public void SparaValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> regIdList)
         {
             _portalRepository.SaveChosenRegistersForUser(userId,userName,regIdList);
         }
 
-        public void UppdateraValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList)
+        public void UppdateraValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList)
         {
-            _portalRepository.UpdateChosenRegistersForUser(userId,userName,regIdList);
+            _portalRepository.UpdateChosenRegistersForUser(userId,userName, registerList);
+        }
+
+        public IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId)
+        {
+            var registerList = _portalRepository.GetChosenRegistersForUser(userId);
+            var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+
+            foreach (var register in allaRegisterList)
+            {
+                foreach (var userRegister in registerList)
+                {
+                    if (register.Id == userRegister.DelregisterId)
+                    {
+                        register.Selected = true;
+                    }
+                }
+            }
+
+            return allaRegisterList;
         }
     }
 }

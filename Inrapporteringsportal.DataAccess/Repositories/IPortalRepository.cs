@@ -36,15 +36,15 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         Aterkoppling GetAterkopplingForLeverans(int levId);
 
-        IEnumerable<Roll> GetChosenRegistersForUser(int userId);
+        IEnumerable<Roll> GetChosenRegistersForUser(string userId);
 
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);
 
-        void SaveChosenRegistersForUser(int userId, string userName, List<int> regIdList);
+        void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
 
-        void UpdateChosenRegistersForUser(int userId, string userName, List<int> regIdList);
+        void UpdateChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
     }
 
 }

@@ -194,18 +194,18 @@ namespace InrapporteringsPortal.Web.Controllers
             //Hämta info om valbara register
             var registerInfoList = _portalService.HamtaAllRegisterInformation().ToList();
             model.RegisterList = registerInfoList;
-            model.SelectedRegisters = new List<int> {12, 7};
-            var tmpSelItem = new SelectListItem
-            {
-                Value = "12",
-                Text = "Maries"
-            };
-            var tmpSelItem2 = new SelectListItem
-            {
-                Value = "7",
-                Text = "Findus"
-            };
-            model.RegisterChoices = new List<SelectListItem>{ tmpSelItem, tmpSelItem2 };
+            //model.SelectedRegisters = new List<int> {12, 7};
+            //var tmpSelItem = new SelectListItem
+            //{
+            //    Value = "12",
+            //    Text = "Maries"
+            //};
+            //var tmpSelItem2 = new SelectListItem
+            //{
+            //    Value = "7",
+            //    Text = "Findus"
+            //};
+            //model.RegisterChoices = new List<SelectListItem>{ tmpSelItem, tmpSelItem2 };
             this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
 
             //Get the culture info of the language code
@@ -251,6 +251,8 @@ namespace InrapporteringsPortal.Web.Controllers
                         if (result.Succeeded)
                         {
                             await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
+                            //Spara valda register
+                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.Namn,model.RegisterList);
                             //Verifiera epostadress
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);

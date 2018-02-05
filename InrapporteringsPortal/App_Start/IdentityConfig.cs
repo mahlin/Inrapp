@@ -69,10 +69,17 @@ namespace InrapporteringsPortal.Web
             var usr = WebConfigurationManager.AppSettings["SMSUser"];
             var pwd = WebConfigurationManager.AppSettings["SMSPwd"];
             var sender = WebConfigurationManager.AppSettings["SMSSender"];
+            var proxy = WebConfigurationManager.AppSettings["Proxy"];
 
             HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=" + sender + "&msg=" + message.Body) as HttpWebRequest;
 
+
+            WebProxy proxyObject = new WebProxy(proxy);
+            WebRequest.DefaultWebProxy = proxyObject;
+
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+            response.Close();
         }
     }
 

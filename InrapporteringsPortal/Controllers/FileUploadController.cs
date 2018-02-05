@@ -56,8 +56,8 @@ namespace InrapporteringsPortal.Web.Controllers
             try
             {
                 //Hämta info om valbara register
-                var registerInfoList = GetRegisterInfo().ToList();
-                _model.RegisterList = registerInfoList;
+                var registerInfoList = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId());
+                _model.RegisterList = registerInfoList.ToList();
 
                 // Ladda drop down lists.  
                 this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
@@ -250,77 +250,24 @@ namespace InrapporteringsPortal.Web.Controllers
             ViewBag.RegisterList = CreateRegisterDropDownList(_model.RegisterList);
         }
 
-        public IEnumerable<RegisterInfo> GetRegisterInfo()
-        {
-            var registerList= _portalService.HamtaAllRegisterInformation();
+        //public IEnumerable<RegisterInfo> GetRegisterInfo()
+        //{
+        //    var allaRegisterList= _portalService.HamtaAllRegisterInformation();
 
-            //TODO - antal filer ska finnas att hämta i databasen "admForvantadfil"? Tills dess hårdkodat
-            //foreach (var item in registerList)
-            //{
-            //    if (item.Kortnamn == "BU")
-            //    {
-            //        item.AntalFiler = 2;
-            //    }
-            //    else
-            //    {
-            //        item.AntalFiler = 1;
-            //    }
-            //}
+        //    //Visa bara de register som användaren valt att repportera till
+        //    var chosenRegisters = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId());
 
-            //var reg1 = new RegisterInfo();
-            //var reg2 = new RegisterInfo();
-            //var reg3 = new RegisterInfo();
-            //var str1 = "Filnamn ska vara i formatet BU_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Bu_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 2";
-            //var str2 = "Filnamn ska vara i formatet EBK_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Ekb_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            //var str3 = "Filnamn ska vara i formatet LSS_Länskod och Kommunkod_Inrapporteringsperiod_datum och klockslag.txt<br/>Ex.Lss_1122_1710_1711141532.txt <br/>Antal filer som ska inrapporteras i en leverans: 1";
-            //var registerInfoTextList = new List<KeyValuePair<int, string>>();
-            //registerInfoTextList.Add(new KeyValuePair<int, string>(1, str1));
-            //registerInfoTextList.Add(new KeyValuePair<int, string>(2, str2));
-            //registerInfoTextList.Add(new KeyValuePair<int, string>(3, str3));
-            //_model.RegisterInfoText = registerInfoTextList;
+        //    foreach (var register in allaRegisterList)
+        //    {
+        //        foreach (var VARIABLE in COLLECTION)
+        //        {
+                    
+        //        }
+        //    }
 
-            //var registerFilAntalList = new List<KeyValuePair<int, int>>();
-            //registerFilAntalList.Add(new KeyValuePair<int, int>(1, 2));
-            //registerFilAntalList.Add(new KeyValuePair<int, int>(2, 1));
-            //registerFilAntalList.Add(new KeyValuePair<int, int>(3, 1));
-            //_model.FilAntal = registerFilAntalList;
-
-            //var registerFilmaskList = new List<KeyValuePair<int, string>>();
-            //registerFilmaskList.Add(new KeyValuePair<int, string>(1, "^BU_INSATS_\\d{4}_20\\d{2}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
-            //registerFilmaskList.Add(new KeyValuePair<int, string>(2, "^EKB_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\dT(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$"));
-            //registerFilmaskList.Add(new KeyValuePair<int, string>(3, "{c.*g}"));
-            //_model.FilMask = registerFilmaskList;
-
-            //var registerList = new List<RegisterInfo>();
-            //reg1.Namn = "Barn och ungdom";
-            //reg1.Id = 1;
-            //reg1.InfoText = str1;
-            //reg1.Kortnamn = "BU";
-            //reg1.AntalFiler = 2;
-            //reg1.FilMask = "^[A-Za-z]+$";
-
-            //reg2.Namn = "Ekonomiskt bistånd";
-            //reg2.Id = 2;
-            //reg2.InfoText = str2;
-            //reg2.Kortnamn = "EKB";
-            //reg2.AntalFiler = 1;
-            //reg2.FilMask = "^Ekb_\\d{4}_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)_20\\d{2}(01|02|03|04|05|06|07|08|09|10|11|12)(0|1|2|3)\\d(0|1|2)\\d(0|1|2|3|4|5)\\d.TXT$";
-
-            //reg3.Namn = "Lagen om stöd och service";
-            //reg3.Id = 3;
-            //reg3.InfoText = str3;
-            //reg3.Kortnamn = "LSS";
-            //reg3.AntalFiler = 1;
-            //reg3.FilMask = "{c.*g}";
-
-            //registerList.Add(reg1);
-            //registerList.Add(reg2);
-            //registerList.Add( reg3);
-
-            //_model.RegisterList = registerList;
-
-            return registerList;
-        }
+            
+        //    return registerList;
+        //}
 
         
         /// <summary>  

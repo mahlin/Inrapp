@@ -27,13 +27,14 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         int HamtaUserOrganisationId(string userId);
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
-        IEnumerable<Roll> HamtaValdaRegistersForAnvandare(int userId);
+        IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId);
 
+        IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId);
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
-        void SparaValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList);
+        void SparaValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);
 
-        void UppdateraValdaRegistersForAnvandare(int userId, string userName, List<int> regIdList);
+        void UppdateraValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);
 
         void SaveToLoginLog(string userid, string userName);
     }
