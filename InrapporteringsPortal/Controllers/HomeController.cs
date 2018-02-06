@@ -16,7 +16,8 @@ namespace InrapporteringsPortal.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IInrapporteringsPortalService _portalService = new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
+        private readonly IInrapporteringsPortalService _portalService =
+            new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
 
         public ActionResult Index()
         {
@@ -87,7 +88,8 @@ namespace InrapporteringsPortal.Web.Controllers
             var minuteNow = now.Minute;
 
             //var closedDays = WebConfigurationManager.AppSettings["ClosedDays"];
-            var closedDays = new List<string>(WebConfigurationManager.AppSettings["ClosedDays"].Split(new char[] { ',' }));
+            var closedDays =
+                new List<string>(WebConfigurationManager.AppSettings["ClosedDays"].Split(new char[] {','}));
 
             var closedFromHour = Convert.ToInt32(WebConfigurationManager.AppSettings["ClosedFromHour"]);
             var closedFromMin = Convert.ToInt32(WebConfigurationManager.AppSettings["ClosedFromMin"]);
@@ -99,7 +101,7 @@ namespace InrapporteringsPortal.Web.Controllers
             //Test
             //hourNow = 8;
             //minuteNow = 2;
-            
+
             if (closedAnyway)
             {
                 return false;
@@ -132,7 +134,12 @@ namespace InrapporteringsPortal.Web.Controllers
             }
 
             //Before opening?
-            if ((closedToHour <= hourNow))
+            if ((closedToHour > hourNow))
+            {
+                return false;
+            }
+
+            if (closedToHour == hourNow)
             {
                 //Check minute
                 if (minuteNow > closedToMin)
@@ -141,7 +148,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 }
                 return false;
             }
-
 
             return true;
         }
