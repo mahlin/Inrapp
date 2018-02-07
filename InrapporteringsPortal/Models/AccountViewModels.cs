@@ -99,7 +99,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Email { get; set; }
 
         [Required (ErrorMessage = "Fältet PINkod är obligatoriskt.")]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
+        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [RegularExpression("([0-9]+)", ErrorMessage = "PINkoden måste vara numerisk.")]
         [Display(Name = "PINkod")]
@@ -110,20 +110,6 @@ namespace InrapporteringsPortal.Web.Models
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
-        //public IEnumerable<SelectListItem> RegisterChoices { get; set; }
-        //private List<int> selectedRegisters;
-        //public List<int> SelectedRegisters
-        //{
-        //    get
-        //    {
-        //        if (selectedRegisters == null)
-        //        {
-        //            selectedRegisters = RegisterList.Select(m => m.Id).ToList();
-        //        }
-        //        return selectedRegisters;
-        //    }
-        //    set { selectedRegisters = value; }
-        //}
     }
 
 
@@ -135,7 +121,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
+        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "PINkod")]
         public string Password { get; set; }

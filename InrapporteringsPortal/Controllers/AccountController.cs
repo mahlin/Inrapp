@@ -441,9 +441,11 @@ namespace InrapporteringsPortal.Web.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                  string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Vänligen återställ ditt lösenord genom att klicka < a href=\"" + callbackUrl + "\">här</a>");
-                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                 var tmp = "Vänligen återställ ditt lösenord genom att klicka <a href=\"" + callbackUrl + "\">här</a>";
+                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Vänligen återställ ditt lösenord genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

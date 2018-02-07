@@ -30,7 +30,7 @@ namespace InrapporteringsPortal.Web.Models
     public class SetPasswordViewModel
     {
         [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
+        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Nytt PINkod")]
         public string NewPassword { get; set; }
@@ -49,7 +49,7 @@ namespace InrapporteringsPortal.Web.Models
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
-        [StringLength(100, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 6)]
+        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Nytt PINkod")]
         public string NewPassword { get; set; }
