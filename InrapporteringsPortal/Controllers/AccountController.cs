@@ -81,6 +81,13 @@ namespace InrapporteringsPortal.Web.Controllers
 
             try
             {
+                //Add this to check if the email was confirmed.
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ModelState.AddModelError("", "Du behöver bekräfta din epostadress. Se mail från inrapportering@socialstyrelsen.se");
+                    return View(model);
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,
@@ -88,20 +95,34 @@ namespace InrapporteringsPortal.Web.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        var user = UserManager.FindByEmail(model.Email);
+                        //var user = UserManager.FindByEmail(model.Email);
                         _portalService.SaveToLoginLog(user.Id, user.UserName);
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
-                        return RedirectToAction("SendCode", new SendCodeViewModel
+                        if (!await UserManager.IsPhoneNumberConfirmedAsync(user.Id))
                         {
-                            Providers = null,
-                            ReturnUrl = returnUrl,
-                            RememberMe = model.RememberMe,
-                            SelectedProvider = "Phone Code",
-                            UserEmail = model.Email
-                        });
+                            var phoneNumber = UserManager.GetPhoneNumberAsync(user.Id);
+                            //Skicka användaren till AddPhoneNumber
+                            var phoneNumberModel = new RegisterPhoneNumberViewModel()
+                            {
+                                Id = user.Id,
+                                Number = phoneNumber.Result
+                            };
+                            return await this.AddPhoneNumber(phoneNumberModel);
+                        }
+                        else
+                        {
+                            return RedirectToAction("SendCode", new SendCodeViewModel
+                            {
+                                Providers = null,
+                                ReturnUrl = returnUrl,
+                                RememberMe = model.RememberMe,
+                                SelectedProvider = "Phone Code",
+                                UserEmail = model.Email
+                            });
+                        }
                     case SignInStatus.Failure:
                     default:
                         ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
