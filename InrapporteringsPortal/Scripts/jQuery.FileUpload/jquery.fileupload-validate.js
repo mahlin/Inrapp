@@ -37,19 +37,21 @@ function CheckKommunKodInFileName(fileName) {
     var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
     var fileTypeB = ['BU'];
     var fileTypeC = ['EKB'];
-    
-    if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
+
+
+    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
         return CheckKommunKod(chunkedFileName[1]);
     }
-    else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
+    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
         return CheckKommunKod(chunkedFileName[2]);
     }
-    else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
+    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
         if (chunkedFileName[1].toUpperCase() === 'AO')
-            return CheckKommunKod(chunkedFileName[2]);
-        else
-            return CheckKommunKod(chunkedFileName[1]);
+                return CheckKommunKod(chunkedFileName[2]);
+            else
+                return CheckKommunKod(chunkedFileName[1]);
     }
+
 }
 
 function CheckKommunKod(kommunKod) {
@@ -57,6 +59,10 @@ function CheckKommunKod(kommunKod) {
     if (validKommunKod === kommunKod)
         return true;
     return false;
+}
+
+function arrayContains(needle, arrhaystack) {
+    return (arrhaystack.indexOf(needle) > -1);
 }
 
 function CheckPeriodInFileName(selectedRegister, fileName) {
@@ -73,18 +79,31 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
         }
     });
 
-    if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
+    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
         return CheckPeriod(chunkedFileName[2], validPeriod);
     }
-    else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
+    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
         return CheckPeriod(chunkedFileName[3], validPeriod);
     }
-    else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
+    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
         if (chunkedFileName[1].toUpperCase() === 'AO')
             return CheckPeriod(chunkedFileName[3], validPeriod);
         else
             return CheckPeriod(chunkedFileName[2], validPeriod);
     }
+
+    //if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
+    //    return CheckPeriod(chunkedFileName[2], validPeriod);
+    //}
+    //else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
+    //    return CheckPeriod(chunkedFileName[3], validPeriod);
+    //}
+    //else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
+    //    if (chunkedFileName[1].toUpperCase() === 'AO')
+    //        return CheckPeriod(chunkedFileName[3], validPeriod);
+    //    else
+    //        return CheckPeriod(chunkedFileName[2], validPeriod);
+    //}
 }
 
 function CheckPeriod(periodInFilename, validPeriod) {

@@ -1097,14 +1097,20 @@
                 });
                 if (numberOfFilesInTable == numberOfFilesForSelectedRegister && !errorExists) {
                     $('.start').prop('disabled', false);
-                    this.element.find('.fileinput-button input')
+                    $('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');
+                    //this.element.find('.fileinput-button input')
+                    //    .prop('disabled', true)
+                    //    .parent().addClass('disabled');
                 }
                 else if (numberOfFilesInTable == numberOfFilesForSelectedRegister && errorExists) {
-                    this.element.find('.fileinput-button input')
+                    $('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');
+                    //this.element.find('.fileinput-button input')
+                    //    .prop('disabled', true)
+                    //    .parent().addClass('disabled');
                 }
             return result;
         },

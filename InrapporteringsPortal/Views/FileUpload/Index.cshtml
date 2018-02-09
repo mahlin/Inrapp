@@ -59,7 +59,7 @@
                     @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control" })
                 </div>*@
                 <div class="form-group">
-                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style = "max-width: 395px; padding: 0px;"})
+                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control"})
                 </div>
             </div>
             <div class="row col-12" id="registerInfo" class="registerInfo" style="padding-right: 0px;font-size: 0.9em">
@@ -67,7 +67,6 @@
         </div>
     </div>
 </section>
-
 
 
 @Html.Partial("_Files")

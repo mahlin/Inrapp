@@ -543,9 +543,12 @@
             //Handle buttonbar
             $('.start').prop('disabled', true);
             //_enableFileInputButton();
-            this.element.find('.fileinput-button input')
+            $('.fileinput-button input')
                 .prop('disabled', false)
                 .parent().removeClass('disabled');
+            //this.element.find('.fileinput-button input')
+            //    .prop('disabled', false)
+            //    .parent().removeClass('disabled')
             
         },
 
@@ -648,15 +651,21 @@
         },
 
         _enableFileInputButton: function () {
-            this.element.find('.fileinput-button input')
+            $('.fileinput-button input')
                 .prop('disabled', false)
                 .parent().removeClass('disabled');
+            //this.element.find('.fileinput-button input')
+            //    .prop('disabled', false)
+            //    .parent().removeClass('disabled');
         },
 
         _disableFileInputButton: function () {
-            this.element.find('.fileinput-button input')
-                .prop('disabled', true)
-                .parent().addClass('disabled');
+            $('.fileinput-button input')
+                .prop('disabled', false)
+                .parent().removeClass('disabled');
+            //this.element.find('.fileinput-button input')
+            //    .prop('disabled', true)
+            //    .parent().addClass('disabled');
         },
 
         _initTemplates: function () {
