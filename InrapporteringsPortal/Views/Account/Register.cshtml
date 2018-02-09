@@ -21,6 +21,16 @@
                     }
                 });
             },
+            onSelectAll: function () {
+                $.each(register, function (index, item) {
+                    $('#RegisterList_' + index + '__Selected').val('True');
+                });
+            },
+            onDeselectAll: function () {
+                $.each(register, function (index, item) {
+                    $('#RegisterList_' + index + '__Selected').val('False');
+                });
+            },
             includeSelectAllOption: true,
             nonSelectedText: 'Inget valt',
             allSelectedText: 'Alla valda',
