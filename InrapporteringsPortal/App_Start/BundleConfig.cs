@@ -11,10 +11,6 @@ namespace InrapporteringsPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
-            //bundles.Add(new ScriptBundle("~/bundles/globalize").Include(
-            //    "~/Scripts/globalize.js",
-            //    "~/Scripts/message.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                 "~/Scripts/jquery-ui-{version}.js"));
 

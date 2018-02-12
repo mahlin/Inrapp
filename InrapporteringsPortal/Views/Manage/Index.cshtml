@@ -50,8 +50,10 @@
 
     });
 </script>
+<div class="padding-top-55">
+    <h2>@ViewBag.Title</h2> 
+</div>
 
-<h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
@@ -78,8 +80,6 @@
             @if (Model.PhoneNumber != null)
             {
                 @Html.ActionLink("Ändra", "AddPhoneNumber")
-                @: &nbsp;|&nbsp;
-                @Html.ActionLink("Ta bort", "RemovePhoneNumber", "Manage", null)
             }
             else
             {
