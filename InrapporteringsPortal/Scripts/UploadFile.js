@@ -109,7 +109,7 @@ $(document).on('change','#ddlRegister',
                     .prop('disabled', false)
                     .parent().removeClass('disabled');
                 //$('.start').show();
-                $('.start').prop('disabled', true);
+                //$('.start').prop('disabled', true);
             } else if (selectedRegister === ""){
                 $('#registerInfo').html("");
                 $('.fileinput-button').hide();
