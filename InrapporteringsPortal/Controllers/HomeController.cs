@@ -80,8 +80,6 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private bool IsOpen()
         {
-            var open = true;
-
             var now = DateTime.Now;
             var today = now.DayOfWeek.ToString();
             var hourNow = now.Hour;

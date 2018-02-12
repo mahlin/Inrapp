@@ -74,6 +74,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var orgIdForUser = userOrg.Id;
 
                 _model.GiltigKommunKod = kommunKodForUser;
+                _model.OrganisationsNamn = userOrg.Organisationsnamn;
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
                 _model.HistorikLista = historyFileList.ToList();
             }

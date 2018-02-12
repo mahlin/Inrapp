@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jQuery File Upload Plugin 5.42.3
  * https://github.com/blueimp/jQuery-File-Upload
  *
@@ -168,7 +168,7 @@
 
                     // Error and info messages:
                     messages: {
-                        uploadedBytes: 'Uppladdade  bytes �versteg filstorlek'
+                        uploadedBytes: 'Uppladdade  bytes översteg filstorlek'
                     },
 
                     // Translation function, gets the message key to be translated
@@ -886,8 +886,8 @@
                                 }),
                             options);
                     }
-                    //Efter uppladdning - byt rubrik, nollst�ll dropdown och d�lj knapparna
-                    $("#thText").text("Uppladdade filer");
+                    //Efter uppladdning - byt rubrik, nollställ dropdown och dölj knapparna
+                    $("#thText").text("Uppladdade filer. Du kommer få en återkoppling på dina filer inom en timme.");
                     $('#ddlRegister').val("");
                     $('#registerInfo').html("");
                     $('.fileinput-button').hide();
@@ -1097,6 +1097,7 @@
                 });
                 if (numberOfFilesInTable == numberOfFilesForSelectedRegister && !errorExists) {
                     $('.start').prop('disabled', false);
+                    $('.start').show();
                     $('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');

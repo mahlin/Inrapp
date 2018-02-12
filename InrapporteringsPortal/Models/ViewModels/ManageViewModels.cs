@@ -29,34 +29,34 @@ namespace InrapporteringsPortal.Web.Models
 
     public class SetPasswordViewModel
     {
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nytt PINkod")]
+        [Display(Name = "Nytt Pinkod")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta PINkod")]
-        [Compare("NewPassword", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [Display(Name = "Bekräfta Pinkod")]
+        [Compare("NewPassword", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class ChangePasswordViewModel
     {
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Nuvarande PINkod")]
+        [Display(Name = "Nuvarande Pinkod")]
         public string OldPassword { get; set; }
 
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nytt PINkod")]
+        [Display(Name = "Nytt Pinkod")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta PINkod")]
-        [Compare("NewPassword", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [Display(Name = "Bekräfta Pinkod")]
+        [Compare("NewPassword", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
     }
 

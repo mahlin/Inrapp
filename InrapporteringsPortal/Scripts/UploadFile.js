@@ -46,6 +46,7 @@ $(document).ready(function () {
             });
             if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
                 $('.start').prop('disabled', false);
+                $('.start').show();
                 $('.fileinput-button')
                     .prop('disabled', true)
                     .parent().addClass('disabled');
@@ -107,7 +108,7 @@ $(document).on('change','#ddlRegister',
                 $('.fileinput-button input')
                     .prop('disabled', false)
                     .parent().removeClass('disabled');
-                $('.start').show();
+                //$('.start').show();
                 $('.start').prop('disabled', true);
             } else if (selectedRegister === ""){
                 $('#registerInfo').html("");

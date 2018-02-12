@@ -331,7 +331,7 @@ $.extend($.validator, {
 	messages: {
 	    required: "Detta är ett obligatoriskt fält.",
 	    remote: "Var vänlig och ändra detta fält.",
-	    email: "Ange en korrekt epostadress.",
+	    email: "Ange en korrekt e-postadress.",
 	    url: "Ange en korrekt URL.",
 	    date: "Ange ett korrekt datum.",
 	    dateISO: "Ange ett korrekt datum (ISO).",

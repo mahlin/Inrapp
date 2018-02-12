@@ -1,6 +1,6 @@
 ﻿@model InrapporteringsPortal.Web.Models.RegisterPhoneNumberViewModel
 @{
-    ViewBag.Title = "Epostadress bekräftad";
+    ViewBag.Title = "E-postadress bekräftad";
 }
 
 @Html.Hidden(Model.Id)
@@ -10,7 +10,7 @@
 <br />
 <div>
     <p>
-        Tack för att du bekräftat din epostadress.<br />
+        Tack för att du bekräftat din e-postadress.<br />
         @Html.ActionLink("Klicka här för att registrera ett mobilnummer.", "AddPhoneNumber", "Account", routeValues: new { id = Model.Id }, htmlAttributes: null)
 
 

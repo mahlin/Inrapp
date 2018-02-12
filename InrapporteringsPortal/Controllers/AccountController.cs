@@ -125,7 +125,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         }
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Felaktigt användarnamn eller PINkod.");
+                        ModelState.AddModelError("", "Felaktigt användarnamn eller Pinkod.");
                         return View(model);
                 }
             }

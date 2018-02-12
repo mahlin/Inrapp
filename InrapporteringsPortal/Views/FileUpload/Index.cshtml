@@ -12,7 +12,7 @@
 </script>
 
 @{
-    ViewBag.Title = "Ladda upp fil";
+    ViewBag.Title = "Välkommen att lämna uppgifter för " + Html.Raw(Model.OrganisationsNamn);
     var fileTableHeader = "Filer för uppladdning";
 }
 
@@ -59,10 +59,10 @@
                     @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control" })
                 </div>*@
                 <div class="form-group">
-                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control"})
+                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style="max-width:550px"})
                 </div>
             </div>
-            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding-right: 0px;font-size: 0.9em">
+            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px;font-size: 0.9em">
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
 @Html.Partial("_Files")
 
 <!-- History/archive uploaded files -->
-<H4>Historik</H4>
+<H4>Historik för @Html.Raw(Model.OrganisationsNamn)</H4>
 <table class="table table-striped">
     <thead>
         <tr class="historyHeader" style="background-color: #f9f9f9;">

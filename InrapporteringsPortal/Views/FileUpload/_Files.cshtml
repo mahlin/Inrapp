@@ -51,15 +51,6 @@
             <div class="progress-extended">&nbsp;</div>
         </div>
     </div>
-    @*<!-- The global progress state -->
-        <div class="col-lg-5 fileupload-progress fade">
-            <!-- The global progress bar -->
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
-            </div>
-            <!-- The extended global progress state -->
-            <div class="progress-extended">&nbsp;</div>
-        </div>*@
 
     <!-- The table listing the files available for upload/download -->
     <table role="presentation" class="table table-striped" id="filTabell">
@@ -69,11 +60,7 @@
         <tbody class="files"></tbody>
     </table>
 </form>
-<br /><br /><br />
 <hr />
-<br /><br />
-
-
 <br>
 <!-- The blueimp Gallery widget -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
@@ -91,18 +78,15 @@
 
     {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
-        @*<td>
-            <span class="preview"></span>
-        </td>*@
-        <td>
+        <td style="height:50px;">
             <p class="name">{%=file.name%}</p>
             <strong class="error text-danger"></strong>
         </td>
-        <td>
+        <td style="height:50px;">
             <p class="size" style="visibility:hidden">Laddar upp...</p>
-            <div style="visibility:hidden" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            @*<div style="visibility:hidden" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>*@
         </td>
-        <td>
+        <td style="height:50px;">
             {% if (!i && !o.options.autoUpload) { %}
             <button class="btn btn-primary start" disabled style="visibility:hidden">
                 <i class="glyphicon glyphicon-upload"></i>
@@ -112,7 +96,7 @@
             {% if (!i) { %}
             <button class="btn btn-warning cancel">
                 <i class="glyphicon glyphicon-ban-circle"></i>
-                <span>Avbryt</span>
+                <span>Ångra vald fil</span>
             </button>
             {% } %}
         </td>

@@ -23,39 +23,39 @@ namespace InrapporteringsPortal.Web.Models
                 case "An unknown failure has occurred.":
                     return "Ett okänt fel inträffade";
                 case "Incorrect password.":
-                    return "Felaktigt PINkod";
+                    return "Felaktigt Pinkod";
                 case "A user with this login already exists.":
                     return "En användare med detta användarnamn finns redan.";
                 case "User name '{userName}' is invalid, can only contain letters or digits.":
                     return "Användarnamn '{userName}' är felaktigt, kan bara innehålla bokstäver eller siffror.";
                 case "Email '{email}' is invalid.":
-                    return "Epostadressen '{}' är ogiltig.";
+                    return "E-postadressen '{}' är ogiltig.";
                 case "User Name '{userName}' is already taken.":
                     return "Användarnamn  '{userName}' är redan upptaget.";
                 case "Email '{email}' is already taken.":
-                    return "Epostadress '{email}' används redan.";
+                    return "E-postadress '{email}' används redan.";
                 case "Role name '{role}' is invalid.":
                     return "Rollnamnet '{role}' är ej giltigt";
                 case "Role name '{role}' is already taken.":
                     return "Rollnamnet '{role}' är redan upptaget.";
                 case "User already has a password set.":
-                    return "Användaren har redan ett PINkod";
+                    return "Användaren har redan ett Pinkod";
                 case "User already in role '{role}'.":
                     return "Anändaren har redan rollen '{role}'.";
                 case "User is not in role '{role}'.":
                     return "Användaren har ej rollen '{role}'.";
                 case "Passwords must be at least {length} characters.":
-                    return "PINkoden måste var minst {length} tecken långt.";
+                    return "Pinkoden måste var minst {length} tecken långt.";
                 case "Passwords must have at least one non alphanumeric character.":
-                    return "PINkoden måste ha minst ett icke alfanumersikt tecken.";
+                    return "Pinkoden måste ha minst ett icke alfanumersikt tecken.";
                 case "Passwords must have at least one non letter or digit character.":
-                    return "PINkoden måste ha minst ett tecken som inte är alfanumersikt eller en siffra.";
+                    return "Pinkoden måste ha minst ett tecken som inte är alfanumersikt eller en siffra.";
                 case "Passwords must have at least one digit ('0'-'9').":
-                    return "PINkoden måste ha minst en siffra ('0'-'9').";
+                    return "Pinkoden måste ha minst en siffra ('0'-'9').";
                 case "Passwords must have at least one lowercase ('a'-'z').":
-                    return "PINkoden måste ha minst en liten bokstav ('a'-'z').";
+                    return "Pinkoden måste ha minst en liten bokstav ('a'-'z').";
                 case "Passwords must have at least one uppercase ('A'-'Z').":
-                    return "PINkoden måste ha minst en stor bokstav ('A'-'Z').";
+                    return "Pinkoden måste ha minst en stor bokstav ('A'-'Z').";
                 default:
                     return "";
             }

@@ -542,6 +542,7 @@
             }
             //Handle buttonbar
             $('.start').prop('disabled', true);
+            $('.start').hide();
             //_enableFileInputButton();
             $('.fileinput-button input')
                 .prop('disabled', false)

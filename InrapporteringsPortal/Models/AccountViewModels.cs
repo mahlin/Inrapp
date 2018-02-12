@@ -8,8 +8,8 @@ namespace InrapporteringsPortal.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
-        [Display(Name = "Epostadress")]
+        [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
+        [Display(Name = "E-postadress")]
         public string Email { get; set; }
     }
 
@@ -66,21 +66,21 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ForgotViewModel
     {
-        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
-        [Display(Name = "Epostadress")]
+        [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
+        [Display(Name = "E-postadress")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
-        [Display(Name = "Epostadress")]
+        [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
+        [Display(Name = "E-postadress")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [DataType(DataType.Password)]
-        [Display(Name = "PINkod")]
+        [Display(Name = "Pinkod")]
         public string Password { get; set; }
 
         [Display(Name = "Kom ihåg mig?")]
@@ -93,21 +93,21 @@ namespace InrapporteringsPortal.Web.Models
         [Display(Name = "Namn")]
         public string Namn { get; set; }
 
-        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
         [EmailAddress]
-        [Display(Name = "Epostadress")]
+        [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
-        [Required (ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [RegularExpression("([0-9]+)", ErrorMessage = "PINkoden måste vara numerisk.")]
-        [Display(Name = "PINkod")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Pinkoden måste vara numerisk.")]
+        [Display(Name = "Pinkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta PINkod")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [Display(Name = "Bekräfta Pinkod")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
     }
@@ -115,20 +115,20 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ResetPasswordViewModel
     {
-        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
         [EmailAddress]
-        [Display(Name = "Epostadress")]
+        [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Fältet PINkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
-        [Display(Name = "PINkod")]
+        [Display(Name = "Pinkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta PINkod")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "PINkoden och verifieringen av PINkoden stämmer inte.")]
+        [Display(Name = "Bekräfta Pinkod")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -136,9 +136,9 @@ namespace InrapporteringsPortal.Web.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required (ErrorMessage = "Fältet Epostadress är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
         [EmailAddress]
-        [Display(Name = "Epostadress")]
+        [Display(Name = "E-postadress")]
         public string Email { get; set; }
     }
 }
