@@ -38,6 +38,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         IEnumerable<Roll> GetChosenRegistersForUser(string userId);
 
+        string GetUserName(string userId);
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);
@@ -45,6 +47,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
 
         void UpdateChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
+
+        void UpdateNameForUser(string userId, string userName);
     }
 
 }

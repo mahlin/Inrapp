@@ -78,7 +78,6 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 return View(model);
             }
-
             try
             {
                 //Add this to check if the email was confirmed.

@@ -257,7 +257,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var org = AllaOrganisationer().Where(o => o.Id == orgId).Select(o => o).FirstOrDefault();
 
             return org;
+        }
 
+        public string GetUserName(string userId)
+        {
+            var userName = DbContext.Users.Where(u => u.Id == userId).Select(u => u.Namn).SingleOrDefault();
+            return userName;
         }
 
         public Aterkoppling GetAterkopplingForLeverans(int levId)
@@ -322,5 +327,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             }
             DbContext.SaveChanges();
         }
+
+        public void UpdateNameForUser(string userId, string userName)
+        {
+            var user = DbContext.Users.Where(u => u.Id == userId).Select(u => u).SingleOrDefault();
+            user.Namn = userName;
+            DbContext.SaveChanges();
+        }
+
+
     }
 }

@@ -4,7 +4,7 @@ using InrapporteringsPortal.DomainModel;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace InrapporteringsPortal.Web.Models
+namespace InrapporteringsPortal.Web.Models.ViewModels
 {
     public class IndexViewModel
     {
@@ -13,6 +13,7 @@ namespace InrapporteringsPortal.Web.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string Namn { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
     }
 
@@ -66,6 +67,13 @@ namespace InrapporteringsPortal.Web.Models
         [Phone(ErrorMessage = "Inte ett giltigt mobilnummer")]
         [Display(Name = "Mobilnummer")]
         public string Number { get; set; }
+    }
+
+    public class ChangeNameViewModel
+    {
+        [Required(ErrorMessage = "Fältet Namn är obligatoriskt.")]
+        [Display(Name = "Namn")]
+        public string Name { get; set; }
     }
 
 

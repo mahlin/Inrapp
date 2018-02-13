@@ -1,4 +1,4 @@
-﻿@model InrapporteringsPortal.Web.Models.IndexViewModel
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.IndexViewModel
 @{
     ViewBag.Title = "Kontohantering";
 }
@@ -75,7 +75,7 @@
         </dd>
         <dt>Mobilnummer:</dt>
         <dd style="padding-left: 15px">
-            @(Model.PhoneNumber ?? "None")
+            @(Model.PhoneNumber ?? "Saknas")
             [
             @if (Model.PhoneNumber != null)
             {
@@ -85,6 +85,13 @@
             {
                 @Html.ActionLink("Lägg till", "AddPhoneNumber")
             }
+            ]
+        </dd>
+        <dt>Namn:</dt>
+        <dd style="padding-left: 15px">
+            @(Model.Namn ?? "Saknas")
+            [
+            @Html.ActionLink("Ändra namn", "ChangeName")
             ]
         </dd>
 

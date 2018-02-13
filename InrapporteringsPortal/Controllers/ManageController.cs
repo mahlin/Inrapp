@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using InrapporteringsPortal.Web.Models;
+using InrapporteringsPortal.Web.Models.ViewModels;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
@@ -67,12 +68,13 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Din Pinkod har ändrats."
-                : message == ManageMessageId.SetPasswordSuccess ? "Din Pinkod är sparat."
+                : message == ManageMessageId.SetPasswordSuccess ? "Din Pinkod är sparad."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Din två-faktor-autentiseringsleverantör är sparad."
                 : message == ManageMessageId.Error ? "Ett fel har uppstått."
                 : message == ManageMessageId.AddPhoneSuccess ? "Ditt mobilnummer har sparats."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ditt mobilnummer har tagits bort."
                 : message == ManageMessageId.ChangeChosenRegister ? "Valda register har registrerats."
+                : message == ManageMessageId.ChangeNameSuccess ? "Ditt namn har ändrats."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -80,6 +82,7 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                Namn = _portalService.HamtaAnvandaresNamn(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
@@ -307,6 +310,43 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
         //
+        // GET: /Manage/Name
+        public ActionResult ChangeName()
+        {
+            return View();
+        }
+
+
+        //
+        // POST: /Manage/ChangeName
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeName(ChangeNameViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                _portalService.UppdateraNamnForAnvandare(User.Identity.GetUserId(), model.Name);
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("ManageController", "ChangeName", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid byte av namn.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
+        }
+
+        //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
@@ -334,12 +374,26 @@ namespace InrapporteringsPortal.Web.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeChosenRegisters(IndexViewModel model)
+        public ActionResult ChangeChosenRegisters(IndexViewModel model)
         {
-            //Uppdatera valda register
-            _portalService.UppdateraValdaRegistersForAnvandare(User.Identity.GetUserId(), User.Identity.GetUserName(), model.RegisterList);
-
-            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeChosenRegister });
+            try
+            {
+                //Uppdatera valda register
+                _portalService.UppdateraValdaRegistersForAnvandare(User.Identity.GetUserId(), User.Identity.GetUserName(), model.RegisterList);
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeChosenRegister });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("ManageController", "ChangeChosenRegisters", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid byte av valda register.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
         }
 
         //
@@ -425,6 +479,7 @@ namespace InrapporteringsPortal.Web.Controllers
             RemoveLoginSuccess,
             RemovePhoneSuccess,
             ChangeChosenRegister,
+            ChangeNameSuccess,
             Error
         }
 

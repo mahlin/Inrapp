@@ -184,5 +184,16 @@ namespace InrapporteringsPortal.ApplicationService
 
             return allaRegisterList;
         }
+
+        public void UppdateraNamnForAnvandare(string userId, string userName)
+        {
+            _portalRepository.UpdateNameForUser(userId,userName);
+        }
+
+        public string HamtaAnvandaresNamn(string userId)
+        {
+            var userName = _portalRepository.GetUserName(userId);
+            return userName;
+        }
     }
 }

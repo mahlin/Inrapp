@@ -1,20 +1,20 @@
-﻿@model InrapporteringsPortal.Web.Models.ViewModels.AddPhoneNumberViewModel
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.ChangeNameViewModel
 @{
-    ViewBag.Title = "Mobilnummer";
+    ViewBag.Title = "Namn";
 }
 
-@using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="padding-top-55">
-        <h4>Lägg till ett mobilnummer</h4>      
+        <h4>Ange namn</h4>      
     </div>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.Number, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
