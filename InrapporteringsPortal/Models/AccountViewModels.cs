@@ -43,6 +43,8 @@ namespace InrapporteringsPortal.Web.Models
         public bool RememberMe { get; set; }
 
         public string UserEmail { get; set; }
+
+        public string PhoneNumberMasked { get; set; }
     }
 
 

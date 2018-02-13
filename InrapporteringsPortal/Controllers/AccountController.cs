@@ -149,11 +149,36 @@ namespace InrapporteringsPortal.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe, string userEmail = "")
         {
-            // Require that the user has already logged in via username/password or external login
-            //if (!await SignInManager.HasBeenVerifiedAsync())
-            //{
-            //    return View("Error");
-            //}
+            try
+            {
+                var user = UserManager.FindByEmail(userEmail);
+                var phoneNumber = _portalService.HamtaAnvandaresMobilnummer(user.Id);
+
+                if (phoneNumber == null)
+                {
+                    return View("Error");
+                }
+                else
+                {
+                    var model = new VerifyCodeViewModel();
+                    model.PhoneNumberMasked = _portalService.MaskPhoneNumber(phoneNumber);
+                    return View(model);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "VerifyCode", e.ToString(), e.HResult, userEmail);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid inloggningen",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+
+            }
+
 
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe, UserEmail = userEmail});
         }
@@ -272,14 +297,14 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
                             //Spara valda register
-                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.Namn,model.RegisterList);
+                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.UserName,model.RegisterList);
                             //Verifiera epostadress
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                             //TODO mail
-                            //await UserManager.SendEmailAsync(user.Id,
-                            //    "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
-                            //    callbackUrl);
+                            await UserManager.SendEmailAsync(user.Id,
+                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
+                                callbackUrl);
 
                             return View("DisplayEmail");
                         }
@@ -541,13 +566,27 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 return View();
             }
-
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+            try
             {
-                return View("Error");
+                // Generate the token and send it
+                if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+                {
+                    return View("Error");
+                }
+                return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe, UserEmail = model.UserEmail });
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe, UserEmail = model.UserEmail});
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "SendCode", e.ToString(), e.HResult, User.Identity.GetUserName());
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade när sms-kod skulle skickas.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
         }
 
         //

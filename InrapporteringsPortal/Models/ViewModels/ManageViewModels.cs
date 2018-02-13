@@ -87,6 +87,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         [Phone (ErrorMessage = "Inte ett giltigt mobilnummer")]
         [Display(Name = "Mobilnummer")]
         public string PhoneNumber { get; set; }
+        public string PhoneNumberMasked { get; set; }
     }
 
     public class ConfigureTwoFactorViewModel

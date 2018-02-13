@@ -195,5 +195,29 @@ namespace InrapporteringsPortal.ApplicationService
             var userName = _portalRepository.GetUserName(userId);
             return userName;
         }
+
+        public string HamtaAnvandaresMobilnummer(string userId)
+        {
+            var phoneNumber = _portalRepository.GetUserPhoneNumber(userId);
+            return phoneNumber;
+        }
+
+        public string MaskPhoneNumber(string phoneNumber)
+        {
+            var maskedPhoneNumber = String.Empty;
+
+            //Replace initial numbers with *
+            var lengthToMask = phoneNumber.Length - 4;
+            for (int i = 0; i < lengthToMask; i++)
+            {
+                maskedPhoneNumber += "*";
+            }
+            //Add four last number to masked string
+            maskedPhoneNumber += phoneNumber.Substring(lengthToMask);
+
+            return maskedPhoneNumber;
+        }
+
+
     }
 }

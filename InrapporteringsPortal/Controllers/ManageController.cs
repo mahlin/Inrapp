@@ -78,6 +78,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -185,7 +186,17 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            if (phoneNumber == null)
+            {
+                return View("Error");
+            }
+            else
+            {
+                var model = new VerifyPhoneNumberViewModel();
+                model.PhoneNumber = phoneNumber;
+                model.PhoneNumberMasked = _portalService.MaskPhoneNumber(phoneNumber);
+                return View(model);
+            }
         }
 
         //

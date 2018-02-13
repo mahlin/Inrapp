@@ -40,6 +40,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetUserName(string userId);
 
+        string GetUserPhoneNumber(string userId);
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);

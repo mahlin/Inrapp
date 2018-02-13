@@ -265,6 +265,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return userName;
         }
 
+        public string GetUserPhoneNumber(string userId)
+        {
+            var phoneNumber = DbContext.Users.Where(u => u.Id == userId).Select(u => u.PhoneNumber).SingleOrDefault();
+            return phoneNumber;
+        }
+
         public Aterkoppling GetAterkopplingForLeverans(int levId)
         {
             var aterkoppling = DbContext.Aterkoppling.Where(x => x.LeveransId == levId).FirstOrDefault();

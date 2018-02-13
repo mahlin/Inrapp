@@ -26,6 +26,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         string HamtaAnvandaresNamn(string userId);
 
+        string HamtaAnvandaresMobilnummer(string userId);
+
         int HamtaUserOrganisationId(string userId);
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
@@ -41,5 +43,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         void UppdateraNamnForAnvandare(string userId, string userName);
 
         void SaveToLoginLog(string userid, string userName);
+
+        string MaskPhoneNumber(string phoneNumber);
     }
 }
