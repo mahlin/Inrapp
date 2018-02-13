@@ -68,8 +68,9 @@
          }
      }
     @Html.AntiForgeryToken()
-    <br /><br />
-    <h4>Välkommen att registrera dig som användare på Socialstyrelsens inrapporteringsportal</h4>
+    <div class="row padding-top-55">
+        <h4>Välkommen att registrera dig som användare på Socialstyrelsens inrapporteringsportal</h4>
+    </div>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
@@ -102,14 +103,14 @@
             <select id="RegList" multiple="multiple">
                 @for (var i = 0; i < Model.RegisterList.Count; i++)
                 {
-                <option value=@Model.RegisterList[i].Id>@Model.RegisterList[i].Namn</option>
+                    <option value=@Model.RegisterList[i].Id>@Model.RegisterList[i].Namn</option>
                 }
             </select>
         </div>
     </div>
     @*@Html.DropDownList("RegisterList", "Select a Value")
-    <br/>
-    @Html.ListBoxFor(m => m.SelectedRegisters, Model.RegisterChoices)*@
+        <br/>
+        @Html.ListBoxFor(m => m.SelectedRegisters, Model.RegisterChoices)*@
 
 
     <div class="form-group">
@@ -117,8 +118,8 @@
             <input type="submit" class="btn btn-default" value="Spara" />
         </div>
     </div>
-}
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

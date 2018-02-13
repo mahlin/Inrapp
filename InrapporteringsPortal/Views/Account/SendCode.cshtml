@@ -3,9 +3,12 @@
     ViewBag.Title = "Skicka";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row padding-top-55">
+    <h2>@ViewBag.Title</h2>
+</div>
 
-@using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+@using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
     @Html.AntiForgeryToken()
     @Html.Hidden("rememberMe", @Model.RememberMe)
     <h4>Skicka verifieringskod</h4>

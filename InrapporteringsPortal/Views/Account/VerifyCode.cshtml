@@ -8,8 +8,9 @@
         $("#txtCode").focus();
     });
 </script>
-
-<h2>@ViewBag.Title</h2>
+<div class="row padding-top-55">
+    <h2>@ViewBag.Title</h2>
+</div>
 
 @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {

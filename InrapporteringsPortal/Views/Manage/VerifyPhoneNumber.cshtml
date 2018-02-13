@@ -1,9 +1,10 @@
-﻿@model InrapporteringsPortal.Web.Models.VerifyPhoneNumberViewModel
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.VerifyPhoneNumberViewModel
 @{
     ViewBag.Title = "Bekräfta mobilnummer";
 }
-
-<h2>@ViewBag.Title</h2>
+<div class="row padding-top-55">
+    <h2>@ViewBag.Title</h2>
+</div>
 
 @using (Html.BeginForm("VerifyPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
