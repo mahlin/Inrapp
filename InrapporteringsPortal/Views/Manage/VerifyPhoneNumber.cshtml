@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Bekräfta mobilnummer";
 }
+<script type="text/javascript">
+    $(function () {
+        $("#txtCode").focus();
+    });
+</script>
+
 <div class="row padding-top-55">
     <h2>@ViewBag.Title</h2>
 </div>
@@ -18,7 +24,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Code, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", id = "txtCode" })
         </div>
     </div>
     <div class="form-group">
