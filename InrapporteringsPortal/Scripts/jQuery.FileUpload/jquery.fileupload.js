@@ -889,6 +889,9 @@
                     //Efter uppladdning - byt rubrik, nollställ dropdown och dölj knapparna
                     $("#thText").text("Uppladdade filer. Du kommer få en återkoppling på dina filer inom en timme.");
                     $('#ddlRegister').val("");
+                    $('#ddlUnits').val("");
+                    $('#enhetsInfo').hide();
+                    $("#SelectedUnitId").val("");
                     $('#registerInfo').html("");
                     $('.fileinput-button').hide();
                     $('.start').hide();

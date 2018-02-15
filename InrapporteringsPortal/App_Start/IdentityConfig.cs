@@ -38,7 +38,6 @@ namespace InrapporteringsPortal.Web
             #endregion
 
             MailMessage msg = new MailMessage();
-            //TODO
             msg.From = new MailAddress(ConfigurationManager.AppSettings["MailSender"]);
             //TODO
             //msg.To.Add(new MailAddress("marie.ahlin@socialstyrelsen.se"));
@@ -51,7 +50,6 @@ namespace InrapporteringsPortal.Web
             //    ConfigurationManager.AppSettings["MailSender"],
             //    ConfigurationManager.AppSettings["MailPwd"]);
 
-            //TODO - mailserver
             SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
             //smtpClient.Credentials = credentials;
             if (ConfigurationManager.AppSettings["EnableSsl"] == "True")

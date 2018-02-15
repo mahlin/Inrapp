@@ -22,7 +22,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         }
 
 
-        //TODO - 
         public IEnumerable<LevereradFil> GetFilerForLeveransId(int leveransId)
         {
             //var tmp2 = (from l in DbContext.Leverans
@@ -106,7 +105,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId)
         {
-            //TODO - sätt SkapdAv resp AndradAv = UserName när kolumnen är lika stor, dvs nvarchar(256)
             var leverans = new Leverans
             {
                 ForvantadleveransId = forvLevId,

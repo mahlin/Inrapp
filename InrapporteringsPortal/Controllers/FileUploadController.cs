@@ -32,9 +32,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private string StorageRoot
         {
-            //get { return Path.Combine(HostingEnvironment.MapPath(serverMapPath)); }
             get { return Path.Combine(ConfigurationManager.AppSettings["uploadFolder"]); }
-           
         }
 
         //private string UrlBase = "/Files/somefiles/";
@@ -70,7 +68,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 //var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
                 //var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
 
-                //TODO - ny databas - hämta från Organisationstabellen istället
                 var kommunKodForUser = userOrg.Kommunkod;
                 var orgIdForUser = userOrg.Id;
 
@@ -120,8 +117,6 @@ namespace InrapporteringsPortal.Web.Controllers
         public JsonResult Upload(FilesViewModel model)
         {
             var enhetskod = String.Empty;
-            //TODO - test
-            //model.SelectedUnitId = "S";
             var resultList = new List<ViewDataUploadFilesResult>();
             var userName = "";
             try
@@ -253,7 +248,6 @@ namespace InrapporteringsPortal.Web.Controllers
         public void AddRegisterListToViewBag(int kommunKod)
         {
             _model.SelectedRegisterId = "0";
-            //TODO - hämta för aktuell kommunKod
             ViewBag.RegisterList = CreateRegisterDropDownList(_model.RegisterList);
         }
 

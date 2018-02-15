@@ -204,7 +204,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        //TODO- get userid. Logga i db
                         var user = UserManager.FindByEmail(model.UserEmail);
                         _portalService.SaveToLoginLog(user.Id, user.UserName);
                         return RedirectToLocal(model.ReturnUrl);
@@ -271,10 +270,6 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 try
                 {
-                    //TODO - test listbox
-                    //var tmp = model.SelectedRegisters;
-                    //var newRegisters = repository.Categories.Where(m => carEditViewModel.SelectedCategories.Contains(m.Id));
-
 
                     var organisation = GetOrganisationForEmailDomain(model.Email);
                     if (organisation == null)
@@ -301,7 +296,7 @@ namespace InrapporteringsPortal.Web.Controllers
                             //Verifiera epostadress
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                            //TODO mail
+                            //TODO mail/utvecklingsmiljön
                             //await UserManager.SendEmailAsync(user.Id,
                             //    "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
                             //    callbackUrl);
