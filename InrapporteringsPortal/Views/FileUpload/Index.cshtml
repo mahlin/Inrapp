@@ -19,19 +19,6 @@
 <!-- blueimp File Upload & Gallery styles -->
 @Styles.Render("~/Content/jQuery-File-Upload")
 
-@*<script>
-
-        $(function () {
-            $('#fileUpload').fileupload({
-                dataType: 'json',
-                done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
-                        $('<p/>').text(file.name).appendTo(document.body);
-                    });
-                }
-            });
-        });
-    </script>*@
 
 <script>
     var $form = null;
@@ -64,31 +51,10 @@
         </div>
         <div hidden id="enhetsInfo" class="row col-12">
             <div class="form-group">
-                @*<select id="second-choice2" class="bs-component">
-                    <option>Please choose from above</option>
-                </select>*@
-
                 <div class="form-group">
                     <select class="form-control" id="ddlUnits">
                     </select>
                 </div>
-                
-
-                @*<button class="btn btn-primary" id="selectButton" data-toggle="dropdown">
-                    Enheter
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu scrollable-menu" id="ulGenres">
-                    @foreach (var item in Model.RegisterList)
-                    {
-                        <li>
-                            <a href="#" data-pdsa-dropdown-val="@item.Id">@item.Namn</a>
-                        </li>
-                    }
-                </ul>*@
-                
-
-                @*@Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj enhet -", new {id = "ddlEnheter", @class = "form-control", style = "max-width:550px"})*@
             </div>
         </div>
     </div>

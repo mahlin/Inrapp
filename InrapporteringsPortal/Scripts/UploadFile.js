@@ -72,19 +72,7 @@ $(document).ready(function () {
             });;
     });
 
-    //$(window).load(function () {
-        
-    //});
-
 });
-
-//$(document).on('mouseover','#ddlRegister',
-//    function () {
-//        var x = $(this);
-//        alert($(this).attr("title").val());
-//    });
-
-
 
 $(document).on('change','#ddlRegister',
     function() {
@@ -132,11 +120,7 @@ $(document).on('change','#ddlRegister',
                     $('.fileinput-button input')
                         .prop('disabled', false)
                         .parent().removeClass('disabled');
-
                 }
-
-                //$('.start').show();
-                //$('.start').prop('disabled', true);
             } else if (selectedRegister === ""){
                 $('#registerInfo').html("");
                 $('.fileinput-button').hide();
