@@ -22,6 +22,7 @@ namespace InrapporteringsPortal.DomainModel
         public virtual AdmRegister AdmRegister { get; set; }
         public virtual ICollection<AdmFilkrav> AdmFilkrav { get; set; }
         public virtual ICollection<AdmForvantadleverans> AdmForvantadleverans { get; set; }
+        public virtual ICollection<AdmUppgiftsskyldighet> AdmUppgiftsskyldighet { get; set; }
 
     }
 }

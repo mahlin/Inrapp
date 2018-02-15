@@ -302,9 +302,9 @@ namespace InrapporteringsPortal.Web.Controllers
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                             //TODO mail
-                            await UserManager.SendEmailAsync(user.Id,
-                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
-                                callbackUrl);
+                            //await UserManager.SendEmailAsync(user.Id,
+                            //    "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
+                            //    callbackUrl);
 
                             return View("DisplayEmail");
                         }

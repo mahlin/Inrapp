@@ -136,7 +136,7 @@ namespace InrapporteringsPortal.ApplicationService
             return org;
         }
 
-        public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId)
+        public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId)
         {
             var registerList = _portalRepository.GetChosenRegistersForUser(userId);
             var allaRegisterList = _portalRepository.GetAllRegisterInformation();
@@ -150,6 +150,24 @@ namespace InrapporteringsPortal.ApplicationService
                     {
                         userRegisterList.Add(register);
                     }
+                }
+            }
+
+            //Check if users organisation reports per unit. If thats the case, get list of units
+            foreach (var item in userRegisterList)
+            {
+                var uppgiftsskyldighet = HamtaUppgiftsskyldighetForOrganisationOchRegister(orgId, item.Id);
+                if (uppgiftsskyldighet.RapporterarPerEnhet)
+                {
+                    item.RapporterarPerEnhet = true;
+                    var orgUnits = _portalRepository.GetOrganisationUnits(orgId);
+                    item.Organisationsenheter = new List<KeyValuePair<string, string>>();
+                    foreach (var orgUnit in orgUnits)
+                    {
+                        KeyValuePair<string, string> keyValuePair = new KeyValuePair<string, string>(orgUnit.Enhetskod, orgUnit.Enhetsnamn);
+                        item.Organisationsenheter.Add(keyValuePair); 
+                    }
+                    
                 }
             }
 
@@ -218,6 +236,11 @@ namespace InrapporteringsPortal.ApplicationService
             return maskedPhoneNumber;
         }
 
+        public AdmUppgiftsskyldighet HamtaUppgiftsskyldighetForOrganisationOchRegister(int orgId, int delregid)
+        {
+            var uppgiftsskyldighet = _portalRepository.GetUppgiftsskyldighetForOrganisationAndRegister(orgId, delregid);
 
+            return uppgiftsskyldighet;
+        }
     }
 }

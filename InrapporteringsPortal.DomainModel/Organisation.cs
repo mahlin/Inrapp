@@ -22,11 +22,15 @@ namespace InrapporteringsPortal.DomainModel
         public string Postnr { get; set; }
         public string Postort { get; set; }
         public string Epostdoman { get; set; }
+        public DateTime? AktivFrom { get; set; }
+        public DateTime? AktivTom { get; set; }
         public DateTime SkapadDatum { get; set; }
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Leverans> Leveranser { get; set; }
+        public virtual ICollection<AdmUppgiftsskyldighet> AdmUppgiftsskyldighet { get; set; }
+        public virtual ICollection<Organisationsenhet> Organisationsenhet { get; set; }
     }
 }

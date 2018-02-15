@@ -148,6 +148,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 .Where(x => x.Inrapporteringsportal)
                 .ToList();
 
+            //var delregister = DbContext.AdmDelregister.ToList();
+
             foreach (var item in delregister)
             {
 
@@ -341,6 +343,17 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
+        public AdmUppgiftsskyldighet GetUppgiftsskyldighetForOrganisationAndRegister(int orgId, int delregid)
+        {
+            var uppgiftsskyldighet = DbContext.AdmUppgiftsskyldighet.SingleOrDefault(x => x.OrganisationId == orgId && x.DelregisterId == delregid);
 
+            return uppgiftsskyldighet;
+        }
+
+        public IEnumerable<Organisationsenhet> GetOrganisationUnits(int orgId)
+        {
+            var orgUnits = DbContext.Organisationsenhet.Where(x => x.OrganisationsId == orgId).ToList();
+            return orgUnits;
+        }
     }
 }

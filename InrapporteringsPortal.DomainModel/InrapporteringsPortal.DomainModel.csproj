@@ -94,12 +94,17 @@
     <Compile Include="AdmFilkrav.cs" />
     <Compile Include="AdmForvantadfil.cs" />
     <Compile Include="AdmForvantadleverans.cs" />
+    <Compile Include="AdmKonfiguration.cs" />
     <Compile Include="AdmInformation.cs" />
+    <Compile Include="AdmFAQKategori.cs" />
+    <Compile Include="AdmFAQ.cs" />
+    <Compile Include="Organisationsenhet.cs" />
     <Compile Include="AdmRegister.cs" />
     <Compile Include="AdmDelregister.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Aterkoppling.cs" />
     <Compile Include="Inloggning.cs" />
+    <Compile Include="AdmUppgiftsskyldighet.cs" />
     <Compile Include="Leverans.cs" />
     <Compile Include="LevereradFil.cs" />
     <Compile Include="Organisation.cs" />

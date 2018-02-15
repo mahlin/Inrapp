@@ -55,8 +55,9 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             try
             {
+                var userOrg = _portalService.HamtaOrgForAnvandare(User.Identity.GetUserId());
                 //Hämta info om valbara register
-                var registerInfoList = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId());
+                var registerInfoList = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId(), userOrg.Id);
                 _model.RegisterList = registerInfoList.ToList();
 
                 // Ladda drop down lists.  
@@ -65,7 +66,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
                 //Hämta historiken för användarens organisation/kommun
                 var userId = User.Identity.GetUserId();
-                var userOrg = _portalService.HamtaOrgForAnvandare(userId);
+                
                 //var kommunKodForUser = _portalService.HamtaKommunKodForAnvandare(userId);
                 //var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
 

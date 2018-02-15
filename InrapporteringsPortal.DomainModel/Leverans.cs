@@ -10,6 +10,7 @@ namespace InrapporteringsPortal.DomainModel
         public int Id { get; set; }
         public int ForvantadleveransId { get; set; }
         public int OrganisationId { get; set; }
+        public int OrganisationsenhetsId { get; set; }
         public string ApplicationUserId { get; set; }
         public int DelregisterId { get; set; }
         public DateTime Leveranstidpunkt { get; set; }
@@ -18,6 +19,8 @@ namespace InrapporteringsPortal.DomainModel
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
+        public virtual Organisation Organisation { get; set; }
+        public virtual Organisationsenhet Organisationsenhet { get; set; }
         public virtual AdmForvantadleverans AdmForvantadleverans { get; set; }
         public virtual ICollection<LevereradFil> LevereradeFiler { get; set; }
     }

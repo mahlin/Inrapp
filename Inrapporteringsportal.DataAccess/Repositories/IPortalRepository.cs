@@ -30,6 +30,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         int GetUserOrganisationId(string userId);
 
+        AdmUppgiftsskyldighet GetUppgiftsskyldighetForOrganisationAndRegister(int orgId, int delregid);
+
+        IEnumerable<Organisationsenhet> GetOrganisationUnits(int orgId);
+            
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace InrapporteringsPortal.DomainModel
 {
-    public class AdmForvantadfil
+    public class AdmUppgiftsskyldighet
     {
         public int Id { get; set; }
-        public int FilkravId { get; set; }
-        public string Filmask { get; set; }
-        public string Regexp { get; set; }
-        public bool Obligatorisk { get; set; }
-        public bool Tom { get; set; }
+        public int OrganisationId { get; set; }
+        public int DelregisterId { get; set; }
+        public DateTime? SkyldigFrom { get; set; }
+        public DateTime? SkyldigTom { get; set; }
+        public bool RapporterarPerEnhet { get; set; }
         public DateTime SkapadDatum { get; set; }
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
-        public virtual AdmFilkrav AdmFilkrav { get; set; }
+        public virtual AdmDelregister AdmDelregister { get; set; }
     }
 }

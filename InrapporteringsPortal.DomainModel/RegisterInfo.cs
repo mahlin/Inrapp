@@ -19,6 +19,9 @@ namespace InrapporteringsPortal.DomainModel
         public string Period { get; set; }
         public int ForvantadLevransId { get; set; }
         public bool Selected { get; set; } = false;
+        public bool RapporterarPerEnhet { get; set; } = false;
+        //public IEnumerable<string> Organisationsenheter { get; set; }
+        public List<KeyValuePair<string, string>> Organisationsenheter { get; set; }
         public IEnumerable<string> FilMasker { get; set; }
         public IEnumerable<string> RegExper { get; set; }
     }
