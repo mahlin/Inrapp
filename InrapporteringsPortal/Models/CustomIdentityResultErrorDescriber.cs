@@ -23,7 +23,7 @@ namespace InrapporteringsPortal.Web.Models
                 case "An unknown failure has occurred.":
                     return "Ett okänt fel inträffade";
                 case "Incorrect password.":
-                    return "Felaktigt Pinkod";
+                    return "Felaktig pinkod";
                 case "A user with this login already exists.":
                     return "En användare med detta användarnamn finns redan.";
                 case "User name '{userName}' is invalid, can only contain letters or digits.":
@@ -39,7 +39,7 @@ namespace InrapporteringsPortal.Web.Models
                 case "Role name '{role}' is already taken.":
                     return "Rollnamnet '{role}' är redan upptaget.";
                 case "User already has a password set.":
-                    return "Användaren har redan ett Pinkod";
+                    return "Användaren har redan en pinkod";
                 case "User already in role '{role}'.":
                     return "Anändaren har redan rollen '{role}'.";
                 case "User is not in role '{role}'.":

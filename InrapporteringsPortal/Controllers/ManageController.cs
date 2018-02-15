@@ -67,8 +67,8 @@ namespace InrapporteringsPortal.Web.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Din Pinkod har ändrats."
-                : message == ManageMessageId.SetPasswordSuccess ? "Din Pinkod är sparad."
+                message == ManageMessageId.ChangePasswordSuccess ? "Din pinkod har ändrats."
+                : message == ManageMessageId.SetPasswordSuccess ? "Din pinkod är sparad."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Din två-faktor-autentiseringsleverantör är sparad."
                 : message == ManageMessageId.Error ? "Ett fel har uppstått."
                 : message == ManageMessageId.AddPhoneSuccess ? "Ditt mobilnummer har sparats."

@@ -84,7 +84,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    ModelState.AddModelError("", "Du behöver bekräfta din epostadress. Se mail från inrapportering@socialstyrelsen.se");
+                    ModelState.AddModelError("", "Du behöver bekräfta din epostadress. Se mejl från inrapportering@socialstyrelsen.se");
                     return View(model);
                 }
                 // This doesn't count login failures towards account lockout
@@ -124,7 +124,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         }
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Felaktigt användarnamn eller Pinkod.");
+                        ModelState.AddModelError("", "Felaktigt användarnamn eller pinkod.");
                         return View(model);
                 }
             }

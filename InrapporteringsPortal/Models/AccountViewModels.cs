@@ -80,7 +80,7 @@ namespace InrapporteringsPortal.Web.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
         [DataType(DataType.Password)]
         [Display(Name = "Pinkod")]
         public string Password { get; set; }
@@ -100,7 +100,7 @@ namespace InrapporteringsPortal.Web.Models
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
-        [Required (ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
+        [Required (ErrorMessage = "Fältet pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [RegularExpression("([0-9]+)", ErrorMessage = "Pinkoden måste vara numerisk.")]
@@ -108,8 +108,8 @@ namespace InrapporteringsPortal.Web.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta Pinkod")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
+        [Display(Name = "Bekräfta pinkod")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
     }
@@ -122,15 +122,15 @@ namespace InrapporteringsPortal.Web.Models
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Fältet Pinkod är obligatoriskt.")]
+        [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Pinkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Bekräfta Pinkod")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av Pinkoden stämmer inte.")]
+        [Display(Name = "Bekräfta pinkod")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Pinkoden och verifieringen av pinkoden stämmer inte.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
