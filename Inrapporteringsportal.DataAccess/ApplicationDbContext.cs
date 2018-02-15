@@ -113,10 +113,10 @@ namespace InrapporteringsPortal.DataAccess
                 .HasRequired(c => c.Organisation)
                 .WithMany(d => d.Leveranser)
                 .HasForeignKey(c => c.OrganisationId);
-            modelBuilder.Entity<Leverans>()
-                .HasRequired(c => c.Organisationsenhet)
-                .WithMany(d => d.Leveranser)
-                .HasForeignKey(c => c.OrganisationsenhetsId);
+            //modelBuilder.Entity<Leverans>()
+            //    .HasRequired(c => c.Organisationsenhet)
+            //    .WithMany(d => d.Leveranser)
+            //    .HasForeignKey(c => c.OrganisationsenhetsId);
             modelBuilder.Entity<Leverans>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<Leverans>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<Leverans>().Property(e => e.AndradDatum).HasColumnName("andraddatum");

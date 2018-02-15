@@ -110,7 +110,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, List<RegisterInfo> registerList)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, string selectedUnitId, List<RegisterInfo> registerList)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
@@ -131,7 +131,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
             if (string.IsNullOrEmpty(headers["X-File-Name"]))
             {
-                UploadWholeFile(ContentBase, resultList, hash, levId);
+                UploadWholeFile(ContentBase, resultList, hash, levId, selectedUnitId);
             }
 
             //TODO - Test EncryptDecrypt
@@ -148,7 +148,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
         }
 
 
-        private void UploadWholeFile(HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses, string hash, int levId)
+        private void UploadWholeFile(HttpContextBase requestContext, List<ViewDataUploadFilesResult> statuses, string hash, int levId, string selectedUnitId)
         {
             var request = requestContext.Request;
             for (int i = 0; i < request.Files.Count; i++)
@@ -164,7 +164,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                     var extension = Path.GetExtension(file.FileName);
                     var filOfFilesAddOn = "!" + (i + 1).ToString() + "!" + (request.Files.Count).ToString();
                     var timestamp = DateTime.Now.ToString("yyyyMMdd" + "T"+ "HHmmss"); 
-                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + "!" + timestamp + extension;
+                    var extendedFileName = fileNameWithoutExtension + hash + filOfFilesAddOn + "!" + timestamp + "!" + selectedUnitId + extension;
                     var fullPath = Path.Combine(pathOnServer, Path.GetFileName(extendedFileName));
                     file.SaveAs(fullPath);
 

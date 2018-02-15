@@ -119,17 +119,22 @@ namespace InrapporteringsPortal.Web.Controllers
         [Authorize]
         public JsonResult Upload(FilesViewModel model)
         {
+            var enhetskod = String.Empty;
+            //TODO - test
+            //model.SelectedUnitId = "S";
             var resultList = new List<ViewDataUploadFilesResult>();
             var userName = "";
             try
             {
                 var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
                 userName = User.Identity.GetUserName();
-
                 var CurrentContext = HttpContext;
+                
+                if (model.SelectedUnitId != null)
+                    enhetskod = model.SelectedUnitId;
 
                 filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName,
-                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), model.RegisterList);
+                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.RegisterList);
             }
             catch (Exception e)
             {

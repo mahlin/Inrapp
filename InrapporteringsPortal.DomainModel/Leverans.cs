@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +11,8 @@ namespace InrapporteringsPortal.DomainModel
         public int Id { get; set; }
         public int ForvantadleveransId { get; set; }
         public int OrganisationId { get; set; }
-        public int OrganisationsenhetsId { get; set; }
+        [ForeignKey("Organisationsenhet")]
+        public int? OrganisationsenhetsId { get; set; }
         public string ApplicationUserId { get; set; }
         public int DelregisterId { get; set; }
         public DateTime Leveranstidpunkt { get; set; }
