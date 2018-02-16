@@ -73,9 +73,23 @@ namespace InrapporteringsPortal.Web.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Kontakta oss";
-
-            return View();
+            try
+            {
+                ViewBag.Text = _portalService.HamtaInformationsText("Kontaktsida");
+                return View();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("HomeController", "Contact", e.ToString(), e.HResult);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid öppning av kontaktsidan.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
         }
     }
 }

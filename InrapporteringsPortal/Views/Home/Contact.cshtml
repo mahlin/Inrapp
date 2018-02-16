@@ -1,12 +1,9 @@
 ﻿@{
     ViewBag.Title = "Kontakt";
 }
+
 <div class="padding-top-55">
     <h3>@ViewBag.Message</h3>
 </div>
 
-<address>
-    <strong>Support, e-post:</strong> <a href="mailto:inrapportering@socialstyrelsen.se">inrapportering@socialstyrelsen.se</a><br />
-    <strong>Support, telefon:</strong> 075-247 37 37 <br/>
-    <strong>Telefontider:</strong> Helgfria vardagar, kl.08.00 - 16.00
-</address>
+@Html.Raw(ViewBag.Text)
