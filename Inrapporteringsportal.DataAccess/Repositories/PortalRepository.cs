@@ -353,5 +353,47 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var orgUnits = DbContext.Organisationsenhet.Where(x => x.OrganisationsId == orgId).ToList();
             return orgUnits;
         }
+
+        public string GetClosedFromHour()
+        {
+            var closedFromHour = "0";
+            closedFromHour = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedFromHour").Select(x => x.Varde).SingleOrDefault();
+            return closedFromHour;
+        }
+
+        public string GetClosedFromMin()
+        {
+            var closedFromMin = "0";
+            closedFromMin = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedFromMin").Select(x => x.Varde).SingleOrDefault();
+            return closedFromMin;
+        }
+
+        public string GetClosedToHour()
+        {
+            var closedToHour = "0";
+            closedToHour = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedToHour").Select(x => x.Varde).SingleOrDefault();
+            return closedToHour;
+        }
+
+        public string GetClosedToMin()
+        {
+            var closedToMin = "0";
+            closedToMin = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedToMin").Select(x => x.Varde).SingleOrDefault();
+            return closedToMin;
+        }
+
+        public string GetClosedAnnyway()
+        {
+            var closedAnyway = "false";
+            closedAnyway = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedAnyway").Select(x => x.Varde).SingleOrDefault();
+            return closedAnyway;
+        }
+
+        public string GetClosedDays()
+        {
+            var closedDays = String.Empty;
+            closedDays = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedDays").Select(x => x.Varde).SingleOrDefault();
+            return closedDays;
+        }
     }
 }

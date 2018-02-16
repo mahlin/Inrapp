@@ -242,5 +242,68 @@ namespace InrapporteringsPortal.ApplicationService
 
             return uppgiftsskyldighet;
         }
+
+        public bool IsOpen()
+        {
+            var now = DateTime.Now;
+            var today = now.DayOfWeek.ToString();
+            var hourNow = now.Hour;
+            var minuteNow = now.Minute;
+
+            //Get Openinghours from database
+            var closedDays = _portalRepository.GetClosedDays().Split(new char[] { ',' }); 
+            var closedFromHour = Int32.Parse(_portalRepository.GetClosedFromHour());
+            var closedFromMin = Int32.Parse(_portalRepository.GetClosedFromMin());
+            var closedToHour = Int32.Parse(_portalRepository.GetClosedToHour());
+            var closedToMin = Int32.Parse(_portalRepository.GetClosedToMin());
+            var closedAnyway = Convert.ToBoolean(_portalRepository.GetClosedAnnyway());
+
+            //Test
+            //hourNow = 8;
+            //minuteNow = 2;
+
+            if (closedAnyway)
+            {
+                return false;
+            }
+
+            //Check day
+            foreach (var day in closedDays)
+            {
+                if (day == today)
+                {
+                    return false;
+                }
+            }
+
+            //After closing
+            if ((closedFromHour <= hourNow))
+            {
+                //Check minute
+                if (minuteNow < closedFromMin)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            //Before opening?
+            if ((closedToHour > hourNow))
+            {
+                return false;
+            }
+
+            if (closedToHour == hourNow)
+            {
+                //Check minute
+                if (minuteNow > closedToMin)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            return true;
+        }
     }
 }

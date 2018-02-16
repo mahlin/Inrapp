@@ -1,13 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Socialstyrelsens inrapporteringsportal öppen vardagar mellan kl.08.00 - 16.00";
     Layout = "~/Views/Shared/_LayoutClosed.cshtml";
 }
 
 
 <div class="padding-top-55">
-    <h2>@ViewBag.Title.</h2>
+    @Html.Raw(ViewBag.Text)
 </div>
 
-@Html.Raw(ViewBag.Text)
+
 
 

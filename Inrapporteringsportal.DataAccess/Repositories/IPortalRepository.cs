@@ -45,6 +45,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         string GetUserName(string userId);
 
         string GetUserPhoneNumber(string userId);
+        string GetClosedDays();
+        string GetClosedFromHour();
+        string GetClosedFromMin();
+        string GetClosedToHour();
+        string GetClosedToMin();
+        string GetClosedAnnyway();
 
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
