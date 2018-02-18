@@ -103,7 +103,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
-        public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId)
+        public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId, int forvLevId)
         {
             var leverans = new Leverans
             {
@@ -118,6 +118,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 AndradDatum = DateTime.Now,
                 AndradAv = userName
             };
+
+            if (orgenhetsId != 0)
+            {
+                leverans.OrganisationsenhetsId = orgenhetsId;
+            }
+            
 
             DbContext.Leverans.Add(leverans);
 
@@ -277,6 +283,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return aterkoppling;
         }
 
+        public string GetEnhetskodForLeverans(int orgenhetsid)
+        {
+            var enhetskod = DbContext.Organisationsenhet.Where(x => x.Id == orgenhetsid).Select(x => x.Enhetskod).SingleOrDefault();
+            return enhetskod;
+        }
+
         public IEnumerable<Roll> GetChosenRegistersForUser(string userId)
         {
             var rollList = new List<Roll>();
@@ -354,6 +366,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return orgUnits;
         }
 
+        public int GetOrganisationsenhetsId(string orgUnitCode, int orgId)
+        {
+            var orgenhetsId = DbContext.Organisationsenhet.Where(x => x.Enhetskod == orgUnitCode && x.OrganisationsId == orgId).Select(x => x.Id).FirstOrDefault();
+            return orgenhetsId;
+        }
+
         public string GetClosedFromHour()
         {
             var closedFromHour = "0";
@@ -395,5 +413,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             closedDays = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedDays").Select(x => x.Varde).SingleOrDefault();
             return closedDays;
         }
+
     }
 }

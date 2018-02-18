@@ -86,18 +86,27 @@
         <tr>
             <td>@loggRad.RegisterKortnamn</td>
             <td>@loggRad.Leveranstidpunkt</td>
-            <td>@loggRad.LeveransId</td>
+            <td>
+                @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
+                {
+                    @loggRad.LeveransId @Html.Raw("/") @loggRad.Enhetskod
+                }
+                else
+                {
+                    @loggRad.LeveransId
+                }
+            </td>
             <td>@loggRad.Leveransstatus</td>
             <td>@loggRad.Filnamn</td>
             <td>@loggRad.Filstatus</td>
             @if (loggRad.Resultatfil == "Ej kontrollerad")
-    {
-        <td>@loggRad.Resultatfil</td>
-}
-else
-{
-        <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
-}
+            {
+                <td>@loggRad.Resultatfil</td>
+            }
+            else
+            {
+                <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
+            }
         </tr>
         }
     }

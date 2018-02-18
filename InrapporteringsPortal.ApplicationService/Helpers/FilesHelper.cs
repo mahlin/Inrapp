@@ -124,7 +124,14 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
 
             //hämta ett leveransId och skapa hashAddOn till filnamnet
             var orgId = _portalRepository.GetUserOrganisationId(userId);
-            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, forvantadLevId);
+            var orgenhetsId = 0;
+            //Om leverans för stadsdelar, hämta organisationsenhetsid
+            if (!String.IsNullOrWhiteSpace(selectedUnitId))
+            {
+                orgenhetsId = _portalRepository.GetOrganisationsenhetsId(selectedUnitId, orgId);
+            }
+
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, orgenhetsId, forvantadLevId);
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 

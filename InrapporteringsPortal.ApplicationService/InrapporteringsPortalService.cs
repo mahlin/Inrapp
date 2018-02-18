@@ -51,6 +51,15 @@ namespace InrapporteringsPortal.ApplicationService
                 //Kolla om återkopplingsfil finns för aktuell leverans
                 var aterkoppling = _portalRepository.GetAterkopplingForLeverans(leverans.Id);
 
+                //Kolla om enhetskod finns för aktuell leverans (stadsdelsleverans)
+                var enhetskod = String.Empty;
+                if (leverans.OrganisationsenhetsId != null)
+                {
+                    var orgenhetid = Convert.ToInt32(leverans.OrganisationsenhetsId);
+                    enhetskod = _portalRepository.GetEnhetskodForLeverans(orgenhetid);
+                }
+                
+
                 var filer = _portalRepository.GetFilerForLeveransId(leverans.Id);
                 var registerKortnamn = _portalRepository.GetRegisterKortnamn(leverans.DelregisterId);
                 foreach (var fil in filer)
@@ -61,13 +70,13 @@ namespace InrapporteringsPortal.ApplicationService
                     filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
                     filloggDetalj.RegisterKortnamn = registerKortnamn;
                     filloggDetalj.Resultatfil = "Ej kontrollerad";
-                    historikLista.Add(filloggDetalj);
-
+                    filloggDetalj.Enhetskod = enhetskod;
                     if (aterkoppling != null)
                     {
                         filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
                         filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
                     }
+                    historikLista.Add(filloggDetalj);
                 }
             }
             var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
@@ -87,9 +96,9 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.SaveToFilelogg(userName, ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
         }
 
-        public int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int forvLevId)
+        public int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int orgenhetsId, int forvLevId)
         {
-            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, registerId, forvLevId);
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, registerId, orgenhetsId, forvLevId);
             return levId;
         }
 

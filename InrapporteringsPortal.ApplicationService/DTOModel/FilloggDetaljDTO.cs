@@ -10,6 +10,7 @@ namespace InrapporteringsPortal.ApplicationService.DTOModel
     {
         public int Id { get; set; }
         public int LeveransId { get; set; }
+        public string Enhetskod { get; set; }
         public string RegisterKortnamn { get; set; }
         public string Filnamn { get; set; }
         public string Period { get; set; }

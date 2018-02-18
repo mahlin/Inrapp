@@ -22,7 +22,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetInformationText(string infoTyp);
 
-        int GetNewLeveransId(string userId, string userName, int orgId, int regId, int forvLevId);
+        int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId,int forvLevId);
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
@@ -33,12 +33,16 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         AdmUppgiftsskyldighet GetUppgiftsskyldighetForOrganisationAndRegister(int orgId, int delregid);
 
         IEnumerable<Organisationsenhet> GetOrganisationUnits(int orgId);
+
+        int GetOrganisationsenhetsId(string orgUnitCode, int orgId);
             
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
 
         Aterkoppling GetAterkopplingForLeverans(int levId);
+
+        string GetEnhetskodForLeverans(int orgenhetsid);
 
         IEnumerable<Roll> GetChosenRegistersForUser(string userId);
 

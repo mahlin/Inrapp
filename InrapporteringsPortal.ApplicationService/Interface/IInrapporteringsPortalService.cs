@@ -16,7 +16,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         string HamtaKommunKodForOrganisation(int orgId);
         string HamtaKommunKodForAnvandare(string userId);
 
-        int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int forvLevId);
+        int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int orgenhetsId, int forvLevId);
 
         string HamtaInformationsText(string infoTyp);
 
