@@ -50,13 +50,22 @@ namespace InrapporteringsPortal.Web
             //    ConfigurationManager.AppSettings["MailSender"],
             //    ConfigurationManager.AppSettings["MailPwd"]);
 
-            SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
-            //smtpClient.Credentials = credentials;
-            if (ConfigurationManager.AppSettings["EnableSsl"] == "True")
+            using (SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]))
             {
-                smtpClient.EnableSsl = true;
+                if (ConfigurationManager.AppSettings["EnableSsl"] == "True")
+                {
+                    smtpClient.EnableSsl = true;
+                }
+                smtpClient.Send(msg);
             }
-            smtpClient.Send(msg);
+
+            //SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]);
+            ////smtpClient.Credentials = credentials;
+            //if (ConfigurationManager.AppSettings["EnableSsl"] == "True")
+            //{
+            //    smtpClient.EnableSsl = true;
+            //}
+            //smtpClient.Send(msg);
         }
     }
 
