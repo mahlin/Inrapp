@@ -82,6 +82,11 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 //Add this to check if the email was confirmed.
                 var user = await UserManager.FindByNameAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Felaktigt användarnamn eller pinkod.");
+                    return View(model);
+                }
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
                     ModelState.AddModelError("", "Du behöver bekräfta din epostadress. Se mejl från inrapportering@socialstyrelsen.se");
@@ -211,7 +216,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         return View("Lockout");
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Invalid code.");
+                        ModelState.AddModelError("", "Felaktig verifieringskod.");
                         return View(model);
                 }
             }
@@ -379,7 +384,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     var message = new IdentityMessage
                     {
                         Destination = model.Number,
-                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registera dig ange följande säkerhetskod på webbsidan: " + code
+                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande säkerhetskod på webbsidan: " + code
 
                     };
                     await UserManager.SmsService.SendAsync(message);
