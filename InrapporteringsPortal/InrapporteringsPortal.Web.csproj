@@ -658,6 +658,7 @@
     <Content Include="Views\Shared\_LayoutClosed.cshtml" />
     <Content Include="Views\Manage\ChangeName.cshtml" />
     <Content Include="Views\Account\ConfirmRegistration.cshtml" />
+    <Content Include="Views\Account\AreYouSurePhoneNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

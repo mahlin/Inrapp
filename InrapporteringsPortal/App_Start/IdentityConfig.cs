@@ -81,8 +81,8 @@ namespace InrapporteringsPortal.Web
             HttpWebRequest request = WebRequest.Create("https://api.smsteknik.se/send/?id=Socialstyrelsen&user=" + usr + "&pass=" + pwd + "&nr=" + message.Destination + "&sender=" + sender + "&msg=" + message.Body) as HttpWebRequest;
 
             //TODO
-            WebProxy proxyObject = new WebProxy(proxy);
-            WebRequest.DefaultWebProxy = proxyObject;
+            //WebProxy proxyObject = new WebProxy(proxy);
+            //WebRequest.DefaultWebProxy = proxyObject;
 
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
