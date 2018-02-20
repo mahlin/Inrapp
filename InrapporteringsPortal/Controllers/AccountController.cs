@@ -436,10 +436,21 @@ namespace InrapporteringsPortal.Web.Controllers
                     var user = await UserManager.FindByIdAsync(model.Id);
                     if (user != null)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        _portalService.SaveToLoginLog(user.Id, user.UserName);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //_portalService.SaveToLoginLog(user.Id, user.UserName);
+                        return View("ConfirmRegistration");
                     }
-                    return RedirectToAction("Index", "FileUpload");
+                    else
+                    {
+                        ErrorManager.WriteToErrorLog("AccountController", "VerifyPhoneNumber", "Verifiering av telefonnummer gick bra, men user saknas i databasen.", 0, "");
+                        var errorModel = new CustomErrorPageModel
+                        {
+                            Information = "Ett fel inträffade vid verifiering av mobilnummer.",
+                            ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                            ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                        };
+                        return View("CustomError", errorModel);
+                    }
                 }
             }
             catch (Exception e)

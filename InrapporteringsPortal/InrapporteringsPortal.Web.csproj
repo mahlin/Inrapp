@@ -657,6 +657,7 @@
     <Content Include="Views\Home\Closed.cshtml" />
     <Content Include="Views\Shared\_LayoutClosed.cshtml" />
     <Content Include="Views\Manage\ChangeName.cshtml" />
+    <Content Include="Views\Account\ConfirmRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
