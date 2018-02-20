@@ -280,7 +280,8 @@ namespace InrapporteringsPortal.Web.Controllers
                     if (organisation == null)
                     {
                         ModelState.AddModelError("",
-                            "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: " + ConfigurationManager.AppSettings["ContactPhonenumber"]);
+                            "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: " +
+                            ConfigurationManager.AppSettings["ContactPhonenumber"]);
                     }
                     else
                     {
@@ -297,10 +298,11 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
                             //Spara valda register
-                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.UserName,model.RegisterList);
+                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.UserName, model.RegisterList);
                             //Verifiera epostadress
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
+                                protocol: Request.Url.Scheme);
                             //TODO mail/utvecklingsmiljön
                             await UserManager.SendEmailAsync(user.Id,
                                 "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
@@ -310,6 +312,18 @@ namespace InrapporteringsPortal.Web.Controllers
                         }
                         AddErrors(result);
                     }
+                }
+                catch (System.Net.Mail.SmtpException e)
+                {
+                    Console.WriteLine(e);
+                    ErrorManager.WriteToErrorLog("AccountController", "Register", e.ToString(), e.HResult, model.Email);
+                    var errorModel = new CustomErrorPageModel
+                    {
+                        Information = "Ett fel inträffade vid registreringen. Mail kunde ej skickas.",
+                        ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                        ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                    };
+                    return View("CustomError", errorModel);
                 }
                 catch (Exception e)
                 {
