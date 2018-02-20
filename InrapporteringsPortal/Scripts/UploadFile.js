@@ -20,40 +20,41 @@ $(document).ready(function () {
             for (var i = 0; i < data.files.length; i++) {
                 filelist.push(data.files[i]);
             }
+            checkOkToUpload();
         })
         .on("fileuploadfail",
         function (e, data) {
-            
             for (var i = 0; i < data.files.length; i++) {
                 filelist.splice($.inArray(data.files[i], filelist), 1);
                 //filelist.splice(data.files[i]);
             }
             //TODO - detta görs även i jquery.fileupload.js => dubblerad kod, fixa
-            //Check if desired number of files reached and no errors found => enable upload
-            var errorExists = false;
-            for (var i = 0; i < filelist.length; i++) {
-                if (filelist[i].error) {
-                    errorExists = true;
-                }
-            }
-            var selectedRegister = $('#ddlRegister').val();
-            var numberOfFilesForSelectedRegister = 0;
-            //get number of required files for chosen register
-            registerLista.forEach(function(register, index) {
-                if (selectedRegister === register.Id.toString()) {
-                    numberOfFilesForSelectedRegister = register.AntalFiler;
-                }
-            });
-            if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
-                $('.start').prop('disabled', false);
-                $('.start').show();
-                $('.fileinput-button')
-                    .prop('disabled', true)
-                    .parent().addClass('disabled');
-                //this.element.find('.fileinput-button input')
-                //    .prop('disabled', true)
-                //    .parent().addClass('disabled');
-            }
+            checkOkToUpload();
+            ////Check if desired number of files reached and no errors found => enable upload
+            //var errorExists = false;
+            //for (var i = 0; i < filelist.length; i++) {
+            //    if (filelist[i].error) {
+            //        errorExists = true;
+            //    }
+            //}
+            //var selectedRegister = $('#ddlRegister').val();
+            //var numberOfFilesForSelectedRegister = 0;
+            ////get number of required files for chosen register
+            //registerLista.forEach(function(register, index) {
+            //    if (selectedRegister === register.Id.toString()) {
+            //        numberOfFilesForSelectedRegister = register.AntalFiler;
+            //    }
+            //});
+            //if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
+            //    $('.start').prop('disabled', false);
+            //    $('.start').show();
+            //    $('.fileinput-button')
+            //        .prop('disabled', true)
+            //        .parent().addClass('disabled');
+            //    //this.element.find('.fileinput-button input')
+            //    //    .prop('disabled', true)
+            //    //    .parent().addClass('disabled');
+            //}
             
         })
         .on('fileuploaddone',
@@ -146,6 +147,40 @@ $(document).on('change','#ddlRegister',
             }
         });
     });
+
+function checkOkToUpload() {
+    //Check if desired number of files reached and no errors found => enable upload
+    var errorExists = false;
+    for (var i = 0; i < filelist.length; i++) {
+        if (filelist[i].error) {
+            errorExists = true;
+        }
+    }
+    var selectedRegister = $('#ddlRegister').val();
+    var numberOfFilesForSelectedRegister = 0;
+    //get number of required files for chosen register
+    registerLista.forEach(function (register, index) {
+        if (selectedRegister === register.Id.toString()) {
+            numberOfFilesForSelectedRegister = register.AntalFiler;
+        }
+    });
+    if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
+        $('.start').prop('disabled', false);
+        $('.start').show();
+        $('.fileinput-button')
+            .prop('disabled', true)
+            .parent().addClass('disabled');
+        //this.element.find('.fileinput-button input')
+        //    .prop('disabled', true)
+        //    .parent().addClass('disabled');
+    } else {
+        $('.start').prop('disabled', true);
+        $('.start').hide();
+        $('.fileinput-button')
+            .prop('disabled', false)
+            .parent().removeClass('disabled');
+    }
+}
 
 function disableFileInputButton() {
     $('.fileinput-button input')

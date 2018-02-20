@@ -541,12 +541,12 @@
                 this._trigger('fail', e, data);
             }
             //Handle buttonbar
-            $('.start').prop('disabled', true);
-            $('.start').hide();
-            //_enableFileInputButton();
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
+            //$('.start').prop('disabled', true);
+            //$('.start').hide();
+            ////_enableFileInputButton();
+            //$('.fileinput-button input')
+            //    .prop('disabled', false)
+            //    .parent().removeClass('disabled');
             //this.element.find('.fileinput-button input')
             //    .prop('disabled', false)
             //    .parent().removeClass('disabled')

@@ -1082,40 +1082,40 @@
 
 
                 //Check if desired number of files reached and no errors found => enable upload
-                errorExists = false;
-                for (var i = 0; i < files.length; i++) {
-                    if (files[i].error) {
-                        errorExists = true;
-                    }
-                }
-                var rows = getTableRows();
-                var numberOfFilesInTable = (rows.length) - 1;
-                var selectedRegister = $('#ddlRegister').val();
-                var numberOfFilesForSelectedRegister = 0;
-                //get number of required files for chosen register
-                registerLista.forEach(function(register, index) {
-                    if (selectedRegister === register.Id.toString()) {
-                        numberOfFilesForSelectedRegister = register.AntalFiler;
-                    }
-                });
-                if (numberOfFilesInTable == numberOfFilesForSelectedRegister && !errorExists) {
-                    $('.start').prop('disabled', false);
-                    $('.start').show();
-                    $('.fileinput-button input')
-                        .prop('disabled', true)
-                        .parent().addClass('disabled');
-                    //this.element.find('.fileinput-button input')
-                    //    .prop('disabled', true)
-                    //    .parent().addClass('disabled');
-                }
-                else if (numberOfFilesInTable == numberOfFilesForSelectedRegister && errorExists) {
-                    $('.fileinput-button input')
-                        .prop('disabled', true)
-                        .parent().addClass('disabled');
-                    //this.element.find('.fileinput-button input')
-                    //    .prop('disabled', true)
-                    //    .parent().addClass('disabled');
-                }
+                //errorExists = false;
+                //for (var i = 0; i < files.length; i++) {
+                //    if (files[i].error) {
+                //        errorExists = true;
+                //    }
+                //}
+                //var rows = getTableRows();
+                //var numberOfFilesInTable = (rows.length) - 1;
+                //var selectedRegister = $('#ddlRegister').val();
+                //var numberOfFilesForSelectedRegister = 0;
+                ////get number of required files for chosen register
+                //registerLista.forEach(function(register, index) {
+                //    if (selectedRegister === register.Id.toString()) {
+                //        numberOfFilesForSelectedRegister = register.AntalFiler;
+                //    }
+                //});
+                //if (numberOfFilesInTable == numberOfFilesForSelectedRegister && !errorExists) {
+                //    $('.start').prop('disabled', false);
+                //    $('.start').show();
+                //    $('.fileinput-button input')
+                //        .prop('disabled', true)
+                //        .parent().addClass('disabled');
+                //    //this.element.find('.fileinput-button input')
+                //    //    .prop('disabled', true)
+                //    //    .parent().addClass('disabled');
+                //}
+                //else if (numberOfFilesInTable == numberOfFilesForSelectedRegister && errorExists) {
+                //    $('.fileinput-button input')
+                //        .prop('disabled', true)
+                //        .parent().addClass('disabled');
+                //    //this.element.find('.fileinput-button input')
+                //    //    .prop('disabled', true)
+                //    //    .parent().addClass('disabled');
+                //}
             return result;
         },
 

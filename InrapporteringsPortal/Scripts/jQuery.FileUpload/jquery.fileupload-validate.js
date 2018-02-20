@@ -266,6 +266,20 @@ function getTableRows() {
                 }
                 if (file.error || data.files.error) {
                     data.files.error = true;
+                    $('.start').hide();
+                    var selectedRegister = $('#ddlRegister').val();
+                    var numberOfFilesForSelectedRegister = 0;
+                    //get number of required files for chosen register
+                    registerLista.forEach(function (register, index) {
+                        if (selectedRegister === register.Id.toString()) {
+                            numberOfFilesForSelectedRegister = register.AntalFiler;
+                        }
+                    });
+                    if (filelist.length === numberOfFilesForSelectedRegister) {
+                        $('.fileinput-button')
+                            .prop('disabled', true)
+                            .parent().addClass('disabled');
+                    }
                     dfd.rejectWith(this, [data]);
                 } else {
                     dfd.resolveWith(this, [data]);
