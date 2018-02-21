@@ -46,9 +46,9 @@ namespace InrapporteringsPortal.Web
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
-            //var credentials = new NetworkCredential(
-            //    ConfigurationManager.AppSettings["MailSender"],
-            //    ConfigurationManager.AppSettings["MailPwd"]);
+            var credentials = new NetworkCredential(
+                ConfigurationManager.AppSettings["MailSender"],
+                ConfigurationManager.AppSettings["MailPwd"]);
 
             using (SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["MailServer"]))
             {
@@ -127,12 +127,12 @@ namespace InrapporteringsPortal.Web
             // You can write your own provider and plug it in here.
             manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
             {
-                MessageFormat = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att logga in ange följande säkerhetskod på webbsidan: {0}"
+                MessageFormat = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att logga in ange följande verifieringskod på webbsidan: {0}"
             });
             manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
             {
-                Subject = "Säkerhetskod",
-                BodyFormat = "Din säkerhetskod är {0}"
+                Subject = "Verifieringskod",
+                BodyFormat = "Din verifieringskod är {0}"
             });
             manager.EmailService = new EmailService();
             manager.SmsService = new SmsService();

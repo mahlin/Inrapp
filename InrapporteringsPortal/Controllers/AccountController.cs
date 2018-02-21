@@ -226,7 +226,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 ErrorManager.WriteToErrorLog("AccountController", "VerifyCode", e.ToString(), e.HResult, model.UserEmail);
                 var errorModel = new CustomErrorPageModel
                 {
-                    Information = "Ett fel inträffade vid verifiering av kod.",
+                    Information = "Ett fel inträffade vid kontroll av verifieringskod.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
                     ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
@@ -304,9 +304,9 @@ namespace InrapporteringsPortal.Web.Controllers
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
                                 protocol: Request.Url.Scheme);
                             //TODO mail/utvecklingsmiljön
-                            //await UserManager.SendEmailAsync(user.Id,
-                            //    "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
-                            //    callbackUrl);
+                            await UserManager.SendEmailAsync(user.Id,
+                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
+                                callbackUrl);
 
                             return View("DisplayEmail");
                         }
@@ -405,7 +405,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     var message = new IdentityMessage
                     {
                         Destination = model.Number,
-                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande säkerhetskod på webbsidan: " + code
+                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande verifieringskod på webbsidan: " + code
 
                     };
                     await UserManager.SmsService.SendAsync(message);

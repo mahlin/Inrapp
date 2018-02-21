@@ -142,7 +142,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande säkerhetskod på webbsidan: " + code
+                    Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande verifieringskod på webbsidan: " + code
                            
                 };
                 await UserManager.SmsService.SendAsync(message);

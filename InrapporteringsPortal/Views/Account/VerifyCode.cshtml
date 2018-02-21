@@ -20,7 +20,7 @@
     @Html.Hidden("userEmail", @Model.UserEmail)
     <h4>Ange verifieringskod</h4>
     <hr />
-    <p>En verifieringskod är skickad till ditt registrerade mobilnummer  @Html.Raw(Model.PhoneNumberMasked). Koden gäller i 5 minuter.</p>
+    <p>En verifieringskod är skickad till ditt registrerade mobilnummer  @Html.Raw(Model.PhoneNumberMasked). Verifieringskoden gäller i 5 minuter.</p>
     <br/>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

@@ -19,7 +19,7 @@
     <h4>Ange verifieringskod</h4>
     <h5>@ViewBag.Status</h5>
     <hr />
-    <p>En verifieringskod är skickad till ditt registrerade mobilnummer   @Html.Raw(Model.PhoneNumberMasked). Koden gäller i 5 minuter.</p>
+    <p>En verifieringskod är skickad till ditt registrerade mobilnummer   @Html.Raw(Model.PhoneNumberMasked). Verifieringskoden gäller i 5 minuter.</p>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Code, new { @class = "col-md-2 control-label" })

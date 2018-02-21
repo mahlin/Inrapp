@@ -514,6 +514,7 @@
     <Content Include="Content\Free-file-icons\512px\_page.png" />
     <Content Include="Content\Free-file-icons\icons.png" />
     <Content Include="Content\Images\Logga.PNG" />
+    <Content Include="Content\Images\LoggaNew.PNG" />
     <Content Include="Content\Images\LoggaVit.PNG" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
