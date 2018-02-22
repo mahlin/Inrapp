@@ -65,6 +65,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void UpdateChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
 
         void UpdateNameForUser(string userId, string userName);
+
+        void UpdateActiveFromForUser(string userId);
     }
 
 }

@@ -304,7 +304,7 @@ namespace InrapporteringsPortal.Web.Controllers
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
                                 protocol: Request.Url.Scheme);
                             //TODO mail/utvecklingsmiljön
-                            await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress", "Bekräfta din e-postadress i Socialstyrelsens inrapporteringsportal genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
+                            //await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress", "Bekräfta din e-postadress i Socialstyrelsens inrapporteringsportal genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
                             return View("DisplayEmail");
                         }
                         AddErrors(result);
@@ -454,8 +454,9 @@ namespace InrapporteringsPortal.Web.Controllers
                     var user = await UserManager.FindByIdAsync(model.Id);
                     if (user != null)
                     {
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        //_portalService.SaveToLoginLog(user.Id, user.UserName);
+                        //Set users activFrom date
+                        _portalService.UppdateraAktivFromForAnvandare(user.Id);
+
                         return View("ConfirmRegistration");
                     }
                     else

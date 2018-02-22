@@ -217,6 +217,11 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.UpdateNameForUser(userId,userName);
         }
 
+        public void UppdateraAktivFromForAnvandare(string userId)
+        {
+            _portalRepository.UpdateActiveFromForUser(userId);
+        }
+
         public string HamtaAnvandaresNamn(string userId)
         {
             var userName = _portalRepository.GetUserName(userId);
@@ -314,5 +319,7 @@ namespace InrapporteringsPortal.ApplicationService
 
             return true;
         }
+
+
     }
 }

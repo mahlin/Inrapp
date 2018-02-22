@@ -353,6 +353,13 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
+        public void UpdateActiveFromForUser(string userId)
+        {
+            var user = DbContext.Users.Where(u => u.Id == userId).Select(u => u).SingleOrDefault();
+            user.AktivFrom = DateTime.Now;
+            DbContext.SaveChanges();
+        }
+
         public AdmUppgiftsskyldighet GetUppgiftsskyldighetForOrganisationAndRegister(int orgId, int delregid)
         {
             var uppgiftsskyldighet = DbContext.AdmUppgiftsskyldighet.SingleOrDefault(x => x.OrganisationId == orgId && x.DelregisterId == delregid);
@@ -413,6 +420,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             closedDays = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedDays").Select(x => x.Varde).SingleOrDefault();
             return closedDays;
         }
+
 
     }
 }

@@ -46,6 +46,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         void UppdateraNamnForAnvandare(string userId, string userName);
 
+        void UppdateraAktivFromForAnvandare(string userId);
+
         void SaveToLoginLog(string userid, string userName);
 
         string MaskPhoneNumber(string phoneNumber);
