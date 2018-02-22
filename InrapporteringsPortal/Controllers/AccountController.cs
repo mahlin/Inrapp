@@ -304,10 +304,7 @@ namespace InrapporteringsPortal.Web.Controllers
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},
                                 protocol: Request.Url.Scheme);
                             //TODO mail/utvecklingsmiljön
-                            await UserManager.SendEmailAsync(user.Id,
-                                "Bekräfta ditt konto i Socialstyrelsens inrapporteringsportal",
-                                callbackUrl);
-
+                            await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress", "Bekräfta din e-postadress i Socialstyrelsens inrapporteringsportal genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
                             return View("DisplayEmail");
                         }
                         AddErrors(result);
@@ -519,7 +516,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 // Send an email with this link
                  string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                  var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                 var tmp = "Vänligen återställ din pinkod genom att klicka <a href=\"" + callbackUrl + "\">här</a>";
                 //TODO - mail
                  await UserManager.SendEmailAsync(user.Id, "Återställ pinkod", "Vänligen återställ din pinkod genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
 
@@ -613,7 +609,7 @@ namespace InrapporteringsPortal.Web.Controllers
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            return new ChallengeResult(provider, Url.Action("ExternalLoginConfirmation", "Account", new { ReturnUrl = returnUrl }));
         }
 
 

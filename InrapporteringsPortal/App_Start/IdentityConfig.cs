@@ -34,7 +34,9 @@ namespace InrapporteringsPortal.Web
         {
             #region formatter
             string text = string.Format("Vänligen klicka på den här länken för att bekäfta ditt konto:  {1}", message.Subject, message.Body);
-            string html = "Vänligen bekräfta ditt konto i Socialstyrelsens inrapporteringsportal genom att klicka på den här länken: <a href=" + message.Body + ">Bekräfta e-postadress</a><br/>";
+            //string html = "Vänligen bekräfta ditt konto i Socialstyrelsens inrapporteringsportal genom att klicka på den här länken: <a href=" + message.Body + ">Bekräfta e-postadress</a><br/>";
+            string html = message.Body;
+
             #endregion
 
             MailMessage msg = new MailMessage();

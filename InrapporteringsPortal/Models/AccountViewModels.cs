@@ -77,7 +77,7 @@ namespace InrapporteringsPortal.Web.Models
     {
         [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
         [Display(Name = "E-postadress")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]

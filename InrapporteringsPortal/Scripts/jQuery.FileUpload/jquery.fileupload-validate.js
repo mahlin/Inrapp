@@ -19,8 +19,6 @@ function CheckFileName(selectedRegister, fileName) {
         if (selectedRegister === register.Id.toString()) {
             register.RegExper.forEach(function (regexp, idx) {
                 re = new RegExp(regexp, "i");
-                alert("Regexp" + idx + ": " + regexp);
-                alert("FileName: " + fileName);
                 if (re.test(fileName)) {
                     result = true;
                 }
