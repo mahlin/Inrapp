@@ -16,7 +16,7 @@ namespace InrapporteringsPortal.Web.Models
             {
                 var str1 = errorMessage.Substring(errorMessage.Length - 17, 16);
                 if (str1 == "is already taken")
-                    return "Användarnamnet är redan upptaget.";
+                    return "E-postadressen är redan registrerad.";
             }
             switch (errorMessage)
             {

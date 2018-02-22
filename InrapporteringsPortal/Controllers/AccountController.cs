@@ -519,8 +519,9 @@ namespace InrapporteringsPortal.Web.Controllers
                 // Send an email with this link
                  string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                  var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                 var tmp = "Vänligen återställ ditt lösenord genom att klicka <a href=\"" + callbackUrl + "\">här</a>";
-                 await UserManager.SendEmailAsync(user.Id, "Återställ pinkod", "Vänligen återställ ditt lösenord genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
+                 var tmp = "Vänligen återställ din pinkod genom att klicka <a href=\"" + callbackUrl + "\">här</a>";
+                //TODO - mail
+                 await UserManager.SendEmailAsync(user.Id, "Återställ pinkod", "Vänligen återställ din pinkod genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
 
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -540,9 +541,34 @@ namespace InrapporteringsPortal.Web.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string code, string userId)
         {
-            return code == null ? View("Error") : View();
+            if (code == null)
+            {
+                return View("Error");
+            }
+            try
+            {
+                var user = UserManager.FindById(userId);
+                var model = new ResetPasswordViewModel
+                {
+                    Email = user.Email
+                };
+                return View(model);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "ResetPassword", e.ToString(), e.HResult, userId);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade när pinkod skulle bytas.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
         }
 
         //
