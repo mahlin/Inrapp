@@ -35,6 +35,15 @@
         </div>
     </div>
 }
+<br /><br />
+@*<div class="col-md-2 control-label"> </div>*@
+<div class="col-md-offset-2 col-md-10" style="padding-left:2px">
+    <a href="@Url.Action("GetNewCode", "Account", new { phoneNumber = Model.PhoneNumber, id = Model.Id})" class="btn btn-default">
+        Skicka ny verifieringskod
+        <span class="glyphicon" aria-hidden="true"></span>
+    </a>
+</div>
+<br /><br />
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

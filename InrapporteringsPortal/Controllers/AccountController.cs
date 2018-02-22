@@ -424,6 +424,40 @@ namespace InrapporteringsPortal.Web.Controllers
 
         }
 
+        // GET: /Manage/VerifyPhoneNumber
+        [AllowAnonymous]
+        public async Task<ActionResult> GetNewCode(string phoneNumber, string id)
+        {
+            try
+            {
+                var code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, phoneNumber);
+
+                if (UserManager.SmsService != null)
+                {
+                    var message = new IdentityMessage
+                    {
+                        Destination = phoneNumber,
+                        Body = "Välkommen till Socialstyrelsens Inrapporteringsportal. För att registrera dig ange följande verifieringskod på webbsidan: " + code
+
+                    };
+                    await UserManager.SmsService.SendAsync(message);
+                }
+                return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = phoneNumber, Id = id });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "GetNewCode", e.ToString(), e.HResult, id);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade när en ny verifieringskod skulle skickas.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
+                };
+                return View("CustomError", errorModel);
+            }
+        }
+
         //
         // GET: /Manage/VerifyPhoneNumber
         [AllowAnonymous]

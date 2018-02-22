@@ -16,8 +16,14 @@ namespace InrapporteringsPortal.Web.Models
             {
                 var str1 = errorMessage.Substring(errorMessage.Length - 17, 16);
                 if (str1 == "is already taken")
-                    return "E-postadressen är redan registrerad.";
-            }
+                {
+                    var str2 = errorMessage.Substring(0, 4);
+                    if (str2 == "Name")
+                        return "";
+                }
+                return "E-postadressen är redan registrerad.";
+            
+        }
             switch (errorMessage)
             {
                 case "An unknown failure has occurred.":
