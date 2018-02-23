@@ -69,6 +69,7 @@ namespace InrapporteringsPortal.Web.Models
     public class ForgotViewModel
     {
         [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
+        [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
     }
@@ -76,6 +77,7 @@ namespace InrapporteringsPortal.Web.Models
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
+        [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
         [Display(Name = "E-postadress")]
         [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]
         public string Email { get; set; }
@@ -92,11 +94,13 @@ namespace InrapporteringsPortal.Web.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Fältet Namn är obligatoriskt.")]
+        [StringLength(60, ErrorMessage = "Namnet kan inte vara längre än 60 tecken.")]
         [Display(Name = "Namn")]
         public string Namn { get; set; }
 
         [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
-        [EmailAddress]
+        [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
+        [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
@@ -118,12 +122,13 @@ namespace InrapporteringsPortal.Web.Models
     public class ResetPasswordViewModel
     {
         [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
-        [EmailAddress]
+        [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
+        [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
-        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
+        [StringLength(4, ErrorMessage = "{0} måste vara {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Pinkod")]
         public string Password { get; set; }
@@ -139,7 +144,8 @@ namespace InrapporteringsPortal.Web.Models
     public class ForgotPasswordViewModel
     {
         [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
-        [EmailAddress]
+        [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
+        [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]
         [Display(Name = "E-postadress")]
         public string Email { get; set; }
     }

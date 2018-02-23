@@ -31,7 +31,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
     public class SetPasswordViewModel
     {
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
-        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
+        [StringLength(4, ErrorMessage = "{0} måste vara {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Ny pinkod")]
         public string NewPassword { get; set; }
@@ -51,7 +51,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "Pinkoden måste vara numerisk")]
-        [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
+        [StringLength(4, ErrorMessage = "{0} måste vara {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password, ErrorMessage = "Ogiltig pinkod.")]
         [Display(Name = "Ny pinkod")]
         public string NewPassword { get; set; }
@@ -73,6 +73,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
     public class ChangeNameViewModel
     {
         [Required(ErrorMessage = "Fältet Namn är obligatoriskt.")]
+        [StringLength(60, ErrorMessage = "Namnet kan inte vara längre än 60 tecken.")]
         [Display(Name = "Namn")]
         public string Name { get; set; }
     }
