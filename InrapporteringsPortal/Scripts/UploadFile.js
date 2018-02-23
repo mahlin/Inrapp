@@ -112,14 +112,14 @@ $(document).on('change','#ddlRegister',
 
                     $('#enhetsInfo').show();
                     $('.fileinput-button').hide();
-                    $('.fileinput-button input')
+                    $('.fileinput-button')
                         .prop('disabled', true)
                         .parent().addClass('disabled');
                     $('.start').hide();
                 } else {
                     $('#enhetsInfo').hide();
                     $('.fileinput-button').show();
-                    $('.fileinput-button input')
+                    $('.fileinput-button')
                         .prop('disabled', false)
                         .parent().removeClass('disabled');
                     $('.start').hide();
@@ -137,13 +137,13 @@ $(document).on('change','#ddlRegister',
             //alert($('#ddlUnits').prop('selectedIndex'));
             if (selectedIndex === 0) {
                 $('.fileinput-button').hide();
-                $('.fileinput-button input')
+                $('.fileinput-button')
                     .prop('disabled', true)
                     .parent().addClass('disabled');
                 $('.start').hide();
             } else {
                 $('.fileinput-button').show();
-                $('.fileinput-button input')
+                $('.fileinput-button')
                     .prop('disabled', false)
                     .parent().removeClass('disabled');
             }
@@ -185,7 +185,7 @@ function checkOkToUpload() {
 }
 
 function disableFileInputButton() {
-    $('.fileinput-button input')
+    $('.fileinput-button')
         .prop('disabled', true)
         .parent().addClass('disabled');
 }
