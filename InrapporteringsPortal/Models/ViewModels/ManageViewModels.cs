@@ -50,8 +50,9 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "Pinkoden måste vara numerisk")]
         [StringLength(4, ErrorMessage = "{0} måste vara minst {2} tecken långt.", MinimumLength = 4)]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage = "Ogiltig pinkod.")]
         [Display(Name = "Ny pinkod")]
         public string NewPassword { get; set; }
 
