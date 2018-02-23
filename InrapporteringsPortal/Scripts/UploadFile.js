@@ -115,12 +115,14 @@ $(document).on('change','#ddlRegister',
                     $('.fileinput-button input')
                         .prop('disabled', true)
                         .parent().addClass('disabled');
+                    $('.start').hide();
                 } else {
                     $('#enhetsInfo').hide();
                     $('.fileinput-button').show();
                     $('.fileinput-button input')
                         .prop('disabled', false)
                         .parent().removeClass('disabled');
+                    $('.start').hide();
                 }
             } else if (selectedRegister === ""){
                 $('#registerInfo').html("");

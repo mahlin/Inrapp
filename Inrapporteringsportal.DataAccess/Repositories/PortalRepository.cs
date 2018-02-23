@@ -205,6 +205,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DateTime endDate;
 
             DateTime dagensDatum = DateTime.Now;
+            var perioder = new List<string>();
 
             foreach (var filkrav in itemAdmFilkrav) //Todo - kan vara fler? Antar endast en så länge
             {
@@ -218,10 +219,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                         if (dagensDatum >= startDate && dagensDatum <= endDate)
                         {
                             regInfo.Period = item.Period;
+                            perioder.Add(item.Period);
                             regInfo.ForvantadLevransId = item.Id;
                         }
                     }
                 }
+                regInfo.Perioder = perioder;
             }
         }
 

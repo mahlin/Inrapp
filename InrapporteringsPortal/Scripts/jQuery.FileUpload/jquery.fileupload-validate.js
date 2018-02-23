@@ -73,7 +73,7 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
     var validPeriod = "";
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            validPeriod = register.Period
+            validPeriod = register.Perioder
         }
     });
 
@@ -104,10 +104,18 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
     //}
 }
 
-function CheckPeriod(periodInFilename, validPeriod) {
-    if (periodInFilename === validPeriod)
-        return true;
-    return false;
+function CheckPeriod(periodInFilename, validPeriods) {
+    result = false;
+    validPeriods.forEach(function (validPeriod, index) {
+        if (periodInFilename === validPeriod) {
+            result = true;
+        }
+    });
+    return result;
+
+    //if (periodInFilename === validPeriod)
+    //    return true;
+    //return false;
 }
 
 function DoubletFiles(selectedRegister) {
