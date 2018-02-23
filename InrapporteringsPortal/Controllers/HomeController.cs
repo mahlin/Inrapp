@@ -44,7 +44,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid öppning av startsidan.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -65,7 +64,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid öppning av hjälpsidan.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -86,7 +84,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid öppning av kontaktsidan.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }

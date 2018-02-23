@@ -84,7 +84,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade i filuppladdningssidan.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -139,7 +138,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid uppladdning av fil.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 RedirectToAction("CustomError", new { model = errorModel });
             }
@@ -168,7 +166,6 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             Information = "Ett fel inträffade när filen skulle sparas till registrets logg.",
                             ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                            ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                         };
                         RedirectToAction("CustomError", new { model = errorModel});
                     }
@@ -224,7 +221,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid öppningen av återkopplingsfilen",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
 

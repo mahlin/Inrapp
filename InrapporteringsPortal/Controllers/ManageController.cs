@@ -232,7 +232,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid verifiering av mobilnummer.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -351,7 +350,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid byte av namn.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -401,7 +399,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid byte av valda register.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }

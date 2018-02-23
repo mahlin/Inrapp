@@ -141,7 +141,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid inloggningen",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
 
@@ -178,7 +177,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid inloggningen",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
 
@@ -228,7 +226,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid kontroll av verifieringskod.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -305,6 +302,7 @@ namespace InrapporteringsPortal.Web.Controllers
                                 protocol: Request.Url.Scheme);
                             //TODO mail/utvecklingsmiljön
                             await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress", "Bekräfta din e-postadress i Socialstyrelsens inrapporteringsportal genom att klicka <a href=\"" + callbackUrl + "\">här</a>");
+                            ViewBag.Email = model.Email;
                             return View("DisplayEmail");
                         }
                         AddErrors(result);
@@ -318,7 +316,6 @@ namespace InrapporteringsPortal.Web.Controllers
                     {
                         Information = "Ett fel inträffade vid registreringen. Mail kunde ej skickas.",
                         ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                        ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                     };
                     return View("CustomError", errorModel);
                 }
@@ -330,7 +327,6 @@ namespace InrapporteringsPortal.Web.Controllers
                     {
                         Information = "Ett fel inträffade vid registreringen.",
                         ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                        ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                     };
                     return View("CustomError", errorModel);
                 }
@@ -417,7 +413,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid registreringen.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -452,7 +447,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade när en ny verifieringskod skulle skickas.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -500,7 +494,6 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             Information = "Ett fel inträffade vid verifiering av mobilnummer.",
                             ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                            ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                         };
                         return View("CustomError", errorModel);
                     }
@@ -514,7 +507,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade vid verifiering av mobilnummer.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -596,7 +588,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade när pinkod skulle bytas.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
@@ -672,7 +663,6 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     Information = "Ett fel inträffade när sms-kod skulle skickas.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
-                    ContactPhonenumber = ConfigurationManager.AppSettings["ContactPhonenumber"]
                 };
                 return View("CustomError", errorModel);
             }
