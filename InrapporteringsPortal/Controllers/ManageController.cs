@@ -23,11 +23,14 @@ namespace InrapporteringsPortal.Web.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private readonly IInrapporteringsPortalService _portalService;
+        private CustomIdentityResultErrorDescriber _errorDecsriber;
 
         public ManageController()
         {
             _portalService =
                 new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
+            _errorDecsriber = new CustomIdentityResultErrorDescriber();
+
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -36,6 +39,8 @@ namespace InrapporteringsPortal.Web.Controllers
             SignInManager = signInManager;
             _portalService =
                 new InrapporteringsPortalService(new PortalRepository(new ApplicationDbContext()));
+            _errorDecsriber = new CustomIdentityResultErrorDescriber();
+
         }
 
         public ApplicationSignInManager SignInManager
@@ -452,9 +457,11 @@ namespace InrapporteringsPortal.Web.Controllers
 
         private void AddErrors(IdentityResult result)
         {
+
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error);
+                //ModelState.AddModelError("", error);
+                ModelState.AddModelError("", _errorDecsriber.LocalizeErrorMessage(error));
             }
         }
 

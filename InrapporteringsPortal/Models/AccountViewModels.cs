@@ -83,7 +83,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage = "Ogiltig pinkod.")]
         [Display(Name = "Pinkod")]
         public string Password { get; set; }
 
@@ -129,7 +129,8 @@ namespace InrapporteringsPortal.Web.Models
 
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
         [StringLength(4, ErrorMessage = "{0} måste vara {2} tecken långt.", MinimumLength = 4)]
-        [DataType(DataType.Password)]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Pinkoden måste vara numerisk.")]
+        [DataType(DataType.Password, ErrorMessage = "Ogiltig pinkod.")]
         [Display(Name = "Pinkod")]
         public string Password { get; set; }
 

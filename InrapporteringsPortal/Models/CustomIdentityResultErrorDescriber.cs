@@ -22,8 +22,9 @@ namespace InrapporteringsPortal.Web.Models
                         return "";
                 }
                 return "E-postadressen är redan registrerad.";
-            
-        }
+
+            }
+
             switch (errorMessage)
             {
                 case "An unknown failure has occurred.":
