@@ -45,7 +45,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
     public class ChangePasswordViewModel
     {
         [Required(ErrorMessage = "Fältet pinkod är obligatoriskt.")]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage = "Ogiltig pinkod.")]
         [Display(Name = "Nuvarande pinkod")]
         public string OldPassword { get; set; }
 
