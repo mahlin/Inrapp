@@ -204,7 +204,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DateTime startDate;
             DateTime endDate;
 
-            DateTime dagensDatum = DateTime.Now;
+            DateTime dagensDatum = DateTime.Now.Date;
             var perioder = new List<string>();
 
             foreach (var filkrav in itemAdmFilkrav) //Todo - kan vara fler? Antar endast en så länge
