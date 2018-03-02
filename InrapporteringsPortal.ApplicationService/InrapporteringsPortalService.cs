@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Mail;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Web;
@@ -9,6 +10,7 @@ using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
 using Inrapporteringsportal.DataAccess.Repositories;
 using InrapporteringsPortal.DomainModel;
+using InrapporteringsPortal.ApplicationService.Helpers;
 
 namespace InrapporteringsPortal.ApplicationService
 {
@@ -105,7 +107,10 @@ namespace InrapporteringsPortal.ApplicationService
         public Organisation HamtaOrgForEmailDomain(string modelEmail)
         {
             MailAddress address = new MailAddress(modelEmail);
-            string domain = address.Host; 
+            string host = address.Host;
+            //Check if Host contains multiple parts, get the last one
+            string domain = GetLastPartOfHostAdress(host);
+
             var organisation= _portalRepository.GetOrgForEmailDomain(domain);
             return organisation;
         }
@@ -320,6 +325,17 @@ namespace InrapporteringsPortal.ApplicationService
             return true;
         }
 
+        private string GetLastPartOfHostAdress(string hostAdress)
+        {
+            List<int> indexes = hostAdress.AllIndexesOf(".");
+
+            if (indexes.Count == 1)
+                return hostAdress;
+
+            var indexToCutFrom = indexes[indexes.Count - 2];
+            return hostAdress.Substring(indexToCutFrom + 1);
+
+        }
 
     }
 }

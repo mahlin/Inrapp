@@ -83,6 +83,7 @@
     <Compile Include="DTOModel\KontaktPersonDTO.cs" />
     <Compile Include="Helpers\EncryptDecrypt.cs" />
     <Compile Include="Helpers\ErrorManager.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\FileLogWriter.cs" />
     <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="InrapporteringsPortalService.cs" />
