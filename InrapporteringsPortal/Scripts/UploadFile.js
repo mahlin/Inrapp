@@ -67,6 +67,7 @@ $(document).ready(function () {
         var jqXHR = $('#fileupload').fileupload('send', { files: filelist })
             .success(function (result, textStatus, jqXHR) {
                 $("#filTabell tbody tr.template-upload").remove();
+                $("#updateHistoryForm").submit();
             })
             .error(function (jqXHR, textStatus, errorThrown) {/* ... */ })
             .complete(function(result, textStatus, jqXHR) {
@@ -74,6 +75,41 @@ $(document).ready(function () {
     });
 
 });
+
+//$(document).on('click','#testBtn',function() {
+//    //alert('Update history, testBtn');
+//    //    //$.get("/Home/Contact", null, function (data) {
+//    //    //    alert(data);
+//    //});
+
+//        $.ajax({
+//            // edit to add steve's suggestion.
+//            //url: "/ControllerName/ActionName",
+//            url: '<%= Url.Action("Contact", "Home") %>',
+//            success: function (data) {
+//                // your data could be a View or Json or what ever you returned in your action method 
+//                // parse your data here
+//                alert(data);
+//            }
+//        });
+//});
+
+$(document).on('submit', '#updateHistoryForm', function () {
+    $.ajax({ // create an AJAX call...'        
+        data: $(this).serialize(), // get the form data
+        cache: false,
+        type: 'post', // GET or POST
+        url: $('#StartUrl').val() + '/FileUpload/RefreshFilesHistory', // the file to call
+        success: function (response) { // on success..
+            $("#updateHistoryForm").html(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('error:' + errorThrown);
+        }
+    });
+    return false; // cancel original event to prevent form submitting
+});
+
 
 $(document).on('change','#ddlRegister',
     function() {

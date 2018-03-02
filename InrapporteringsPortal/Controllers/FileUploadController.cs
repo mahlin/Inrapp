@@ -71,6 +71,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var kommunKodForUser = userOrg.Kommunkod;
                 var orgIdForUser = userOrg.Id;
 
+                _model.StartUrl = ConfigurationManager.AppSettings["StartUrl"];
                 _model.GiltigKommunKod = kommunKodForUser;
                 _model.OrganisationsNamn = userOrg.Organisationsnamn;
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
@@ -170,11 +171,6 @@ namespace InrapporteringsPortal.Web.Controllers
                         RedirectToAction("CustomError", new { model = errorModel});
                     }
                 }
-                //TODO - refresh Historiklistan, annan model
-                //var userId = User.Identity.GetUserId();
-                //var orgIdForUser = _portalService.GetUserOrganisation(userId);
-                //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
-                //model.HistorikLista = historyFileList.ToList();
                 return Json(files);
             }
         }
@@ -287,6 +283,35 @@ namespace InrapporteringsPortal.Web.Controllers
             lstobj = new SelectList(list, "Value", "Text");
 
             return lstobj;
+        }
+
+        //public FilesViewModel UpdateHistory()
+        //{
+        //    var model = new FilesViewModel();
+        //    //TODO - refresh Historiklistan, annan model
+        //    var userId = User.Identity.GetUserId();
+        //    var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
+        //    IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+        //    model.HistorikLista = historyFileList.ToList();
+
+        //    return model;
+        //}
+
+        public ActionResult RefreshFilesHistory(FilesViewModel model)
+        {
+            var userId = User.Identity.GetUserId();
+            var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
+            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+            model.HistorikLista = historyFileList.ToList();
+            //return Json(historyFileList, JsonRequestBehavior.AllowGet);
+
+
+            //return Json(new JsonResult()
+            //{
+            //    Data = "Result"
+            //}, JsonRequestBehavior.AllowGet);
+
+            return PartialView("_FilesHistory", model);
         }
 
         public ActionResult CustomError(CustomErrorPageModel model)

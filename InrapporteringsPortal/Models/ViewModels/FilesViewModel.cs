@@ -21,6 +21,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public List<FilloggDetaljDTO> HistorikLista { get; set; }
         public string GiltigKommunKod { get; set; }
         public string OrganisationsNamn { get; set; }
+        public string StartUrl { get; set; }
 
     }
 }
