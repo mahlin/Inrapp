@@ -75,7 +75,11 @@ namespace InrapporteringsPortal.Web.Controllers
                 _model.GiltigKommunKod = kommunKodForUser;
                 _model.OrganisationsNamn = userOrg.Organisationsnamn;
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
-                _model.HistorikLista = historyFileList.ToList();
+
+                //Filtrera historiken utfrån användarens valda register
+                IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
+
+                _model.HistorikLista = filteredHistoryFileList.ToList();
             }
             catch (Exception e)
             {
@@ -302,7 +306,13 @@ namespace InrapporteringsPortal.Web.Controllers
             var userId = User.Identity.GetUserId();
             var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
             IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
-            model.HistorikLista = historyFileList.ToList();
+
+            //Filtrera historiken utfrån användarens valda register
+            IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
+
+            model.HistorikLista = filteredHistoryFileList.ToList();
+
+
             //return Json(historyFileList, JsonRequestBehavior.AllowGet);
 
 

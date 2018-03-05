@@ -337,5 +337,25 @@ namespace InrapporteringsPortal.ApplicationService
 
         }
 
+        public IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, IEnumerable<FilloggDetaljDTO> historikForOrganisation)
+        {
+            var userOrg = HamtaOrgForAnvandare(userId);
+            var registerInfoList = HamtaValdaRegistersForAnvandare(userId, userOrg.Id);
+
+            var historikForAnvandareList = new List<FilloggDetaljDTO>();
+
+            foreach (var rad in historikForOrganisation)
+            {
+                foreach (var valtRegister in registerInfoList)
+                {
+                    if (rad.RegisterKortnamn == valtRegister.Kortnamn)
+                    {
+                        historikForAnvandareList.Add(rad);
+                    }
+                }
+
+            }
+            return historikForAnvandareList;
+        }
     }
 }
