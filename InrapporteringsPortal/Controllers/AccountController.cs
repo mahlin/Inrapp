@@ -277,8 +277,8 @@ namespace InrapporteringsPortal.Web.Controllers
                     if (organisation == null)
                     {
                         ModelState.AddModelError("",
-                            "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, telefonnummer: " +
-                            ConfigurationManager.AppSettings["ContactPhonenumber"]);
+                            "Epostdomänen saknas i vårt register. Kontakta Socialstyrelsen för mer information. Support, epost: " +
+                            ConfigurationManager.AppSettings["ContactEmail"]);
                     }
                     else
                     {
