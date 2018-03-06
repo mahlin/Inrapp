@@ -424,6 +424,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return closedDays;
         }
 
-
+        public int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period)
+        {
+            var forvLevId = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == delregId && x.Period == period).Select(x => x.Id).Single();
+            return forvLevId;
+        }
     }
 }

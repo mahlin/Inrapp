@@ -61,6 +61,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 // Ladda drop down lists.  
                 this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
                 _model.SelectedRegisterId = "0";
+                _model.SelectedPeriod = "0";
 
                 //Hämta historiken för användarens organisation/kommun
                 var userId = User.Identity.GetUserId();
@@ -133,7 +134,7 @@ namespace InrapporteringsPortal.Web.Controllers
                     enhetskod = model.SelectedUnitId;
 
                 filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName,
-                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.RegisterList);
+                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.SelectedPeriod, model.RegisterList);
             }
             catch (Exception e)
             {

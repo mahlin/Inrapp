@@ -110,14 +110,16 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return files;
         }
 
-        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, string selectedUnitId, List<RegisterInfo> registerList)
+        public void UploadAndShowResults(HttpContextBase ContentBase, List<ViewDataUploadFilesResult> resultList, string userId, string userName, string kommunKod, int selectedRegisterId, string selectedUnitId, string selectedPeriod, List<RegisterInfo> registerList)
         {
             var httpRequest = ContentBase.Request;
             //System.Diagnostics.Debug.WriteLine(Directory.Exists(tempPath));
 
             //Kolla vilket register filen/filerna hör till och skapa mapp om det behövs
             var slussmapp = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.Slussmapp).Single();
-            var forvantadLevId = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.ForvantadLevransId).Single();
+            //Hämta forvantadlevid beroende på vald period
+            var forvantadLevId = _portalRepository.GetForvantadleveransIdForRegisterAndPeriod(selectedRegisterId, selectedPeriod);
+            //var forvantadLevId = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.ForvantadLevransId).Single();
             StorageRoot = StorageRoot + slussmapp + "\\";
             String fullPath = Path.Combine(StorageRoot);
             Directory.CreateDirectory(fullPath);

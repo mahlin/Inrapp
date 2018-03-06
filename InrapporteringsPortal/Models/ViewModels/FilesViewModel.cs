@@ -14,6 +14,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         [Display(Name = "Välj register")]
         public string SelectedRegisterId { get; set; }
         public string SelectedUnitId { get; set; }
+        public string SelectedPeriod { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
         //public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         //public List<KeyValuePair<int, string>> FilMask { get; set; }

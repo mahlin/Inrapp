@@ -357,5 +357,11 @@ namespace InrapporteringsPortal.ApplicationService
             }
             return historikForAnvandareList;
         }
+
+        public int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period)
+        {
+            var forvLevId = _portalRepository.GetForvantadleveransIdForRegisterAndPeriod(delregId, period);
+            return forvLevId;
+        }
     }
 }

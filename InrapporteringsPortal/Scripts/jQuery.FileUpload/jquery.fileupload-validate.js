@@ -109,6 +109,7 @@ function CheckPeriod(periodInFilename, validPeriods) {
     validPeriods.forEach(function (validPeriod, index) {
         if (periodInFilename === validPeriod) {
             result = true;
+            $("#SelectedPeriod").val(periodInFilename);
         }
     });
     return result;

@@ -8,6 +8,7 @@
 <form id="fileupload" method="POST" enctype="multipart/form-data" data-url="@Url.Action("Upload", "FileUpload")">
     @Html.HiddenFor(m => m.SelectedRegisterId)
     @Html.HiddenFor(m => m.SelectedUnitId)
+    @Html.HiddenFor(m => m.SelectedPeriod)
     @Html.HiddenFor(m => m.GiltigKommunKod)
     @if (Model.RegisterList != null)
     {

@@ -40,6 +40,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
 
+        int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period);
+
         Aterkoppling GetAterkopplingForLeverans(int levId);
 
         string GetEnhetskodForLeverans(int orgenhetsid);
