@@ -363,5 +363,11 @@ namespace InrapporteringsPortal.ApplicationService
             var forvLevId = _portalRepository.GetForvantadleveransIdForRegisterAndPeriod(delregId, period);
             return forvLevId;
         }
+
+        public IEnumerable<AdmFAQKategori> HamtaFAQs()
+        {
+            var faqs = _portalRepository.GetFAQs();
+            return faqs;
+        }
     }
 }

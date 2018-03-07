@@ -429,5 +429,11 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var forvLevId = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == delregId && x.Period == period).Select(x => x.Id).Single();
             return forvLevId;
         }
+
+        public IEnumerable<AdmFAQKategori> GetFAQs()
+        {
+            var faqs = DbContext.AdmFAQKategori.Include(x => x.AdmFAQ).ToList();
+            return faqs;
+        }
     }
 }

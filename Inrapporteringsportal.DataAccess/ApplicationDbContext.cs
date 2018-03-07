@@ -283,6 +283,10 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmFAQ>().Property(e => e.FAQkategoriId).HasColumnName("faqkategoriid");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.Fraga).HasColumnName("fraga");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.Svar).HasColumnName("svar");
+            modelBuilder.Entity<AdmFAQ>()
+                .HasRequired(c => c.AdmFAQKategori)
+                .WithMany(d => d.AdmFAQ)
+                .HasForeignKey(c => c.FAQkategoriId);
             modelBuilder.Entity<AdmFAQ>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.AndradDatum).HasColumnName("andraddatum");

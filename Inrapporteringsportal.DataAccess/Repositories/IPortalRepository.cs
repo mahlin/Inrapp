@@ -58,6 +58,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         string GetClosedToMin();
         string GetClosedAnnyway();
 
+        IEnumerable<AdmFAQKategori> GetFAQs();
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);

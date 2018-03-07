@@ -42,6 +42,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period);
 
+        IEnumerable<AdmFAQKategori> HamtaFAQs();
+
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SparaValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);

@@ -11,6 +11,7 @@ using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.Web.Models;
+using InrapporteringsPortal.Web.Models.ViewModels;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
@@ -23,6 +24,7 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             try
             {
+                
                 //Kolla om öppet, annars visa stängt-sida
                 if (_portalService.IsOpen())
                 {
@@ -53,8 +55,11 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             try
             {
+                //Hamta FAQs
+                var model = new AboutViewModel();
+                model.FaqCategories = _portalService.HamtaFAQs();
                 ViewBag.Text = _portalService.HamtaInformationsText("Hjalpsida");
-                return View();
+                return View(model);
             }
             catch (Exception e)
             {
