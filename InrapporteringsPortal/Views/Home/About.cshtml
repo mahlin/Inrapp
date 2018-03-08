@@ -1,23 +1,23 @@
 ﻿@model InrapporteringsPortal.Web.Models.ViewModels.AboutViewModel
 
-    
-@*<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css" />
 
-<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>*@
+@*<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>*@
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.panel-collapse.in')
             .collapse('hide');
     });
 
-    $('.closeall').click(function() {
+    $('.closeall').click(function () {
         $('.panel-collapse.in')
             .collapse('hide');
     });
-    $('.openall').click(function() {
+    $('.openall').click(function () {
         $('.panel-collapse:not(".in")')
             .collapse('show');
     });
@@ -34,48 +34,35 @@
 
 @Html.Raw(ViewBag.Text)
 
+<br/><br/><br/>
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    Här hittar du en mängd information om inrapporteringsportalen. Om du inte kan hitta svar på din fråga, var vänlig kontakta oss.
+</div>
 
 @if (Model.FaqCategories != null)
 {
-    <div class="container" style="margin-left: -20px">
-        <br />
-        <br />
-        <br />
-
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            Här hittar du en mängd information om inrapporteringsportalen. Om du inte kan hitta svar på din fråga, var vänlig kontakta oss.
-        </div>
-
-        <br />
-
-
-        @for (var i = 0; i < Model.FaqCategories.Count(); i++)
-        {
-            <div class="" id="accordion">
-                <div class="faqHeader" style="margin-left: -0px; font-size: 1.5em">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
-
-                @for (var index = 0; index < Model.FaqCategories.ElementAt(i).AdmFAQ.Count(); index++)
-                {
-                    <div class="card ">
-                        <div class="card-header">
-                            <h4>
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) style="color: #454444;font-size: .9em">@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)</a>
-                            </h4>
-                        </div>
-                        <div id=@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) class="panel-collapse collapse in">
-                            <div class="card-block" style="background-color: white">
-                                @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
-                            </div>
+    for (var i = 0; i < Model.FaqCategories.Count(); i++)
+     {
+         <div class="faqHeader" style="margin-left: -0px; font-size: 1.5em">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
+         <div class="panel-group" id=@(Model.FaqCategories.ElementAt(i).Kategori)>
+            @for (var index = 0; index < Model.FaqCategories.ElementAt(i).AdmFAQ.Count(); index++)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" data-parent=#@(Model.FaqCategories.ElementAt(i).Kategori) data-target=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>
+                        <h4 class="panel-title">
+                            @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)
+                        </h4>
+                    </div>
+                    <div id=@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) class="panel-collapse collapse">
+                        <div class="panel-body">
+                            @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
                         </div>
                     </div>
-                }
-            </div>
-        }
-    </div>
+                </div>
+            }
+         </div>
+
+     }
 }
-
-
-
-
 
