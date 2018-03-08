@@ -1,11 +1,28 @@
 ﻿@model InrapporteringsPortal.Web.Models.ViewModels.AboutViewModel
 
     
-<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+@*<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css" />
 
 <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>*@
+
+<script>
+    $(document).ready(function() {
+        $('.panel-collapse.in')
+            .collapse('hide');
+    });
+
+    $('.closeall').click(function() {
+        $('.panel-collapse.in')
+            .collapse('hide');
+    });
+    $('.openall').click(function() {
+        $('.panel-collapse:not(".in")')
+            .collapse('show');
+    });
+
+</script>
 
 @{
     ViewBag.Title = "Så här skickar du in registerfiler till Socialstyrelsen";
@@ -20,14 +37,14 @@
 
 @if (Model.FaqCategories != null)
 {
-    <div class="container">
+    <div class="container" style="margin-left: -20px">
         <br />
         <br />
         <br />
 
         <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            Här hittar du en mängd informationom inrapporteringsportalen. Om du inte kan hitta svar på din fråga, var vänlig kontakta oss.
+            Här hittar du en mängd information om inrapporteringsportalen. Om du inte kan hitta svar på din fråga, var vänlig kontakta oss.
         </div>
 
         <br />
@@ -36,18 +53,18 @@
         @for (var i = 0; i < Model.FaqCategories.Count(); i++)
         {
             <div class="" id="accordion">
-                <div class="faqHeader">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
+                <div class="faqHeader" style="margin-left: -0px; font-size: 1.5em">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
 
                 @for (var index = 0; index < Model.FaqCategories.ElementAt(i).AdmFAQ.Count(); index++)
                 {
                     <div class="card ">
                         <div class="card-header">
-                            <h4 class="card-header">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)</a>
+                            <h4>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) style="color: #454444;font-size: .9em">@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)</a>
                             </h4>
                         </div>
                         <div id=@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) class="panel-collapse collapse in">
-                            <div class="card-block">
+                            <div class="card-block" style="background-color: white">
                                 @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
                             </div>
                         </div>
@@ -58,37 +75,6 @@
     </div>
 }
 
-<style>
-    .faqHeader {
-        font-size: 27px;
-        margin: 20px;
-    }
-
-    .panel-heading [data-toggle="collapse"]:after {
-        font-family: 'Glyphicons Halflings';
-        content: "e072"; /* "play" icon */
-        float: right;
-        color: #F58723;
-        font-size: 18px;
-        line-height: 22px;
-        /* rotate "play" icon from > (right arrow) to down arrow */
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        -ms-transform: rotate(-90deg);
-        -o-transform: rotate(-90deg);
-        transform: rotate(-90deg);
-    }
-
-    .panel-heading [data-toggle="collapse"].collapsed:after {
-        /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
-        color: #454444;
-    }
-</style>
 
 <div class="container">
     <br />
