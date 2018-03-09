@@ -9,8 +9,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.panel-collapse.in')
-            .collapse('hide');
+        $('.panel-heading').toggleClass('collapsed');
     });
 
     $('.closeall').click(function () {
@@ -35,10 +34,6 @@
 @Html.Raw(ViewBag.Text)
 
 <br/><br/><br/>
-<div class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    Här hittar du en mängd information om inrapporteringsportalen. Om du inte kan hitta svar på din fråga, var vänlig kontakta oss.
-</div>
 
 @if (Model.FaqCategories != null)
 {
@@ -49,7 +44,7 @@
             @for (var index = 0; index < Model.FaqCategories.ElementAt(i).AdmFAQ.Count(); index++)
             {
                 <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" data-parent=#@(Model.FaqCategories.ElementAt(i).Kategori) data-target=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>
+                    <div class="panel-heading"  id="fraga" data-toggle="collapse" data-parent=#@(Model.FaqCategories.ElementAt(i).Kategori) data-target=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>
                         <h4 class="panel-title">
                             @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)
                         </h4>
