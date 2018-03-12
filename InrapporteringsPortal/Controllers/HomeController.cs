@@ -51,13 +51,14 @@ namespace InrapporteringsPortal.Web.Controllers
             }
         }
 
-        public ActionResult About()
+        public ActionResult About( bool closed = false)
         {
             try
             {
                 //Hamta FAQs
                 var model = new AboutViewModel();
                 model.FaqCategories = _portalService.HamtaFAQs();
+                model.PortalClosed = closed;
                 ViewBag.Text = _portalService.HamtaInformationsText("Hjalpsida");
                 return View(model);
             }
@@ -74,12 +75,14 @@ namespace InrapporteringsPortal.Web.Controllers
             }
         }
 
-        public ActionResult Contact()
+        public ActionResult Contact(bool closed = false)
         {
             try
             {
+                var model = new AboutViewModel();
+                model.PortalClosed = closed;
                 ViewBag.Text = _portalService.HamtaInformationsText("Kontaktsida");
-                return View();
+                return View(model);
             }
             catch (Exception e)
             {

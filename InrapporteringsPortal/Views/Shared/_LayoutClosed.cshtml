@@ -22,11 +22,13 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" rel="home" href='@Url.Action("Index", "Home")' title="Socialstyrelsen">
-                <img margin-top: -10px;" src="~/Content/Images/LoggaNew200px.PNG"></a>
-            @Html.ActionLink("Inrapporteringsportal", "Index", "Home", new {area = ""}, new {@class = "navbar-brand", style = "padding-left:40px;margin-top:20px" })
-
-        </div>
+                <img src="~/Content/Images/LoggaNew200px.PNG"></a></div>
         <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" style="margin-top: 20px">
+                <li>@Html.ActionLink("Inrapporteringsportal", "Index", "Home")</li>
+                <li>@Html.ActionLink("Hjälp", "About", "Home", new {closed = true}, null)</li>
+                <li>@Html.ActionLink("Kontakt", "Contact", "Home", new {closed = true}, null)</li>
+            </ul>        
         </div>
     </div>
 </div>

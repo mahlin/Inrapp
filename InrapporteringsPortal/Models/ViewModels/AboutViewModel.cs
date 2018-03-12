@@ -6,6 +6,6 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
     public class AboutViewModel
     {
         public IEnumerable<AdmFAQKategori> FaqCategories { get; set; }
-
+        public bool PortalClosed { get; set; }
     }
 }

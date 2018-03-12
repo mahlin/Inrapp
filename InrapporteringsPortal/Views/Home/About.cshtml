@@ -1,11 +1,17 @@
 ﻿@model InrapporteringsPortal.Web.Models.ViewModels.AboutViewModel
 
 
-@*<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css" />
+@{
+    if (Model.PortalClosed)
+    {
+        Layout = "~/Views/Shared/_LayoutClosed.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
 
-    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>*@
 
 <script>
     $(document).ready(function () {
@@ -27,37 +33,36 @@
     ViewBag.Title = "Så här skickar du in registerfiler till Socialstyrelsen";
 }
 <div class="padding-top-55">
-    @*<h2>@ViewBag.Title.</h2>*@
     <h3>@ViewBag.Message</h3>
 </div>
 
-@Html.Raw(ViewBag.Text)
+    @Html.Raw(ViewBag.Text)
 
-<br/><br/><br/>
+<br />
 
 @if (Model.FaqCategories != null)
 {
     for (var i = 0; i < Model.FaqCategories.Count(); i++)
-     {
-         <div class="faqHeader" style="margin-left: -0px; font-size: 1.5em">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
-         <div class="panel-group" id=@(Model.FaqCategories.ElementAt(i).Kategori)>
+    {
+        <div class="faqHeader" style="margin-left: -0px;font-size: 1.5em">@(Model.FaqCategories.ElementAt(i).Kategori)</div>
+        <div class="panel-group" id=@(Model.FaqCategories.ElementAt(i).Kategori)>
             @for (var index = 0; index < Model.FaqCategories.ElementAt(i).AdmFAQ.Count(); index++)
             {
                 <div class="panel panel-default">
-                    <div class="panel-heading"  id="fraga" data-toggle="collapse" data-parent=#@(Model.FaqCategories.ElementAt(i).Kategori) data-target=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>
+                    <div class="panel-heading" id="fraga" data-toggle="collapse" data-parent=#@(Model.FaqCategories.ElementAt(i).Kategori) data-target=#@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id)>
                         <h4 class="panel-title">
                             @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Fraga)
                         </h4>
                     </div>
                     <div id=@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) class="panel-collapse collapse">
                         <div class="panel-body">
-                            @(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
+                        @Html.Raw(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
                         </div>
                     </div>
                 </div>
             }
-         </div>
+        </div>
 
-     }
+    }
 }
 

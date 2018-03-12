@@ -1,5 +1,18 @@
-﻿@{
+﻿@model InrapporteringsPortal.Web.Models.ViewModels.AboutViewModel
+
+@{
     ViewBag.Title = "Kontakt";
+}
+
+@{
+    if (Model.PortalClosed)
+    {
+        Layout = "~/Views/Shared/_LayoutClosed.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <div class="padding-top-55">
