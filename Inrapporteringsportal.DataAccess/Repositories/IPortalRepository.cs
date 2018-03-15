@@ -38,7 +38,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
-        void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
+        void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
+
+        string GetPeriodForAktuellLeverans(int forvLevid);
 
         int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period);
 

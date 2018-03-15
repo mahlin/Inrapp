@@ -1,13 +1,9 @@
-﻿using System;
+﻿using InrapporteringsPortal.DataAccess;
+using InrapporteringsPortal.DomainModel;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
-using System.Web.DynamicData;
-using InrapporteringsPortal.DataAccess;
-using InrapporteringsPortal.DomainModel;
 
 
 namespace Inrapporteringsportal.DataAccess.Repositories
@@ -185,7 +181,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                         }
                     }
                     //get period och forvantadleveransId
-                    GetPeriodForAktuellLeverans(item.AdmFilkrav, regInfo);
+                    GetPeriodsForAktuellLeverans(item.AdmFilkrav, regInfo);
                 }
 
                 regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
@@ -198,7 +194,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return registerInfoList;
         }
 
-        public void GetPeriodForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo)
+        public void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo)
         {
             string period = String.Empty;
             DateTime startDate;
@@ -299,6 +295,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             rollList = DbContext.Roll.Where(x => x.ApplicationUserId == userId).ToList();
 
             return rollList;
+        }
+
+        public string GetPeriodForAktuellLeverans(int forvLevid)
+        {
+            var period = DbContext.AdmForvantadleverans.Where(x => x.Id == forvLevid).Select(x => x.Period).SingleOrDefault();
+            return period;
         }
 
         public void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList)
@@ -435,5 +437,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var faqs = DbContext.AdmFAQKategori.Include(x => x.AdmFAQ).ToList();
             return faqs;
         }
+
+
     }
 }

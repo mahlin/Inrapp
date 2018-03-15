@@ -14,6 +14,7 @@
         <thead>
             <tr class="historyHeader" style="background-color: #f9f9f9;">
                 <th>Register</th>
+                @*<th>Period</th>*@
                 <th>Leveranstidpunkt</th>
                 <th>Leveransid</th>
                 <th>Leveransstatus</th>
@@ -28,33 +29,34 @@
 
                 foreach (FilloggDetaljDTO loggRad in Model.HistorikLista)
                 {
-                    <tr>
-                        <td>@loggRad.RegisterKortnamn</td>
-                        <td>@loggRad.Leveranstidpunkt</td>
-                        <td>
-                            @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
-                            {
-                                @loggRad.LeveransId
-                                @Html.Raw("/")
-                                @loggRad.Enhetskod
-                            }
-                            else
-                            {
-                                @loggRad.LeveransId
-                            }
-                        </td>
-                        <td>@loggRad.Leveransstatus</td>
-                        <td>@loggRad.Filnamn</td>
-                        <td>@loggRad.Filstatus</td>
-                        @if (loggRad.Resultatfil == "Ej kontrollerad")
-                        {
-                            <td>@loggRad.Resultatfil</td>
-                        }
-                        else
-                        {
-                            <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
-                        }
-                    </tr>
+            <tr>
+                <td>@loggRad.RegisterKortnamn</td>
+                @*<td>@loggRad.Period</td>*@
+                <td>@loggRad.Leveranstidpunkt</td>
+                <td>
+                    @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
+        {
+            @loggRad.LeveransId
+            @Html.Raw("/")
+            @loggRad.Enhetskod
+}
+else
+{
+            @loggRad.LeveransId
+}
+                </td>
+                <td>@loggRad.Leveransstatus</td>
+                <td>@loggRad.Filnamn</td>
+                <td>@loggRad.Filstatus</td>
+                @if (loggRad.Resultatfil == "Ej kontrollerad")
+    {
+            <td>@loggRad.Resultatfil</td>
+}
+else
+{
+            <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
+}
+            </tr>
                 }
             }
         </tbody>

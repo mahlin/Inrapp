@@ -60,6 +60,9 @@ namespace InrapporteringsPortal.ApplicationService
                     var orgenhetid = Convert.ToInt32(leverans.OrganisationsenhetsId);
                     enhetskod = _portalRepository.GetEnhetskodForLeverans(orgenhetid);
                 }
+
+                //Hämta period för aktuell leverans
+                //var period = _portalRepository.GetPeriodForAktuellLeverans(leverans.ForvantadleveransId);
                 
 
                 var filer = _portalRepository.GetFilerForLeveransId(leverans.Id);
@@ -73,6 +76,7 @@ namespace InrapporteringsPortal.ApplicationService
                     filloggDetalj.RegisterKortnamn = registerKortnamn;
                     filloggDetalj.Resultatfil = "Ej kontrollerad";
                     filloggDetalj.Enhetskod = enhetskod;
+                    //filloggDetalj.Period = period;
                     if (aterkoppling != null)
                     {
                         filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
