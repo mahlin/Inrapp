@@ -63,6 +63,12 @@ namespace InrapporteringsPortal.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            //Kolla om öppet, annars visa stängt-sida
+            if (!_portalService.IsOpen())
+            {
+                ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
+                return View("Closed");
+            }
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -80,6 +86,12 @@ namespace InrapporteringsPortal.Web.Controllers
             }
             try
             {
+                //Kolla om öppet, annars visa stängt-sida
+                if (!_portalService.IsOpen())
+                {
+                    ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
+                    return View("Closed");
+                }
                 //Add this to check if the email was confirmed.
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null)
