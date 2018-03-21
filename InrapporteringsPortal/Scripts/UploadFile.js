@@ -148,16 +148,20 @@ $(document).on('change','#ddlRegister',
 
                     $('#enhetsInfo').show();
                     $('.fileinput-button').hide();
-                    $('.fileinput-button')
-                        .prop('disabled', true)
-                        .parent().addClass('disabled');
+                    $('#fileinputButton').prop('disabled', true);
+                    $('#fileinputButton').addClass('disabled');
+                    //$('.fileinput-button')
+                    //    .prop('disabled', true)
+                    //    .parent().addClass('disabled');
                     $('.start').hide();
                 } else {
                     $('#enhetsInfo').hide();
                     $('.fileinput-button').show();
-                    $('.fileinput-button')
-                        .prop('disabled', false)
-                        .parent().removeClass('disabled');
+                    $('#fileinputButton').prop('disabled', false);
+                    $('#fileinputButton').removeClass('disabled');
+                    //$('.fileinput-button')
+                    //    .prop('disabled', false)
+                    //    .parent().removeClass('disabled');
                     $('.start').hide();
                 }
             } else if (selectedRegister === ""){
@@ -173,15 +177,19 @@ $(document).on('change','#ddlRegister',
             //alert($('#ddlUnits').prop('selectedIndex'));
             if (selectedIndex === 0) {
                 $('.fileinput-button').hide();
-                $('.fileinput-button')
-                    .prop('disabled', true)
-                    .parent().addClass('disabled');
+                $('#fileinputButton').prop('disabled', true);
+                $('#fileinputButton').addClass('disabled');
+                //$('.fileinput-button')
+                //    .prop('disabled', true)
+                //    .parent().addClass('disabled');
                 $('.start').hide();
             } else {
                 $('.fileinput-button').show();
-                $('.fileinput-button')
-                    .prop('disabled', false)
-                    .parent().removeClass('disabled');
+                $('#fileinputButton').prop('disabled', false);
+                $('#fileinputButton').removeClass('disabled');
+                //$('.fileinput-button')
+                //    .prop('disabled', false)
+                //    .parent().removeClass('disabled');
             }
         });
     });
@@ -205,23 +213,26 @@ function checkOkToUpload() {
     if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
         $('.start').prop('disabled', false);
         $('.start').show();
-        $('.fileinput-button')
-            .prop('disabled', true)
-            .parent().addClass('disabled');
-        //this.element.find('.fileinput-button input')
-        //    .prop('disabled', true)
-        //    .parent().addClass('disabled');
+        $('#fileinputButton').prop('disabled', true);
+        $('#fileinputButton').addClass('disabled');
     } else {
         $('.start').prop('disabled', true);
         $('.start').hide();
-        $('.fileinput-button')
-            .prop('disabled', false)
-            .parent().removeClass('disabled');
+        $('#fileinputButton').prop('disabled', false);
+        $('#fileinputButton').removeClass('disabled');
     }
 }
 
-function disableFileInputButton() {
-    $('.fileinput-button')
-        .prop('disabled', true)
-        .parent().addClass('disabled');
-}
+//function disableFileInputButton() {
+//    $('.fileinput-button')
+//        .prop('disabled', true)
+//        .parent().addClass('disabled');
+//}
+
+//function isIE() {
+//    var ua = window.navigator.userAgent;
+//    var msie = ua.indexOf('MSIE '); // IE 10 or older
+//    var trident = ua.indexOf('Trident/'); //IE 11
+
+//    return (msie > 0 || trident > 0);
+//}

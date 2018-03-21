@@ -283,9 +283,11 @@ function getTableRows() {
                         }
                     });
                     if (filelist.length === numberOfFilesForSelectedRegister) {
-                        $('.fileinput-button')
-                            .prop('disabled', true)
-                            .parent().addClass('disabled');
+                        $('#fileinputButton').prop('disabled', true);
+                        $('#fileinputButton').addClass('disabled');
+                        //$('.fileinput-button')
+                        //    .prop('disabled', true)
+                        //    .parent().addClass('disabled');
                     }
                     dfd.rejectWith(this, [data]);
                 } else {

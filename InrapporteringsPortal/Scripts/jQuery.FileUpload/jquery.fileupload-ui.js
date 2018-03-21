@@ -652,18 +652,22 @@
         },
 
         _enableFileInputButton: function () {
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
+            $('#fileinputButton').prop('disabled', false);
+            $('#fileinputButton').removeClass('disabled');
+            //$('.fileinput-button input')
+            //    .prop('disabled', false)
+            //    .parent().removeClass('disabled');
             //this.element.find('.fileinput-button input')
             //    .prop('disabled', false)
             //    .parent().removeClass('disabled');
         },
 
         _disableFileInputButton: function () {
-            $('.fileinput-button input')
-                .prop('disabled', false)
-                .parent().removeClass('disabled');
+            $('#fileinputButton').prop('disabled', true);
+            $('#fileinputButton').addClass('disabled');
+            //$('.fileinput-button input')
+            //    .prop('disabled', false)
+            //    .parent().removeClass('disabled');
             //this.element.find('.fileinput-button input')
             //    .prop('disabled', true)
             //    .parent().addClass('disabled');
