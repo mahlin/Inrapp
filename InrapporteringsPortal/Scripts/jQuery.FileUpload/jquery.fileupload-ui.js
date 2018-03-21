@@ -654,6 +654,8 @@
         _enableFileInputButton: function () {
             $('#fileinputButton').prop('disabled', false);
             $('#fileinputButton').removeClass('disabled');
+            $('#filesExplorerOpener').prop('disabled', false);
+            $('#filesExplorerOpener').removeClass('disabled');
             //$('.fileinput-button input')
             //    .prop('disabled', false)
             //    .parent().removeClass('disabled');
@@ -665,6 +667,8 @@
         _disableFileInputButton: function () {
             $('#fileinputButton').prop('disabled', true);
             $('#fileinputButton').addClass('disabled');
+            $('#filesExplorerOpener').prop('disabled', true);
+            $('#filesExplorerOpener').addClass('disabled');
             //$('.fileinput-button input')
             //    .prop('disabled', false)
             //    .parent().removeClass('disabled');

@@ -30,32 +30,7 @@ $(document).ready(function () {
             }
             //TODO - detta görs även i jquery.fileupload.js => dubblerad kod, fixa
             checkOkToUpload();
-            ////Check if desired number of files reached and no errors found => enable upload
-            //var errorExists = false;
-            //for (var i = 0; i < filelist.length; i++) {
-            //    if (filelist[i].error) {
-            //        errorExists = true;
-            //    }
-            //}
-            //var selectedRegister = $('#ddlRegister').val();
-            //var numberOfFilesForSelectedRegister = 0;
-            ////get number of required files for chosen register
-            //registerLista.forEach(function(register, index) {
-            //    if (selectedRegister === register.Id.toString()) {
-            //        numberOfFilesForSelectedRegister = register.AntalFiler;
-            //    }
-            //});
-            //if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {
-            //    $('.start').prop('disabled', false);
-            //    $('.start').show();
-            //    $('.fileinput-button')
-            //        .prop('disabled', true)
-            //        .parent().addClass('disabled');
-            //    //this.element.find('.fileinput-button input')
-            //    //    .prop('disabled', true)
-            //    //    .parent().addClass('disabled');
-            //}
-            
+           
         })
         .on('fileuploaddone',
         function (e, data) {
@@ -76,23 +51,7 @@ $(document).ready(function () {
 
 });
 
-//$(document).on('click','#testBtn',function() {
-//    //alert('Update history, testBtn');
-//    //    //$.get("/Home/Contact", null, function (data) {
-//    //    //    alert(data);
-//    //});
 
-//        $.ajax({
-//            // edit to add steve's suggestion.
-//            //url: "/ControllerName/ActionName",
-//            url: '<%= Url.Action("Contact", "Home") %>',
-//            success: function (data) {
-//                // your data could be a View or Json or what ever you returned in your action method 
-//                // parse your data here
-//                alert(data);
-//            }
-//        });
-//});
 
 $(document).on('submit', '#updateHistoryForm', function () {
     $.ajax({ // create an AJAX call...'        
@@ -150,6 +109,9 @@ $(document).on('change','#ddlRegister',
                     $('.fileinput-button').hide();
                     $('#fileinputButton').prop('disabled', true);
                     $('#fileinputButton').addClass('disabled');
+                    $('#fileinputButton').parent().addClass('disabled');
+                    $('#fileinputButton').prop('readonly', true);
+                    $('#fileinputButton').addClass('readonly');
                     //$('.fileinput-button')
                     //    .prop('disabled', true)
                     //    .parent().addClass('disabled');
@@ -159,6 +121,8 @@ $(document).on('change','#ddlRegister',
                     $('.fileinput-button').show();
                     $('#fileinputButton').prop('disabled', false);
                     $('#fileinputButton').removeClass('disabled');
+                    $('#filesExplorerOpener').prop('disabled', false);
+                    $('#filesExplorerOpener').removeClass('disabled');
                     //$('.fileinput-button')
                     //    .prop('disabled', false)
                     //    .parent().removeClass('disabled');
@@ -179,6 +143,8 @@ $(document).on('change','#ddlRegister',
                 $('.fileinput-button').hide();
                 $('#fileinputButton').prop('disabled', true);
                 $('#fileinputButton').addClass('disabled');
+                $('#filesExplorerOpener').prop('disabled', true);
+                $('#filesExplorerOpener').addClass('disabled');
                 //$('.fileinput-button')
                 //    .prop('disabled', true)
                 //    .parent().addClass('disabled');
@@ -187,12 +153,33 @@ $(document).on('change','#ddlRegister',
                 $('.fileinput-button').show();
                 $('#fileinputButton').prop('disabled', false);
                 $('#fileinputButton').removeClass('disabled');
+                $('#filesExplorerOpener').prop('disabled', false);
+                $('#filesExplorerOpener').removeClass('disabled');
                 //$('.fileinput-button')
                 //    .prop('disabled', false)
                 //    .parent().removeClass('disabled');
             }
         });
     });
+
+function checkIfDisabled(event) {
+    //alert('click egen check');
+    var x = $('#fileinputButton');
+    var y = $('#filesExplorerOpener');
+    //if ($('#fileinputButton').attr('disabled', 'true')) {
+    //    return false;
+    //}
+    if ($('#fileinputButton').hasClass('disabled')) {
+        $('#filesExplorerOpener').prop('disabled', true);
+        $('#filesExplorerOpener').addClass('disabled');
+        return false;
+    } else {
+        $('#filesExplorerOpener').prop('disabled', false);
+        $('#filesExplorerOpener').removeClass('disabled');
+
+    }
+    return true;
+}
 
 function checkOkToUpload() {
     //Check if desired number of files reached and no errors found => enable upload
@@ -215,11 +202,15 @@ function checkOkToUpload() {
         $('.start').show();
         $('#fileinputButton').prop('disabled', true);
         $('#fileinputButton').addClass('disabled');
+        $('#filesExplorerOpener').prop('disabled', true);
+        $('#filesExplorerOpener').addClass('disabled');
     } else {
         $('.start').prop('disabled', true);
         $('.start').hide();
         $('#fileinputButton').prop('disabled', false);
         $('#fileinputButton').removeClass('disabled');
+        $('#filesExplorerOpener').prop('disabled', false);
+        $('#filesExplorerOpener').removeClass('disabled');
     }
 }
 

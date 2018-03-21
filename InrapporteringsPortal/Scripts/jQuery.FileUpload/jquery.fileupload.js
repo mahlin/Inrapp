@@ -76,6 +76,14 @@
         };
     }
 
+    //$(document).on('click', '#fileinputButton', function () {
+    //    alert('click');
+    //    if ($('#fileinputButton').disabled) {
+    //        return false;
+    //    }
+    //    return true;
+    //});
+
     // The fileupload widget listens for change events on file input fields defined
     // via fileInput setting and paste or drop events of the given dropZone.
     // In addition to the default jQuery Widget methods, the fileupload widget

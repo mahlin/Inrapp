@@ -30,10 +30,10 @@
     <div class="row fileupload-buttonbar">
         <div class="col-lg-7">
             <!-- The fileinput-button span is used to style the file input field as button -->
-            <span class="btn btn-success fileinput-button" id="fileinputButton">
+            <span class="btn btn-success fileinput-button" id="fileinputButton" onclick="checkIfDisabled()">
                 <i class="glyphicon glyphicon-plus"></i>
                 <span>Välj fil...</span>
-                <input type="file" name="files[]" accept="txt/xls" multiple>
+                <input type="file" name="files[]" accept="txt/xls" multiple id="filesExplorerOpener">
             </span>
             <button type="submit" class="btn btn-primary start" id="btnSubmit">
                 <i class="glyphicon glyphicon-upload"></i>
