@@ -108,7 +108,7 @@ namespace InrapporteringsPortal.Web.Models
         [StringLength(4, ErrorMessage = "{0} måste vara {2} tecken långt.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [RegularExpression("([0-9]+)", ErrorMessage = "Pinkoden måste vara numerisk.")]
-        [Display(Name = "Pinkod")]
+        [Display(Name = "Ange egen pinkod")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
