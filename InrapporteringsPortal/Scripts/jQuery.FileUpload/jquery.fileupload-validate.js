@@ -32,7 +32,7 @@ function CheckFileName(selectedRegister, fileName) {
 //TODO - använd SelectedRegisterId/kortnamn istället?
 function CheckKommunKodInFileName(fileName) {
     var chunkedFileName = fileName.split("_");
-    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
+    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL'];
     var fileTypeB = ['BU'];
     var fileTypeC = ['EKB'];
 
@@ -65,7 +65,7 @@ function arrayContains(needle, arrhaystack) {
 
 function CheckPeriodInFileName(selectedRegister, fileName) {
     var chunkedFileName = fileName.split("_");
-    var fileTypeA = ['SOL1', 'SOL2', 'KHSL1', 'KHSL2'];
+    var fileTypeA = ['SOL1', 'SOL2', 'KHSL'];
     var fileTypeB = ['BU'];
     var fileTypeC = ['EKB'];
 
@@ -208,7 +208,7 @@ function getTableRows() {
             
             // The regular expression for allowed file types, matches
             // against either file type or file name:
-            acceptFileTypes: /(\.|\/)(txt|xls)$/i,
+            acceptFileTypes: /(\.|\/)(txt|xls|xlsx)$/i,
             // The maximum allowed file size in bytes:
             maxFileSize: 1000000000, // 1000 MB = 1GB
             // The minimum allowed file size in bytes:
