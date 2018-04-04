@@ -243,6 +243,28 @@ namespace InrapporteringsPortal.ApplicationService
             return phoneNumber;
         }
 
+        public List<string> HamtaGiltigaPerioderForDelregister(int delregId)
+        {
+            var allaForvLevForDelreg = _portalRepository.GetExpectedDeliveryForSubDirectory(delregId);
+            string period = String.Empty;
+            DateTime startDate;
+            DateTime endDate;
+
+            DateTime dagensDatum = DateTime.Now.Date;
+            var perioder = new List<string>();
+
+            foreach (var forvLev in allaForvLevForDelreg)
+            {
+                startDate = forvLev.Rapporteringsstart;
+                endDate = forvLev.Rapporteringsslut;
+                if (dagensDatum >= startDate && dagensDatum <= endDate)
+                {
+                    perioder.Add(forvLev.Period);
+                }
+            }
+            return perioder;
+        }
+
         public string MaskPhoneNumber(string phoneNumber)
         {
             var maskedPhoneNumber = String.Empty;
@@ -373,5 +395,7 @@ namespace InrapporteringsPortal.ApplicationService
             var faqs = _portalRepository.GetFAQs();
             return faqs;
         }
+
+
     }
 }

@@ -303,6 +303,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return period;
         }
 
+        public List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId)
+        {
+            var periods = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDirId).ToList();
+            return periods;
+        }
+
         public void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList)
         {
             foreach (var register in registerList)

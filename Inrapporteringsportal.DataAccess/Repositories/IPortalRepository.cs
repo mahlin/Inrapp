@@ -40,6 +40,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
 
+        List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId);
+
         string GetPeriodForAktuellLeverans(int forvLevid);
 
         int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period);

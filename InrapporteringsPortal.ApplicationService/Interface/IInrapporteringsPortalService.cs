@@ -44,6 +44,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         IEnumerable<AdmFAQKategori> HamtaFAQs();
 
+        List<string> HamtaGiltigaPerioderForDelregister(int delregId);
+
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SparaValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);
