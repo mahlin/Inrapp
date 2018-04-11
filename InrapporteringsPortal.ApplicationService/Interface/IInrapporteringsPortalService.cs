@@ -55,6 +55,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         void UppdateraNamnForAnvandare(string userId, string userName);
 
         void UppdateraAktivFromForAnvandare(string userId);
+        void UppdateraAnvandarInfo(ApplicationUser user);
 
         void SaveToLoginLog(string userid, string userName);
 

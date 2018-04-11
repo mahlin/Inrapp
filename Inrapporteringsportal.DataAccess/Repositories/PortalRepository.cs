@@ -371,6 +371,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
+        public void UpdateUserInfo(ApplicationUser user)
+        {
+            var userDb = DbContext.Users.SingleOrDefault(x => x.Id == user.Id);
+            userDb.AndradAv = user.AndradAv;
+            userDb.AndradDatum = user.AndradDatum;
+            DbContext.SaveChanges();
+        }
+
         public AdmUppgiftsskyldighet GetUppgiftsskyldighetForOrganisationAndRegister(int orgId, int delregid)
         {
             var uppgiftsskyldighet = DbContext.AdmUppgiftsskyldighet.SingleOrDefault(x => x.OrganisationId == orgId && x.DelregisterId == delregid);

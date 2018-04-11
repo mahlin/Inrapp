@@ -231,6 +231,11 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.UpdateActiveFromForUser(userId);
         }
 
+        public void UppdateraAnvandarInfo(ApplicationUser user)
+        {
+            _portalRepository.UpdateUserInfo(user);
+        }
+
         public string HamtaAnvandaresNamn(string userId)
         {
             var userName = _portalRepository.GetUserName(userId);

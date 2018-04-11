@@ -75,6 +75,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void UpdateNameForUser(string userId, string userName);
 
         void UpdateActiveFromForUser(string userId);
+
+        void UpdateUserInfo(ApplicationUser user);
     }
 
 }

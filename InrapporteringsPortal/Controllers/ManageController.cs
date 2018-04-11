@@ -223,6 +223,9 @@ namespace InrapporteringsPortal.Web.Controllers
                     var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
+                        user.AndradAv = user.Email;
+                        user.AndradDatum = DateTime.Now;
+                        _portalService.UppdateraAnvandarInfo(user);
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         _portalService.SaveToLoginLog(user.Id, user.UserName);
                     }
@@ -284,6 +287,9 @@ namespace InrapporteringsPortal.Web.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
+                    user.AndradAv = user.Email;
+                    user.AndradDatum = DateTime.Now;
+                    _portalService.UppdateraAnvandarInfo(user);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
@@ -345,6 +351,11 @@ namespace InrapporteringsPortal.Web.Controllers
             try
             {
                 _portalService.UppdateraNamnForAnvandare(User.Identity.GetUserId(), model.Name);
+                var userId = User.Identity.GetUserId();
+                var user = UserManager.Users.SingleOrDefault(x => x.Id == userId);
+                user.AndradAv = user.Email;
+                user.AndradDatum = DateTime.Now;
+                _portalService.UppdateraAnvandarInfo(user);
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangeNameSuccess });
             }
             catch (Exception e)

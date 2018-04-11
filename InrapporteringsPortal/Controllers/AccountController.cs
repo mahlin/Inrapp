@@ -625,6 +625,10 @@ namespace InrapporteringsPortal.Web.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+                user.AndradAv = user.Email;
+                user.AndradDatum = DateTime.Now;
+                _portalService.UppdateraAnvandarInfo(user);
+
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
