@@ -83,6 +83,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var orgId = _portalService.HamtaUserOrganisationId(userId);
 
             var model = new IndexViewModel
             {
@@ -92,7 +93,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                RegisterList = _portalService.HamtaRegistersMedAnvandaresVal(userId).ToList()
+                RegisterList = _portalService.HamtaRegistersMedAnvandaresVal(userId, orgId).ToList()
             };
             return View(model);
         }

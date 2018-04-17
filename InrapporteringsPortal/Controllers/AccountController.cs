@@ -307,7 +307,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         {
                             await UserManager.SetTwoFactorEnabledAsync(user.Id, true);
                             //Spara valda register
-                            _portalService.SparaValdaRegistersForAnvandare(user.Id, user.UserName, model.RegisterList);
+                            //_portalService.SparaValdaRegistersForAnvandare(user.Id, user.UserName, model.RegisterList);
                             //Verifiera epostadress
                             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                             var callbackUrl = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, code = code},

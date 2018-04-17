@@ -38,6 +38,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             
         IEnumerable<RegisterInfo> GetAllRegisterInformation();
 
+        IEnumerable<RegisterInfo> GetAllRegisterInformationForOrganisation(int orgId);
+
         void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo);
 
         List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId);

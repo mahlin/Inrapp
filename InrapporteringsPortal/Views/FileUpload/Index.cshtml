@@ -40,16 +40,33 @@
 <p>Välj till vilket register du vill ladda upp fil/filer</p>
 <section>
     <div class="well bs-component">
-        <div class="h-100">
-            <div class="row col-12">
-                <div class="form-group">
-                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style = "max-width:550px" })
-                </div>
+        <div class="row h-100">
+            <div class="col-md-6 form-group">
+                 @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
             </div>
-            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px;font-size: 0.9em">
+            <div class="col-md-6" style="padding-left: 0px;font-size: 0.9em"> 
+                @if (Model.RegisterList.Count == 0)
+                {
+                    <div>Du har inte valt vilka uppgifter du ska rapportera, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
+                }
+                else
+                {
+                    <div> Om du inte hittar rätt uppgifter i listan att rapportera för, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
+                }
+            </div>
+            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px; margin-left:10px; font-size: 0.9em">
             </div>
         </div>
-        <div hidden id="enhetsInfo" class="row col-12">
+        @*<div class="h-100">
+            <div class="row col-12">
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
+                </div>
+            </div>
+            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px; font-size: 0.9em">
+            </div>
+        </div>*@
+        <div hidden id="enhetsInfo" class="row col-12" style="margin-left:0px ;">
             <div class="form-group">
                 <div class="form-group">
                     <select class="form-control" id="ddlUnits"></select>

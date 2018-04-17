@@ -139,6 +139,28 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return orgId;
         }
 
+        public IEnumerable<RegisterInfo> GetAllRegisterInformationForOrganisation(int orgId)
+        {
+            var registerInfoList = new List<RegisterInfo>();
+
+            var uppgSkyldighetDelRegIds = DbContext.AdmUppgiftsskyldighet.Where(x => x.OrganisationId == orgId).Select(x => x.DelregisterId).ToList();
+
+            var delregister = DbContext.AdmDelregister
+                .Include(f => f.AdmFilkrav.Select(q => q.AdmForvantadfil))
+                .Where(x => x.Inrapporteringsportal && uppgSkyldighetDelRegIds.Contains(x.Id))
+                .ToList();
+
+
+            foreach (var item in delregister)
+            {
+                var regInfoObj = CreateRegisterInfoObj(item);
+                registerInfoList.Add(regInfoObj);
+            }
+
+            return registerInfoList;
+        }
+
+
         public IEnumerable<RegisterInfo> GetAllRegisterInformation()
         {
             var registerInfoList = new List<RegisterInfo>();
@@ -148,50 +170,95 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 .Where(x => x.Inrapporteringsportal)
                 .ToList();
 
-            //var delregister = DbContext.AdmDelregister.ToList();
 
             foreach (var item in delregister)
             {
-
-                var regInfo = new RegisterInfo
-                {
-                    Id = item.Id,
-                    Namn = item.Delregisternamn,
-                    Kortnamn = item.Kortnamn,
-                    InfoText = item.AdmRegister.Beskrivning + "<br>" + item.Beskrivning,
-                    Slussmapp = item.Slussmapp,
-                };
-
-                var filmaskList = new List<string>();
-                var regExpList = new List<string>();
-
-                //Antal filer, filmask samt regexp
-                if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
-                {
-                    var forvantadFil= item.AdmFilkrav.Select(x => x.AdmForvantadfil);
-
-                    foreach (var forvFil in forvantadFil)
-                    {
-                        regInfo.AntalFiler = forvFil.Count();
-                        foreach (var fil in forvFil)
-                        {
-                            filmaskList.Add(fil.Filmask);
-                            regExpList.Add(fil.Regexp);
-                            regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
-                        }
-                    }
-                    //get period och forvantadleveransId
-                    GetPeriodsForAktuellLeverans(item.AdmFilkrav, regInfo);
-                }
-
-                regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
-                regInfo.FilMasker = filmaskList;
-                regInfo.RegExper = regExpList;
-
-                registerInfoList.Add(regInfo);
+                var regInfoObj = CreateRegisterInfoObj(item);
+                registerInfoList.Add(regInfoObj);
             }
 
+            //foreach (var item in delregister)
+            //{
+
+            //    var regInfo = new RegisterInfo
+            //    {
+            //        Id = item.Id,
+            //        Namn = item.Delregisternamn,
+            //        Kortnamn = item.Kortnamn,
+            //        InfoText = item.AdmRegister.Beskrivning + "<br>" + item.Beskrivning,
+            //        Slussmapp = item.Slussmapp,
+            //    };
+
+            //    var filmaskList = new List<string>();
+            //    var regExpList = new List<string>();
+
+            //    //Antal filer, filmask samt regexp
+            //    if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
+            //    {
+            //        var forvantadFil= item.AdmFilkrav.Select(x => x.AdmForvantadfil);
+
+            //        foreach (var forvFil in forvantadFil)
+            //        {
+            //            regInfo.AntalFiler = forvFil.Count();
+            //            foreach (var fil in forvFil)
+            //            {
+            //                filmaskList.Add(fil.Filmask);
+            //                regExpList.Add(fil.Regexp);
+            //                regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
+            //            }
+            //        }
+            //        //get period och forvantadleveransId
+            //        GetPeriodsForAktuellLeverans(item.AdmFilkrav, regInfo);
+            //    }
+
+            //    regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
+            //    regInfo.FilMasker = filmaskList;
+            //    regInfo.RegExper = regExpList;
+
+            //    registerInfoList.Add(regInfo);
+            //}
+
             return registerInfoList;
+        }
+
+        private RegisterInfo CreateRegisterInfoObj(AdmDelregister delReg)
+        {
+            var regInfo = new RegisterInfo
+            {
+                Id = delReg.Id,
+                Namn = delReg.Delregisternamn,
+                Kortnamn = delReg.Kortnamn,
+                InfoText = delReg.AdmRegister.Beskrivning + "<br>" + delReg.Beskrivning,
+                Slussmapp = delReg.Slussmapp,
+            };
+
+            var filmaskList = new List<string>();
+            var regExpList = new List<string>();
+
+            //Antal filer, filmask samt regexp
+            if (delReg.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
+            {
+                var forvantadFil = delReg.AdmFilkrav.Select(x => x.AdmForvantadfil);
+
+                foreach (var forvFil in forvantadFil)
+                {
+                    regInfo.AntalFiler = forvFil.Count();
+                    foreach (var fil in forvFil)
+                    {
+                        filmaskList.Add(fil.Filmask);
+                        regExpList.Add(fil.Regexp);
+                        regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
+                    }
+                }
+                //get period och forvantadleveransId
+                GetPeriodsForAktuellLeverans(delReg.AdmFilkrav, regInfo);
+            }
+
+            regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
+            regInfo.FilMasker = filmaskList;
+            regInfo.RegExper = regExpList;
+
+            return regInfo;
         }
 
         public void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo)

@@ -157,7 +157,8 @@ namespace InrapporteringsPortal.ApplicationService
         public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId)
         {
             var registerList = _portalRepository.GetChosenRegistersForUser(userId);
-            var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+            //var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+            var allaRegisterList = _portalRepository.GetAllRegisterInformationForOrganisation(orgId);
             var userRegisterList = new List<RegisterInfo>();
 
             foreach (var register in allaRegisterList)
@@ -202,10 +203,11 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.UpdateChosenRegistersForUser(userId,userName, registerList);
         }
 
-        public IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId)
+        public IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId, int orgId)
         {
             var registerList = _portalRepository.GetChosenRegistersForUser(userId);
-            var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+            //var allaRegisterList = _portalRepository.GetAllRegisterInformation();
+            var allaRegisterList = _portalRepository.GetAllRegisterInformationForOrganisation(orgId);
 
             foreach (var register in allaRegisterList)
             {
