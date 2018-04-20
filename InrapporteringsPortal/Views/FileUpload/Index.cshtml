@@ -37,12 +37,12 @@
     <h4>@ViewBag.Title</h4>
 </div>
 
-<p>Välj till vilket register du vill ladda upp fil/filer</p>
+<p>Välj uppgifter att ladda upp</p>
 <section>
     <div class="well bs-component">
         <div class="row h-100">
             <div class="col-md-6 form-group">
-                 @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
+                 @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
             </div>
             <div class="col-md-6" style="padding-left: 0px;font-size: 0.9em"> 
                 @if (Model.RegisterList.Count == 0)
