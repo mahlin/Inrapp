@@ -709,6 +709,7 @@
     <Content Include="Views\FileUpload\_FilesHistory.cshtml" />
     <Content Include="Views\Shared\Closed.cshtml" />
     <Content Include="Views\Shared\FileNotFound.cshtml" />
+    <Content Include="Views\Manage\AddContactNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

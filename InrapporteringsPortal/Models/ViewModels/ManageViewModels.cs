@@ -11,6 +11,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
+        public string ContactNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
         public string Namn { get; set; }
@@ -68,6 +69,14 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         [Required(ErrorMessage = "Fältet Mobilnummer är obligatoriskt.")]
         [Phone(ErrorMessage = "Inte ett giltigt mobilnummer")]
         [Display(Name = "Mobilnummer")]
+        public string Number { get; set; }
+    }
+
+    public class AddContactNumberViewModel
+    {
+        [Required(ErrorMessage = "Fältet Telefonnummer är obligatoriskt.")]
+        [Phone(ErrorMessage = "Inte ett giltigt telefonnummer")]
+        [Display(Name = "Telefonnummer")]
         public string Number { get; set; }
     }
 

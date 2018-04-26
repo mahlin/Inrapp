@@ -228,6 +228,11 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.UpdateNameForUser(userId,userName);
         }
 
+        public void UppdateraKontaktnummerForAnvandare(string userId, string tfnnr)
+        {
+            _portalRepository.UpdateContactNumberForUser(userId,tfnnr);
+        }
+
         public void UppdateraAktivFromForAnvandare(string userId)
         {
             _portalRepository.UpdateActiveFromForUser(userId);
@@ -242,6 +247,12 @@ namespace InrapporteringsPortal.ApplicationService
         {
             var userName = _portalRepository.GetUserName(userId);
             return userName;
+        }
+
+        public string HamtaAnvandaresKontaktnummer(string userId)
+        {
+            var contactNumber = _portalRepository.GetUserContactNumber(userId);
+            return contactNumber;
         }
 
         public string HamtaAnvandaresMobilnummer(string userId)

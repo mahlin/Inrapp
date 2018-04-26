@@ -87,6 +87,20 @@
             }
             ]
         </dd>
+        <dt>Kontaktnummer:</dt>
+        <dd style="padding-left: 15px">
+            @(Model.ContactNumber ?? "Saknas")
+            [
+            @if (Model.ContactNumber != null)
+            {
+                @Html.ActionLink("Ändra", "AddContactNumber")
+            }
+            else
+            {
+                @Html.ActionLink("Lägg till", "AddContactNumber")
+            }
+            ]
+        </dd>
         <dt>Namn:</dt>
         <dd style="padding-left: 15px">
             @(Model.Namn ?? "Saknas")

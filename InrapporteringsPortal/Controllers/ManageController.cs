@@ -80,6 +80,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ditt mobilnummer har tagits bort."
                 : message == ManageMessageId.ChangeChosenRegister ? "Valda register har registrerats."
                 : message == ManageMessageId.ChangeNameSuccess ? "Ditt namn har ändrats."
+                : message == ManageMessageId.AddContactNumberSuccess ? "Ditt telefonnummer har ändrats."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -90,6 +91,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 Namn = _portalService.HamtaAnvandaresNamn(userId),
+                ContactNumber = _portalService.HamtaAnvandaresKontaktnummer(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
@@ -155,6 +157,47 @@ namespace InrapporteringsPortal.Web.Controllers
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
+
+        // GET: /Manage/AddPhoneNumber
+        public ActionResult AddContactNumber()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Manage/AddPhoneNumber
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddContactNumber(AddContactNumberViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                _portalService.UppdateraKontaktnummerForAnvandare(User.Identity.GetUserId(), model.Number);
+                var userId = User.Identity.GetUserId();
+                var user = UserManager.Users.SingleOrDefault(x => x.Id == userId);
+                user.AndradAv = user.Email;
+                user.AndradDatum = DateTime.Now;
+                _portalService.UppdateraAnvandarInfo(user);
+                return RedirectToAction("Index", new { Message = ManageMessageId.AddContactNumberSuccess });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("ManageController", "AddContactNumber", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid byte av kontaktnummer.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                return View("CustomError", errorModel);
+            }
+        }
+
+
 
         //
         // POST: /Manage/EnableTwoFactorAuthentication
@@ -507,6 +550,7 @@ namespace InrapporteringsPortal.Web.Controllers
             RemovePhoneSuccess,
             ChangeChosenRegister,
             ChangeNameSuccess,
+            AddContactNumberSuccess,
             Error
         }
 

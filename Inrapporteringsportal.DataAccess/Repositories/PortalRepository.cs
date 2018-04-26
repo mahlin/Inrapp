@@ -337,6 +337,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return userName;
         }
 
+        public string GetUserContactNumber(string userId)
+        {
+            var userContactNumber = DbContext.Users.Where(u => u.Id == userId).Select(u => u.Kontaktnummer).SingleOrDefault();
+            return userContactNumber;
+        }
+
         public string GetUserPhoneNumber(string userId)
         {
             var phoneNumber = DbContext.Users.Where(u => u.Id == userId).Select(u => u.PhoneNumber).SingleOrDefault();
@@ -428,6 +434,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         {
             var user = DbContext.Users.Where(u => u.Id == userId).Select(u => u).SingleOrDefault();
             user.Namn = userName;
+            DbContext.SaveChanges();
+        }
+
+
+        public void UpdateContactNumberForUser(string userId, string number)
+        {
+            var user = DbContext.Users.Where(u => u.Id == userId).Select(u => u).SingleOrDefault();
+            user.Kontaktnummer = number;
             DbContext.SaveChanges();
         }
 

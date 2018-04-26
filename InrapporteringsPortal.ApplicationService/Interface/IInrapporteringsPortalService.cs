@@ -28,6 +28,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         string HamtaAnvandaresNamn(string userId);
 
+        string HamtaAnvandaresKontaktnummer(string userId);
+
         string HamtaAnvandaresMobilnummer(string userId);
 
         int HamtaUserOrganisationId(string userId);
@@ -53,6 +55,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         void UppdateraValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);
 
         void UppdateraNamnForAnvandare(string userId, string userName);
+
+        void UppdateraKontaktnummerForAnvandare(string userId, string tfnnr);
 
         void UppdateraAktivFromForAnvandare(string userId);
         void UppdateraAnvandarInfo(ApplicationUser user);

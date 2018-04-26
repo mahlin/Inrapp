@@ -56,6 +56,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetUserName(string userId);
 
+        string GetUserContactNumber(string userId);
+
         string GetUserPhoneNumber(string userId);
         string GetClosedDays();
         string GetClosedFromHour();
@@ -75,6 +77,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void UpdateChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList);
 
         void UpdateNameForUser(string userId, string userName);
+
+        void UpdateContactNumberForUser(string userId, string number);
 
         void UpdateActiveFromForUser(string userId);
 
