@@ -98,6 +98,10 @@ namespace InrapporteringsPortal.Web.Models
         [Display(Name = "Namn")]
         public string Namn { get; set; }
 
+        [Phone(ErrorMessage = "Inte ett giltigt telefonnummer")]
+        [Display(Name = "Telefonnummer")]
+        public string Telefonnummer { get; set; }
+
         [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]
         [StringLength(60, ErrorMessage = "E-postadressen kan inte vara längre än 60 tecken.")]
         [EmailAddress(ErrorMessage = "Fältet E-postadress är inte en giltig e-postadress.")]

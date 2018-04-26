@@ -252,17 +252,6 @@ namespace InrapporteringsPortal.Web.Controllers
             //Hämta info om valbara register
             var registerInfoList = _portalService.HamtaAllRegisterInformation().ToList();
             model.RegisterList = registerInfoList;
-            //model.SelectedRegisters = new List<int> {12, 7};
-            //var tmpSelItem = new SelectListItem
-            //{
-            //    Value = "12",
-            //    Text = "Maries"
-            //};
-            //var tmpSelItem2 = new SelectListItem
-            //{
-            //    Value = "7",
-            //    Text = "Findus"
-            //};
             //model.RegisterChoices = new List<SelectListItem>{ tmpSelItem, tmpSelItem2 };
             this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
 
@@ -301,6 +290,7 @@ namespace InrapporteringsPortal.Web.Controllers
                         user.AndradAv = model.Email;
                         user.AndradDatum = DateTime.Now;
                         user.Namn = model.Namn;
+                        user.Kontaktnummer = model.Telefonnummer;
 
                         var result = await UserManager.CreateAsync(user, model.Password);
                         if (result.Succeeded)

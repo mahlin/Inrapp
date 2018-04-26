@@ -74,6 +74,7 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<ApplicationUser>().ToTable("Kontaktperson");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.OrganisationId).HasColumnName("organisationsid");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.Namn).HasColumnName("namn");
+            modelBuilder.Entity<ApplicationUser>().Property(e => e.Kontaktnummer).HasColumnName("kontaktnummer");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.AktivFrom).HasColumnName("aktivfrom");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.AktivTom).HasColumnName("aktivtom");
             modelBuilder.Entity<ApplicationUser>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");

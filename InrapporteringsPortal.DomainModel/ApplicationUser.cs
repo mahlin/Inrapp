@@ -13,6 +13,7 @@ namespace InrapporteringsPortal.DomainModel
     {
         public int OrganisationId { get; set; }
         public string Namn { get; set; }
+        public string Kontaktnummer { get; set; }
         public DateTime? AktivFrom { get; set; }
         public DateTime? AktivTom { get; set; }
         public int? Status { get; set; }
