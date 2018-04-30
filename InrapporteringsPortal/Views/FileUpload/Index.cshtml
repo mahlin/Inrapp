@@ -42,7 +42,7 @@
     <div class="well bs-component">
         <div class="row h-100">
             <div class="col-md-6 form-group">
-                 @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
+                @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
             </div>
             <div class="col-md-6" style="padding-left: 0px;font-size: 0.9em"> 
                 @if (Model.RegisterList.Count == 0)
@@ -57,15 +57,7 @@
             <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px; margin-left:10px; font-size: 0.9em">
             </div>
         </div>
-        @*<div class="h-100">
-            <div class="row col-12">
-                <div class="form-group">
-                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new {id = "ddlRegister", @class = "form-control", style = "max-width:550px"})
-                </div>
-            </div>
-            <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 5px; font-size: 0.9em">
-            </div>
-        </div>*@
+
         <div hidden id="enhetsInfo" class="row col-12" style="margin-left:0px ;">
             <div class="form-group">
                 <div class="form-group">
@@ -73,8 +65,22 @@
                 </div>
             </div>
         </div>
+        
+        <div hidden id="ingetAttRapportera">
+            <section id="ingetAttRapporteraForm">
+                @using (Html.BeginForm("IngetAttRapportera", "FileUpload", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <div class="row" style="border: 1px solid lightgrey; padding-top: 10px; margin-left: 0px; border-radius: 5px; width: 350px;">
+                            <div class="col-md-8 form-group" style="width: 320px !important; margin-left: 5px;" id="select-container">
+                            </div>
+                        <div class="col-md-8" style="padding-bottom: 15px; padding-top: 0px; margin-left: 5px;">
+                            <input type="submit" value="Skicka information" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </section>
+        </div>
     </div>
-
 </section>
 
 
@@ -86,53 +92,6 @@
 @Html.Partial("_FilesHistory", Model)
 
 
-@*<H4>Historik för @Html.Raw(Model.OrganisationsNamn)</H4>
-    <table class="table table-striped">
-        <thead>
-            <tr class="historyHeader" style="background-color: #f9f9f9;">
-                <th>Register</th>
-                <th>Leveranstidpunkt</th>
-                <th>Leveransid</th>
-                <th>Leveransstatus</th>
-                <th>Filnamn</th>
-                <th>Filstatus</th>
-                <th>Återkoppling</th>
-            </tr>
-        </thead>
-        <tbody>
-        @if (Model.HistorikLista != null)
-        {
-            foreach (FilloggDetaljDTO loggRad in Model.HistorikLista)
-            {
-            <tr>
-                <td>@loggRad.RegisterKortnamn</td>
-                <td>@loggRad.Leveranstidpunkt</td>
-                <td>
-                    @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
-                    {
-                        @loggRad.LeveransId @Html.Raw("/") @loggRad.Enhetskod
-                    }
-                    else
-                    {
-                        @loggRad.LeveransId
-                    }
-                </td>
-                <td>@loggRad.Leveransstatus</td>
-                <td>@loggRad.Filnamn</td>
-                <td>@loggRad.Filstatus</td>
-                @if (loggRad.Resultatfil == "Ej kontrollerad")
-                {
-                    <td>@loggRad.Resultatfil</td>
-                }
-                else
-                {
-                    <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
-                }
-            </tr>
-            }
-        }
-        </tbody>
-    </table>*@
 
 
 @Scripts.Render("~/bundles/jQuery-File-Upload")

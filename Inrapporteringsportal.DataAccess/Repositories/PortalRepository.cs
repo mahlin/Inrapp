@@ -243,11 +243,13 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 foreach (var forvFil in forvantadFil)
                 {
                     regInfo.AntalFiler = forvFil.Count();
+                    
                     foreach (var fil in forvFil)
                     {
                         filmaskList.Add(fil.Filmask);
                         regExpList.Add(fil.Regexp);
                         regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
+                        regInfo.Obligatorisk = fil.Obligatorisk;
                     }
                 }
                 //get period och forvantadleveransId

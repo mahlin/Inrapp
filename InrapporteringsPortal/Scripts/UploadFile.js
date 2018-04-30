@@ -89,6 +89,14 @@ $(document).on('change','#ddlRegister',
             if (selectedRegister === register.Id.toString()) {
                 $('#registerInfo').html(register.InfoText);
 
+                //Check if obligatory for this org to report for this register
+                if (!register.Obligatorisk) {
+                    addSelect("select-container");
+                    $('#ingetAttRapportera').show();
+                } else {
+                    $('#ingetAttRapportera').hide();
+                }
+
                 //Check if organisation is supposed to leave files per unit
                 if (register.RapporterarPerEnhet) {
                     //Populate unit-dropdown
@@ -161,6 +169,27 @@ $(document).on('change','#ddlRegister',
             }
         });
     });
+
+
+function addSelect(divname) {
+    var newDiv = document.createElement('div');
+    var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="sel-options" class="form-control" style="width:80px;display:inline-block;padding-left:10px;">', dates = dateGenerate(), i;
+    for (i = 0; i < dates.length; i++) {
+        html += "<option value='" + dates[i] + "'>" + dates[i] + "</option>";
+    }
+    html += '</select></span>';
+    newDiv.innerHTML = html;
+    document.getElementById(divname).appendChild(newDiv);
+}
+
+function dateGenerate() {
+    var date = new Date(), dateArray = new Array(), i;
+    curYear = date.getFullYear();
+    for (i = 0; i < 5; i++) {
+        dateArray[i] = curYear + i;
+    }
+    return dateArray;
+}
 
 function checkIfDisabled(event) {
     //alert('click egen check');

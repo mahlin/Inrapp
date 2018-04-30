@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Helpers;
@@ -15,6 +16,8 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public string SelectedRegisterId { get; set; }
         public string SelectedUnitId { get; set; }
         public string SelectedPeriod { get; set; }
+        [DisplayName("Inget att rapportera")]
+        public bool IngetAttRapportera { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
         //public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         //public List<KeyValuePair<int, string>> FilMask { get; set; }

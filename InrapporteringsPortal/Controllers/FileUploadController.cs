@@ -66,6 +66,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
                 // Ladda drop down lists.  
                 this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
+                this.ViewBag.PeriodList = CreatePeriodDropDownList(registerInfoList);
                 _model.SelectedRegisterId = "0";
                 _model.SelectedPeriod = "0";
 
@@ -296,6 +297,28 @@ namespace InrapporteringsPortal.Web.Controllers
             return lstobj;
         }
 
+        /// <summary>  
+        /// Create list for period-dropdown  
+        /// </summary>  
+        /// <returns>Return periods for drop down list.</returns>  
+        private IEnumerable<SelectListItem> CreatePeriodDropDownList(IEnumerable<RegisterInfo> registerInfoList)
+        {
+            SelectList lstobj = null;
+
+            var list = registerInfoList
+                .Select(p =>
+                    new SelectListItem
+                    {
+                        Value = p.Id.ToString(),
+                        Text = p.Namn
+                    });
+
+            // Setting.  
+            lstobj = new SelectList(list, "Value", "Text");
+
+            return lstobj;
+        }
+
         //public FilesViewModel UpdateHistory()
         //{
         //    var model = new FilesViewModel();
@@ -334,6 +357,33 @@ namespace InrapporteringsPortal.Web.Controllers
         public ActionResult CustomError(CustomErrorPageModel model)
         {
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult IngetAttRapportera(int delRegId, string period)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userName = User.Identity.GetUserName();
+                    //Hämta orgId, skapa leverans för orgId, spara i db
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    ErrorManager.WriteToErrorLog("FileUploadController", "IngetAttRapportera", e.ToString(), e.HResult, User.Identity.Name);
+                    var errorModel = new CustomErrorPageModel
+                    {
+                        Information = "Ett fel inträffade när information om att inget finns att rapportera för aktuell period skulle sparas.",
+                        ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                    };
+                    return View("CustomError", errorModel);
+
+                }
+            }
+            return RedirectToAction("Index");
+
         }
     }
 }
