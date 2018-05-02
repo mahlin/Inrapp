@@ -66,7 +66,6 @@ namespace InrapporteringsPortal.Web.Controllers
 
                 // Ladda drop down lists.  
                 this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
-                this.ViewBag.PeriodList = CreatePeriodDropDownList(registerInfoList);
                 _model.SelectedRegisterId = "0";
                 _model.SelectedPeriod = "0";
 
@@ -297,28 +296,7 @@ namespace InrapporteringsPortal.Web.Controllers
             return lstobj;
         }
 
-        /// <summary>  
-        /// Create list for period-dropdown  
-        /// </summary>  
-        /// <returns>Return periods for drop down list.</returns>  
-        private IEnumerable<SelectListItem> CreatePeriodDropDownList(IEnumerable<RegisterInfo> registerInfoList)
-        {
-            SelectList lstobj = null;
-
-            var list = registerInfoList
-                .Select(p =>
-                    new SelectListItem
-                    {
-                        Value = p.Id.ToString(),
-                        Text = p.Namn
-                    });
-
-            // Setting.  
-            lstobj = new SelectList(list, "Value", "Text");
-
-            return lstobj;
-        }
-
+        
         //public FilesViewModel UpdateHistory()
         //{
         //    var model = new FilesViewModel();
@@ -360,14 +338,18 @@ namespace InrapporteringsPortal.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult IngetAttRapportera(int delRegId, string period)
+        public ActionResult IngetAttRapportera(FilesViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var userName = User.Identity.GetUserName();
                     //Hämta orgId, skapa leverans för orgId, spara i db
+                    var orgId = _portalService.HamtaUserOrganisationId(User.Identity.GetUserId());
+                    var forvLevId = _portalService.HamtaForvantadleveransIdForRegisterOchPeriod( Convert.ToInt32(model.SelectedRegisterId),model.SelectedPeriod);
+                    var levId = _portalService.HamtaNyttLeveransId(User.Identity.GetUserId(),
+                        User.Identity.GetUserName(), orgId, Convert.ToInt32(model.SelectedRegisterId), 0, forvLevId,
+                        " Inget att rapportera");
                 }
                 catch (Exception e)
                 {

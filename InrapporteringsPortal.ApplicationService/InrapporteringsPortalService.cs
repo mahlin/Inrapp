@@ -102,9 +102,9 @@ namespace InrapporteringsPortal.ApplicationService
             _portalRepository.SaveToFilelogg(userName, ursprungligFilNamn, nyttFilNamn, leveransId, sequenceNumber);
         }
 
-        public int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int orgenhetsId, int forvLevId)
+        public int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int orgenhetsId, int forvLevId, string status)
         {
-            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, registerId, orgenhetsId, forvLevId);
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, registerId, orgenhetsId, forvLevId, status);
             return levId;
         }
 

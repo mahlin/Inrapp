@@ -22,7 +22,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetInformationText(string infoTyp);
 
-        int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId,int forvLevId);
+        int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId,int forvLevId, string status);
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 

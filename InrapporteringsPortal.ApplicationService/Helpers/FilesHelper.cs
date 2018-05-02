@@ -150,7 +150,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 orgenhetsId = _portalRepository.GetOrganisationsenhetsId(selectedUnitId, orgId);
             }
 
-            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, orgenhetsId, forvantadLevId);
+            var levId = _portalRepository.GetNewLeveransId(userId, userName, orgId, selectedRegisterId, orgenhetsId, forvantadLevId, "Levererad");
             var hash = GetHashAddOn(kommunKod, levId);
             var headers = httpRequest.Headers;
 

@@ -84,14 +84,15 @@ $(document).on('change','#ddlRegister',
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
         $("#SelectedRegisterId").val(selectedRegister);
-
+        
         registerLista.forEach(function (register, index) {
             if (selectedRegister === register.Id.toString()) {
                 $('#registerInfo').html(register.InfoText);
 
                 //Check if obligatory for this org to report for this register
                 if (!register.Obligatorisk) {
-                    addSelect("select-container");
+                    var periodLista = register.Perioder;
+                    addSelect("select-container", register.Perioder);
                     $('#ingetAttRapportera').show();
                 } else {
                     $('#ingetAttRapportera').hide();
@@ -168,18 +169,34 @@ $(document).on('change','#ddlRegister',
                 //    .parent().removeClass('disabled');
             }
         });
+
+        $(document).on('change', '#ddlPerioder', function () {
+            var x = $('#ddlPerioder').val();
+            var y = $('#SelectedRegisterId').val();
+            alert("x: " + x);
+            alert("y: " + y);
+            $("#IngetAttRapporteraForPeriod").val($('#ddlPerioder').val());
+            $("#IngetAttRapporteraForRegisterId").val($('#SelectedRegisterId').val());
+            var z = $("#IngetAttRapporteraForPeriod").val();
+            var n = $("#IngetAttRapporteraForRegisterId").val();
+            alert("z: " + x);
+            alert("n: " + y);
+        });
+
     });
 
 
-function addSelect(divname) {
+function addSelect(divname, perioder) {
+    $('#IngetAttRapporteraForPeriod').val(perioder[0]);
     var newDiv = document.createElement('div');
-    var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="sel-options" class="form-control" style="width:80px;display:inline-block;padding-left:10px;">', dates = dateGenerate(), i;
-    for (i = 0; i < dates.length; i++) {
-        html += "<option value='" + dates[i] + "'>" + dates[i] + "</option>";
+    var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="ddlPerioder" class="form-control" style="width:95px;display:inline-block;padding-left:10px;">', i;
+    for (i = 0; i < perioder.length; i++) {
+        html += "<option value='" + perioder[i] + "'>" + perioder[i] + "</option>";
     }
     html += '</select></span>';
     newDiv.innerHTML = html;
-    document.getElementById(divname).appendChild(newDiv);
+    document.getElementById(divname).innerHTML = newDiv.innerHTML;
+    //document.getElementById(divname).appendChild(newDiv);
 }
 
 function dateGenerate() {
@@ -190,6 +207,15 @@ function dateGenerate() {
     }
     return dateArray;
 }
+
+//function periodGenerate() {
+//    var date = new Date(), dateArray = new Array(), i;
+//    curYear = date.getFullYear();
+//    for (i = 0; i < 5; i++) {
+//        dateArray[i] = curYear + i;
+//    }
+//    return dateArray;
+//}
 
 function checkIfDisabled(event) {
     //alert('click egen check');

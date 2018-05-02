@@ -99,8 +99,13 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
-        public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId, int forvLevId)
+        public int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId, int forvLevId, string status)
         {
+            var dbStatus = "Levererad";
+            if (!String.IsNullOrEmpty(status))
+            {
+                dbStatus = status;
+            }
             var leverans = new Leverans
             {
                 ForvantadleveransId = forvLevId,
@@ -108,7 +113,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 ApplicationUserId = userId,
                 DelregisterId = regId,
                 Leveranstidpunkt = DateTime.Now,
-                Leveransstatus = "Levererad",
+                Leveransstatus = dbStatus,
                 SkapadDatum = DateTime.Now,
                 SkapadAv = userName,
                 AndradDatum = DateTime.Now,

@@ -18,6 +18,8 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public string SelectedPeriod { get; set; }
         [DisplayName("Inget att rapportera")]
         public bool IngetAttRapportera { get; set; }
+        public string IngetAttRapporteraForPeriod { get; set; }
+        public string IngetAttRapporteraForRegisterId { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
         //public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
         //public List<KeyValuePair<int, string>> FilMask { get; set; }

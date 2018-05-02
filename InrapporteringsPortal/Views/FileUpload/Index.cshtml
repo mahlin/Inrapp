@@ -68,16 +68,18 @@
         
         <div hidden id="ingetAttRapportera">
             <section id="ingetAttRapporteraForm">
-                @using (Html.BeginForm("IngetAttRapportera", "FileUpload", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    <div class="row" style="border: 1px solid lightgrey; padding-top: 10px; margin-left: 0px; border-radius: 5px; width: 350px;">
-                            <div class="col-md-8 form-group" style="width: 320px !important; margin-left: 5px;" id="select-container">
-                            </div>
-                        <div class="col-md-8" style="padding-bottom: 15px; padding-top: 0px; margin-left: 5px;">
-                            <input type="submit" value="Skicka information" class="btn btn-default" />
-                        </div>
+            @using (Html.BeginForm("IngetAttRapportera", "FileUpload", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+            @Html.HiddenFor(m => m.IngetAttRapporteraForRegisterId)
+            @Html.HiddenFor(m => m.IngetAttRapporteraForPeriod)
+                <div class="row" style="border: 1px solid lightgrey; padding-top: 10px; margin-left: 0px; border-radius: 5px; width: 350px;">
+                    <div class="col-md-8 form-group" style="width: 320px !important; margin-left: 5px;" id="select-container">
                     </div>
-                }
+                    <div class="col-md-8" style="padding-bottom: 15px; padding-top: 0px; margin-left: 5px;">
+                        <input type="submit" value="Skicka information" class="btn btn-default" />
+                    </div>
+                </div>
+            }
             </section>
         </div>
     </div>
