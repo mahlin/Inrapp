@@ -1,7 +1,6 @@
 ﻿@using System.Configuration
 
 @{
-    var x = ConfigurationManager.AppSettings["Env"];
     if (ConfigurationManager.AppSettings["Env"] == "Utv")
     {
         Layout = "~/Views/Shared/_LayoutUtv.cshtml";
