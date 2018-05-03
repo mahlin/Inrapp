@@ -283,7 +283,7 @@ th.historyHeader {
 }
 
 /* Bootstrap customizations*/
-.navbar-inverse {
+.navbar-default {
     background-color: #00263E;
     border-color: #080808;
 }

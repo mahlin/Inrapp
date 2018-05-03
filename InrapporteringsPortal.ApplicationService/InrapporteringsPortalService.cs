@@ -63,18 +63,22 @@ namespace InrapporteringsPortal.ApplicationService
 
                 //Hämta period för aktuell leverans
                 var period = _portalRepository.GetPeriodForAktuellLeverans(leverans.ForvantadleveransId);
-                
 
-                var filer = _portalRepository.GetFilerForLeveransId(leverans.Id);
+                var filer = _portalRepository.GetFilerForLeveransId(leverans.Id).ToList();
                 var registerKortnamn = _portalRepository.GetRegisterKortnamn(leverans.DelregisterId);
-                foreach (var fil in filer)
+
+                if (!filer.Any())
                 {
-                    filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                    filloggDetalj = new FilloggDetaljDTO();
+                    filloggDetalj.Id = 0;
+                    filloggDetalj.LeveransId = leverans.Id;
+                    filloggDetalj.Filnamn = " - ";
+                    filloggDetalj.Filstatus = " - ";
                     filloggDetalj.Kontaktperson = leverans.ApplicationUserId;
                     filloggDetalj.Leveransstatus = leverans.Leveransstatus;
                     filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
                     filloggDetalj.RegisterKortnamn = registerKortnamn;
-                    filloggDetalj.Resultatfil = "Ej kontrollerad";
+                    filloggDetalj.Resultatfil = " - ";
                     filloggDetalj.Enhetskod = enhetskod;
                     filloggDetalj.Period = period;
                     if (aterkoppling != null)
@@ -83,6 +87,26 @@ namespace InrapporteringsPortal.ApplicationService
                         filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
                     }
                     historikLista.Add(filloggDetalj);
+                }
+                else
+                {
+                    foreach (var fil in filer)
+                    {
+                        filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                        filloggDetalj.Kontaktperson = leverans.ApplicationUserId;
+                        filloggDetalj.Leveransstatus = leverans.Leveransstatus;
+                        filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
+                        filloggDetalj.RegisterKortnamn = registerKortnamn;
+                        filloggDetalj.Resultatfil = "Ej kontrollerad";
+                        filloggDetalj.Enhetskod = enhetskod;
+                        filloggDetalj.Period = period;
+                        if (aterkoppling != null)
+                        {
+                            filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
+                            filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+                        }
+                        historikLista.Add(filloggDetalj);
+                    }
                 }
             }
             var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();

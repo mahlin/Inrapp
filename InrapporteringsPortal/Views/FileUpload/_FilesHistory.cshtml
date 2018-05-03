@@ -1,7 +1,14 @@
 ﻿@using InrapporteringsPortal.ApplicationService.DTOModel
 @model InrapporteringsPortal.Web.Models.ViewModels.FilesViewModel
 
+<script type="text/javascript">
 
+    $(document).ready(function () {
+        var rows = $(".greenRow").closest('tr');
+        $(rows).css('background-color', 'rgba(130, 224, 170, 0.4)');  
+    });
+
+</script>
 
 
 @using (Html.BeginForm("RefreshFilesHistory", "FileUpload", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "updateHistoryForm" }))
@@ -26,29 +33,36 @@
         <tbody>
             @if (Model.HistorikLista != null)
             {
-
                 foreach (FilloggDetaljDTO loggRad in Model.HistorikLista)
                 {
+                    
             <tr>
                 <td>@loggRad.RegisterKortnamn</td>
                 <td>@loggRad.Period</td>
                 <td>@loggRad.Leveranstidpunkt</td>
                 <td>
                     @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
-        {
-            @loggRad.LeveransId
-            @Html.Raw("/")
-            @loggRad.Enhetskod
-}
-else
-{
-            @loggRad.LeveransId
-}
+                    {
+                        @loggRad.LeveransId
+                        @Html.Raw("/")
+                        @loggRad.Enhetskod
+                    }
+                    else
+                    {
+                        @loggRad.LeveransId
+                    }
                 </td>
+                @if (loggRad.Leveransstatus.Trim() == "Inget att rapportera" || loggRad.Leveransstatus.Trim() == "Leveransen är godkänd" || loggRad.Leveransstatus.Trim() == "Leveransen är godkänd med varningar")
+                {
+                <td class="greenRow">@loggRad.Leveransstatus</td>
+                }
+                else
+                {
                 <td>@loggRad.Leveransstatus</td>
+                }
                 <td>@loggRad.Filnamn</td>
                 <td>@loggRad.Filstatus</td>
-                @if (loggRad.Resultatfil == "Ej kontrollerad")
+                @if (loggRad.Resultatfil == "Ej kontrollerad" || loggRad.Resultatfil == " - ")
     {
             <td>@loggRad.Resultatfil</td>
 }
