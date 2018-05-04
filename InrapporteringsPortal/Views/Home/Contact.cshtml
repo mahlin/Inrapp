@@ -7,7 +7,14 @@
 @{
     if (Model.PortalClosed)
     {
-        Layout = "~/Views/Shared/_LayoutClosed.cshtml";
+        if (ConfigurationManager.AppSettings["Env"] == "Utv")
+        {
+            Layout = "~/Views/Shared/_LayoutClosedUtv.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_LayoutClosed.cshtml";
+        }
     }
     else
     {
