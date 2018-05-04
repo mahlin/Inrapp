@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdmFilkrav.cs" />
+    <Compile Include="AdmForeskrift.cs" />
     <Compile Include="AdmForvantadfil.cs" />
     <Compile Include="AdmForvantadleverans.cs" />
     <Compile Include="AdmKonfiguration.cs" />

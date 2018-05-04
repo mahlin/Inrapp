@@ -99,7 +99,7 @@ namespace InrapporteringsPortal.Web.Models
         public string Namn { get; set; }
 
         [Phone(ErrorMessage = "Inte ett giltigt telefonnummer")]
-        [Display(Name = "Telefonnummer")]
+        [Display(Name = "Telefon arbete")]
         public string Telefonnummer { get; set; }
 
         [Required (ErrorMessage = "Fältet E-postadress är obligatoriskt.")]

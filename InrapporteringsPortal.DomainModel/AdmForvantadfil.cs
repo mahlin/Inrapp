@@ -10,6 +10,7 @@ namespace InrapporteringsPortal.DomainModel
     {
         public int Id { get; set; }
         public int FilkravId { get; set; }
+        public int? ForeskriftsId { get; set; }
         public string Filmask { get; set; }
         public string Regexp { get; set; }
         public bool Obligatorisk { get; set; }
@@ -19,5 +20,6 @@ namespace InrapporteringsPortal.DomainModel
         public DateTime AndradDatum { get; set; }
         public string AndradAv { get; set; }
         public virtual AdmFilkrav AdmFilkrav { get; set; }
+        public virtual AdmForeskrift AdmForeskrift { get; set; }
     }
 }

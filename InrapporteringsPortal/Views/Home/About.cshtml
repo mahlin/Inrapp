@@ -1,5 +1,5 @@
 ﻿@model InrapporteringsPortal.Web.Models.ViewModels.AboutViewModel
-
+@using System.Configuration
 
 @{
     if (Model.PortalClosed)
@@ -8,7 +8,14 @@
     }
     else
     {
-        Layout = "~/Views/Shared/_Layout.cshtml";
+        if (ConfigurationManager.AppSettings["Env"] == "Utv")
+        {
+            Layout = "~/Views/Shared/_LayoutUtv.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
     }
 }
 
@@ -36,7 +43,7 @@
     <h3>@ViewBag.Message</h3>
 </div>
 
-    @Html.Raw(ViewBag.Text)
+@Html.Raw(ViewBag.Text)
 
 <br />
 
@@ -56,7 +63,7 @@
                     </div>
                     <div id=@(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Id) class="panel-collapse collapse">
                         <div class="panel-body">
-                        @Html.Raw(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
+                            @Html.Raw(Model.FaqCategories.ElementAt(i).AdmFAQ.ElementAt(index).Svar)
                         </div>
                     </div>
                 </div>

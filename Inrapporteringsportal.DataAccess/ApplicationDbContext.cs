@@ -188,14 +188,38 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmFilkrav>().ToTable("admFilkrav");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.Id).HasColumnName("filkravid");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.DelregisterId).HasColumnName("delregisterid");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.ForeskriftsId).HasColumnName("foreskriftsId");
             modelBuilder.Entity<AdmFilkrav>()
                 .HasRequired(c => c.AdmDelregister)
                 .WithMany(d => d.AdmFilkrav)
                 .HasForeignKey(c => c.DelregisterId);
+            modelBuilder.Entity<AdmFilkrav>()
+                .HasRequired(c => c.AdmForeskrift)
+                .WithMany(d => d.AdmFilkrav)
+                .HasForeignKey(c => c.ForeskriftsId);
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<AdmFilkrav>().Property(e => e.AndradAv).HasColumnName("andradav");
+            modelBuilder.Entity<AdmFilkrav>().Property(e => e.Namn).HasColumnName("namn");
+
+            //AdmForeskrift
+            modelBuilder.Entity<AdmForeskrift>().ToTable("admForeskrift");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.Id).HasColumnName("foreskriftsid");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.RegisterId).HasColumnName("registerId");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.Forfattningsnr).HasColumnName("forfattningsnr");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.Forfattningsnamn).HasColumnName("forfattningsnamn");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.GiltigFrom).HasColumnName("giltigFrom");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.GiltigTom).HasColumnName("giltigTom");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.Beslutsdatum).HasColumnName("beslutsdatum");
+            modelBuilder.Entity<AdmForeskrift>()
+                .HasRequired(c => c.AdmRegister)
+                .WithMany(d => d.AdmForeskrift)
+                .HasForeignKey(c => c.RegisterId);
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmForeskrift>().Property(e => e.AndradAv).HasColumnName("andradav");
 
             //AdmForvantadleverans
             modelBuilder.Entity<AdmForvantadleverans>().ToTable("admForvantadleverans");
@@ -228,10 +252,15 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmForvantadfil>().ToTable("admForvantadfil");
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Id).HasColumnName("forvantadfilid");
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.FilkravId).HasColumnName("filkravid");
+            modelBuilder.Entity<AdmForvantadfil>().Property(e => e.ForeskriftsId).HasColumnName("foreskriftsId");
             modelBuilder.Entity<AdmForvantadfil>()
                 .HasRequired(c => c.AdmFilkrav)
                 .WithMany(d => d.AdmForvantadfil)
                 .HasForeignKey(c => c.FilkravId);
+            modelBuilder.Entity<AdmForvantadfil>()
+                .HasRequired(c => c.AdmForeskrift)
+                .WithMany(d => d.AdmForvantadfil)
+                .HasForeignKey(c => c.ForeskriftsId);
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Filmask).HasColumnName("filmask");
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Regexp).HasColumnName("regexp");
             modelBuilder.Entity<AdmForvantadfil>().Property(e => e.Obligatorisk).HasColumnName("obligatorisk");
@@ -302,6 +331,7 @@ namespace InrapporteringsPortal.DataAccess
         public DbSet<AdmRegister> AdmRegister { get; set; }
         public DbSet<AdmDelregister> AdmDelregister { get; set; }
         public DbSet<AdmFilkrav> AdmFilkrav { get; set; }
+        public DbSet<AdmForeskrift> AdmForeskrift { get; set; }
         public DbSet<AdmForvantadfil> AdmForvantadfil { get; set; }
         public DbSet<AdmForvantadleverans> AdmForvantadleverans { get; set; }
         public DbSet<Aterkoppling> Aterkoppling { get; set; }
