@@ -191,6 +191,7 @@ namespace InrapporteringsPortal.ApplicationService
                 {
                     if (register.Id == userRegister.DelregisterId)
                     {
+                        register.SelectedFilkrav = "0";
                         userRegisterList.Add(register);
                     }
                 }

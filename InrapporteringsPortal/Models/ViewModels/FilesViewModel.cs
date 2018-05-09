@@ -21,9 +21,6 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public string IngetAttRapporteraForPeriod { get; set; }
         public string IngetAttRapporteraForRegisterId { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
-        //public List<KeyValuePair<int, string>> RegisterInfoText { get; set; }
-        //public List<KeyValuePair<int, string>> FilMask { get; set; }
-        //public List<KeyValuePair<int, int>> FilAntal { get; set; }
         public List<FilloggDetaljDTO> HistorikLista { get; set; }
         public string GiltigKommunKod { get; set; }
         public string OrganisationsNamn { get; set; }

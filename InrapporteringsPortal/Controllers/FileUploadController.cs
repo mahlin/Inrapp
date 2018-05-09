@@ -346,9 +346,8 @@ namespace InrapporteringsPortal.Web.Controllers
                 {
                     //Hämta orgId, skapa leverans för orgId, spara i db
                     var orgId = _portalService.HamtaUserOrganisationId(User.Identity.GetUserId());
-                    var forvLevId = _portalService.HamtaForvantadleveransIdForRegisterOchPeriod( Convert.ToInt32(model.SelectedRegisterId),model.SelectedPeriod);
-                    var levId = _portalService.HamtaNyttLeveransId(User.Identity.GetUserId(),
-                        User.Identity.GetUserName(), orgId, Convert.ToInt32(model.SelectedRegisterId), 0, forvLevId,
+                    var forvLevId = _portalService.HamtaForvantadleveransIdForRegisterOchPeriod( Convert.ToInt32(model.IngetAttRapporteraForRegisterId),model.IngetAttRapporteraForPeriod);
+                    var levId = _portalService.HamtaNyttLeveransId(User.Identity.GetUserId(),User.Identity.GetUserName(), orgId, Convert.ToInt32(model.IngetAttRapporteraForRegisterId), 0, forvLevId,
                         " Inget att rapportera");
                 }
                 catch (Exception e)

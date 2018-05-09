@@ -87,55 +87,71 @@ $(document).on('change','#ddlRegister',
         
         registerLista.forEach(function (register, index) {
             if (selectedRegister === register.Id.toString()) {
-                $('#registerInfo').html(register.InfoText);
-
-                //Check if obligatory for this org to report for this register
-                if (!register.Obligatorisk) {
-                    var periodLista = register.Perioder;
-                    addSelect("select-container", register.Perioder);
-                    $('#ingetAttRapportera').show();
-                } else {
-                    $('#ingetAttRapportera').hide();
-                }
-
-                //Check if organisation is supposed to leave files per unit
-                if (register.RapporterarPerEnhet) {
-                    //Populate unit-dropdown
-                    var vals = {};
-                    register.Organisationsenheter.forEach(function(unit, index) {
-                        vals[unit.Key] = unit.Value;
-                    });
-
-                    var $ddlUnits = $("#ddlUnits");
-                    $ddlUnits.empty();
-                    $ddlUnits.append("<option> - Välj enhet - </option>");   
-                    $.each(vals, function (index, value) {
-                        $ddlUnits.append("<option value=" + index + " >" + value + "</option>");
-                        //alert(index + ' : ' + value);
-                    });
-
-                    $('#enhetsInfo').show();
+                //No1 - Check if more than one filkrav => show dropdown to allow user to make choice
+                if (register.Filkrav.length > 1) {
                     $('.fileinput-button').hide();
-                    $('#fileinputButton').prop('disabled', true);
-                    $('#fileinputButton').addClass('disabled');
-                    $('#fileinputButton').parent().addClass('disabled');
-                    $('#fileinputButton').prop('readonly', true);
-                    $('#fileinputButton').addClass('readonly');
-                    //$('.fileinput-button')
-                    //    .prop('disabled', true)
-                    //    .parent().addClass('disabled');
                     $('.start').hide();
-                } else {
+                    $('#registerInfo').html("");
+                    $('#ingetAttRapportera').hide();
                     $('#enhetsInfo').hide();
+                    //visa dropdown för filkrav
+                    addSelectFilkrav("FileRequirementsSelect-container", register.Filkrav);
+                    $('#parallellaForeskrifter').show();
+                } else {
                     $('.fileinput-button').show();
-                    $('#fileinputButton').prop('disabled', false);
-                    $('#fileinputButton').removeClass('disabled');
-                    $('#filesExplorerOpener').prop('disabled', false);
-                    $('#filesExplorerOpener').removeClass('disabled');
-                    //$('.fileinput-button')
-                    //    .prop('disabled', false)
-                    //    .parent().removeClass('disabled');
-                    $('.start').hide();
+                    $('#parallellaForeskrifter').hide();
+                    var info = register.InfoText + register.Filkrav[0].InfoText;
+                    register.SelectedFilkrav = register.Filkrav[0].Id;
+                    $('#registerInfo').html(info);
+
+                    // No2 - Check if obligatory for this org to report for this register
+                    if (!register.Filkrav[0].Obligatorisk) {
+                        var periodLista = register.Filkrav[0].Perioder;
+                        addSelect("select-container", register.Filkrav[0].Perioder);
+                        $('#ingetAttRapportera').show();
+                    } else {
+                        $('#ingetAttRapportera').hide();
+                    }
+                    // No3 - Check if organisation is supposed to leave files per unit
+                    if (register.RapporterarPerEnhet) {
+                        //Populate unit-dropdown
+                        var vals = {};
+                        register.Organisationsenheter.forEach(function(unit, index) {
+                            vals[unit.Key] = unit.Value;
+                        });
+
+                        var $ddlUnits = $("#ddlUnits");
+                        $ddlUnits.empty();
+                        $ddlUnits.append("<option> - Välj enhet - </option>");
+                        $.each(vals,
+                            function(index, value) {
+                                $ddlUnits.append("<option value=" + index + " >" + value + "</option>");
+                                //alert(index + ' : ' + value);
+                            });
+
+                        $('#enhetsInfo').show();
+                        $('.fileinput-button').hide();
+                        $('#fileinputButton').prop('disabled', true);
+                        $('#fileinputButton').addClass('disabled');
+                        $('#fileinputButton').parent().addClass('disabled');
+                        $('#fileinputButton').prop('readonly', true);
+                        $('#fileinputButton').addClass('readonly');
+                        //$('.fileinput-button')
+                        //    .prop('disabled', true)
+                        //    .parent().addClass('disabled');
+                        $('.start').hide();
+                    } else {
+                        $('#enhetsInfo').hide();
+                        $('.fileinput-button').show();
+                        $('#fileinputButton').prop('disabled', false);
+                        $('#fileinputButton').removeClass('disabled');
+                        $('#filesExplorerOpener').prop('disabled', false);
+                        $('#filesExplorerOpener').removeClass('disabled');
+                        //$('.fileinput-button')
+                        //    .prop('disabled', false)
+                        //    .parent().removeClass('disabled');
+                        $('.start').hide();
+                    }
                 }
             } else if (selectedRegister === ""){
                 $('#registerInfo').html("");
@@ -171,25 +187,76 @@ $(document).on('change','#ddlRegister',
         });
 
         $(document).on('change', '#ddlPerioder', function () {
-            var x = $('#ddlPerioder').val();
-            var y = $('#SelectedRegisterId').val();
-            alert("x: " + x);
-            alert("y: " + y);
+            //var x = $('#ddlPerioder').val();
+            //var y = $('#SelectedRegisterId').val();
+            //alert("x: " + x);
+            //alert("y: " + y);
             $("#IngetAttRapporteraForPeriod").val($('#ddlPerioder').val());
             $("#IngetAttRapporteraForRegisterId").val($('#SelectedRegisterId').val());
-            var z = $("#IngetAttRapporteraForPeriod").val();
-            var n = $("#IngetAttRapporteraForRegisterId").val();
-            alert("z: " + x);
-            alert("n: " + y);
+            //var z = $("#IngetAttRapporteraForPeriod").val();
+            //var n = $("#IngetAttRapporteraForRegisterId").val();
+            //alert("z: " + x);
+            //alert("n: " + y);
         });
+
+        $(document).on('change', '#ddlFilkrav', function () {
+            var selectedFilkravId = parseInt($('#ddlFilkrav').val());
+            if (selectedFilkravId !== 0) {
+                var selectedRegister = $("#SelectedRegisterId").val();
+                registerLista.forEach(function(register, index) {
+                    if (selectedRegister === register.Id.toString()) {
+
+                        register.Filkrav.forEach(function(filkrav, index) {
+                            if (selectedFilkravId === filkrav.Id) {
+                                var info = "<br><br><br><br>" + register.InfoText + filkrav.InfoText;
+                                register.SelectedFilkrav = selectedFilkravId;
+                                $('#registerInfo').html(info);
+                                //Check if obligatory for this org to report for this register
+                                if (!register.Filkrav[selectedFilkravId].Obligatorisk) {
+                                    var periodLista = register.Filkrav[selectedFilkravId].Perioder;
+                                    addSelect("select-container", register.Filkrav[selectedFilkravId].Perioder);
+                                    $('#ingetAttRapportera').show();
+                                } else {
+                                    $('#ingetAttRapportera').hide();
+                                }
+                                $('.fileinput-button').show();
+                            }
+                        });
+                    }
+                });
+            } else {
+                $('.fileinput-button').hide();
+                $('#ingetAttRapportera').hide();
+                $('#registerInfo').html("");
+            }
+        });
+
+        //$(document).on('change','#ddlFileRequirements',function() {
+        //    var selectedFilkrav = $('#ddlFileRequirements').val();
+        //    $("#SelectedFilkrav").val(selectedFilkrav);
+        //});
 
     });
 
 
+function addSelectFilkrav(divname, filkrav) {
+    //$('#IngetAttRapporteraForPeriod').val(namn[0]);
+    var newDiv = document.createElement('div');
+    var html = ' <span style="white-space: nowrap; width: 360px;display: inline-block;">Typ av rapportering: &nbsp;&nbsp<select id="ddlFilkrav" class="form-control ddl" style="width:175px;display:inline-block;padding-left:10px;">', i;
+    html += "<option value='0'> - Välj - </option>";
+    for (i = 0; i < filkrav.length; i++) {
+        html += "<option value='" + filkrav[i].Id + "'>" + filkrav[i].Namn + "</option>";
+    }
+    html += '</select></span>';
+    newDiv.innerHTML = html;
+    document.getElementById(divname).innerHTML = newDiv.innerHTML;
+    //document.getElementById(divname).appendChild(newDiv);
+}
+
 function addSelect(divname, perioder) {
     $('#IngetAttRapporteraForPeriod').val(perioder[0]);
     var newDiv = document.createElement('div');
-    var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="ddlPerioder" class="form-control" style="width:95px;display:inline-block;padding-left:10px;">', i;
+    var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="ddlPerioder" class="form-control ddl" style="width:95px;display:inline-block;padding-left:10px;">', i;
     for (i = 0; i < perioder.length; i++) {
         html += "<option value='" + perioder[i] + "'>" + perioder[i] + "</option>";
     }
@@ -199,14 +266,14 @@ function addSelect(divname, perioder) {
     //document.getElementById(divname).appendChild(newDiv);
 }
 
-function dateGenerate() {
-    var date = new Date(), dateArray = new Array(), i;
-    curYear = date.getFullYear();
-    for (i = 0; i < 5; i++) {
-        dateArray[i] = curYear + i;
-    }
-    return dateArray;
-}
+//function dateGenerate() {
+//    var date = new Date(), dateArray = new Array(), i;
+//    curYear = date.getFullYear();
+//    for (i = 0; i < 5; i++) {
+//        dateArray[i] = curYear + i;
+//    }
+//    return dateArray;
+//}
 
 //function periodGenerate() {
 //    var date = new Date(), dateArray = new Array(), i;
@@ -245,11 +312,19 @@ function checkOkToUpload() {
         }
     }
     var selectedRegister = $('#ddlRegister').val();
+    var selectedFilkravId = $('#ddlfilkrav').val();
+    if (selectedFilkravId === undefined) {
+        selectedFilkravId = 1; 
+    }
     var numberOfFilesForSelectedRegister = 0;
     //get number of required files for chosen register
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            numberOfFilesForSelectedRegister = register.AntalFiler;
+            register.Filkrav.forEach(function(filkrav, index) {
+                if (selectedFilkravId === filkrav.Id) {
+                    numberOfFilesForSelectedRegister = filkrav.AntalFiler;
+                }
+            });
         }
     });
     if (filelist.length === numberOfFilesForSelectedRegister && !errorExists) {

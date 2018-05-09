@@ -17,12 +17,16 @@ function CheckFileName(selectedRegister, fileName) {
     //Hämta regexp för valt register
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            register.RegExper.forEach(function (regexp, idx) {
-                re = new RegExp(regexp, "i");
-                if (re.test(fileName)) {
-                    result = true;
-                }
-            });
+            selectedFilkrav = register.SelectedFilkrav;
+            register.Filkrav.forEach(function (filkrav, ix) {
+                if (selectedFilkrav === filkrav.Id) {
+                    filkrav.RegExper.forEach(function (regexp, idx) {
+                        re = new RegExp(regexp, "i");
+                        if (re.test(fileName)) {
+                            result = true;
+                        }
+                    });
+                }})
             //re = new RegExp(register.RegExp, "i");
         }
     });
@@ -73,7 +77,13 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
     var validPeriod = "";
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            validPeriod = register.Perioder
+            selectedFilkrav = register.SelectedFilkrav;
+            
+            register.Filkrav.forEach(function (filkrav, ix) {
+                if (selectedFilkrav === filkrav.Id) {
+                    validPeriod = filkrav.Perioder;
+                }
+            });
         }
     });
 
@@ -127,29 +137,33 @@ function DoubletFiles(selectedRegister) {
     registerLista.forEach(function (register, index) {
         //alert("index:" + index + ", valt register: " + selectedRegister + ", regsiterId: " + register.Id.toString());
         if (selectedRegister === register.Id.toString()) {
+            selectedFilkrav = register.SelectedFilkrav;
+            register.Filkrav.forEach(function(filkrav, ix) {
+                if (selectedFilkrav === filkrav.Id) {
+                    //Om valt filkrav har fler regularexpressions att uppfylla, kolla att bara en fil för varje regexp laddas upp
+                    if (filkrav.RegExper.length > 1) {
+                        var arrUsedRegexp = new Array(filkrav.RegExper.length);
 
-            //Om valt register har fler regularexpressions att uppfylla, kolla att bara en fil för varje regexp laddas upp
-            if (register.RegExper.length > 1) {
-                var arrUsedRegexp = new Array(register.RegExper.length);
-
-                for (var i = 0; i < arrUsedRegexp.length; ++i) {
-                    arrUsedRegexp[i] = false;
-                }
-
-                register.RegExper.forEach(function(regexp, idx) {
-                    var re = new RegExp(regexp, "i");
-
-                    window.filelist.forEach(function(file, i) {
-                        //alert("Regexp" + idx + ": " + regexp);
-                        if (re.test(file.name)) {
-                            if (arrUsedRegexp[idx] === true)
-                                result = true;
-                            else
-                                arrUsedRegexp[idx] = true;
+                        for (var i = 0; i < arrUsedRegexp.length; ++i) {
+                            arrUsedRegexp[i] = false;
                         }
-                    });
-                });
-            }
+
+                        filkrav.RegExper.forEach(function(regexp, idx) {
+                            var re = new RegExp(regexp, "i");
+
+                            window.filelist.forEach(function(file, i) {
+                                //alert("Regexp" + idx + ": " + regexp);
+                                if (re.test(file.name)) {
+                                    if (arrUsedRegexp[idx] === true)
+                                        result = true;
+                                    else
+                                        arrUsedRegexp[idx] = true;
+                                }
+                            });
+                        });
+                    }
+                }
+            });
         }
     });
     return result;
@@ -279,7 +293,13 @@ function getTableRows() {
                     //get number of required files for chosen register
                     registerLista.forEach(function (register, index) {
                         if (selectedRegister === register.Id.toString()) {
-                            numberOfFilesForSelectedRegister = register.AntalFiler;
+                            selectedFilkrav = register.SelectedFilkrav;
+                            register.Filkrav.forEach(function(filkrav, ix) {
+                                if (selectedFilkrav === filkrav.Id) {
+                                    numberOfFilesForSelectedRegister =
+                                        filkrav.AntalFiler;
+                                }
+                            });
                         }
                     });
                     if (filelist.length === numberOfFilesForSelectedRegister) {

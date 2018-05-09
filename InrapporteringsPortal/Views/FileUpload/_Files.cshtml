@@ -15,16 +15,11 @@
         for (int i = 0; i < Model.RegisterList.Count; i++)
         {
             @Html.HiddenFor(x => x.RegisterList[i].Id)
-            @Html.HiddenFor(x => x.RegisterList[i].AntalFiler)
-            @*@Html.HiddenFor(x => x.RegisterList[i].InfoText)*@
             @Html.HiddenFor(x => x.RegisterList[i].Kortnamn)
-            @Html.HiddenFor(x => x.RegisterList[i].FilMask)
             @Html.HiddenFor(x => x.RegisterList[i].Namn)
-            @Html.HiddenFor(x => x.RegisterList[i].RegExp)
             @Html.HiddenFor(x => x.RegisterList[i].Slussmapp)
-            @Html.HiddenFor(x => x.RegisterList[i].ForvantadLevransId)
-            @Html.HiddenFor(x => x.RegisterList[i].Period)
             @Html.HiddenFor(x => x.RegisterList[i].RapporterarPerEnhet)
+
         }
     }
     <div class="row fileupload-buttonbar">

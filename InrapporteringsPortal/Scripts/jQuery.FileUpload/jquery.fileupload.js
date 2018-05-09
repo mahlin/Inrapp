@@ -898,7 +898,9 @@
                     $("#thText").html("Uppladdade filer. Du kommer få en återkoppling på dina filer inom en timme.<br><span style='color:red;font-size:.8em'>OBS! För HSL (Kommunal hälso-och sjukvård) sker manuell återkoppling inom 48 timmar.</span>");
                     $('#ddlRegister').val("");
                     $('#ddlUnits').val("");
+                    $('#ddlFileRequirements').val("");
                     $('#enhetsInfo').hide();
+                    $('#parallellaForeskrifter').hide();
                     $("#SelectedUnitId").val("");
                     $('#registerInfo').html("");
                     $('.fileinput-button').hide();

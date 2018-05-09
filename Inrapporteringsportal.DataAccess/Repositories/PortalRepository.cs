@@ -182,47 +182,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 registerInfoList.Add(regInfoObj);
             }
 
-            //foreach (var item in delregister)
-            //{
-
-            //    var regInfo = new RegisterInfo
-            //    {
-            //        Id = item.Id,
-            //        Namn = item.Delregisternamn,
-            //        Kortnamn = item.Kortnamn,
-            //        InfoText = item.AdmRegister.Beskrivning + "<br>" + item.Beskrivning,
-            //        Slussmapp = item.Slussmapp,
-            //    };
-
-            //    var filmaskList = new List<string>();
-            //    var regExpList = new List<string>();
-
-            //    //Antal filer, filmask samt regexp
-            //    if (item.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
-            //    {
-            //        var forvantadFil= item.AdmFilkrav.Select(x => x.AdmForvantadfil);
-
-            //        foreach (var forvFil in forvantadFil)
-            //        {
-            //            regInfo.AntalFiler = forvFil.Count();
-            //            foreach (var fil in forvFil)
-            //            {
-            //                filmaskList.Add(fil.Filmask);
-            //                regExpList.Add(fil.Regexp);
-            //                regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
-            //            }
-            //        }
-            //        //get period och forvantadleveransId
-            //        GetPeriodsForAktuellLeverans(item.AdmFilkrav, regInfo);
-            //    }
-
-            //    regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
-            //    regInfo.FilMasker = filmaskList;
-            //    regInfo.RegExper = regExpList;
-
-            //    registerInfoList.Add(regInfo);
-            //}
-
             return registerInfoList;
         }
 
@@ -236,39 +195,55 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 InfoText = delReg.AdmRegister.Beskrivning + "<br>" + delReg.Beskrivning,
                 Slussmapp = delReg.Slussmapp,
             };
+            
 
-            var filmaskList = new List<string>();
-            var regExpList = new List<string>();
+            var filkravList = new List<RegisterFilkrav>();
+            var i = 1;
 
-            //Antal filer, filmask samt regexp
-            if (delReg.AdmFilkrav.Count > 0) //TODO - kan komma fler? Antar endast en så länge
+            foreach (var filkrav in delReg.AdmFilkrav)
             {
-                var forvantadFil = delReg.AdmFilkrav.Select(x => x.AdmForvantadfil);
-
-                foreach (var forvFil in forvantadFil)
+                var regFilkrav = new RegisterFilkrav();
+                var filmaskList = new List<string>();
+                var regExpList = new List<string>();
+                if (filkrav.Namn != null)
                 {
-                    regInfo.AntalFiler = forvFil.Count();
-                    
-                    foreach (var fil in forvFil)
-                    {
-                        filmaskList.Add(fil.Filmask);
-                        regExpList.Add(fil.Regexp);
-                        regInfo.InfoText = regInfo.InfoText + "<br> Filformat: " + fil.Filmask;
-                        regInfo.Obligatorisk = fil.Obligatorisk;
-                    }
+                    regFilkrav.Namn = filkrav.Namn;
                 }
+                else
+                {
+                    regFilkrav.Namn = "";
+                }   
+
+                //Sök forväntad fil för varje filkrav istället för alla forvantade filer för registret!!
+                //var forvantadFil = delReg.AdmFilkrav.Select(x => x.AdmForvantadfil);
+                var forvantadeFiler = filkrav.AdmForvantadfil.ToList();
+                regFilkrav.AntalFiler = forvantadeFiler.Count();
+
+                foreach (var forvFil in forvantadeFiler)
+                {
+                    filmaskList.Add(forvFil.Filmask);
+                    regExpList.Add(forvFil.Regexp);
+                    regFilkrav.InfoText = regFilkrav.InfoText + "<br> Filformat: " + forvFil.Filmask;
+                    regFilkrav.Obligatorisk = forvFil.Obligatorisk;
+                }
+                
                 //get period och forvantadleveransId
-                GetPeriodsForAktuellLeverans(delReg.AdmFilkrav, regInfo);
+                GetPeriodsForAktuellLeverans(filkrav, regFilkrav);
+                regFilkrav.InfoText = regFilkrav.InfoText + "<br> Antal filer: " + regFilkrav.AntalFiler;
+                regFilkrav.Id = i;
+                regFilkrav.FilMasker = filmaskList;
+                regFilkrav.RegExper = regExpList;
+
+                filkravList.Add(regFilkrav);
+                i++;
             }
 
-            regInfo.InfoText = regInfo.InfoText + "<br> Antal filer: " + regInfo.AntalFiler.ToString();
-            regInfo.FilMasker = filmaskList;
-            regInfo.RegExper = regExpList;
 
+            regInfo.Filkrav = filkravList;
             return regInfo;
         }
 
-        public void GetPeriodsForAktuellLeverans(ICollection<AdmFilkrav> itemAdmFilkrav, RegisterInfo regInfo)
+        public void GetPeriodsForAktuellLeverans(AdmFilkrav filkrav, RegisterFilkrav regFilkrav)
         {
             string period = String.Empty;
             DateTime startDate;
@@ -277,24 +252,21 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DateTime dagensDatum = DateTime.Now.Date;
             var perioder = new List<string>();
 
-            foreach (var filkrav in itemAdmFilkrav) //Todo - kan vara fler? Antar endast en så länge
+            //hämta varje förväntad leverans och sätt rätt period utifrån dagens datum
+            foreach (var item in filkrav.AdmForvantadleverans)
             {
-                //För varje filkrav - hämta varje förväntad leverans och sätt rätt period utifrån dagens datum
-                foreach (var item in filkrav.AdmForvantadleverans)
+                if (item != null)
                 {
-                    if (item != null)
+                    startDate = item.Rapporteringsstart;
+                    endDate = item.Rapporteringsslut;
+                    if (dagensDatum >= startDate && dagensDatum <= endDate)
                     {
-                        startDate = item.Rapporteringsstart;
-                        endDate = item.Rapporteringsslut;
-                        if (dagensDatum >= startDate && dagensDatum <= endDate)
-                        {
-                            regInfo.Period = item.Period;
-                            perioder.Add(item.Period);
-                            regInfo.ForvantadLevransId = item.Id;
-                        }
+                        //regInfo.Period = item.Period;
+                        perioder.Add(item.Period);
+                        //regInfo.ForvantadLevransId = item.Id;
                     }
                 }
-                regInfo.Perioder = perioder;
+                regFilkrav.Perioder = perioder;
             }
         }
 
