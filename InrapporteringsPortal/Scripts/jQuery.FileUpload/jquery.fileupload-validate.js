@@ -22,7 +22,6 @@ function CheckFileName(selectedRegister, fileName) {
                 if (selectedFilkrav === filkrav.Id) {
                     filkrav.RegExper.forEach(function (regexp, idx) {
                         re = new RegExp(regexp, "i");
-                        alert(re);
                         if (re.test(fileName)) {
                             result = true;
                         }
