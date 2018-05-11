@@ -205,21 +205,24 @@ $(document).on('change','#ddlRegister',
                 var selectedRegister = $("#SelectedRegisterId").val();
                 registerLista.forEach(function(register, index) {
                     if (selectedRegister === register.Id.toString()) {
-
                         register.Filkrav.forEach(function(filkrav, index) {
                             if (selectedFilkravId === filkrav.Id) {
                                 var info = "<br><br><br><br>" + register.InfoText + filkrav.InfoText;
                                 register.SelectedFilkrav = selectedFilkravId;
                                 $('#registerInfo').html(info);
                                 //Check if obligatory for this org to report for this register
-                                if (!register.Filkrav[selectedFilkravId].Obligatorisk) {
-                                    var periodLista = register.Filkrav[selectedFilkravId].Perioder;
-                                    addSelect("select-container", register.Filkrav[selectedFilkravId].Perioder);
+                                if (!filkrav.Obligatorisk) {
+                                    var periodLista = filkrav.Perioder;
+                                    addSelect("select-container", filkrav.Perioder);
                                     $('#ingetAttRapportera').show();
                                 } else {
                                     $('#ingetAttRapportera').hide();
                                 }
                                 $('.fileinput-button').show();
+                                $('#fileinputButton').prop('disabled', false);
+                                $('#fileinputButton').removeClass('disabled');
+                                $('#filesExplorerOpener').prop('disabled', false);
+                                $('#filesExplorerOpener').removeClass('disabled');
                             }
                         });
                     }
@@ -312,9 +315,10 @@ function checkOkToUpload() {
         }
     }
     var selectedRegister = $('#ddlRegister').val();
-    var selectedFilkravId = $('#ddlfilkrav').val();
-    if (selectedFilkravId === undefined) {
-        selectedFilkravId = 1; 
+    var selectedFilkravIdStr = $('#ddlFilkrav').val();
+    var selectedFilkravId = 1;
+    if (selectedFilkravIdStr !== undefined) {
+        selectedFilkravId = parseInt(selectedFilkravIdStr);
     }
     var numberOfFilesForSelectedRegister = 0;
     //get number of required files for chosen register
