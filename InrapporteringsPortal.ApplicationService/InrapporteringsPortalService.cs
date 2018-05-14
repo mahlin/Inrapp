@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Mail;
+using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Security.Policy;
 using System.Web;
 using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Interface;
@@ -172,6 +174,14 @@ namespace InrapporteringsPortal.ApplicationService
             return infoText;
         }
 
+        public string HamtaInformationsTextMedId(int infoId)
+        {
+            var infoText = _portalRepository.GetInformationTextById(infoId);
+            return infoText;
+        }
+
+        
+
         public Organisation HamtaOrgForAnvandare(string userId)
         {
             var org = _portalRepository.GetOrgForUser(userId);
@@ -331,8 +341,100 @@ namespace InrapporteringsPortal.ApplicationService
             return uppgiftsskyldighet;
         }
 
+        public string HamtaHelgEllerSpecialdagsInfo()
+        {
+            var text = String.Empty;
+            if (IsHelgdag())
+            {
+                text = HamtaHelgdagsInfo();
+            }
+            else if (IsSpecialdag())
+            {
+                text = HamtaSpecialdagsInfo();
+            }
+
+            return text;
+        }
+
+        public string HamtaHelgdagsInfo()
+        {
+            var date = DateTime.Now.Date;
+            var text = String.Empty;
+            var helgdagar = _portalRepository.GetHolidays();
+
+            foreach (var helgdag in helgdagar)
+            {
+                if (helgdag.Helgdatum == date)
+                {
+                    text = _portalRepository.GetInformationTextById(helgdag.InformationsId);
+                }
+            }
+
+            return text;
+        }
+
+        public string HamtaSpecialdagsInfo()
+        {
+            var date = DateTime.Now.Date;
+            var text = String.Empty;
+            var specialdagar = _portalRepository.GetSpecialDays();
+
+            foreach (var dag in specialdagar)
+            {
+                if (dag.Specialdagdatum == date)
+                {
+                    text = _portalRepository.GetInformationTextById(dag.InformationsId);
+                }
+            }
+
+            return text;
+        }
+
+        public bool IsHelgdag()
+        {
+            var date = DateTime.Now.Date;
+            var helgdagar = _portalRepository.GetHolidays();
+
+            foreach (var helgdag in helgdagar)
+            {
+                if (helgdag.Helgdatum == date)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool IsSpecialdag()
+        {
+            var now = DateTime.Now;
+            var date = DateTime.Now.Date;
+
+            var timeNow = now.TimeOfDay;
+            var specialdagar = _portalRepository.GetSpecialDays();
+
+            foreach (var dag in specialdagar)
+            {
+                if (dag.Specialdagdatum == date)
+                    //Kolla klockslag
+                    if (dag.Oppna >= timeNow || dag.Stang <= timeNow)
+                    {
+                        return true;
+                    }
+            }
+            return false;
+        }
+
         public bool IsOpen()
         {
+            if (IsHelgdag())
+            {
+                return false;
+            }
+            else if (IsSpecialdag())
+            {
+                return false;
+            }
+
             var now = DateTime.Now;
             var today = now.DayOfWeek.ToString();
             var hourNow = now.Hour;

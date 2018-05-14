@@ -22,6 +22,7 @@ using Microsoft.AspNet.Identity;
 
 namespace InrapporteringsPortal.Web.Controllers
 {
+    [MvcApplication.NoDirectAccessAttribute]
     public class FileUploadController : Controller
     {
         private readonly IInrapporteringsPortalService _portalService;
@@ -186,7 +187,7 @@ namespace InrapporteringsPortal.Web.Controllers
             }
         }
 
-
+        [Authorize]
         public ActionResult DownloadFile(string filename)
         {
             try
@@ -345,8 +346,9 @@ namespace InrapporteringsPortal.Web.Controllers
                 try
                 {
                     //Hämta orgId, skapa leverans för orgId, spara i db
+                    var id = Convert.ToInt32(model.IngetAttRapporteraForRegisterId);
                     var orgId = _portalService.HamtaUserOrganisationId(User.Identity.GetUserId());
-                    var forvLevId = _portalService.HamtaForvantadleveransIdForRegisterOchPeriod( Convert.ToInt32(model.IngetAttRapporteraForRegisterId),model.IngetAttRapporteraForPeriod);
+                    var forvLevId = _portalService.HamtaForvantadleveransIdForRegisterOchPeriod(Convert.ToInt32(model.IngetAttRapporteraForRegisterId),model.IngetAttRapporteraForPeriod);
                     var levId = _portalService.HamtaNyttLeveransId(User.Identity.GetUserId(),User.Identity.GetUserName(), orgId, Convert.ToInt32(model.IngetAttRapporteraForRegisterId), 0, forvLevId,
                         " Inget att rapportera");
                 }

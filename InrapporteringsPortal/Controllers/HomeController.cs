@@ -33,7 +33,14 @@ namespace InrapporteringsPortal.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
+                    if (_portalService.IsHelgdag() || _portalService.IsSpecialdag())
+                    {
+                        ViewBag.Text = _portalService.HamtaHelgEllerSpecialdagsInfo();
+                    }
+                    else
+                    {
+                        ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
+                    }
                     return View("Closed");
                 }
 

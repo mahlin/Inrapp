@@ -84,6 +84,7 @@ $(document).on('change','#ddlRegister',
         $("#filTabell tbody tr").remove();
         $("#thText").text("Filer för uppladdning");
         $("#SelectedRegisterId").val(selectedRegister);
+        $('#IngetAttRapporteraForRegisterId').val(selectedRegister);
         
         registerLista.forEach(function (register, index) {
             if (selectedRegister === register.Id.toString()) {
@@ -258,6 +259,9 @@ function addSelectFilkrav(divname, filkrav) {
 
 function addSelect(divname, perioder) {
     $('#IngetAttRapporteraForPeriod').val(perioder[0]);
+    //var x = $('#SelectedRegister').val();
+    var y = $('#IngetAttRapporteraForRegisterId').val();
+    //$('#IngetAttRapporteraForRegisterId').val($('#SelectedRegister').val());
     var newDiv = document.createElement('div');
     var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="ddlPerioder" class="form-control ddl" style="width:95px;display:inline-block;padding-left:10px;">', i;
     for (i = 0; i < perioder.length; i++) {

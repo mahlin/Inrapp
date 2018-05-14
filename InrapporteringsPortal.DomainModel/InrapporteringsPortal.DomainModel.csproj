@@ -95,10 +95,12 @@
     <Compile Include="AdmForeskrift.cs" />
     <Compile Include="AdmForvantadfil.cs" />
     <Compile Include="AdmForvantadleverans.cs" />
+    <Compile Include="AdmHelgdag.cs" />
     <Compile Include="AdmKonfiguration.cs" />
     <Compile Include="AdmInformation.cs" />
     <Compile Include="AdmFAQKategori.cs" />
     <Compile Include="AdmFAQ.cs" />
+    <Compile Include="AdmSpecialdag.cs" />
     <Compile Include="Organisationsenhet.cs" />
     <Compile Include="AdmRegister.cs" />
     <Compile Include="AdmDelregister.cs" />

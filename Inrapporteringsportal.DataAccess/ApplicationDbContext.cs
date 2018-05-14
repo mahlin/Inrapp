@@ -281,12 +281,45 @@ namespace InrapporteringsPortal.DataAccess
 
             //AdmInformation
             modelBuilder.Entity<AdmInformation>().ToTable("admInformation");
+            modelBuilder.Entity<AdmInformation>().Property(e => e.Id).HasColumnName("informationsid");
             modelBuilder.Entity<AdmInformation>().Property(e => e.Informationstyp).HasColumnName("informationstyp");
             modelBuilder.Entity<AdmInformation>().Property(e => e.Text).HasColumnName("text");
             modelBuilder.Entity<AdmInformation>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<AdmInformation>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmInformation>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
             modelBuilder.Entity<AdmInformation>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmHelgdag
+            modelBuilder.Entity<AdmHelgdag>().ToTable("admHelgdag");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.Id).HasColumnName("helgdagid");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.InformationsId).HasColumnName("informationsid");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.Helgdatum).HasColumnName("helgdatum");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.Helgdag).HasColumnName("helgdag");
+            modelBuilder.Entity<AdmHelgdag>()
+                .HasRequired(c => c.AdmInformation)
+                .WithMany(d => d.AdmHelgdag)
+                .HasForeignKey(c => c.InformationsId);
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.AndradAv).HasColumnName("andradav");
+
+            //AdmSpecialdag
+            modelBuilder.Entity<AdmSpecialdag>().ToTable("admSpecialdag");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.Id).HasColumnName("specialdagid");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.InformationsId).HasColumnName("informationsid");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.Specialdagdatum).HasColumnName("specialdagdatum");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.Oppna).HasColumnName("oppna");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.Stang).HasColumnName("stang");
+            modelBuilder.Entity<AdmSpecialdag>().Property(e => e.Anledning).HasColumnName("anledning");
+            modelBuilder.Entity<AdmSpecialdag>()
+                .HasRequired(c => c.AdmInformation)
+                .WithMany(d => d.AdmSpecialdag)
+                .HasForeignKey(c => c.InformationsId);
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.SkapadAv).HasColumnName("skapadav");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
+            modelBuilder.Entity<AdmHelgdag>().Property(e => e.AndradAv).HasColumnName("andradav");
 
             //AdmKonfiguration
             modelBuilder.Entity<AdmKonfiguration>().ToTable("admkonfiguration");
@@ -340,6 +373,8 @@ namespace InrapporteringsPortal.DataAccess
         public DbSet<AdmFAQKategori> AdmFAQKategori { get; set; }
         public DbSet<AdmFAQ> AdmFAQ { get; set; }
         public DbSet<AdmKonfiguration> AdmKonfiguration { get; set; }
+        public DbSet<AdmHelgdag> AdmHelgdag { get; set; }
+        public DbSet<AdmSpecialdag> AdmSpecialdag { get; set; }
         public DbSet<Inloggning> Inloggning { get; set; }
         public DbSet<Roll> Roll { get; set; }
     }

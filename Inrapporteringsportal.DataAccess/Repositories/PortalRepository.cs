@@ -301,6 +301,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return text;
         }
 
+        public string GetInformationTextById(int infoId)
+        {
+            var text = DbContext.AdmInformation.Where(x => x.Id == infoId).Select(q => q.Text).SingleOrDefault();
+            return text;
+        }
+
         public Organisation GetOrgForUser(string userId)
         {
             var orgId = GetUserOrganisationId(userId);
@@ -491,6 +497,18 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var closedAnyway = "false";
             closedAnyway = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedAnyway").Select(x => x.Varde).SingleOrDefault();
             return closedAnyway;
+        }
+
+        public IEnumerable<AdmHelgdag> GetHolidays()
+        {
+            var holidays = DbContext.AdmHelgdag.ToList();
+            return holidays;
+        }
+
+        public IEnumerable<AdmSpecialdag> GetSpecialDays()
+        {
+            var specialDays = DbContext.AdmSpecialdag.ToList();
+            return specialDays;
         }
 
         public string GetClosedDays()

@@ -21,6 +21,13 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         int HamtaNyttLeveransId(string userId, string userName, int orgId, int registerId, int orgenhetsId, int forvLevId, string status);
 
         string HamtaInformationsText(string infoTyp);
+        string HamtaInformationsTextMedId(int infoId);
+
+        string HamtaHelgEllerSpecialdagsInfo();
+
+        string HamtaHelgdagsInfo();
+
+        string HamtaSpecialdagsInfo();
 
         Organisation HamtaOrgForEmailDomain(string modelEmail);
 
@@ -66,5 +73,9 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         string MaskPhoneNumber(string phoneNumber);
 
         bool IsOpen();
+
+        bool IsHelgdag();
+
+        bool IsSpecialdag();
     }
 }

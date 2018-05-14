@@ -22,6 +22,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetInformationText(string infoTyp);
 
+        string GetInformationTextById(int infoId);
+
         int GetNewLeveransId(string userId, string userName, int orgId, int regId, int orgenhetsId,int forvLevId, string status);
 
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
@@ -65,6 +67,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         string GetClosedToHour();
         string GetClosedToMin();
         string GetClosedAnnyway();
+        IEnumerable<AdmHelgdag> GetHolidays();
+
+        IEnumerable<AdmSpecialdag> GetSpecialDays();
 
         IEnumerable<AdmFAQKategori> GetFAQs();
 
