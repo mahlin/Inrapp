@@ -346,6 +346,8 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 case "SOL1":
                 case "SOL2":
                 case "KHSL":
+                case "KHSL1":
+                case "KHSL2":
                     period = chunkedFileName[2];
                     break;
                 case "BU":
