@@ -88,8 +88,15 @@ $(document).on('change','#ddlRegister',
         
         registerLista.forEach(function (register, index) {
             if (selectedRegister === register.Id.toString()) {
+                if (register.Filkrav.length === 0) {
+                    $('#registerInfo').html("Det finns ingen pågående insamling av de valda uppgifterna."); 
+                    $('.fileinput-button').hide();
+                    $('.start').hide();
+                    $('#ingetAttRapportera').hide();
+                    $('#enhetsInfo').hide();
+                }
                 //No1 - Check if more than one filkrav => show dropdown to allow user to make choice
-                if (register.Filkrav.length > 1) {
+                else if (register.Filkrav.length > 1) {
                     $('.fileinput-button').hide();
                     $('.start').hide();
                     $('#registerInfo').html("");
@@ -109,6 +116,7 @@ $(document).on('change','#ddlRegister',
                     if (!register.Filkrav[0].Obligatorisk) {
                         var periodLista = register.Filkrav[0].Perioder;
                         addSelect("select-container", register.Filkrav[0].Perioder);
+                        $('#ingetAttRapporteraBtn').attr("disabled", "disabled");
                         $('#ingetAttRapportera').show();
                     } else {
                         $('#ingetAttRapportera').hide();
@@ -188,16 +196,14 @@ $(document).on('change','#ddlRegister',
         });
 
         $(document).on('change', '#ddlPerioder', function () {
-            //var x = $('#ddlPerioder').val();
-            //var y = $('#SelectedRegisterId').val();
-            //alert("x: " + x);
-            //alert("y: " + y);
+            var x = $('#ddlPerioder').val();
             $("#IngetAttRapporteraForPeriod").val($('#ddlPerioder').val());
             $("#IngetAttRapporteraForRegisterId").val($('#SelectedRegisterId').val());
-            //var z = $("#IngetAttRapporteraForPeriod").val();
-            //var n = $("#IngetAttRapporteraForRegisterId").val();
-            //alert("z: " + x);
-            //alert("n: " + y);
+            if ($('#ddlPerioder').val() !== "0") {
+                $('#ingetAttRapporteraBtn').attr("disabled", false);
+            } else {
+                $('#ingetAttRapporteraBtn').attr("disabled", "disabled");
+            }
         });
 
         $(document).on('change', '#ddlFilkrav', function () {
@@ -264,6 +270,7 @@ function addSelect(divname, perioder) {
     //$('#IngetAttRapporteraForRegisterId').val($('#SelectedRegister').val());
     var newDiv = document.createElement('div');
     var html = ' <span style="white-space: nowrap">Inget att rapportera för period: &nbsp;&nbsp;<select id="ddlPerioder" class="form-control ddl" style="width:95px;display:inline-block;padding-left:10px;">', i;
+    html += "<option value='0'> - Välj - </option>";
     for (i = 0; i < perioder.length; i++) {
         html += "<option value='" + perioder[i] + "'>" + perioder[i] + "</option>";
     }

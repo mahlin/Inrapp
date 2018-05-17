@@ -234,10 +234,17 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 regFilkrav.FilMasker = filmaskList;
                 regFilkrav.RegExper = regExpList;
 
-                filkravList.Add(regFilkrav);
-                i++;
-            }
 
+                //Om inga aktuella perioder finns för filkravet ska det inte läggas med i RegInfo
+                if (regFilkrav.Perioder != null)
+                {
+                    if (regFilkrav.Perioder.ToList().Count != 0)
+                    {
+                        filkravList.Add(regFilkrav);
+                        i++;
+                    }
+                }
+            }
 
             regInfo.Filkrav = filkravList;
             return regInfo;
