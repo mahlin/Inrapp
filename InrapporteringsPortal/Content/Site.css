@@ -294,4 +294,141 @@ th.historyHeader {
     font-size: 0.9em;  
 }
 
+/**************** Webgrid ***************************/
+.webgrid-table {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    width: 1050px;
+    display: table;
+    border-collapse: collapse;
+    border: solid px #C5C5C5;
+    background-color: white;
+}
+
+webgrid-table tr, td, th {
+    /*border: 1px solid #C5C5C5; */
+    padding: 8px 7px 8px;
+}
+
+.webgrid-header, .webgrid-header a {
+    background-color: #f9f9f9;
+    color: #494A4A;
+    text-align: left;
+    text-decoration: none;
+}
+
+.webgrid-footer {
+}
+
+.webgrid-row-style {
+    padding: 3px 7px 2px;
+}
+
+.webgrid-alternating-row {
+    background-color: #f9f9f9;
+    padding: 3px 7px 2px;
+}
+
+.colZeroWidth {
+    width: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.colMiniminiWidth {
+    width: 5px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.colMinWidth {
+    width: 50px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.col1Width {
+    width: 100px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.col2Width {
+    width: 200px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.col3Width {
+    width: 220px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.col4Width {
+    width: 320px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+.col5Width {
+    width: 400px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
+label {
+    font-weight: normal;
+    width: 100px;
+    padding: 3px 7px 2px;
+}
+
+.longColumnText {
+    white-space: nowrap;
+    /*word-wrap: break-word;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*.longColumnText:hover {
+    word-wrap: break-word;
+    overflow: auto;
+}*/
+
+#informationText input, select, textarea {
+    max-width: 500px !important;
+}
+
+#Filmask {
+    max-width: 400px !important;
+}
+
+.checkbox {
+    display: inline;
+}
+
+/*#Obligatory .checkbox{
+    display: inline !important;
+}*/
+
+.centered {
+    text-align: center;
+}
+
+.nodisplay {
+    display: none;
+}
+
+.control-label-medium {
+    width: 200px;
+}
+
+
+
+.control-label-wide {
+    width: 300px;
+}
+
+
 

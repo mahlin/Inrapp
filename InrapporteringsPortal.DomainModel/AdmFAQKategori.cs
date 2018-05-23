@@ -9,6 +9,7 @@ namespace InrapporteringsPortal.DomainModel
     {
         public int Id { get; set; }
         public string Kategori { get; set; }
+        public int? Sortering{ get; set; }
         public DateTime SkapadDatum { get; set; }
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }

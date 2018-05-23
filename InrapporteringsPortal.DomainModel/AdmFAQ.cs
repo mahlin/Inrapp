@@ -12,6 +12,7 @@ namespace InrapporteringsPortal.DomainModel
         public int FAQkategoriId { get; set; }
         public string Fraga { get; set; }
         public string Svar { get; set; }
+        public int? Sortering { get; set; }
         public DateTime SkapadDatum { get; set; }
         public string SkapadAv { get; set; }
         public DateTime AndradDatum { get; set; }

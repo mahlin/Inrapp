@@ -9,7 +9,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/Scripts/custom/custom.js")
 
     <link href="@Url.Content("~/Content/NavBarDev.css")" rel="stylesheet" type="text/css"/>
 
@@ -42,10 +41,17 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav" style="margin-top: 20px">
-                <li>@Html.ActionLink("Inrapporteringsportal", "Index", "Home")</li>
                 <li>@Html.ActionLink("Lämna uppgifter", "Index", "FileUpload")</li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Leveransöversikt <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("All historik", "Index", "History")</li>
+                        <li>@Html.ActionLink("Leveransstatus", "Index", "History")</li>
+                    </ul>
+                </li>
                 <li>@Html.ActionLink("Hjälp", "About", "Home")</li>
                 <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

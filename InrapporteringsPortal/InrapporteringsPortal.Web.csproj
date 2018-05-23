@@ -231,6 +231,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -240,6 +241,7 @@
     <Compile Include="Models\CustomErrorPageModel.cs" />
     <Compile Include="Models\CustomIdentityResultErrorDescriber.cs" />
     <Compile Include="Models\ViewModels\AboutViewModel.cs" />
+    <Compile Include="Models\HistoryViewModels.cs" />
     <Compile Include="Models\ViewModels\FilesViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -530,6 +532,7 @@
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload.css" />
     <Content Include="Content\jQuery.FileUpload\img\loading.gif" />
     <Content Include="Content\jQuery.FileUpload\img\progressbar.gif" />
+    <Content Include="Content\NavBarProd.css" />
     <Content Include="Content\NavBarDev.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -713,6 +716,7 @@
     <Content Include="Views\Manage\AddContactNumber.cshtml" />
     <Content Include="Views\Shared\_LayoutUtv.cshtml" />
     <Content Include="Views\Shared\_LayoutClosedUtv.cshtml" />
+    <Content Include="Views\History\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

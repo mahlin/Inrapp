@@ -334,6 +334,7 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmFAQKategori>().ToTable("admFAQKategori");
             modelBuilder.Entity<AdmFAQKategori>().Property(e => e.Id).HasColumnName("faqkategoriid");
             modelBuilder.Entity<AdmFAQKategori>().Property(e => e.Kategori).HasColumnName("kategori");
+            modelBuilder.Entity<AdmFAQKategori>().Property(e => e.Sortering).HasColumnName("sortering");
             modelBuilder.Entity<AdmFAQKategori>().Property(e => e.SkapadDatum).HasColumnName("skapaddatum");
             modelBuilder.Entity<AdmFAQKategori>().Property(e => e.SkapadAv).HasColumnName("skapadav");
             modelBuilder.Entity<AdmFAQKategori>().Property(e => e.AndradDatum).HasColumnName("andraddatum");
@@ -346,6 +347,7 @@ namespace InrapporteringsPortal.DataAccess
             modelBuilder.Entity<AdmFAQ>().Property(e => e.FAQkategoriId).HasColumnName("faqkategoriid");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.Fraga).HasColumnName("fraga");
             modelBuilder.Entity<AdmFAQ>().Property(e => e.Svar).HasColumnName("svar");
+            modelBuilder.Entity<AdmFAQ>().Property(e => e.Sortering).HasColumnName("sortering");
             modelBuilder.Entity<AdmFAQ>()
                 .HasRequired(c => c.AdmFAQKategori)
                 .WithMany(d => d.AdmFAQ)

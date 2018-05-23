@@ -193,7 +193,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 Namn = delReg.Delregisternamn,
                 Kortnamn = delReg.Kortnamn,
                 InfoText = delReg.AdmRegister.Beskrivning + "<br>" + delReg.Beskrivning,
-                Slussmapp = delReg.Slussmapp,
+                Slussmapp = delReg.Slussmapp
             };
             
 
@@ -533,8 +533,17 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public IEnumerable<AdmFAQKategori> GetFAQs()
         {
-            var faqs = DbContext.AdmFAQKategori.Include(x => x.AdmFAQ).ToList();
+            //var faqs = DbContext.AdmFAQKategori.Include(x => x.AdmFAQ).OrderBy(x => x.Sortering).ToList();
+            var faqs = DbContext.AdmFAQKategori.OrderBy(x => x.Sortering).ToList();
+
+            //Hämta FAQs per kategori separat (pga orderby)
+            foreach (var faqCat in faqs)
+            {
+                faqCat.AdmFAQ = DbContext.AdmFAQ.Where(x => x.FAQkategoriId == faqCat.Id).OrderBy(x => x.Sortering).ToList();
+            }
+
             return faqs;
+           
         }
 
 
