@@ -10,8 +10,10 @@ using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
+using InrapporteringsPortal.DomainModel;
 using InrapporteringsPortal.Web.Models;
 using InrapporteringsPortal.Web.Models.ViewModels;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace InrapporteringsPortal.Web.Controllers
@@ -41,10 +43,13 @@ namespace InrapporteringsPortal.Web.Controllers
             var model = new HistoryViewModels.HistoryViewModel();
             try
             {
+                var userId = User.Identity.GetUserId();
                 var userOrg = _portalService.HamtaOrgForAnvandare(User.Identity.GetUserId());
                 IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(userOrg.Id);
                 model.HistorikLista = historyFileList.ToList();
                 model.OrganisationsNamn = userOrg.Organisationsnamn;
+                IEnumerable<AdmRegister> admRegList = _portalService.HamtaRegisterForAnvandare(userId, userOrg.Id);
+                model.RegisterList = ConvertAdmRegisterToViewModel(admRegList.ToList());
             }
             catch (Exception e)
             {
@@ -60,6 +65,39 @@ namespace InrapporteringsPortal.Web.Controllers
 
 
             return View(model);
+        }
+
+        private List<HistoryViewModels.AdmRegisterViewModel> ConvertAdmRegisterToViewModel(List<AdmRegister> admRegisterList)
+        {
+            var registerList = new List<HistoryViewModels.AdmRegisterViewModel>();
+            foreach (var register in admRegisterList)
+            {
+                var delregisterList = new List<HistoryViewModels.AdmDelregisterViewModel>();
+                var registerView = new HistoryViewModels.AdmRegisterViewModel()
+                {
+                    Id = register.Id,
+                    Registernamn = register.Registernamn,
+                    Beskrivning = register.Beskrivning,
+                    Kortnamn = register.Kortnamn
+                };
+
+                foreach (var delregister in register.AdmDelregister)
+                {
+                    var delregisterView = new HistoryViewModels.AdmDelregisterViewModel()
+                    {
+                        Id = delregister.Id,
+                        RegisterId = delregister.RegisterId,
+                        Delregisternamn = delregister.Delregisternamn,
+                        Kortnamn = delregister.Kortnamn,
+                        Beskrivning = delregister.Beskrivning
+                    };
+                    delregisterList.Add(delregisterView);
+
+                }
+                registerView.DelRegister = delregisterList.ToList();
+                registerList.Add(registerView);
+            }
+            return registerList;
         }
     }
 }

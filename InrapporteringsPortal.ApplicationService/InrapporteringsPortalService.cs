@@ -190,7 +190,7 @@ namespace InrapporteringsPortal.ApplicationService
 
         public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId)
         {
-            var registerList = _portalRepository.GetChosenRegistersForUser(userId);
+            var registerList = _portalRepository.GetChosenDelRegistersForUser(userId);
             //var allaRegisterList = _portalRepository.GetAllRegisterInformation();
             var allaRegisterList = _portalRepository.GetAllRegisterInformationForOrganisation(orgId);
             var userRegisterList = new List<RegisterInfo>();
@@ -240,7 +240,7 @@ namespace InrapporteringsPortal.ApplicationService
 
         public IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId, int orgId)
         {
-            var registerList = _portalRepository.GetChosenRegistersForUser(userId);
+            var registerList = _portalRepository.GetChosenDelRegistersForUser(userId);
             //var allaRegisterList = _portalRepository.GetAllRegisterInformation();
             var allaRegisterList = _portalRepository.GetAllRegisterInformationForOrganisation(orgId);
 
@@ -258,6 +258,15 @@ namespace InrapporteringsPortal.ApplicationService
             return allaRegisterList;
         }
 
+
+        public IEnumerable<AdmRegister> HamtaRegisterForAnvandare(string userId, int orgId)
+        {
+            var registerList = _portalRepository.GetChosenRegistersForUser(userId);
+            //Rensa bort dubbletter avseende kortnamn
+            //IEnumerable<string> allaKortnamn = registerList.Select(x => x.Kortnamn).Distinct();
+
+            return registerList;
+        }
         public void UppdateraNamnForAnvandare(string userId, string userName)
         {
             _portalRepository.UpdateNameForUser(userId,userName);

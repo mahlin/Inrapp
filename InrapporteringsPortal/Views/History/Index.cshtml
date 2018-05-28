@@ -3,139 +3,142 @@
     ViewBag.Title = "Historik";
 }
 
+<script>
+    var registerLista  = @Html.Raw(Json.Encode(Model.RegisterList));
+</script>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
-        
-        $("#gridContent tbody tr").each(function(i, row) {
+        createRadioButtons();
+        $("#historyGridContent tbody tr").each(function (i, row) {
             var $actualRow = $(row);
             var x = $actualRow.find('td:eq(4)').html().trim();
-            //$actualRow.find('td:eq(0)').hide();
-            //$actualRow.find('td:eq(1)').hide();
-            //$actualRow.find('td:eq(2)').hide();
-            if (($actualRow.find('td:eq(4)').html().trim() === 'Inget att rapportera') || ($actualRow.find('td:eq(4)').html().trim() === 'Leveransen är godkänd med varningar') ){
+            if (($actualRow.find('td:eq(4)').html().trim() === 'Inget att rapportera') || ($actualRow.find('td:eq(4)').html().trim() === 'Leveransen är godkänd med varningar')) {
                 $actualRow.css('background-color', 'rgba(130, 224, 170, 0.4)');
-            }  
-            //var rows = $(".greenRow").closest('tr');
-            //$(rows).css('background-color', 'rgba(130, 224, 170, 0.4)');
+            }
         });
+
+        $("input[type='radio']").on('change', function () {
+            var selectedregId = $("input[name='regName']:checked").val();
+            if (selectedregId) {
+                //alert("Hello, your favorite programming language= " + selectedregId);
+                showOnlySelectedRegister(selectedregId);
+            }
+        });
+
     });
 
-    //$(function () {
-    //    //$("#txtRegkortnamn").focus();
-    //});
+    function showOnlySelectedRegister(registerId) {
+        //Loopa igenom hela historiktabellen. Visa endast de rader som har delreg-kortnamn som är godkänt för valt register
+        $("#historyGridContent tbody tr").each(function(i, row) {
+            var $actualRow = $(row);
+            var $rowShortname = $actualRow.find('td:eq(0)').html().trim();
+            if (registerId === "0") {
+                $(row).show();
+            } else {
+                //Hämta delregisters kortnamn för valt register
+                    registerLista.forEach(function(register, index) {
+                        if (registerId === register.Id.toString()) {
+                            var okToShow = false;
+                            register.DelRegister.forEach(function(delreg, ix) {
+                                if ($rowShortname === delreg.Kortnamn) {
+                                    okToShow = true;
+                                }
+                            });
+                            if (okToShow) {
+                                $(row).show();
+                            } else {
+                                $(row).hide();
+                            }
+                        }
+                });
+            }
+        });
+    }
+
 
     $(document).on('change', '#ddlRegister', function () {
         $("#SelectedRegisterId").val($('#ddlRegister').val());
     });
 
-    $(function () {
-        $('.edit-mode').hide();
-        $('.edit-user, .cancel-user').on('click',
-            function () {
-                var tr = $(this).parents('tr:first');
-                tr.find('.edit-mode, .display-mode').toggle();
-            });
-        $('.save-user').on('click',
-            function () {
-                var tr = $(this).parents('tr:first');
-                var x = tr.find("#FilkravId").html();
-                var filkravId = tr.find("#FilkravId").html();
-                var namn = tr.find("#Namn").val();
+    function createRadioButtons() {
+        $('<label class="radio-inline"><input type="radio" name="regName" value="0" checked="checked">Alla</input></label>').appendTo('#radioBtns');
+        registerLista.forEach(function (register, index) {
+            $('<label class="radio-inline"><input type="radio" name="regName" value="' + register.Id.toString() + '" >' + register.Kortnamn + '</input></label>').appendTo('#radioBtns');
+        });
+    }
 
-                //Creating AdmFilkrav JSON object
-                var admFilkrav =
-                {
-                    "Id": filkravId,
-                    "Namn": namn
-                };
-                var regId = $("#SelectedRegisterId").val();
-                //Posting AdmFilkrav object to controller's Update action method
-                $.ajax({
-                    url: '/Leverans/UpdateFilkrav',
-                    data: JSON.stringify({
-                        filkrav: admFilkrav,
-                        regId: regId
-                    })
-                    ,
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        //location.reload();
-                        $("#pageContainer").html(data);
-                        tr.find('.edit-mode, .display-mode').toggle();
-                        $('#footer').hide();
-                        //alert('Record updated Successfully!!');
-                    }
-                });
-
-            });
-
-        $('.edit-user').on('click',
-            function () {
-                var tr = $(this).parents('tr:first');
-                var namn = tr.find("#Namn").val();
-
-                tr.find("#lblNamn").text(namn);
-            });
-    });
 </script>
 
 <div class="row padding-top-55">
     <H4>All historik för @Html.Raw(Model.OrganisationsNamn) </H4>
 </div>
 
-<div id="pageContainer">
-        @*<div class="row">
-                <div class="col-md-8 padding-top-55">
-                    <h4>Administrera filkrav</h4>
-                    <br />
-                    <section id="orgForm">
-                        @using (Html.BeginForm("GetAllHistoryinfo", "History", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            <div class="row">
-                                <div class="col-md-8 form-group" style="width: 225px !important; margin-left: 5px;">
-                                    @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style = "max-width:150px !important" })
-                                </div>
-                                <div class="col-md-8" style="padding-left: 0px; margin-left: -10px;">
-                                    <div><input type="submit" value="Visa" class="btn btn-default" /></div>
-                                </div>
-                            </div>
-                        }
-                    </section>
-                </div>
-            </div>*@
-
-        @if (Model != null)
-        {
-            <div id="gridContent" style="font-family: Arial; padding-top: 20px; margin-left: -10px;">
-                @{
-                    ViewBag.Title = "Historik";
-                    var grid = new WebGrid(source: Model.HistorikLista, canPage: true, rowsPerPage: 10, ajaxUpdateContainerId: "historyGrid");
-                    grid.Pager(WebGridPagerModes.All);
-                }
-
-
-                @grid.GetHtml(htmlAttributes: new { id = "historyTable" },
-                         tableStyle: "webgrid-table",
-                         headerStyle: "webgrid-header",
-                         footerStyle: "webgrid-footer",
-                         alternatingRowStyle: "webgrid-alternating-row",
-                         selectedRowStyle: "webgrid-selected-row",
-                         rowStyle: "webgrid-row-style",
-                         mode: WebGridPagerModes.All,
-                         columns: grid.Columns(
-                             grid.Column("RegisterKortnamn", "Uppgifter"),
-                             grid.Column("Period", "Period", style: "description"),
-                             grid.Column("Leveranstidpunkt", "Leveranstidpunkt"),
-                             grid.Column("LeveransId", "Leveransid"),
-                             grid.Column("Leveransstatus", " Leveransstatus"),
-                             grid.Column("Filnamn", "Filnamn"),
-                             grid.Column("Filstatus", "Filstatus"),
-                             grid.Column("Resultatfil", "Återkoppling")
-                         ))
-            </div>
-        }
+<div id="radioBtns">
+    @*<label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
+    <label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
+    <label class="radio-inline"><input type="radio" name="optradio">Option 3</label>
+    <div class="radio">
+        <label><input type="radio" name="optradio">Option 2</label>
     </div>
+    <div class="radio disabled">
+        <label><input type="radio" name="optradio" disabled>Option 3</label>
+    </div>*@
+</div>
+
+<div id="pageContainer">
+    @*<div class="row">
+            <div class="col-md-8 padding-top-55">
+                <h4>Administrera filkrav</h4>
+                <br />
+                <section id="orgForm">
+                    @using (Html.BeginForm("GetAllHistoryinfo", "History", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-8 form-group" style="width: 225px !important; margin-left: 5px;">
+                                @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style = "max-width:150px !important" })
+                            </div>
+                            <div class="col-md-8" style="padding-left: 0px; margin-left: -10px;">
+                                <div><input type="submit" value="Visa" class="btn btn-default" /></div>
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>*@
+
+    @if (Model != null)
+    {
+        <div id="historyGridContent" style="font-family: Arial; padding-top: 20px; margin-left: -15px;">
+            @{
+                ViewBag.Title = "Historik";
+                var grid = new WebGrid(source: Model.HistorikLista, canPage: false, ajaxUpdateContainerId: "historyGrid");
+            }
+
+
+            @grid.GetHtml(htmlAttributes: new { id = "historyTable" },
+                          tableStyle: "webgrid-table",
+                          headerStyle: "webgrid-header",
+                          footerStyle: "webgrid-footer",
+                          alternatingRowStyle: "webgrid-alternating-row",
+                          selectedRowStyle: "webgrid-selected-row",
+                          rowStyle: "webgrid-row-style",
+                          mode: WebGridPagerModes.All,
+                          columns: grid.Columns(
+                              grid.Column("RegisterKortnamn", "Uppgifter"),
+                              grid.Column("Period", "Period", style: "description"),
+                              grid.Column("Leveranstidpunkt", "Leveranstidpunkt"),
+                              grid.Column("LeveransId", "Leveransid"),
+                              grid.Column("Leveransstatus", " Leveransstatus"),
+                              grid.Column("Filnamn", "Filnamn"),
+                              grid.Column("Filstatus", "Filstatus"),
+                              grid.Column(format: (item) => (item.Resultatfil == "Ej kontrollerad" || item.Resultatfil.Trim() == "-") ?
+                                 item.Resultatfil :
+                                 Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = (string)item.Resultatfil }, null)
+                          )))
+        </div>
+    }
+</div>
 
 

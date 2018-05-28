@@ -54,7 +54,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         string GetEnhetskodForLeverans(int orgenhetsid);
 
-        IEnumerable<Roll> GetChosenRegistersForUser(string userId);
+        IEnumerable<Roll> GetChosenDelRegistersForUser(string userId);
+
+        IEnumerable<AdmRegister> GetChosenRegistersForUser(string userId);
 
         string GetUserName(string userId);
 

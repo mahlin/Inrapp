@@ -47,6 +47,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId, int orgId);
 
+        IEnumerable<AdmRegister> HamtaRegisterForAnvandare(string userId, int orgId);
+
         AdmUppgiftsskyldighet HamtaUppgiftsskyldighetForOrganisationOchRegister(int orgId, int delregid);
 
         int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period);

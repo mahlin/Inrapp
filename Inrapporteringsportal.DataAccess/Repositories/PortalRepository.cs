@@ -15,6 +15,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         public PortalRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
+            //DbContext.Configuration.ProxyCreationEnabled = false;
         }
 
 
@@ -353,13 +354,40 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return enhetskod;
         }
 
-        public IEnumerable<Roll> GetChosenRegistersForUser(string userId)
+        public IEnumerable<Roll> GetChosenDelRegistersForUser(string userId)
         {
             var rollList = new List<Roll>();
 
             rollList = DbContext.Roll.Where(x => x.ApplicationUserId == userId).ToList();
 
             return rollList;
+        }
+
+        public IEnumerable<AdmRegister> GetChosenRegistersForUser(string userId)
+        {
+            var rollList = new List<Roll>();
+            var registerList = new List<AdmRegister>();
+            var regIdList = new List<int>(); 
+
+            rollList = DbContext.Roll.Where(x => x.ApplicationUserId == userId).ToList();
+
+            foreach (var roll in rollList)
+            {
+                var tmp = DbContext.AdmDelregister.Where(x => x.Id == roll.DelregisterId).FirstOrDefault();
+                var delregister = DbContext.AdmDelregister.SingleOrDefault(x => x.Id == roll.DelregisterId);
+                var registerId = DbContext.AdmRegister.Where(x => x.Id == delregister.RegisterId).Select(x => x.Id)
+                    .SingleOrDefault();
+                regIdList.Add(registerId);
+            }
+
+            //rensa bort dubbletter och hämta delregister för varje register
+            var regIdListDistinct = regIdList.Distinct();
+            foreach (var registerId in regIdListDistinct)
+            {
+                var register = DbContext.AdmRegister.Where(x => x.Id == registerId).Include(x => x.AdmDelregister).SingleOrDefault();
+                registerList.Add(register);
+            }
+            return registerList;
         }
 
         public string GetPeriodForAktuellLeverans(int forvLevid)
