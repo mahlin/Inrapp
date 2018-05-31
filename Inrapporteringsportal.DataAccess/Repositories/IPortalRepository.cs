@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using InrapporteringsPortal.DomainModel;
 
 namespace Inrapporteringsportal.DataAccess.Repositories
@@ -16,9 +17,13 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId);
 
+        Leverans GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(int orgId, int subdirId, int forvlevId);
+
+        //IEnumerable<int> GetExpectedDeliveriesForSubdirectoryandPeriod(int subdirId, string period);
+
         string GetKommunKodForOrganisation(int orgId);
 
-        string GetRegisterKortnamn(int delregId);
+        string GetDelregisterKortnamn(int delregId);
 
         string GetInformationText(string infoTyp);
 
@@ -46,9 +51,11 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId);
 
+        int GetExpextedDeliveryIdForSubDirAndPeriod(int subDirId, string period);
+
         string GetPeriodForAktuellLeverans(int forvLevid);
 
-        int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period);
+        
 
         Aterkoppling GetAterkopplingForLeverans(int levId);
 
@@ -74,6 +81,15 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<AdmSpecialdag> GetSpecialDays();
 
         IEnumerable<AdmFAQKategori> GetFAQs();
+        IEnumerable<string> GetSubDirectoysPeriodsForAYear(int subdirId, int year);
+
+        IEnumerable<AdmDelregister> GetSubdirsForDirectory(int dirId);
+
+        List<DateTime> GetTaskStartForSubdir(int subdirId);
+
+        DateTime GetReportstartForRegisterAndPeriod(int dirId, string period);
+
+        DateTime GetLatestReportDateForRegisterAndPeriod(int dirId, string period);
 
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 

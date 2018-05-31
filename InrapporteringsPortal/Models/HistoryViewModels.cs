@@ -7,7 +7,7 @@ using InrapporteringsPortal.ApplicationService.DTOModel;
 using InrapporteringsPortal.ApplicationService.Helpers;
 using InrapporteringsPortal.DomainModel;
 
-namespace InrapporteringsPortal.Web.Models.ViewModels
+namespace InrapporteringsPortal.Web.Models
 {
     public class HistoryViewModels
     {
@@ -17,7 +17,11 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
             public string OrganisationsNamn { get; set; }
             public List<FilloggDetaljDTO> HistorikLista { get; set; }
             public List<AdmRegisterViewModel> RegisterList { get; set; }
+            public List<RegisterLeveransDTO> LeveransListaRegister { get; set; }
 
+            public int SelectedYear { get; set; }
+            public List<int> SelectableYears { get; set; }
+            
         }
 
 
@@ -39,6 +43,8 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
             public string Kortnamn { get; set; }
             public string Beskrivning { get; set; }
         }
+
+
 
     }
 }

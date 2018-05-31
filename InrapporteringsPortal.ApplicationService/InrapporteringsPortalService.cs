@@ -67,7 +67,7 @@ namespace InrapporteringsPortal.ApplicationService
                 var period = _portalRepository.GetPeriodForAktuellLeverans(leverans.ForvantadleveransId);
 
                 var filer = _portalRepository.GetFilerForLeveransId(leverans.Id).ToList();
-                var registerKortnamn = _portalRepository.GetRegisterKortnamn(leverans.DelregisterId);
+                var registerKortnamn = _portalRepository.GetDelregisterKortnamn(leverans.DelregisterId);
 
                 if (!filer.Any())
                 {
@@ -113,6 +113,93 @@ namespace InrapporteringsPortal.ApplicationService
             }
             var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
 
+            return sorteradHistorikLista;
+        }
+
+
+        public IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisationRegisterPeriod(int orgId, int regId, string periodForReg)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+            var sorteradHistorikLista = new List<FilloggDetaljDTO>();
+            var delregisterLista = _portalRepository.GetSubdirsForDirectory(regId);
+            //var forvLevId = _portalRepository.get
+
+            foreach (var delregister in delregisterLista)
+            {
+                //Hämta forvantadleveransid för delregister och period
+                var forvLevId = _portalRepository.GetExpextedDeliveryIdForSubDirAndPeriod(delregister.Id, periodForReg);
+                var senasteLeverans =
+                    _portalRepository.GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(orgId, delregister.Id,
+                        forvLevId);
+
+                if (senasteLeverans != null)
+                {
+                    var filloggDetalj = new FilloggDetaljDTO();
+                    //Kolla om återkopplingsfil finns för aktuell leverans
+                    var aterkoppling = _portalRepository.GetAterkopplingForLeverans(senasteLeverans.Id);
+
+                    //Kolla om enhetskod finns för aktuell leverans (stadsdelsleverans)
+                    var enhetskod = String.Empty;
+                    if (senasteLeverans.OrganisationsenhetsId != null)
+                    {
+                        var orgenhetid = Convert.ToInt32(senasteLeverans.OrganisationsenhetsId);
+                        enhetskod = _portalRepository.GetEnhetskodForLeverans(orgenhetid);
+                    }
+
+                    //Hämta period för aktuell leverans
+                    var period = _portalRepository.GetPeriodForAktuellLeverans(senasteLeverans.ForvantadleveransId);
+
+                    var filer = _portalRepository.GetFilerForLeveransId(senasteLeverans.Id).ToList();
+                    var registerKortnamn = _portalRepository.GetDelregisterKortnamn(senasteLeverans.DelregisterId);
+
+                    if (!filer.Any())
+                    {
+                        filloggDetalj = new FilloggDetaljDTO();
+                        filloggDetalj.Id = 0;
+                        filloggDetalj.LeveransId = senasteLeverans.Id;
+                        filloggDetalj.Filnamn = " - ";
+                        filloggDetalj.Filstatus = " - ";
+                        filloggDetalj.Kontaktperson = senasteLeverans.ApplicationUserId;
+                        filloggDetalj.Leveransstatus = senasteLeverans.Leveransstatus;
+                        filloggDetalj.Leveranstidpunkt = senasteLeverans.Leveranstidpunkt;
+                        filloggDetalj.RegisterKortnamn = registerKortnamn;
+                        filloggDetalj.Resultatfil = " - ";
+                        filloggDetalj.Enhetskod = enhetskod;
+                        filloggDetalj.Period = period;
+                        if (aterkoppling != null)
+                        {
+                            filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
+                            filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+                        }
+                        historikLista.Add(filloggDetalj);
+                    }
+                    else
+                    {
+                        foreach (var fil in filer)
+                        {
+                            filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+                            filloggDetalj.Kontaktperson = senasteLeverans.ApplicationUserId;
+                            filloggDetalj.Leveransstatus = senasteLeverans.Leveransstatus;
+                            filloggDetalj.Leveranstidpunkt = senasteLeverans.Leveranstidpunkt;
+                            filloggDetalj.RegisterKortnamn = registerKortnamn;
+                            filloggDetalj.Resultatfil = "Ej kontrollerad";
+                            filloggDetalj.Enhetskod = enhetskod;
+                            filloggDetalj.Period = period;
+                            if (aterkoppling != null)
+                            {
+                                filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
+                                filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+                            }
+                            historikLista.Add(filloggDetalj);
+                        }
+                    }
+                }
+            }
+            if (historikLista.Count > 0)
+            {
+                sorteradHistorikLista = historikLista.OrderByDescending(x => x.Enhetskod).ThenByDescending(x => x.Id).ToList();
+            }
+            
             return sorteradHistorikLista;
         }
 
@@ -540,7 +627,7 @@ namespace InrapporteringsPortal.ApplicationService
 
         public int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period)
         {
-            var forvLevId = _portalRepository.GetForvantadleveransIdForRegisterAndPeriod(delregId, period);
+            var forvLevId = _portalRepository.GetExpextedDeliveryIdForSubDirAndPeriod(delregId, period);
             return forvLevId;
         }
 
@@ -550,6 +637,66 @@ namespace InrapporteringsPortal.ApplicationService
             return faqs;
         }
 
+        public IEnumerable<string> HamtaDelregistersPerioderForAr(int delregId, int ar)
+        {
+            var perioder = _portalRepository.GetSubDirectoysPeriodsForAYear(delregId, ar);
+            return perioder;
+        }
 
+        public string HamtaSammanlagdStatusForPeriod(IEnumerable<FilloggDetaljDTO> historikLista)
+        {
+            string status = String.Empty;
+            bool ok = false;
+            bool warning = false;
+            bool error = false;
+
+            foreach (var rad in historikLista)
+            {
+                if (rad.Leveransstatus.Trim() == "Inget att rapportera" || rad.Leveransstatus == "Leveransen är godkänd" || rad.Leveransstatus == "Leveransen är godkänd med varningar")
+                {
+                    ok = true;
+                }
+                else if (rad.Leveransstatus == "Leveransen är inte godkänd" || rad.Leveransstatus == "Levererad")
+                {
+                    error = true;
+                }
+            }
+
+            if (ok && error)
+                status = "warning";
+            else if (!ok && error)
+                status = "error";
+            else if (ok && !error)
+                status = "ok";
+
+            return status;
+        }
+
+        public List<int> HamtaValbaraAr(int delregId)
+        {
+            var arsLista = new List<int>();
+            var uppgiftsstartLista = _portalRepository.GetTaskStartForSubdir(delregId);
+
+            foreach (var uppgiftsstart in uppgiftsstartLista)
+            {
+                var year = uppgiftsstart.Year;
+                if (!arsLista.Contains(year))
+                    arsLista.Add(year);
+            }
+
+            return arsLista;
+        }
+
+        public DateTime HamtaRapporteringsstartForRegisterOchPeriod(int regId, string period)
+        {
+            var rappStart = _portalRepository.GetReportstartForRegisterAndPeriod(regId, period);
+            return rappStart;
+        }
+
+        public DateTime HamtaSenasteRapporteringForRegisterOchPeriod(int regId, string period)
+        {
+            var rappSenast = _portalRepository.GetLatestReportDateForRegisterAndPeriod(regId, period);
+            return rappSenast;
+        }
     }
 }

@@ -3,6 +3,7 @@ using InrapporteringsPortal.DomainModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 
 
@@ -70,6 +71,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             return levIdnForOrg;
 
+        }
+
+        public Leverans GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(int orgId, int subdirId, int forvlevId)
+        {
+            var latestsDeliveryForOrgAndSubdirectory = AllaLeveranser()
+                .Where(a => a.OrganisationId == orgId && a.DelregisterId == subdirId &&
+                            a.ForvantadleveransId == forvlevId).OrderByDescending(x => x.Id).FirstOrDefault();
+            return latestsDeliveryForOrgAndSubdirectory;
         }
 
         public string GetKommunKodForOrganisation(int orgId)
@@ -293,7 +302,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         }
 
-        public string GetRegisterKortnamn(int delregId)
+        public string GetDelregisterKortnamn(int delregId)
         {
             //var register = DbContext.AdmRegister.ToList();
             //var tmp = DbContext.AdmRegister.Include(x => x.AdmDelregister).ToList();
@@ -399,6 +408,24 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         public List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId)
         {
             var periods = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDirId).ToList();
+            return periods;
+        }
+
+        public int GetExpextedDeliveryIdForSubDirAndPeriod(int subDirId, string period)
+        {
+            var forvLevId = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDirId && x.Period == period)
+                .Select(x => x.Id).SingleOrDefault();
+            return forvLevId;
+        }
+
+        public IEnumerable<string> GetSubDirectoysPeriodsForAYear(int subdirId, int year)
+        {
+            var dateFrom = new DateTime(year,01,01);
+            var dateTom = new DateTime(year, 12, 31).Date;
+            var periods = DbContext.AdmForvantadleverans
+                .Where(x => x.DelregisterId == subdirId && x.Uppgiftsstart >= dateFrom && x.Uppgiftsslut <= dateTom)
+                .Select(x => x.Period).ToList();
+
             return periods;
         }
 
@@ -552,13 +579,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             closedDays = DbContext.AdmKonfiguration.Where(x => x.Typ == "ClosedDays").Select(x => x.Varde).SingleOrDefault();
             return closedDays;
         }
-
-        public int GetForvantadleveransIdForRegisterAndPeriod(int delregId, string period)
-        {
-            var forvLevId = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == delregId && x.Period == period).Select(x => x.Id).Single();
-            return forvLevId;
-        }
-
+        
         public IEnumerable<AdmFAQKategori> GetFAQs()
         {
             //var faqs = DbContext.AdmFAQKategori.Include(x => x.AdmFAQ).OrderBy(x => x.Sortering).ToList();
@@ -574,6 +595,36 @@ namespace Inrapporteringsportal.DataAccess.Repositories
            
         }
 
+        public IEnumerable<AdmDelregister> GetSubdirsForDirectory(int dirId)
+        {
+            var subdirectories = DbContext.AdmDelregister.Where(x => x.RegisterId == dirId).ToList();
+            return subdirectories;
+        }
 
+        public List<DateTime> GetTaskStartForSubdir(int subdirId)
+        {
+            var taskstartList = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subdirId)
+                .Select(x => x.Uppgiftsstart).ToList();
+
+            return taskstartList;
+        }
+
+        public DateTime GetReportstartForRegisterAndPeriod(int dirId, string period)
+        {
+            var firstSubDirForReg = DbContext.AdmDelregister.FirstOrDefault(x => x.RegisterId == dirId);
+            var reportstart = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == firstSubDirForReg.Id && x.Period == period)
+                .Select(x => x.Rapporteringsstart).FirstOrDefault();
+
+            return reportstart;
+        }
+
+        public DateTime GetLatestReportDateForRegisterAndPeriod(int dirId, string period)
+        {
+            var firstSubDirForReg = DbContext.AdmDelregister.FirstOrDefault(x => x.RegisterId == dirId);
+            var reportstart = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == firstSubDirForReg.Id && x.Period == period)
+                .Select(x => x.Rapporteringsenast).FirstOrDefault();
+
+            return reportstart;
+        }
     }
 }

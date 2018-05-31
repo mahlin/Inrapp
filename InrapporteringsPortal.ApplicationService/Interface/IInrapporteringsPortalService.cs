@@ -12,6 +12,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
     {
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId);
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId);
+        IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisationRegisterPeriod(int orgId, int regId,string periodForReg);
 
         IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, IEnumerable<FilloggDetaljDTO> historikForOrganisation);
 
@@ -55,7 +56,16 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         IEnumerable<AdmFAQKategori> HamtaFAQs();
 
+        IEnumerable<string> HamtaDelregistersPerioderForAr(int delregId, int ar);
         List<string> HamtaGiltigaPerioderForDelregister(int delregId);
+
+        string HamtaSammanlagdStatusForPeriod(IEnumerable<FilloggDetaljDTO> historikLista);
+
+        List<int> HamtaValbaraAr(int delregId);
+
+        DateTime HamtaRapporteringsstartForRegisterOchPeriod(int regId, string period);
+
+        DateTime HamtaSenasteRapporteringForRegisterOchPeriod(int regId, string period);
 
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 

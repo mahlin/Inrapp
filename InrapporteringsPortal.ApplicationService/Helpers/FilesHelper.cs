@@ -135,7 +135,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             }
 
             //Hämta forvantadlevid beroende på vald period
-            var forvantadLevId = _portalRepository.GetForvantadleveransIdForRegisterAndPeriod(selectedRegisterId, period);
+            var forvantadLevId = _portalRepository.GetExpextedDeliveryIdForSubDirAndPeriod(selectedRegisterId, period);
             //var forvantadLevId = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.ForvantadLevransId).Single();
             StorageRoot = StorageRoot + slussmapp + "\\";
             String fullPath = Path.Combine(StorageRoot);

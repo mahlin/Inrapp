@@ -445,5 +445,22 @@ label {
     width: 1270px;
 }*/
 
+/*************** Leveransstatus ****************/
+.panelColorError {
+    border-color: red;
+}
+
+.panelColorWarning {
+    border-color: yellow
+}
+
+.panelColorOk {
+    border-color: green
+}
+
+.headerText {
+    font-size: 1.2 em;
+    font-weight: bold;
+}
 
 
