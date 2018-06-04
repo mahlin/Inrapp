@@ -136,12 +136,31 @@ namespace InrapporteringsPortal.Web.Controllers
                 var kommunKod = _portalService.HamtaKommunKodForAnvandare(User.Identity.GetUserId());
                 userName = User.Identity.GetUserName();
                 var CurrentContext = HttpContext;
-                
+
                 if (model.SelectedUnitId != null)
                     enhetskod = model.SelectedUnitId;
 
+                //Lägg till kontroll att antal filer > 0 (kan ha stoppats av användarens webbläsare (?))
+                var request = CurrentContext.Request;
+                var numFiles = request.Files.Count;
+                if (numFiles <= 0)
+                {
+                    throw new System.ArgumentException("Filer saknas vi uppladdning av fil");
+                }
+
                 filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName,
-                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.SelectedPeriod, model.RegisterList);
+                    kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.SelectedPeriod,
+                    model.RegisterList);
+            }
+            catch (ArgumentException e)
+            {
+                ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Filer saknas vi uppladdning av fil.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                RedirectToAction("CustomError", new { model = errorModel });
             }
             catch (Exception e)
             {
@@ -160,7 +179,7 @@ namespace InrapporteringsPortal.Web.Controllers
             bool isEmpty = !resultList.Any();
             if (isEmpty)
             {
-                return Json("Error ");
+                return Json("Error");
             }
             else
             {

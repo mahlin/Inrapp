@@ -41,8 +41,8 @@ $(document).ready(function () {
     $('#btnSubmit').click(function() {
         var jqXHR = $('#fileupload').fileupload('send', { files: filelist })
             .success(function (result, textStatus, jqXHR) {
-                $("#filTabell tbody tr.template-upload").remove();
-                $("#updateHistoryForm").submit();
+                    $("#filTabell tbody tr.template-upload").remove();
+                    $("#updateHistoryForm").submit();
             })
             .error(function (jqXHR, textStatus, errorThrown) {/* ... */ })
             .complete(function(result, textStatus, jqXHR) {

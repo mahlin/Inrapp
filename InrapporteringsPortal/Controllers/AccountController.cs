@@ -126,7 +126,15 @@ namespace InrapporteringsPortal.Web.Controllers
                                 Id = user.Id,
                                 Number = phoneNumber.Result
                             };
-                            return await this.AddPhoneNumber(phoneNumberModel);
+                            if (phoneNumberModel.Number == null)
+                            {
+                                return View("AddPhoneNumber", phoneNumberModel);
+                            }
+                            else
+                            {
+                                return await this.AddPhoneNumber(phoneNumberModel);
+                            }
+                            
                         }
                         else
                         {
