@@ -99,57 +99,58 @@
                                 {
                                     <table class="table table-striped" id="historyTable">
                                         <thead>
-                                            <tr class="historyHeader" style="background-color: #f9f9f9;">
-                                                <th>Uppgifter</th>
-                                                <th>Leveranstidpunkt</th>
-                                                <th>Leveransid</th>
-                                                <th>Leveransstatus</th>
-                                                <th>Filnamn</th>
-                                                <th>Filstatus</th>
-                                                <th>Återkoppling</th>
-                                            </tr>
+                                        <tr class="historyHeader" style="background-color: #f9f9f9;">
+                                            <th>Uppgifter</th>
+                                            <th>Leveranstidpunkt</th>
+                                            <th>Leveransid</th>
+                                            <th>Leveransstatus</th>
+                                            <th>Filnamn</th>
+                                            <th>Filstatus</th>
+                                            <th>Återkoppling</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (FilloggDetaljDTO loggRad in Model.LeveransListaRegister.ElementAt(i).Leveranser.ElementAt(index).HistorikLista)
-                                            {
-                                                <tr>
-                                                    <td>@loggRad.RegisterKortnamn</td>
-                                                    <td>@loggRad.Leveranstidpunkt</td>
-                                                    <td>
-                                                        @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
-                                                        {
-                                                            @loggRad.LeveransId
-                                                            @Html.Raw("/")
-                                                            @loggRad.Enhetskod
-                                                        }
-                                                        else
-                                                        {
-                                                            @loggRad.LeveransId
-                                                        }
-                                                    </td>
-                                                    <td>@loggRad.Leveransstatus</td>
-                                                    <td>@loggRad.Filnamn</td>
-                                                    <td>@loggRad.Filstatus</td>
-                                                    @if (loggRad.Resultatfil == "Ej kontrollerad" || loggRad.Resultatfil == " - ")
+                                        @foreach (FilloggDetaljDTO loggRad in Model.LeveransListaRegister.ElementAt(i).Leveranser.ElementAt(index).HistorikLista)
+                                        {
+                                            <tr>
+                                                <td>@loggRad.RegisterKortnamn</td>
+                                                <td>@loggRad.Leveranstidpunkt</td>
+                                                <td>
+                                                    @if (!String.IsNullOrWhiteSpace(loggRad.Enhetskod))
                                                     {
-                                                        <td>@loggRad.Resultatfil</td>
+                                                        @loggRad.LeveransId
+                                                        @Html.Raw("/")
+                                                        @loggRad.Enhetskod
                                                     }
                                                     else
                                                     {
-                                                        <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = loggRad.Resultatfil }, null)</td>
+                                                        @loggRad.LeveransId
                                                     }
-                                                </tr>
-                                            }
+                                                </td>
+                                                <td>@loggRad.Leveransstatus</td>
+                                                <td>@loggRad.Filnamn</td>
+                                                <td>@loggRad.Filstatus</td>
+                                                @if (loggRad.Resultatfil == "Ej kontrollerad" || loggRad.Resultatfil == " - ")
+                                                {
+                                                    <td>@loggRad.Resultatfil</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new {fileName = loggRad.Resultatfil}, null)</td>
+                                                }
+                                            </tr>
+                                        }
                                         </tbody>
                                     </table>
                                 }
                             }
-                        </div>
+                            }
+                        </div> 
                     </div>
                 </div>
             }
         </div>
+        <hr>
     }
-    <hr>
 }
 
