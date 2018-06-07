@@ -52,14 +52,14 @@ namespace InrapporteringsPortal.Web.Controllers
         [Authorize] 
         public ActionResult Index()
         {
-            //Kolla om öppet, annars visa stängt-sida
-            if (!_portalService.IsOpen())
-            {
-                ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
-                return View("Closed");
-            }
             try
             {
+                //Kolla om öppet, annars visa stängt-sida
+                if (!_portalService.IsOpen())
+                {
+                    ViewBag.Text = _portalService.HamtaInformationsText("Stangtsida");
+                    return View("Closed");
+                }
                 var userOrg = _portalService.HamtaOrgForAnvandare(User.Identity.GetUserId());
                 //Hämta info om valbara register
                 var registerInfoList = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId(), userOrg.Id);
