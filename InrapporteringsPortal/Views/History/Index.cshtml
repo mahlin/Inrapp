@@ -72,7 +72,7 @@
 </script>
 
 <div class="row padding-top-55">
-    <H4>All historik för @Html.Raw(Model.OrganisationsNamn) </H4>
+    <H4>All historik för @Html.Raw(Model.OrganisationsNamn) <span style="font-size: 0.7em">(totalt antal filer: @Html.Raw(Model.HistorikLista.Count))</span></H4>
 </div>
 
 <div id="radioBtns">
@@ -126,9 +126,9 @@
                           rowStyle: "webgrid-row-style",
                           mode: WebGridPagerModes.All,
                           columns: grid.Columns(
-                              grid.Column("RegisterKortnamn", "Uppgifter"),
-                              grid.Column("Period", "Period", style: "description"),
-                              grid.Column("Leveranstidpunkt", "Leveranstidpunkt"),
+                              grid.Column("RegisterKortnamn", "Uppgifter", style: "regName"),
+                              grid.Column("Period", "Period", style: "period"),
+                              grid.Column("Leveranstidpunkt", "Leveranstidpunkt", style: "deliveryTime"),
                               grid.Column("LeveransId", "Leveransid"),
                               grid.Column("Leveransstatus", " Leveransstatus"),
                               grid.Column("Filnamn", "Filnamn"),
