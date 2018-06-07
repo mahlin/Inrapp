@@ -652,9 +652,13 @@ namespace InrapporteringsPortal.ApplicationService
 
             foreach (var rad in historikLista)
             {
-                if (rad.Leveransstatus.Trim() == "Inget att rapportera" || rad.Leveransstatus == "Leveransen är godkänd" || rad.Leveransstatus == "Leveransen är godkänd med varningar")
+                if (rad.Leveransstatus.Trim() == "Inget att rapportera" || rad.Leveransstatus == "Leveransen är godkänd")
                 {
                     ok = true;
+                }
+                else if (rad.Leveransstatus == "Leveransen är godkänd med varningar")
+                {
+                    warning = true;
                 }
                 else if (rad.Leveransstatus == "Leveransen är inte godkänd" || rad.Leveransstatus == "Levererad")
                 {
@@ -662,11 +666,11 @@ namespace InrapporteringsPortal.ApplicationService
                 }
             }
 
-            if (ok && error)
+            if (warning && !error)
                 status = "warning";
-            else if (!ok && error)
+            else if (error)
                 status = "error";
-            else if (ok && !error)
+            else if (ok && !error && !warning)
                 status = "ok";
 
             return status;
