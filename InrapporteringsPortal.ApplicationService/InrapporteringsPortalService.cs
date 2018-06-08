@@ -649,9 +649,30 @@ namespace InrapporteringsPortal.ApplicationService
             bool ok = false;
             bool warning = false;
             bool error = false;
+            bool ekbMan = false;
+            bool ekbAo = false;
+            bool sol1 = false;
+            bool sol2 = false;
 
             foreach (var rad in historikLista)
             {
+                if (rad.RegisterKortnamn == "EKB-Månad")
+                {
+                    ekbMan = true;
+                }
+                else if (rad.RegisterKortnamn == "EKB-AO")
+                {
+                    ekbAo = true;
+                }
+                else if (rad.RegisterKortnamn == "SOL1")
+                {
+                    sol1 = true;
+                }
+                else if (rad.RegisterKortnamn == "SOL2")
+                {
+                    sol2 = true;
+                }
+
                 if (rad.Leveransstatus.Trim() == "Inget att rapportera" || rad.Leveransstatus == "Leveransen är godkänd")
                 {
                     ok = true;
@@ -666,7 +687,11 @@ namespace InrapporteringsPortal.ApplicationService
                 }
             }
 
-            if (warning && !error)
+            if ((ekbMan && !ekbAo) || (!ekbMan && ekbAo))
+                status = "error";
+            else if ((sol1 && !sol2) || (!sol1 && sol2))
+                status = "error";
+            else if (warning && !error)
                 status = "warning";
             else if (error)
                 status = "error";
