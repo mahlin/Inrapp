@@ -129,8 +129,17 @@ namespace InrapporteringsPortal.Web.Controllers
                         leveransStatus.RegisterId = register.Id;
                         leveransStatus.RegisterKortnamn = register.Kortnamn;
                         leveransStatus.Period = period;
-                        leveransStatus.Rapporteringsstart = _portalService.HamtaRapporteringsstartForRegisterOchPeriod(register.Id, period);
-                        leveransStatus.Rapporteringssenast = _portalService.HamtaSenasteRapporteringForRegisterOchPeriod(register.Id, period);
+                        //TODO - fulfix. Refactor this. Special för EKB-År
+                        if (register.Kortnamn == "EKB" && period.Length == 4)
+                        {
+                            leveransStatus.Rapporteringsstart = _portalService.HamtaRapporteringsstartForRegisterOchPeriodSpecial(register.Id, period);
+                            leveransStatus.Rapporteringssenast = _portalService.HamtaSenasteRapporteringForRegisterOchPeriodSpecial(register.Id, period);
+                        }
+                        else
+                        {
+                            leveransStatus.Rapporteringsstart = _portalService.HamtaRapporteringsstartForRegisterOchPeriod(register.Id, period);
+                            leveransStatus.Rapporteringssenast = _portalService.HamtaSenasteRapporteringForRegisterOchPeriod(register.Id, period);
+                        }
                         leveransStatus.HistorikLista = _portalService.HamtaHistorikForOrganisationRegisterPeriod(userOrg.Id, register.Id, period).ToList();
                         if (leveransStatus.HistorikLista.Any())
                         {

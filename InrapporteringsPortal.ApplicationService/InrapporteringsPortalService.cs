@@ -727,5 +727,18 @@ namespace InrapporteringsPortal.ApplicationService
             var rappSenast = _portalRepository.GetLatestReportDateForRegisterAndPeriod(regId, period);
             return rappSenast;
         }
+
+        //TODO - special för EKB-År. Lös på annat sätt.
+        public DateTime HamtaRapporteringsstartForRegisterOchPeriodSpecial(int regId, string period)
+        {
+            var rappStart = _portalRepository.GetReportstartForRegisterAndPeriodSpecial(regId, period);
+            return rappStart;
+        }
+
+        public DateTime HamtaSenasteRapporteringForRegisterOchPeriodSpecial(int regId, string period)
+        {
+            var rappSenast = _portalRepository.GetLatestReportDateForRegisterAndPeriodSpecial(regId, period);
+            return rappSenast;
+        }
     }
 }

@@ -626,5 +626,24 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             return reportstart;
         }
+
+        //TODO - special för EKB-År, Lös på annat sätt. Db?
+        public DateTime GetReportstartForRegisterAndPeriodSpecial(int dirId, string period)
+        {
+            var subDir = DbContext.AdmDelregister.FirstOrDefault(x => x.RegisterId == dirId && x.Kortnamn == "EKB-År");
+            var reportstart = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDir.Id && x.Period == period)
+                .Select(x => x.Rapporteringsstart).FirstOrDefault();
+
+            return reportstart;
+        }
+
+        public DateTime GetLatestReportDateForRegisterAndPeriodSpecial(int dirId, string period)
+        {
+            var subDir= DbContext.AdmDelregister.FirstOrDefault(x => x.RegisterId == dirId && x.Kortnamn == "EKB-År");
+            var reportstart = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDir.Id && x.Period == period)
+                .Select(x => x.Rapporteringsenast).FirstOrDefault();
+
+            return reportstart;
+        }
     }
 }

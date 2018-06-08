@@ -91,6 +91,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         DateTime GetLatestReportDateForRegisterAndPeriod(int dirId, string period);
 
+        DateTime GetReportstartForRegisterAndPeriodSpecial(int dirId, string period);
+
+        DateTime GetLatestReportDateForRegisterAndPeriodSpecial(int dirId, string period);
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);
