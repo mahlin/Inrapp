@@ -19,6 +19,10 @@
             }
         });
 
+        //Sätt antal rader
+        $('#header').html("");
+        $('<H4>All historik för @Html.Raw(Model.OrganisationsNamn) <span style="font-size: 0.7em">(totalt antal filer: @Html.Raw(Model.HistorikLista.Count))</span></H4><br><br>').appendTo('#header');
+
         $("input[type='radio']").on('change', function () {
             var selectedregId = $("input[name='regName']:checked").val();
             if (selectedregId) {
@@ -31,11 +35,13 @@
 
     function showOnlySelectedRegister(registerId) {
         //Loopa igenom hela historiktabellen. Visa endast de rader som har delreg-kortnamn som är godkänt för valt register
+        var antRader = 0;
         $("#historyGridContent tbody tr").each(function(i, row) {
             var $actualRow = $(row);
             var $rowShortname = $actualRow.find('td:eq(0)').html().trim();
             if (registerId === "0") {
                 $(row).show();
+                antRader++;
             } else {
                 //Hämta delregisters kortnamn för valt register
                     registerLista.forEach(function(register, index) {
@@ -48,6 +54,7 @@
                             });
                             if (okToShow) {
                                 $(row).show();
+                                antRader++;
                             } else {
                                 $(row).hide();
                             }
@@ -55,6 +62,9 @@
                 });
             }
         });
+        //Sätt antal rader
+        $('#header').html("");
+        $('<H4>All historik för @Html.Raw(Model.OrganisationsNamn) <span style="font-size: 0.7em">(antal filer: ' + antRader + ')</span ></H4><br><br>').appendTo('#header');
     }
 
 
@@ -71,8 +81,7 @@
 
 </script>
 
-<div class="row padding-top-55">
-    <H4>All historik för @Html.Raw(Model.OrganisationsNamn) <span style="font-size: 0.7em">(totalt antal filer: @Html.Raw(Model.HistorikLista.Count))</span></H4>
+<div class="row padding-top-55" id="header">
 </div>
 
 <div id="radioBtns">
