@@ -33,45 +33,48 @@
         <tbody>
             @if (Model.HistorikLista != null)
             {
-                int i = 0;
-                while (i < 10)
-                {
-                    <tr>
-                        <td>@Model.HistorikLista[i].RegisterKortnamn</td>
-                        <td>@Model.HistorikLista[i].Period</td>
-                        <td>@Model.HistorikLista[i].Leveranstidpunkt</td>
-                        <td>
-                            @if (!String.IsNullOrWhiteSpace(Model.HistorikLista[i].Enhetskod))
+                if (Model.HistorikLista.Count > 0)
+                { 
+                    int i = 0;
+                    while (i < 10)
+                    {
+                        <tr>
+                            <td>@Model.HistorikLista[i].RegisterKortnamn</td>
+                            <td>@Model.HistorikLista[i].Period</td>
+                            <td>@Model.HistorikLista[i].Leveranstidpunkt</td>
+                            <td>
+                                @if (!String.IsNullOrWhiteSpace(Model.HistorikLista[i].Enhetskod))
+                                {
+                                    @Model.HistorikLista[i].LeveransId
+                                    @Html.Raw("/")
+                                    @Model.HistorikLista[i].Enhetskod
+                                }
+                                else
+                                {
+                                    @Model.HistorikLista[i].LeveransId
+                                }
+                            </td>
+                            @if (Model.HistorikLista[i].Leveransstatus.Trim() == "Inget att rapportera" || Model.HistorikLista[i].Leveransstatus.Trim() == "Leveransen är godkänd" || Model.HistorikLista[i].Leveransstatus.Trim() == "Leveransen är godkänd med varningar")
                             {
-                                @Model.HistorikLista[i].LeveransId
-                                @Html.Raw("/")
-                                @Model.HistorikLista[i].Enhetskod
+                                <td class="greenRow">@Model.HistorikLista[i].Leveransstatus</td>
                             }
                             else
                             {
-                                @Model.HistorikLista[i].LeveransId
+                                <td>@Model.HistorikLista[i].Leveransstatus</td>
                             }
-                        </td>
-                        @if (Model.HistorikLista[i].Leveransstatus.Trim() == "Inget att rapportera" || Model.HistorikLista[i].Leveransstatus.Trim() == "Leveransen är godkänd" || Model.HistorikLista[i].Leveransstatus.Trim() == "Leveransen är godkänd med varningar")
-                        {
-                            <td class="greenRow">@Model.HistorikLista[i].Leveransstatus</td>
-                        }
-                        else
-                        {
-                            <td>@Model.HistorikLista[i].Leveransstatus</td>
-                        }
-                        <td>@Model.HistorikLista[i].Filnamn</td>
-                        <td>@Model.HistorikLista[i].Filstatus</td>
-                        @if (Model.HistorikLista[i].Resultatfil == "Ej kontrollerad" || Model.HistorikLista[i].Resultatfil == " - ")
-                        {
-                            <td>@Model.HistorikLista[i].Resultatfil</td>
-                        }
-                        else
-                        {
-                            <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new { fileName = Model.HistorikLista[i].Resultatfil }, null)</td>
-                        }
-                    </tr>
-                    i++;
+                            <td>@Model.HistorikLista[i].Filnamn</td>
+                            <td>@Model.HistorikLista[i].Filstatus</td>
+                            @if (Model.HistorikLista[i].Resultatfil == "Ej kontrollerad" || Model.HistorikLista[i].Resultatfil == " - ")
+                            {
+                                <td>@Model.HistorikLista[i].Resultatfil</td>
+                            }
+                            else
+                            {
+                                <td>@Html.ActionLink("Visa återkopplingsfil", "DownloadFile", "FileUpload", new {fileName = Model.HistorikLista[i].Resultatfil}, null)</td>
+                            }
+                        </tr>
+                        i++;
+                    }
                 }
             }
         </tbody>
