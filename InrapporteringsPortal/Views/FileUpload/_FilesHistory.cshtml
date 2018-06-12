@@ -36,7 +36,7 @@
                 if (Model.HistorikLista.Count > 0)
                 { 
                     int i = 0;
-                    while (i < 10)
+                    while (i < 10 && i < Model.HistorikLista.Count)
                     {
                         <tr>
                             <td>@Model.HistorikLista[i].RegisterKortnamn</td>
