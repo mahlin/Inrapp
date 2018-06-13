@@ -512,7 +512,7 @@ namespace InrapporteringsPortal.ApplicationService
             {
                 if (dag.Specialdagdatum == date)
                     //Kolla klockslag
-                    if (dag.Oppna >= timeNow || dag.Stang <= timeNow)
+                    if (timeNow < dag.Oppna || timeNow >= dag.Stang)
                     {
                         return true;
                     }
