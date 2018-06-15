@@ -180,7 +180,9 @@ namespace InrapporteringsPortal.Web.Controllers
 
                 if (phoneNumber == null)
                 {
-                    return View("Error");
+                    var errorModel = new CustomErrorPageModel();
+                    errorModel.Information = "Telefonnummer saknas.";
+                    return View("CustomError", errorModel);
                 }
                 else
                 {

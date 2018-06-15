@@ -237,7 +237,9 @@ namespace InrapporteringsPortal.Web.Controllers
             // Send an SMS through the SMS provider to verify the phone number
             if (phoneNumber == null)
             {
-                return View("Error");
+                var errorModel = new CustomErrorPageModel();
+                errorModel.Information = "Telefonnummer saknas.";
+                return View("CustomError", errorModel);
             }
             else
             {

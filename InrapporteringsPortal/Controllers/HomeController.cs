@@ -89,7 +89,8 @@ namespace InrapporteringsPortal.Web.Controllers
                 var model = new AboutViewModel();
                 model.PortalClosed = closed;
                 ViewBag.Text = _portalService.HamtaInformationsText("Kontaktsida");
-                return View(model);
+                return View("FileNotFound");
+                //return View(model);
             }
             catch (Exception e)
             {
