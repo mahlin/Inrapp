@@ -645,5 +645,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
             return reportstart;
         }
+
+        public void DeleteDelivery(int deliveryId)
+        {
+            var deliveryToDelete = DbContext.Leverans.SingleOrDefault(x => x.Id == deliveryId);
+            DbContext.Leverans.Remove(deliveryToDelete);
+            DbContext.SaveChanges();
+        }
     }
 }

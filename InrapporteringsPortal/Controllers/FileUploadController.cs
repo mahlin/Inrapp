@@ -145,7 +145,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 var numFiles = request.Files.Count;
                 if (numFiles <= 0)
                 {
-                    throw new System.ArgumentException("Filer saknas vi uppladdning av fil");
+                    throw new System.ArgumentException("Filer saknas vid uppladdning av fil.");
                 }
 
                 filesHelper.UploadAndShowResults(CurrentContext, resultList, User.Identity.GetUserId(), userName,
@@ -157,7 +157,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
                 var errorModel = new CustomErrorPageModel
                 {
-                    Information = "Filer saknas vi uppladdning av fil.",
+                    Information = "Filer saknas vid uppladdning av fil.",
                     ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
                 };
                 RedirectToAction("CustomError", new { model = errorModel });

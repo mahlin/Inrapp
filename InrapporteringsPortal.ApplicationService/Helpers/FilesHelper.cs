@@ -159,6 +159,12 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 UploadWholeFile(ContentBase, resultList, hash, levId, selectedUnitId);
             }
 
+            //Om inga filer kunde sparas, rensa levid
+            if (!resultList.Any())
+            {
+                _portalRepository.DeleteDelivery(levId);
+            }
+
             //TODO - Test EncryptDecrypt
             //var krypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\krypteradUtfil.txt";
             //var dekrypteradUtfil = "C:\\Socialstyrelsen\\KrypteringTest\\dekrypteradUtfil.txt";

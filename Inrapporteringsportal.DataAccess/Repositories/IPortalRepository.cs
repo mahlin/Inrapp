@@ -110,6 +110,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void UpdateActiveFromForUser(string userId);
 
         void UpdateUserInfo(ApplicationUser user);
+
+        void DeleteDelivery(int deliveryId);
     }
 
 }

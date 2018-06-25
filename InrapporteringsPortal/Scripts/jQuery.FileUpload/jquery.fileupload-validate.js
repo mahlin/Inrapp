@@ -17,7 +17,7 @@ function CheckFileName(selectedRegister, fileName) {
     //Hämta regexp för valt register
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            selectedFilkrav = register.SelectedFilkrav;
+            var selectedFilkrav = register.SelectedFilkrav;
             register.Filkrav.forEach(function (filkrav, ix) {
                 if (selectedFilkrav === filkrav.Id) {
                     filkrav.RegExper.forEach(function (regexp, idx) {
@@ -77,7 +77,7 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
     var validPeriod = "";
     registerLista.forEach(function (register, index) {
         if (selectedRegister === register.Id.toString()) {
-            selectedFilkrav = register.SelectedFilkrav;
+            var selectedFilkrav = register.SelectedFilkrav;
             
             register.Filkrav.forEach(function (filkrav, ix) {
                 if (selectedFilkrav === filkrav.Id) {
@@ -137,7 +137,7 @@ function DoubletFiles(selectedRegister) {
     registerLista.forEach(function (register, index) {
         //alert("index:" + index + ", valt register: " + selectedRegister + ", regsiterId: " + register.Id.toString());
         if (selectedRegister === register.Id.toString()) {
-            selectedFilkrav = register.SelectedFilkrav;
+            var selectedFilkrav = register.SelectedFilkrav;
             register.Filkrav.forEach(function(filkrav, ix) {
                 if (selectedFilkrav === filkrav.Id) {
                     //Om valt filkrav har fler regularexpressions att uppfylla, kolla att bara en fil för varje regexp laddas upp
@@ -293,7 +293,7 @@ function getTableRows() {
                     //get number of required files for chosen register
                     registerLista.forEach(function (register, index) {
                         if (selectedRegister === register.Id.toString()) {
-                            selectedFilkrav = register.SelectedFilkrav;
+                            var selectedFilkrav = register.SelectedFilkrav;
                             register.Filkrav.forEach(function(filkrav, ix) {
                                 if (selectedFilkrav === filkrav.Id) {
                                     numberOfFilesForSelectedRegister =
