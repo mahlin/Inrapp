@@ -895,7 +895,7 @@
                             options);
                     }
                     if (result === "Error") {
-                        $("#thText").html("<span style='color:red;padding-bottom: 2px;'><H2>Ett fel inträffade vid uppladdning av fil/filer.</H2></span>Inga filer kunde laddas upp. Kontrollera dina webbläsarinställningar eller prova med en annan webbläsare. För mer information kontakta support.<br />");
+                        $("#thText").html("<span style='color:red;padding-bottom: 2px;'><H2>Ett fel inträffade vid uppladdning av fil/filer.</H2></span>Inga filer kunde laddas upp. Kontrollera filnamn, dina webbläsarinställningar eller prova med en annan webbläsare. För mer information kontakta support.<br />");
                     } else {
                         $("#thText").html("Uppladdade filer. Du kommer få en återkoppling på dina filer inom en timme.<br><span style='color:red;font-size:.8em'>OBS! För HSL (Kommunal hälso-och sjukvård) sker manuell återkoppling inom 48 timmar.</span>");
                     }
