@@ -489,6 +489,30 @@ namespace InrapporteringsPortal.Web.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+
+        
+
+        public ActionResult DisableAccount()
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _portalService.InaktiveraKontaktperson(userId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("ManageController", "DisableAccount", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade när ditt konto skulle inaktiveras.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                return View("CustomError", errorModel);
+            }
+            return RedirectToAction("Logoff", "Account");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

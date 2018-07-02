@@ -71,6 +71,10 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         DateTime HamtaSenasteRapporteringForRegisterOchPeriodSpecial(int regId, string period);
 
+        void InaktiveraKontaktperson(string userId);
+
+        void AktiveraKontaktperson(string userId);
+
         void SparaTillDatabasFillogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SparaValdaRegistersForAnvandare(string userId, string userName, List<RegisterInfo> registerList);

@@ -89,6 +89,8 @@ namespace InrapporteringsPortal.Web.Models
 
         [Display(Name = "Kom ihåg mig?")]
         public bool RememberMe { get; set; }
+
+        public bool DisabledAccount { get; set; }
     }
 
     public class RegisterViewModel

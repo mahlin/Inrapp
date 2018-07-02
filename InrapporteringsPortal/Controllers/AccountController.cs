@@ -99,6 +99,19 @@ namespace InrapporteringsPortal.Web.Controllers
                     ModelState.AddModelError("", "Felaktigt användarnamn eller pinkod.");
                     return View(model);
                 }
+                //Check if users organisation or user has been disabled
+                var userOrg = _portalService.HamtaOrgForAnvandare(user.Id);
+                if (userOrg.AktivTom <= DateTime.Now)
+                {
+                    ModelState.AddModelError("", "Organisationen " + userOrg.Organisationsnamn + " är inaktiv, ta kontakt med " + ConfigurationManager.AppSettings["MailSender"]);
+                    return View(model);
+                }
+                else if (user.AktivTom <= DateTime.Now)
+                {
+                    model.DisabledAccount = true;
+                    ModelState.AddModelError("", "Kontot är inaktiverat. För att återaktivera ditt konto behöver du verifiera din epostadress.");
+                    return View(model);
+                }
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
                     ModelState.AddModelError("", "Du behöver bekräfta din epostadress. Se mejl från inrapportering@socialstyrelsen.se");
@@ -347,6 +360,41 @@ namespace InrapporteringsPortal.Web.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> EnableAccount(string email)
+        {
+            try
+            {
+                var model = new RegisterViewModel();
+                var user = UserManager.FindByEmail(email);
+                //var emailText = _portalService.HamtaInformationsText()
+                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("EnableAccountConfirmEmail", "Account", new {userId = user.Id, code = code},
+                    protocol: Request.Url.Scheme);
+                var body = "Hej, </br>";
+                body = body + "Du får detta mejl för att du har valt att återaktivera ditt konto i Socialstyrelsens inrapporteringsportal, Filip. </br>";
+                body = body + "Klicka <a href='" + callbackUrl + "'>här</a> för att aktivera ditt konto.</br></br>";
+                body = body + "Om du inte har valt att återaktivera ditt konto kan du bortse från detta mejl.";
+
+                await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress",body);
+                //await UserManager.SendEmailAsync(user.Id, "Bekräfta e-postadress",
+                //    "Bekräfta din e-postadress i Socialstyrelsens inrapporteringsportal genom att klicka <a href='" + callbackUrl + "'>här</a>");
+                ViewBag.Email = email;
+                return View("DisplayEmail");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("AccountController", "EnableAccount", e.ToString(), e.HResult, email);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid återaktivering av konto för " + email,
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                return View("CustomError", errorModel);
+            }
+        }
+
         private Organisation GetOrganisationForEmailDomain(string modelEmail)
         {
                 var organisation = _portalService.HamtaOrgForEmailDomain(modelEmail);
@@ -371,6 +419,24 @@ namespace InrapporteringsPortal.Web.Controllers
                 return View("ConfirmEmail", model);
             }
            return View("Error");
+        }
+
+        // GET: /Account/EnableAccountConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> EnableAccountConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded)
+            {
+                //Enable account
+                _portalService.AktiveraKontaktperson(userId);
+                return View("EnableAccountConfirmEmail");
+            }
+            return View("Error");
         }
 
         // GET: AddPhoneNumber

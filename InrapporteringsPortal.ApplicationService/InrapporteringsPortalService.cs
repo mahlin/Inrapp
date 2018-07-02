@@ -414,6 +414,18 @@ namespace InrapporteringsPortal.ApplicationService
             return perioder;
         }
 
+        public void InaktiveraKontaktperson(string userId)
+        {
+            _portalRepository.DisableContact(userId);
+            //Remove users chosen registers
+            _portalRepository.DeleteChosenSubDirectoriesForUser(userId);
+        }
+
+        public void AktiveraKontaktperson(string userId)
+        {
+            _portalRepository.EnableContact(userId);
+        }
+
         public string MaskPhoneNumber(string phoneNumber)
         {
             var maskedPhoneNumber = String.Empty;
@@ -740,5 +752,7 @@ namespace InrapporteringsPortal.ApplicationService
             var rappSenast = _portalRepository.GetLatestReportDateForRegisterAndPeriodSpecial(regId, period);
             return rappSenast;
         }
+
+
     }
 }

@@ -652,5 +652,28 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.Leverans.Remove(deliveryToDelete);
             DbContext.SaveChanges();
         }
+
+        public void DisableContact(string userId)
+        {
+            var contactDb = DbContext.Users.SingleOrDefault(x => x.Id == userId);
+            contactDb.AktivTom = DateTime.Now;
+            DbContext.SaveChanges();
+        }
+
+        public void EnableContact(string userId)
+        {
+            var contactDb = DbContext.Users.SingleOrDefault(x => x.Id == userId);
+            contactDb.AktivTom = null;
+            DbContext.SaveChanges();
+        }
+
+        public void DeleteChosenSubDirectoriesForUser(string userId)
+        {
+            var rollList = DbContext.Roll.Where(x => x.ApplicationUserId == userId).ToList();
+            DbContext.Roll.RemoveRange(rollList);
+            DbContext.SaveChanges();
+        }
+
+
     }
 }

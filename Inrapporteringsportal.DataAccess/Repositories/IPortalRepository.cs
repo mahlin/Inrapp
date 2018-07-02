@@ -95,6 +95,10 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         DateTime GetLatestReportDateForRegisterAndPeriodSpecial(int dirId, string period);
 
+        void DisableContact(string userId);
+
+        void EnableContact(string userId);
+
         void SaveToFilelogg(string userName, string ursprungligtFilNamn, string nyttFilNamn, int leveransId, int sequenceNumber);
 
         void SaveToLoginLog(string userid, string userName);
@@ -112,6 +116,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void UpdateUserInfo(ApplicationUser user);
 
         void DeleteDelivery(int deliveryId);
+
+        void DeleteChosenSubDirectoriesForUser(string userId);
     }
 
 }

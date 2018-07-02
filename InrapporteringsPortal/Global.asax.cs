@@ -24,6 +24,21 @@ namespace InrapporteringsPortal.Web
             //log the error!
             ErrorManager.WriteToErrorLog("","", ex.Message, ex.HResult);
 
+            HttpContext ctx = HttpContext.Current;
+            KeyValuePair<string, object> error = new KeyValuePair<string, object>("ErrorMessage", ctx.Server.GetLastError().ToString());
+            ctx.Response.Clear();
+            RequestContext rc = ((MvcHandler)ctx.CurrentHandler).RequestContext;
+            string controllerName = rc.RouteData.GetRequiredString("controller");
+            IControllerFactory factory = ControllerBuilder.Current.GetControllerFactory();
+            IController controller = factory.CreateController(rc, controllerName);
+            ControllerContext cc = new ControllerContext(rc, (ControllerBase)controller);
+
+            ViewResult viewResult = new ViewResult { ViewName = "Error" };
+            viewResult.ViewData.Add(error);
+            viewResult.ExecuteResult(cc);
+            ctx.Server.ClearError();
+            //ctx.Response.End();
+
         }
 
         //Prevent direct URL access: Call [NoDirectAccess] to all controllers to block
