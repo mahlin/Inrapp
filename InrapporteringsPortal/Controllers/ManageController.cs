@@ -489,15 +489,15 @@ namespace InrapporteringsPortal.Web.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-
-        
-
+        [HttpPost]
+        [Authorize]
         public ActionResult DisableAccount()
         {
             try
             {
                 var userId = User.Identity.GetUserId();
                 _portalService.InaktiveraKontaktperson(userId);
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
             catch (Exception e)
             {
@@ -510,7 +510,32 @@ namespace InrapporteringsPortal.Web.Controllers
                 };
                 return View("CustomError", errorModel);
             }
-            return RedirectToAction("Logoff", "Account");
+            return RedirectToAction("Index", "Home");
+        }
+
+        
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult DeleteFAQ(int faqId, int faqCatId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _portalService.InaktiveraKontaktperson(userId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ErrorManager.WriteToErrorLog("SystemController", "DeleteFAQ", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade när FAQ skulle tas bort.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                return View("CustomError", errorModel);
+            }
+            return RedirectToAction("GetFAQs", new { faqCatId = faqCatId });
         }
 
         protected override void Dispose(bool disposing)

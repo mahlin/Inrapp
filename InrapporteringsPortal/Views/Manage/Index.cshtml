@@ -8,9 +8,9 @@
 
 <script type="text/javascript">
     var register = @Html.Raw(Json.Encode(Model.RegisterList));
+    var startUrl = '@System.Configuration.ConfigurationManager.AppSettings["StartUrl"]';
 
     $(document).ready(function () {
-
         var modalConfirm = function test(callback) {
 
             $("#modal-btn-si").on("click", function () {
@@ -26,39 +26,21 @@
 
         modalConfirm(function (confirm) {
             if (confirm) {
-                var url = '/Manage/DisableAccount';
-                var urlTemp;
-                var tempPathname = window.location.pathname;
-                var tempStr = tempPathname.substr(tempPathname.length - 1, 1);
-                if (tempStr == '/') {
-                    urlTemp = '../../' + url;
-                }
-                else {
-                    urlTemp = '../' + url;
-                }
-                var data = { 'userId': 0 };
                 $.ajax({
-                    url: '/InrapporteringsPortal.Web/Controllers/Manage/DisableAccount',
+                    url: startUrl + '/Manage/DisableAccount', // the file to call
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(data),
-                    success: function (data) {
-                        var x = 1;
+                    success: function () {
                         //On ajax success do this
-                        //$("#pageContainer").html(data);
-                        //tr.find('.edit-mode, .display-mode').toggle();
-                        //$('#footer').hide();
+                        document.location.href = startUrl + '/Home/Index';
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         alert('error:' + errorThrown);
                     }
                 });
-            } else {
-                //Do nothing
-                //$("#result").html("NO CONFIRMADO");
             }
         });
-
+        
         $('[id*=RegList]').multiselect({
             onInitialized: function() {
                 $.each(register, function (index, item) {
@@ -118,33 +100,35 @@
 
 </script>
 
-<div class="modal fade ui-widget-content" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body" id="modal-body">
-                <p>
+<div id="pageContainer">
 
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="modal-btn-si">Ja</button>
-                <button type="button" class="btn btn-default" id="modal-btn-no">Avbryt</button>
+    <div class="modal fade ui-widget-content" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body" id="modal-body">
+                    <p>
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="modal-btn-si">Ja</button>
+                    <button type="button" class="btn btn-default" id="modal-btn-no">Avbryt</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="padding-top-55">
-    <h2>@ViewBag.Title</h2> 
-</div>
+    <div class="padding-top-55">
+        <h2>@ViewBag.Title</h2>
+    </div>
 
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
+    <p class="text-success">@ViewBag.StatusMessage</p>
     <div class="row" style="margin-bottom: -10px;">
         <span style="font-size: 18px; padding-top: 20px; margin-bottom: -10px;">Ändra dina kontouppgifter</span>
-        <input type="button" class="btn btn-default" style="float: right; margin-top: -10px;" value="Inaktivera kontot" id="btnCloseAccount" onclick="disableAccount(); return false;"/>
+        <input type="button" class="btn btn-default" style="float: right; margin-top: -10px;" value="Inaktivera kontot" id="btnCloseAccount" onclick="disableAccount();" />
+        <button class="display-mode btn btn-default" onclick="disableAccount();return false;">Ta bort</button>
     </div>
-    <hr/>
+    <hr />
     <dl class="dl-horizontal">
         <dt>Pinkod:</dt>
         <dd style="padding-left: 15px">
@@ -197,7 +181,7 @@
     </dl>
 
     <!-- Ändra valda register att rapportera till -->
-    @using (Html.BeginForm("ChangeChosenRegisters", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+    @using (Html.BeginForm("ChangeChosenRegisters", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         if (Model.RegisterList != null)
         {
@@ -210,7 +194,7 @@
         }
         @Html.AntiForgeryToken()
         <div class="form-group">
-            @Html.Label("Välj register: ", new {@class = "col-md-2 control-label", style = "font-weight:bold"})
+            @Html.Label("Välj register: ", new { @class = "col-md-2 control-label", style = "font-weight:bold" })
             <div class="col-md-10">
                 <select id="RegList" multiple="multiple">
                     @for (var i = 0; i < Model.RegisterList.Count; i++)
@@ -222,7 +206,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Spara valda register"/>
+                <input type="submit" class="btn btn-default" value="Spara valda register" />
             </div>
         </div>
 
