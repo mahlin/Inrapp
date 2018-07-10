@@ -30,9 +30,10 @@
                     url: startUrl + '/Manage/DisableAccount', // the file to call
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    success: function () {
+                    success: function (data) {
                         //On ajax success do this
-                        document.location.href = startUrl + '/Home/Index';
+                        var x = data;
+                        document.location.href = startUrl + '/Manage/DisabledAccount';
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         alert('error:' + errorThrown);

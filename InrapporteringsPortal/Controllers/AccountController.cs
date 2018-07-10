@@ -109,7 +109,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 else if (user.AktivTom <= DateTime.Now)
                 {
                     model.DisabledAccount = true;
-                    ModelState.AddModelError("", "Kontot är inaktiverat. För att återaktivera ditt konto behöver du verifiera din epostadress.");
+                    ModelState.AddModelError("", "Kontot är inaktiverat. För att återaktivera ditt konto behöver du verifiera din e-postadress.");
                     return View(model);
                 }
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))

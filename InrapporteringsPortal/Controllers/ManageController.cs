@@ -497,7 +497,7 @@ namespace InrapporteringsPortal.Web.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 _portalService.InaktiveraKontaktperson(userId);
-                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
             catch (Exception e)
             {
@@ -510,10 +510,20 @@ namespace InrapporteringsPortal.Web.Controllers
                 };
                 return View("CustomError", errorModel);
             }
-            return RedirectToAction("Index", "Home");
+            return View("DisabledAccount");
+
         }
 
-        
+        // GET
+        public ActionResult DisabledAccount()
+        {
+            ViewBag.Text = _portalService.HamtaInformationsText("Inaktiveringssida");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return View("DisabledAccount");
+        }
+
+
+
 
         [HttpPost]
         [Authorize]

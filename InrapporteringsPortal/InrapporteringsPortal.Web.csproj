@@ -722,6 +722,8 @@
     <Content Include="Views\History\LatestDeliveries.cshtml" />
     <Content Include="Views\Shared\Maintenance.cshtml" />
     <Content Include="Views\Account\EnableAccountConfirmEmail.cshtml" />
+    <Content Include="Views\Manage\DisabledAccount.cshtml" />
+    <Content Include="Views\Manage\DisAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
