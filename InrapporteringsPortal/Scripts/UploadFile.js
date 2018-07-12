@@ -191,7 +191,9 @@ $(document).on('change','#ddlRegister',
                 $('#fileinputButton').removeClass('disabled');
                 $('#filesExplorerOpener').prop('disabled', false);
                 $('#filesExplorerOpener').removeClass('disabled');
-                $('#ingetAttRapportera').show();
+                if ($('#ddlPerioder').length > 0) {
+                    $('#ingetAttRapportera').show(); 
+                }
                 //$('.fileinput-button')
                 //    .prop('disabled', false)
                 //    .parent().removeClass('disabled');
