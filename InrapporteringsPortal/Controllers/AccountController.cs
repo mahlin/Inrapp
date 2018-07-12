@@ -418,7 +418,22 @@ namespace InrapporteringsPortal.Web.Controllers
                 model.Id = userId;
                 return View("ConfirmEmail", model);
             }
-           return View("Error");
+            else
+            {
+                var str = String.Empty;
+                foreach (var error in result.Errors)
+                {
+                    str = str + error + ", ";
+                }
+                Console.WriteLine(str);
+                ErrorManager.WriteToErrorLog("AccountController", "ConfirmEmail", str, 0, userId);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = "Ett fel inträffade vid verifieringen av epostadressen.",
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                return View("CustomError", errorModel);
+            }
         }
 
         // GET: /Account/EnableAccountConfirmEmail

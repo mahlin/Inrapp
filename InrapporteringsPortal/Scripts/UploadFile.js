@@ -139,6 +139,7 @@ $(document).on('change','#ddlRegister',
                             });
 
                         $('#enhetsInfo').show();
+                        $('#ingetAttRapportera').hide();
                         $('.fileinput-button').hide();
                         $('#fileinputButton').prop('disabled', true);
                         $('#fileinputButton').addClass('disabled');
@@ -179,6 +180,7 @@ $(document).on('change','#ddlRegister',
                 $('#fileinputButton').addClass('disabled');
                 $('#filesExplorerOpener').prop('disabled', true);
                 $('#filesExplorerOpener').addClass('disabled');
+                $('#ingetAttRapportera').hide();
                 //$('.fileinput-button')
                 //    .prop('disabled', true)
                 //    .parent().addClass('disabled');
@@ -189,6 +191,7 @@ $(document).on('change','#ddlRegister',
                 $('#fileinputButton').removeClass('disabled');
                 $('#filesExplorerOpener').prop('disabled', false);
                 $('#filesExplorerOpener').removeClass('disabled');
+                $('#ingetAttRapportera').show();
                 //$('.fileinput-button')
                 //    .prop('disabled', false)
                 //    .parent().removeClass('disabled');
@@ -200,9 +203,13 @@ $(document).on('change','#ddlRegister',
             $("#IngetAttRapporteraForPeriod").val($('#ddlPerioder').val());
             $("#IngetAttRapporteraForRegisterId").val($('#SelectedRegisterId').val());
             if ($('#ddlPerioder').val() !== "0") {
+                $('.fileinput-button').hide();
+                $('#fileinputButton').prop('disabled', true);
                 $('#ingetAttRapporteraBtn').attr("disabled", false);
             } else {
                 $('#ingetAttRapporteraBtn').attr("disabled", "disabled");
+                $('.fileinput-button').show();
+                $('#fileinputButton').prop('disabled', false);
             }
         });
 

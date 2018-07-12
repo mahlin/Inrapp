@@ -520,6 +520,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return orgUnits;
         }
 
+        public Organisationsenhet GetOrganisationUnitByCode(string code)
+        {
+            var orgUnit = DbContext.Organisationsenhet.SingleOrDefault(x => x.Enhetskod == code);
+            return orgUnit;
+        }
+
         public int GetOrganisationsenhetsId(string orgUnitCode, int orgId)
         {
             var orgenhetsId = DbContext.Organisationsenhet.Where(x => x.Enhetskod == orgUnitCode && x.OrganisationsId == orgId).Select(x => x.Id).FirstOrDefault();

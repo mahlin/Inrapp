@@ -753,6 +753,10 @@ namespace InrapporteringsPortal.ApplicationService
             return rappSenast;
         }
 
-
+        public Organisationsenhet HamtaOrganisationsenhetMedEnhetskod(string kod)
+        {
+            var orgenhet = _portalRepository.GetOrganisationUnitByCode(kod);
+            return orgenhet;
+        }
     }
 }

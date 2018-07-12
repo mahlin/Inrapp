@@ -41,6 +41,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         IEnumerable<Organisationsenhet> GetOrganisationUnits(int orgId);
 
+        Organisationsenhet GetOrganisationUnitByCode(string code);
+
         int GetOrganisationsenhetsId(string orgUnitCode, int orgId);
             
         IEnumerable<RegisterInfo> GetAllRegisterInformation();

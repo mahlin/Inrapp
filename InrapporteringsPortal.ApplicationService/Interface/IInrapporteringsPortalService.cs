@@ -42,6 +42,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         int HamtaUserOrganisationId(string userId);
 
+        Organisationsenhet HamtaOrganisationsenhetMedEnhetskod(string kod);
+
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
         IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId);
