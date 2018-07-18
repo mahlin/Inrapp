@@ -32,7 +32,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
         [Authorize]
         // GET: History
-        public ActionResult Index()
+        public ActionResult Index(int selectedRegId = 0)
         {
             //Kolla om öppet, annars visa stängt-sida
             if (!_portalService.IsOpen())
@@ -51,6 +51,7 @@ namespace InrapporteringsPortal.Web.Controllers
                 IEnumerable<AdmRegister> admRegList = _portalService.HamtaRegisterForAnvandare(userId, userOrg.Id);
                 model.RegisterList = ConvertAdmRegisterToViewModel(admRegList.ToList());
                 model.SelectedYear = DateTime.Now.Year;
+                model.SelectedRegisterId = selectedRegId;
             }
             catch (Exception e)
             {

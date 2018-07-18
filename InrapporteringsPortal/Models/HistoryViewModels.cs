@@ -18,7 +18,7 @@ namespace InrapporteringsPortal.Web.Models
             public List<FilloggDetaljDTO> HistorikLista { get; set; }
             public List<AdmRegisterViewModel> RegisterList { get; set; }
             public List<RegisterLeveransDTO> LeveransListaRegister { get; set; }
-
+            public int SelectedRegisterId { get; set; }
             public int SelectedYear { get; set; }
             public List<int> SelectableYears { get; set; }
             

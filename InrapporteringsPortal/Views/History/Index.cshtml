@@ -11,6 +11,9 @@
 
     $(document).ready(function () {
         createRadioButtons();
+        if ($('#SelectedRegisterId').val() > 0) {
+            setRadioBtn($('#SelectedRegisterId').val());
+        }
         $("#historyGridContent tbody tr").each(function (i, row) {
             var $actualRow = $(row);
             var x = $actualRow.find('td:eq(4)').html().trim();
@@ -18,20 +21,24 @@
                 $actualRow.css('background-color', 'rgba(130, 224, 170, 0.4)');
             }
         });
-
         //Sätt antal rader
         $('#header').html("");
         $('<H4>All historik för @Html.Raw(Model.OrganisationsNamn) <span style="font-size: 0.7em">(totalt antal filer: @Html.Raw(Model.HistorikLista.Count))</span></H4><br><br>').appendTo('#header');
 
         $("input[type='radio']").on('change', function () {
+            var tmp = $(this).val();
             var selectedregId = $("input[name='regName']:checked").val();
+            $('#SelectedRegisterId').val(selectedregId);
             if (selectedregId) {
-                //alert("Hello, your favorite programming language= " + selectedregId);
                 showOnlySelectedRegister(selectedregId);
             }
         });
-
     });
+
+    function setRadioBtn(selectedregId) {
+        $("input[name='regName'][value='" + selectedregId + "']").prop("checked", true);
+        showOnlySelectedRegister(selectedregId);
+    }
 
     function showOnlySelectedRegister(registerId) {
         //Loopa igenom hela historiktabellen. Visa endast de rader som har delreg-kortnamn som är godkänt för valt register
@@ -68,9 +75,9 @@
     }
 
 
-    $(document).on('change', '#ddlRegister', function () {
-        $("#SelectedRegisterId").val($('#ddlRegister').val());
-    });
+    //$(document).on('change', '#ddlRegister', function () {
+    //    $("#SelectedRegisterId").val($('#ddlRegister').val());
+    //});
 
     function createRadioButtons() {
         $('<label class="radio-inline"><input type="radio" name="regName" value="0" checked="checked">Alla</input></label>').appendTo('#radioBtns');
@@ -79,46 +86,38 @@
         });
     }
 
+    $(function () {
+        $('th a, tfoot a').click(function () {
+            //if querystring already contains selectedRegId, remove it
+            var index = $(this).attr('href').indexOf("&selectedRegId=");
+            if (index >= 0) {
+                var cleanUrl = $(this).attr('href').substring(0, index);
+                $(this).attr('href', cleanUrl);
+            }
+
+            var newUrl = $(this).attr('href') +
+                "&selectedRegId=" +
+                $("#SelectedRegisterId").val();
+            $('form').attr('action', newUrl).submit();
+            return false;
+        });
+    });
+
+
 </script>
 
 <div class="row padding-top-55" id="header">
 </div>
 
 <div id="radioBtns">
-    @*<label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
-    <label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
-    <label class="radio-inline"><input type="radio" name="optradio">Option 3</label>
-    <div class="radio">
-        <label><input type="radio" name="optradio">Option 2</label>
-    </div>
-    <div class="radio disabled">
-        <label><input type="radio" name="optradio" disabled>Option 3</label>
-    </div>*@
 </div>
 
 <div id="pageContainer">
-    @*<div class="row">
-            <div class="col-md-8 padding-top-55">
-                <h4>Administrera filkrav</h4>
-                <br />
-                <section id="orgForm">
-                    @using (Html.BeginForm("GetAllHistoryinfo", "History", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        <div class="row">
-                            <div class="col-md-8 form-group" style="width: 225px !important; margin-left: 5px;">
-                                @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj Register -", new { id = "ddlRegister", @class = "form-control", style = "max-width:150px !important" })
-                            </div>
-                            <div class="col-md-8" style="padding-left: 0px; margin-left: -10px;">
-                                <div><input type="submit" value="Visa" class="btn btn-default" /></div>
-                            </div>
-                        </div>
-                    }
-                </section>
-            </div>
-        </div>*@
 
     @if (Model != null)
     {
+        @Html.HiddenFor(m => m.SelectedRegisterId)
+
         <div id="historyGridContent" style="font-family: Arial; padding-top: 20px; margin-left: -15px;">
             @{
                 ViewBag.Title = "Historik";
