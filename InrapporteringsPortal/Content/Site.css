@@ -365,6 +365,12 @@ th.historyHeader {
     padding: 3px 7px 2px;
 }
 
+.col150Width {
+    width: 150px;
+    margin: -5px;
+    padding: 3px 7px 2px;
+}
+
 .col2Width {
     width: 200px;
     margin: -5px;
@@ -448,7 +454,7 @@ label {
 }
 
 .deliveryTime {
-    width: 150px;
+    width: 160px;
 }
 
 
