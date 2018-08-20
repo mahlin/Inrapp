@@ -95,9 +95,12 @@ namespace InrapporteringsPortal.ApplicationService.Interface
         string MaskPhoneNumber(string phoneNumber);
 
         bool IsOpen();
-
+        
         bool IsHelgdag();
 
         bool IsSpecialdag();
+        string ClosedComingWeek();
+        string HelgdagComingWeek();
+        string SpecialdagComingWeek();
     }
 }

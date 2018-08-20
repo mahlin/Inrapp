@@ -24,11 +24,17 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             try
             {
-                
-                //Kolla om öppet, annars visa stängt-sida
+                //Kolla om avvikande öppettider finns inom den kommande veckan
+                var str = _portalService.ClosedComingWeek();
+                if (str != String.Empty)
+                    ViewBag.AvvikandeOppettider = "Avvikande öppettider<br/>" + str;
+                    //"Avvikande öppettider<br/>Måndag 20 augusti 10 - 16 Underhåll <br/>Måndag 24 december stängt Julafton <br/> ";
+
+                    //Kolla om öppet, annars visa stängt-sida
                 if (_portalService.IsOpen())
                 {
                     ViewBag.Text = _portalService.HamtaInformationsText("Startsida");
+
                     return View();
                 }
                 else

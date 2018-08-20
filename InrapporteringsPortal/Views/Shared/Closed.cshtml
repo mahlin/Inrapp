@@ -14,7 +14,12 @@
 
 
 <div class="padding-top-55">
-    @Html.Raw(ViewBag.Text)
+    <div class="col-md-8">
+        @Html.Raw(ViewBag.Text)
+    </div>
+    <div class="padding-top-55 col-md-offset-1 col-md-3" style="white-space: nowrap; margin-top: 10px; color: red;">
+        @Html.Raw(ViewBag.AvvikandeOppettider)
+    </div>
 </div>
 
 

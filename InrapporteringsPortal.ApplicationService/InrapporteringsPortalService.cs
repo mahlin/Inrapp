@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Mail;
@@ -19,6 +20,7 @@ namespace InrapporteringsPortal.ApplicationService
     public class InrapporteringsPortalService : IInrapporteringsPortalService
     {
         private readonly IPortalRepository _portalRepository;
+        System.Globalization.CultureInfo _culture = new System.Globalization.CultureInfo("sv-SE");
 
         public InrapporteringsPortalService(IPortalRepository portalRepository)
         {
@@ -604,6 +606,65 @@ namespace InrapporteringsPortal.ApplicationService
             return true;
         }
 
+        public string ClosedComingWeek()
+        {
+            string avvikandeOppettider = String.Empty;
+            avvikandeOppettider = SpecialdagComingWeek();
+            avvikandeOppettider = avvikandeOppettider + HelgdagComingWeek();
+            return avvikandeOppettider;
+        }
+
+        public string HelgdagComingWeek()
+        {
+            var helgdagarInomEnVecka = String.Empty;
+            var date = DateTime.Now.Date;
+            var dateNowPlusOneWeek = date.AddDays(7);
+            var helgdagar = _portalRepository.GetHolidays();
+
+            foreach (var helgdag in helgdagar)
+            {
+                if (helgdag.Helgdatum >= date && helgdag.Helgdatum <= dateNowPlusOneWeek)
+                {
+                    var veckodag = helgdag.Helgdatum.ToString("dddd", _culture);
+                    veckodag = char.ToUpper(veckodag[0]) + veckodag.Substring(1);
+                    var dagNr = helgdag.Helgdatum.Day;
+                    var manad = helgdag.Helgdatum.ToString("MMMM", _culture);
+                    var dagStr = veckodag + " " + dagNr + " " + manad + " stängt " + helgdag.Helgdag + "<br>";
+                    helgdagarInomEnVecka = helgdagarInomEnVecka + dagStr;
+                }
+            }
+
+            return helgdagarInomEnVecka;
+        }
+
+        public string SpecialdagComingWeek()
+        {
+            var specialdagarInomEnVecka = String.Empty;
+            var now = DateTime.Now;
+            var dateNow = DateTime.Now.Date;
+            var dateNowPlusOneWeek = dateNow.AddDays(7);
+
+            var specialdagar = _portalRepository.GetSpecialDays();
+
+            foreach (var dag in specialdagar)
+            {
+                if (dag.Specialdagdatum >= dateNow && dag.Specialdagdatum <= dateNowPlusOneWeek)
+                {
+                    //string FormatDate = dag.Specialdagdatum.ToString("dddd dd MMMM yyyy", culture);
+                    var veckodag = dag.Specialdagdatum.ToString("dddd", _culture);
+                    veckodag = char.ToUpper(veckodag[0]) + veckodag.Substring(1);
+                    var dagNr = dag.Specialdagdatum.Day;
+                    var manad = dag.Specialdagdatum.ToString("MMMM", _culture);
+                    var klockslagFrom = dag.Oppna.ToString(@"hh\:mm");
+                    var klockslagTom = dag.Stang.ToString(@"hh\:mm");
+                    var dagStr = veckodag + " " + dagNr + " " + manad + " " + klockslagFrom + "-" + klockslagTom + " " + dag.Anledning + "<br>";
+
+                    specialdagarInomEnVecka = specialdagarInomEnVecka + dagStr;
+                }
+            }
+            return specialdagarInomEnVecka;
+        }
+
         private string GetLastPartOfHostAdress(string hostAdress)
         {
             List<int> indexes = hostAdress.AllIndexesOf(".");
@@ -758,5 +819,7 @@ namespace InrapporteringsPortal.ApplicationService
             var orgenhet = _portalRepository.GetOrganisationUnitByCode(kod);
             return orgenhet;
         }
+
+ 
     }
 }
