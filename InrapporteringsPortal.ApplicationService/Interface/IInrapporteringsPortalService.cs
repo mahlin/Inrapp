@@ -42,7 +42,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         int HamtaUserOrganisationId(string userId);
 
-        Organisationsenhet HamtaOrganisationsenhetMedEnhetskod(string kod);
+        Organisationsenhet HamtaOrganisationsenhetMedEnhetskod(string kod, int orgId);
 
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
