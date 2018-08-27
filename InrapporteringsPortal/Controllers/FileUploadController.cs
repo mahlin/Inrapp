@@ -367,9 +367,9 @@ namespace InrapporteringsPortal.Web.Controllers
                     //Hämta orgId, skapa leverans för orgId, spara i db
                     var orgId = _portalService.HamtaUserOrganisationId(User.Identity.GetUserId());
                     var orgenhet = new Organisationsenhet();
-                    if (!String.IsNullOrEmpty(model.SelectedUnitId))
+                    if (!String.IsNullOrEmpty(model.IngetAttRapporteraForSelectedUnitId))
                     {
-                        orgenhet = _portalService.HamtaOrganisationsenhetMedEnhetskod(model.SelectedUnitId, orgId);
+                        orgenhet = _portalService.HamtaOrganisationsenhetMedEnhetskod(model.IngetAttRapporteraForSelectedUnitId, orgId);
                     }
                     var id = Convert.ToInt32(model.IngetAttRapporteraForRegisterId);
                     

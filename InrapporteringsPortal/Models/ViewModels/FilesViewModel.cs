@@ -20,6 +20,7 @@ namespace InrapporteringsPortal.Web.Models.ViewModels
         public bool IngetAttRapportera { get; set; }
         public string IngetAttRapporteraForPeriod { get; set; }
         public string IngetAttRapporteraForRegisterId { get; set; }
+        public string IngetAttRapporteraForSelectedUnitId { get; set; }
         public List<RegisterInfo> RegisterList { get; set; }
         public List<FilloggDetaljDTO> HistorikLista { get; set; }
         public string GiltigKommunKod { get; set; }

@@ -907,6 +907,7 @@
                     $('#parallellaForeskrifter').hide();
                     $('#ingetAttRapportera').hide();
                     $("#SelectedUnitId").val("");
+                    $("#IngetAttRapporteraForSelectedUnitId").val("");
                     $('#registerInfo').html("");
                     $('.fileinput-button').hide();
                     $('.start').hide();

@@ -172,7 +172,10 @@ $(document).on('change','#ddlRegister',
 
         $(document).on('change', '#ddlUnits', function () {
             var selectedIndex = $('#ddlUnits').prop('selectedIndex');
+            var x = $('#ddlUnits').val();
             $("#SelectedUnitId").val($('#ddlUnits').val());
+            $("#IngetAttRapporteraForSelectedUnitId").val($('#ddlUnits').val());
+            var y = $("#SelectedUnitId").val();
             //alert($('#ddlUnits').prop('selectedIndex'));
             if (selectedIndex === 0) {
                 $('.fileinput-button').hide();

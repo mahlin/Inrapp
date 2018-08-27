@@ -40,19 +40,19 @@
     <div class="well bs-component">
         <div class="row h-100">
             <div class="col-md-6 form-group">
-                @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj -", new {id = "ddlRegister", @class = "form-control ddl", style = "max-width:550px;"})
+                @Html.DropDownListFor(m => m.SelectedRegisterId, ViewBag.RegisterList as SelectList, " - Välj -", new { id = "ddlRegister", @class = "form-control ddl", style = "max-width:550px;" })
             </div>
-            <div class="col-md-6" style="padding-left: 0px;font-size: 0.9em"> 
+            <div class="col-md-6" style="padding-left: 0px;font-size: 0.9em">
                 @if (Model.RegisterList.Count == 0)
-                {
-                    <div>Du har inte valt vilka uppgifter du ska rapportera, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
-                }
-                else
-                {
-                    <div> Om du inte hittar rätt uppgifter i listan att rapportera för, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
-                }
+            {
+                <div>Du har inte valt vilka uppgifter du ska rapportera, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
+        }
+        else
+        {
+            <div> Om du inte hittar rätt uppgifter i listan att rapportera för, gå till  @Html.ActionLink("Min sida", "Index", "Manage") för att välja.</div>
+    }
             </div>
-        </div>  
+        </div>
 
         <div hidden id="parallellaForeskrifter" class="row col-md-12" style="margin-bottom: 5px;width: 350px;">
             <div class="form-group" style="width: 320px !important;" id="FileRequirementsSelect-container">
@@ -61,7 +61,7 @@
 
         <div class="row col-12" id="registerInfo" class="registerInfo" style="padding: 0px; margin-left:0px; font-size: 0.9em">
         </div>
-        <br/>
+        <br />
 
         <div hidden id="enhetsInfo" class="row col-12" style="margin-left: 0px;">
             <div class="form-group">
@@ -70,22 +70,21 @@
                 </div>
             </div>
         </div>
-        
         <div hidden id="ingetAttRapportera">
             <section id="ingetAttRapporteraForm">
                 @using (Html.BeginForm("IngetAttRapportera", "FileUpload", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                        @Html.HiddenFor(m => m.IngetAttRapporteraForRegisterId)
-                        @Html.HiddenFor(m => m.IngetAttRapporteraForPeriod)
-                        @Html.HiddenFor(m => m.SelectedUnitId)
-                        <div class="row" style="border: 1px solid lightgrey; padding-top: 10px; margin-left: 0px; border-radius: 5px; width: 350px;">
-                            <div class="col-md-8 form-group" style="width: 320px !important; margin-left: 5px;" id="select-container">
-                            </div>
-                            <div class="col-md-8" style="padding-bottom: 15px; padding-top: 0px; margin-left: 5px;">
-                                <input type="submit" value="Skicka information" id="ingetAttRapporteraBtn" class="btn btn-default" />
-                            </div>
-                        </div>
-                }
+    {
+            @Html.HiddenFor(m => m.IngetAttRapporteraForRegisterId)
+            @Html.HiddenFor(m => m.IngetAttRapporteraForPeriod)
+            @Html.HiddenFor(m => m.IngetAttRapporteraForSelectedUnitId)
+            <div class="row" style="border: 1px solid lightgrey; padding-top: 10px; margin-left: 0px; border-radius: 5px; width: 350px;">
+                <div class="col-md-8 form-group" style="width: 320px !important; margin-left: 5px;" id="select-container">
+                </div>
+                <div class="col-md-8" style="padding-bottom: 15px; padding-top: 0px; margin-left: 5px;">
+                    <input type="submit" value="Skicka information" id="ingetAttRapporteraBtn" class="btn btn-default" />
+                </div>
+            </div>
+}
             </section>
         </div>
     </div>
