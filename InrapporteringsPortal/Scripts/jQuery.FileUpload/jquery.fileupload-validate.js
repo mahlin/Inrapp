@@ -36,7 +36,7 @@ function CheckFileName(selectedRegister, fileName) {
 //TODO - använd SelectedRegisterId/kortnamn istället?
 function CheckKommunKodInFileName(fileName) {
     var chunkedFileName = fileName.split("_");
-    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2'];
+    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
     var fileTypeB = ['BU'];
     var fileTypeC = ['EKB'];
 
@@ -69,7 +69,7 @@ function arrayContains(needle, arrhaystack) {
 
 function CheckPeriodInFileName(selectedRegister, fileName) {
     var chunkedFileName = fileName.split("_");
-    var fileTypeA = ['SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2'];
+    var fileTypeA = ['SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
     var fileTypeB = ['BU'];
     var fileTypeC = ['EKB'];
 

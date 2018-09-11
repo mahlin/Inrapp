@@ -354,6 +354,7 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                 case "KHSL":
                 case "KHSL1":
                 case "KHSL2":
+                case "LSS":
                     period = chunkedFileName[2];
                     break;
                 case "BU":
