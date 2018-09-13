@@ -199,9 +199,9 @@ namespace InrapporteringsPortal.ApplicationService
             }
             if (historikLista.Count > 0)
             {
-                sorteradHistorikLista = historikLista.OrderByDescending(x => x.Enhetskod).ThenByDescending(x => x.Id).ToList();
+                sorteradHistorikLista = historikLista.OrderBy(x => x.Enhetskod).ThenBy(x => x.RegisterKortnamn).ThenByDescending(x => x.Id).ToList();
             }
-            
+
             return sorteradHistorikLista;
         }
 
