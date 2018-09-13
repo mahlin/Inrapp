@@ -18,6 +18,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId);
 
         Leverans GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(int orgId, int subdirId, int forvlevId);
+        Leverans GetLatestDeliveryForOrganisationSubDirectoryPeriodAndOrgUnit(int orgId, int subdirId, int forvlevId, int orgUnitId);
 
         //IEnumerable<int> GetExpectedDeliveriesForSubdirectoryandPeriod(int subdirId, string period);
 
@@ -34,6 +35,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         Organisation GetOrgForEmailDomain(string modelEmailDomain);
 
         Organisation GetOrgForUser(string userId);
+
+        IEnumerable<Organisationsenhet> GetOrgUnitsForOrg(int orgId);
 
         int GetUserOrganisationId(string userId);
 
@@ -86,6 +89,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         IEnumerable<string> GetSubDirectoysPeriodsForAYear(int subdirId, int year);
 
         IEnumerable<AdmDelregister> GetSubdirsForDirectory(int dirId);
+        string GetSubDirectoryShortName(int subDirId);
 
         List<DateTime> GetTaskStartForSubdir(int subdirId);
 

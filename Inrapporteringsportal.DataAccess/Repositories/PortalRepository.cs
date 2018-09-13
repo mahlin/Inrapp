@@ -81,6 +81,14 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return latestsDeliveryForOrgAndSubdirectory;
         }
 
+        public Leverans GetLatestDeliveryForOrganisationSubDirectoryPeriodAndOrgUnit(int orgId, int subdirId, int forvlevId, int orgUnitId)
+        {
+            var latestsDeliveryForOrgAndSubdirectory = AllaLeveranser()
+                .Where(a => a.OrganisationId == orgId && a.DelregisterId == subdirId &&
+                            a.ForvantadleveransId == forvlevId && a.OrganisationsenhetsId == orgUnitId).OrderByDescending(x => x.Id).FirstOrDefault();
+            return latestsDeliveryForOrgAndSubdirectory;
+        }
+
         public string GetKommunKodForOrganisation(int orgId)
         {
             //var tfnNr = DbContext.AspNetUsers.Where(a => a.Id == userId).Select(a => a.PhoneNumber).FirstOrDefault();
@@ -333,6 +341,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             return org;
         }
 
+        public IEnumerable<Organisationsenhet> GetOrgUnitsForOrg(int orgId)
+        {
+            var orgUnits = DbContext.Organisationsenhet.Where(x => x.OrganisationsId == orgId).ToList();
+            return orgUnits;
+        }
+
         public string GetUserName(string userId)
         {
             var userName = DbContext.Users.Where(u => u.Id == userId).Select(u => u.Namn).SingleOrDefault();
@@ -427,6 +441,12 @@ namespace Inrapporteringsportal.DataAccess.Repositories
                 .Select(x => x.Period).ToList();
 
             return periods;
+        }
+
+        public string GetSubDirectoryShortName(int subDirId)
+        {
+            var subDirShortName = DbContext.AdmDelregister.Where(x => x.Id == subDirId).Select(x => x.Kortnamn).SingleOrDefault();
+            return subDirShortName;
         }
 
         public void SaveChosenRegistersForUser(string userId, string userName, List<RegisterInfo> registerList)
