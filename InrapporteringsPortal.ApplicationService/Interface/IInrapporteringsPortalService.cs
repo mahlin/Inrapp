@@ -56,6 +56,8 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period);
 
+        IEnumerable<AdmForvantadfil> HamtaForvantadFil(int filkravId);
+
         IEnumerable<AdmFAQKategori> HamtaFAQs();
 
         IEnumerable<string> HamtaDelregistersPerioderForAr(int delregId, int ar);

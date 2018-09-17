@@ -10,6 +10,7 @@ using System.Web.Hosting;
 using InrapporteringsPortal.ApplicationService.Interface;
 using InrapporteringsPortal.DataAccess;
 using InrapporteringsPortal.DomainModel;
+using System.Text.RegularExpressions;
 
 namespace InrapporteringsPortal.ApplicationService.Helpers
 {
@@ -123,19 +124,42 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             //Kolla vilket register filen/filerna hör till och skapa mapp om det behövs
             var slussmapp = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.Slussmapp).Single();
 
+            var fileName = httpRequest.Files[0].FileName;
+            var periodInFileName = String.Empty;
+
             //Period tas från filnamnet pga problem med selectedPeriod från klienten 4 april 2018
-            var period = GetPeriodFromFilename(httpRequest.Files[0]);
-            if (period == "")
+            //Använd regular expression istf hårdkodning - 20180917
+            var filkravList = _portalRepository.GetFileRequirementsAndExpectedFilesForSubDirectory(selectedRegisterId);
+
+            foreach (var filkrav in filkravList)
+            {
+                //hämta regexper
+                var forvantadFilList = filkrav.AdmForvantadfil;
+                //kontrollera om inkommande fil matchar regexp
+                foreach (var forvFil in forvantadFilList)
+                {
+                    Regex expression = new Regex(forvFil.Regexp, RegexOptions.IgnoreCase);
+                    Match match = expression.Match(fileName);
+                    if (match.Success)
+                    {
+                        periodInFileName = match.Groups["period"].Value;
+                    }
+                }
+            }
+
+
+            //var period = GetPeriodFromFilename(httpRequest.Files[0]);
+            if (periodInFileName == "")
             {
                 throw new Exception("Felaktig period i filnamnet, " + httpRequest.Files[0].FileName);
             }
-            else if (!_portalService.HamtaGiltigaPerioderForDelregister(selectedRegisterId).Contains(period)) //Kontrollera om vald period är ok 
+            else if (!_portalService.HamtaGiltigaPerioderForDelregister(selectedRegisterId).Contains(periodInFileName)) //Kontrollera om vald period är ok 
             {
                 throw new Exception("Period i filnamnet inte inom godkänt intervall. " + httpRequest.Files[0].FileName);
             }
 
             //Hämta forvantadlevid beroende på vald period
-            var forvantadLevId = _portalRepository.GetExpextedDeliveryIdForSubDirAndPeriod(selectedRegisterId, period);
+            var forvantadLevId = _portalRepository.GetExpextedDeliveryIdForSubDirAndPeriod(selectedRegisterId, periodInFileName);
             //var forvantadLevId = registerList.Where(x => x.Id == selectedRegisterId).Select(x => x.ForvantadLevransId).Single();
             StorageRoot = StorageRoot + slussmapp + "\\";
             String fullPath = Path.Combine(StorageRoot);
@@ -340,34 +364,34 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             return Filess;
         }
 
-        private string GetPeriodFromFilename(HttpPostedFileBase file)
-        {
-            var fileName = file.FileName;
-            var period = String.Empty;
+        //private string GetPeriodFromFilename(HttpPostedFileBase file)
+        //{
+        //    var fileName = file.FileName;
+        //    var period = String.Empty;
 
-            var chunkedFileName = fileName.Split('_');
+        //    var chunkedFileName = fileName.Split('_');
 
-            switch (chunkedFileName[0].ToUpper())
-            {
-                case "SOL1":
-                case "SOL2":
-                case "KHSL":
-                case "KHSL1":
-                case "KHSL2":
-                case "LSS":
-                    period = chunkedFileName[2];
-                    break;
-                case "BU":
-                    period = chunkedFileName[3];
-                    break;
-                case "EKB":
-                    period = chunkedFileName[1].ToUpper() == "AO" ? chunkedFileName[3] : chunkedFileName[2];
-                    break;
-                default:
-                    break;
-            }
-            return period;
-        }
+        //    switch (chunkedFileName[0].ToUpper())
+        //    {
+        //        case "SOL1":
+        //        case "SOL2":
+        //        case "KHSL":
+        //        case "KHSL1":
+        //        case "KHSL2":
+        //        case "LSS":
+        //            period = chunkedFileName[2];
+        //            break;
+        //        case "BU":
+        //            period = chunkedFileName[3];
+        //            break;
+        //        case "EKB":
+        //            period = chunkedFileName[1].ToUpper() == "AO" ? chunkedFileName[3] : chunkedFileName[2];
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    return period;
+        //}
     }
     public class ViewDataUploadFilesResult
     {

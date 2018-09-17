@@ -670,6 +670,12 @@ namespace InrapporteringsPortal.ApplicationService
             return forvLevId;
         }
 
+        public IEnumerable<AdmForvantadfil> HamtaForvantadFil(int filkravId)
+        {
+            var forvFiler = _portalRepository.GetExpectedFile(filkravId);
+            return forvFiler;
+        }
+
         public IEnumerable<AdmFAQKategori> HamtaFAQs()
         {
             var faqs = _portalRepository.GetFAQs();

@@ -424,12 +424,25 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             var periods = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDirId).ToList();
             return periods;
         }
-
+        
         public int GetExpextedDeliveryIdForSubDirAndPeriod(int subDirId, string period)
         {
             var forvLevId = DbContext.AdmForvantadleverans.Where(x => x.DelregisterId == subDirId && x.Period == period)
                 .Select(x => x.Id).SingleOrDefault();
             return forvLevId;
+        }
+
+        public List<AdmFilkrav> GetFileRequirementsAndExpectedFilesForSubDirectory(int subDirId)
+        {
+            var fileReqAndExpectedFileList = DbContext.AdmFilkrav.Where(x => x.DelregisterId == subDirId)
+                .Include(x => x.AdmForvantadfil).ToList();
+            return fileReqAndExpectedFileList;
+        }
+
+        public IEnumerable<AdmForvantadfil> GetExpectedFile(int fileReq)
+        {
+            var expectedFiles = DbContext.AdmForvantadfil.Where(x => x.FilkravId == fileReq).ToList();
+            return expectedFiles;
         }
 
         public IEnumerable<string> GetSubDirectoysPeriodsForAYear(int subdirId, int year)

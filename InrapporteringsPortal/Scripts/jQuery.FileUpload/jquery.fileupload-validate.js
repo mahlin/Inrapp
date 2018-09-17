@@ -10,8 +10,29 @@
  */
 
 /* global define, require, window */
-
 function CheckFileName(selectedRegister, fileName) {
+    var result = false;
+    var regexMatch = null;
+    //Hämta regexp för valt register
+    registerLista.forEach(function(register, index) {
+        if (selectedRegister === register.Id.toString()) {
+            var selectedFilkrav = register.SelectedFilkrav;
+            register.Filkrav.forEach(function(filkrav, ix) {
+                if (selectedFilkrav === filkrav.Id) {
+                    filkrav.RegExper.forEach(function(regexp, idx) {
+                        var expression = new RegExp(regexp, "i");
+                        //Kolla om filnamn matchar regex
+                        regexMatch = fileName.match(expression);
+                    });
+                }
+            });
+        }
+    });
+    return regexMatch;
+}
+
+
+function CheckFileName2(selectedRegister, fileName) {
     var re;
     var result = false;
     //Hämta regexp för valt register
@@ -22,19 +43,66 @@ function CheckFileName(selectedRegister, fileName) {
                 if (selectedFilkrav === filkrav.Id) {
                     filkrav.RegExper.forEach(function (regexp, idx) {
                         re = new RegExp(regexp, "i");
-                        if (re.test(fileName)) {
-                            result = true;
+                        var expression = new RegExp(regexp, "i");
+                        var res = fileName.match(expression);
+                        if (res !== null) {
+                            result = true; //Filnamn ok utifrån regexp
+                            //Kontrollera kommunkod
+                            var kommunkod = res.groups["kommunkod"];
+                            result = CheckKommunKod(kommunkod);
+                            //Kontrollera period
+                            var periodInFilename = res.groups["period"];
+                            //Hämta giltiga perioder för valt register
+                            var validPeriod = "";
+                            registerLista.forEach(function (register, index) {
+                                if (selectedRegister === register.Id.toString()) {
+                                    var selectedFilkrav = register.SelectedFilkrav;
+
+                                    register.Filkrav.forEach(function (filkrav, ix) {
+                                        if (selectedFilkrav === filkrav.Id) {
+                                            validPeriod = filkrav.Perioder;
+                                        }
+                                    });
+                                }
+                            });
+                            result = CheckPeriod(periodInFilename, validPeriod);
                         }
+                        //if (re.test(fileName)) {
+                        //    result = true; //Filnamn ok utifrån regexp
+                        //}
                     });
-                }})
+                }
+            })
             //re = new RegExp(register.RegExp, "i");
         }
     });
     return result;
 }
 
+//function CheckFileName(selectedRegister, fileName) {
+//    var re;
+//    var result = false;
+//    //Hämta regexp för valt register
+//    registerLista.forEach(function (register, index) {
+//        if (selectedRegister === register.Id.toString()) {
+//            var selectedFilkrav = register.SelectedFilkrav;
+//            register.Filkrav.forEach(function (filkrav, ix) {
+//                if (selectedFilkrav === filkrav.Id) {
+//                    filkrav.RegExper.forEach(function (regexp, idx) {
+//                        re = new RegExp(regexp, "i");
+//                        if (re.test(fileName)) {
+//                            result = true;
+//                        }
+//                    });
+//                }})
+//            //re = new RegExp(register.RegExp, "i");
+//        }
+//    });
+//    return result;
+//}
+
 //TODO - använd SelectedRegisterId/kortnamn istället?
-function CheckKommunKodInFileName(fileName) {
+function CheckKommunKodInFileName2(fileName) {
     var chunkedFileName = fileName.split("_");
     var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
     var fileTypeB = ['BU'];
@@ -56,18 +124,37 @@ function CheckKommunKodInFileName(fileName) {
 
 }
 
-function CheckKommunKod(kommunKod) {
+function CheckKommunKodInFileName(regexMatch) {
     var validKommunKod = $('#GiltigKommunKod').val();
+    var kommunKod = regexMatch.groups["kommunkod"];
     if (validKommunKod === kommunKod)
         return true;
     return false;
+}
+
+function CheckPeriodInFileName(selectedRegister, regexMatch) {
+    var periodInFilename = regexMatch.groups["period"];
+    //Get valid period for selected register
+    var validPeriod = "";
+    registerLista.forEach(function (register, index) {
+        if (selectedRegister === register.Id.toString()) {
+            var selectedFilkrav = register.SelectedFilkrav;
+
+            register.Filkrav.forEach(function (filkrav, ix) {
+                if (selectedFilkrav === filkrav.Id) {
+                    validPeriod = filkrav.Perioder;
+                }
+            });
+        }
+    });
+    return CheckPeriod(periodInFilename, validPeriod);
 }
 
 function arrayContains(needle, arrhaystack) {
     return (arrhaystack.indexOf(needle) > -1);
 }
 
-function CheckPeriodInFileName(selectedRegister, fileName) {
+function CheckPeriodInFileName2(selectedRegister, fileName) {
     var chunkedFileName = fileName.split("_");
     var fileTypeA = ['SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
     var fileTypeB = ['BU'];
@@ -99,19 +186,6 @@ function CheckPeriodInFileName(selectedRegister, fileName) {
         else
             return CheckPeriod(chunkedFileName[2], validPeriod);
     }
-
-    //if (fileTypeA.includes(chunkedFileName[0].toUpperCase())) {
-    //    return CheckPeriod(chunkedFileName[2], validPeriod);
-    //}
-    //else if (fileTypeB.includes(chunkedFileName[0].toUpperCase())) {
-    //    return CheckPeriod(chunkedFileName[3], validPeriod);
-    //}
-    //else if (fileTypeC.includes(chunkedFileName[0].toUpperCase())) {
-    //    if (chunkedFileName[1].toUpperCase() === 'AO')
-    //        return CheckPeriod(chunkedFileName[3], validPeriod);
-    //    else
-    //        return CheckPeriod(chunkedFileName[2], validPeriod);
-    //}
 }
 
 function CheckPeriod(periodInFilename, validPeriods) {
@@ -258,6 +332,7 @@ function getTableRows() {
                     settings = this.options,
                     file = data.files[data.index],
                     fileSize;
+
                 if (options.minFileSize || options.maxFileSize) {
                     fileSize = file.size;
                 }
@@ -274,11 +349,14 @@ function getTableRows() {
                 } else if ($.type(fileSize) === 'number' &&
                     fileSize < options.minFileSize) {
                     file.error = settings.i18n('minFileSize');
-                } else if (!CheckFileName(data.selectedRegister, file.name)) {
+                }
+                //Regexp-kontroller
+                var regexMatch = CheckFileName(data.selectedRegister, file.name);
+                if (regexMatch === null) {
                     file.error = settings.i18n('incorrectFileName');
-                } else if (!CheckKommunKodInFileName(file.name)) {
+                } else if (!CheckKommunKodInFileName(regexMatch)) {
                     file.error = settings.i18n('incorrectKommunKodInFileName');
-                } else if (!CheckPeriodInFileName(data.selectedRegister, file.name)) {
+                } else if (!CheckPeriodInFileName(data.selectedRegister, regexMatch)) {
                     file.error = settings.i18n('incorrectPeriodInFileName');
                 } else if (DoubletFiles(data.selectedRegister)) {
                     file.error = settings.i18n('filetypAlreadySelected');

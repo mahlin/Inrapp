@@ -55,8 +55,11 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         void GetPeriodsForAktuellLeverans(AdmFilkrav filkrav, RegisterFilkrav regfilkrav);
 
         List<AdmForvantadleverans> GetExpectedDeliveryForSubDirectory(int subDirId);
+        List<AdmFilkrav> GetFileRequirementsAndExpectedFilesForSubDirectory(int subDirId);
 
         int GetExpextedDeliveryIdForSubDirAndPeriod(int subDirId, string period);
+
+        IEnumerable<AdmForvantadfil> GetExpectedFile(int fileReq);
 
         string GetPeriodForAktuellLeverans(int forvLevid);
 
