@@ -101,28 +101,28 @@ function CheckFileName2(selectedRegister, fileName) {
 //    return result;
 //}
 
-//TODO - använd SelectedRegisterId/kortnamn istället?
-function CheckKommunKodInFileName2(fileName) {
-    var chunkedFileName = fileName.split("_");
-    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
-    var fileTypeB = ['BU'];
-    var fileTypeC = ['EKB'];
+////TODO - använd SelectedRegisterId/kortnamn istället?
+//function CheckKommunKodInFileName2(fileName) {
+//    var chunkedFileName = fileName.split("_");
+//    var fileTypeA = [ 'SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
+//    var fileTypeB = ['BU'];
+//    var fileTypeC = ['EKB'];
 
 
-    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
-        return CheckKommunKod(chunkedFileName[1]);
-    }
-    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
-        return CheckKommunKod(chunkedFileName[2]);
-    }
-    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
-        if (chunkedFileName[1].toUpperCase() === 'AO')
-                return CheckKommunKod(chunkedFileName[2]);
-            else
-                return CheckKommunKod(chunkedFileName[1]);
-    }
+//    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
+//        return CheckKommunKod(chunkedFileName[1]);
+//    }
+//    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
+//        return CheckKommunKod(chunkedFileName[2]);
+//    }
+//    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
+//        if (chunkedFileName[1].toUpperCase() === 'AO')
+//                return CheckKommunKod(chunkedFileName[2]);
+//            else
+//                return CheckKommunKod(chunkedFileName[1]);
+//    }
 
-}
+//}
 
 function CheckKommunKodInFileName(regexMatch) {
     var validKommunKod = $('#GiltigKommunKod').val();
@@ -154,39 +154,39 @@ function arrayContains(needle, arrhaystack) {
     return (arrhaystack.indexOf(needle) > -1);
 }
 
-function CheckPeriodInFileName2(selectedRegister, fileName) {
-    var chunkedFileName = fileName.split("_");
-    var fileTypeA = ['SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
-    var fileTypeB = ['BU'];
-    var fileTypeC = ['EKB'];
+//function CheckPeriodInFileName2(selectedRegister, fileName) {
+//    var chunkedFileName = fileName.split("_");
+//    var fileTypeA = ['SOL1', 'SOL2', 'KHSL','KHSL1','KHSL2','LSS'];
+//    var fileTypeB = ['BU'];
+//    var fileTypeC = ['EKB'];
 
-    //Get valid period for selected register
-    var validPeriod = "";
-    registerLista.forEach(function (register, index) {
-        if (selectedRegister === register.Id.toString()) {
-            var selectedFilkrav = register.SelectedFilkrav;
+//    //Get valid period for selected register
+//    var validPeriod = "";
+//    registerLista.forEach(function (register, index) {
+//        if (selectedRegister === register.Id.toString()) {
+//            var selectedFilkrav = register.SelectedFilkrav;
             
-            register.Filkrav.forEach(function (filkrav, ix) {
-                if (selectedFilkrav === filkrav.Id) {
-                    validPeriod = filkrav.Perioder;
-                }
-            });
-        }
-    });
+//            register.Filkrav.forEach(function (filkrav, ix) {
+//                if (selectedFilkrav === filkrav.Id) {
+//                    validPeriod = filkrav.Perioder;
+//                }
+//            });
+//        }
+//    });
 
-    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
-        return CheckPeriod(chunkedFileName[2], validPeriod);
-    }
-    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
-        return CheckPeriod(chunkedFileName[3], validPeriod);
-    }
-    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
-        if (chunkedFileName[1].toUpperCase() === 'AO')
-            return CheckPeriod(chunkedFileName[3], validPeriod);
-        else
-            return CheckPeriod(chunkedFileName[2], validPeriod);
-    }
-}
+//    if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeA)) {
+//        return CheckPeriod(chunkedFileName[2], validPeriod);
+//    }
+//    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeB)) {
+//        return CheckPeriod(chunkedFileName[3], validPeriod);
+//    }
+//    else if (arrayContains(chunkedFileName[0].toUpperCase(), fileTypeC)) {
+//        if (chunkedFileName[1].toUpperCase() === 'AO')
+//            return CheckPeriod(chunkedFileName[3], validPeriod);
+//        else
+//            return CheckPeriod(chunkedFileName[2], validPeriod);
+//    }
+//}
 
 function CheckPeriod(periodInFilename, validPeriods) {
     result = false;
