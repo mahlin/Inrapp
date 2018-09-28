@@ -82,12 +82,13 @@ namespace InrapporteringsPortal.Web.Controllers
                 _model.StartUrl = ConfigurationManager.AppSettings["StartUrl"];
                 _model.GiltigKommunKod = kommunKodForUser;
                 _model.OrganisationsNamn = userOrg.Organisationsnamn;
-                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaTop10HistorikForOrganisation(orgIdForUser, userId);
+
 
                 //Filtrera historiken utfrån användarens valda register
-                IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
+                //IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
 
-                _model.HistorikLista = filteredHistoryFileList.ToList();
+                _model.HistorikLista = historyFileList.ToList();
             }
             catch (Exception e)
             {

@@ -142,7 +142,8 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
                     Match match = expression.Match(fileName);
                     if (match.Success)
                     {
-                        periodInFileName = match.Groups["period"].Value;
+                        periodInFileName = match.Groups[2].Value;
+                        //periodInFileName = match.Groups["period"].Value;
                     }
                 }
             }

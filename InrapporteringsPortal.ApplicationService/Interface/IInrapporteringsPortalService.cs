@@ -12,6 +12,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
     {
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId);
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId);
+        IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId, string userId);
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisationRegisterPeriod(int orgId, int regId,string periodForReg);
 
         IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, IEnumerable<FilloggDetaljDTO> historikForOrganisation);

@@ -51,6 +51,82 @@ namespace InrapporteringsPortal.ApplicationService
             //TODO - tidsintervall?
             //var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
             var leveransList = _portalRepository.GetLeveranserForOrganisation(orgId);
+
+            //Skapa historikrader/filloggrader
+            historikLista = SkapaHistorikrader(leveransList);
+
+            //foreach (var leverans in leveransList)
+            //{
+            //    var filloggDetalj = new FilloggDetaljDTO();
+            //    //Kolla om återkopplingsfil finns för aktuell leverans
+            //    var aterkoppling = _portalRepository.GetAterkopplingForLeverans(leverans.Id);
+
+            //    //Kolla om enhetskod finns för aktuell leverans (stadsdelsleverans)
+            //    var enhetskod = String.Empty;
+            //    if (leverans.OrganisationsenhetsId != null)
+            //    {
+            //        var orgenhetid = Convert.ToInt32(leverans.OrganisationsenhetsId);
+            //        enhetskod = _portalRepository.GetEnhetskodForLeverans(orgenhetid);
+            //    }
+
+            //    //Hämta period för aktuell leverans
+            //    var period = _portalRepository.GetPeriodForAktuellLeverans(leverans.ForvantadleveransId);
+
+            //    var filer = _portalRepository.GetFilerForLeveransId(leverans.Id).ToList();
+            //    var registerKortnamn = _portalRepository.GetDelregisterKortnamn(leverans.DelregisterId);
+
+            //    if (!filer.Any())
+            //    {
+            //        filloggDetalj = new FilloggDetaljDTO();
+            //        filloggDetalj.Id = 0;
+            //        filloggDetalj.LeveransId = leverans.Id;
+            //        filloggDetalj.Filnamn = " - ";
+            //        filloggDetalj.Filstatus = " - ";
+            //        filloggDetalj.Kontaktperson = leverans.ApplicationUserId;
+            //        filloggDetalj.Leveransstatus = leverans.Leveransstatus;
+            //        filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
+            //        filloggDetalj.RegisterKortnamn = registerKortnamn;
+            //        filloggDetalj.Resultatfil = " - ";
+            //        filloggDetalj.Enhetskod = enhetskod;
+            //        filloggDetalj.Period = period;
+            //        if (aterkoppling != null)
+            //        {
+            //            //filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus; //Skriv ej över leveransstatusen från återkopplingen. Beslut 20180912, ärende #128
+            //            filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+            //        }
+            //        historikLista.Add(filloggDetalj);
+            //    }
+            //    else
+            //    {
+            //        foreach (var fil in filer)
+            //        {
+            //            filloggDetalj = (FilloggDetaljDTO.FromFillogg(fil));
+            //            filloggDetalj.Kontaktperson = leverans.ApplicationUserId;
+            //            filloggDetalj.Leveransstatus = leverans.Leveransstatus;
+            //            filloggDetalj.Leveranstidpunkt = leverans.Leveranstidpunkt;
+            //            filloggDetalj.RegisterKortnamn = registerKortnamn;
+            //            filloggDetalj.Resultatfil = "Ej kontrollerad";
+            //            filloggDetalj.Enhetskod = enhetskod;
+            //            filloggDetalj.Period = period;
+            //            if (aterkoppling != null)
+            //            {
+            //                filloggDetalj.Leveransstatus = aterkoppling.Leveransstatus;
+            //                filloggDetalj.Resultatfil = aterkoppling.Resultatfil;
+            //            }
+            //            historikLista.Add(filloggDetalj);
+            //        }
+            //    }
+            //}
+            var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
+
+            return sorteradHistorikLista;
+        }
+
+
+        List<FilloggDetaljDTO> SkapaHistorikrader(IEnumerable<Leverans> leveransList)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+
             foreach (var leverans in leveransList)
             {
                 var filloggDetalj = new FilloggDetaljDTO();
@@ -113,6 +189,20 @@ namespace InrapporteringsPortal.ApplicationService
                     }
                 }
             }
+
+            return historikLista;
+        }
+
+        public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId, string userId)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+            //TODO - tidsintervall?
+            //var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
+            var leveransList = _portalRepository.GetTop10LeveranserForOrganisation(orgId, userId);
+
+            //Skapa historikrader/filloggrader
+            historikLista = SkapaHistorikrader(leveransList);
+
             var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
 
             return sorteradHistorikLista;

@@ -17,6 +17,8 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId);
 
+        IEnumerable<Leverans> GetTop10LeveranserForOrganisation(int orgId, string userId);
+
         Leverans GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(int orgId, int subdirId, int forvlevId);
         Leverans GetLatestDeliveryForOrganisationSubDirectoryPeriodAndOrgUnit(int orgId, int subdirId, int forvlevId, int orgUnitId);
 

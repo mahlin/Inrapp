@@ -59,7 +59,7 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public IEnumerable<int> GetLeveransIdnForOrganisation(int orgId)
         {
-            var levIdnForOrg = AllaLeveranser().Where(a => a.OrganisationId == orgId).Select(a => a.Id).ToList();
+            var levIdnForOrg = DbContext.Leverans.Where(a => a.OrganisationId == orgId).Select(a => a.Id).ToList();
 
             return levIdnForOrg;
 
@@ -67,10 +67,18 @@ namespace Inrapporteringsportal.DataAccess.Repositories
 
         public IEnumerable<Leverans> GetLeveranserForOrganisation(int orgId)
         {
-            var levIdnForOrg = AllaLeveranser().Where(a => a.OrganisationId == orgId).ToList();
-
+            var levIdnForOrg = DbContext.Leverans.Where(a => a.OrganisationId == orgId).ToList();
             return levIdnForOrg;
+        }
 
+        public IEnumerable<Leverans> GetTop10LeveranserForOrganisation(int orgId, string userId)
+        {
+            var x = DbContext.Leverans.Where(a => a.OrganisationId == orgId).ToList();
+            var tmp = x.Where(a => a.ApplicationUserId == userId).ToList();
+            var y = tmp.OrderByDescending(a => a.Leveranstidpunkt).ToList();
+            var z = y.Take(10).ToList();
+            var levIdnForOrg = DbContext.Leverans.Where(a => a.OrganisationId == orgId && a.ApplicationUserId == userId).OrderByDescending(a => a.Leveranstidpunkt).Take(10).ToList();
+            return levIdnForOrg;
         }
 
         public Leverans GetLatestDeliveryForOrganisationSubDirectoryAndPeriod(int orgId, int subdirId, int forvlevId)
@@ -336,7 +344,9 @@ namespace Inrapporteringsportal.DataAccess.Repositories
         {
             var orgId = GetUserOrganisationId(userId);
 
-            var org = AllaOrganisationer().Where(o => o.Id == orgId).Select(o => o).FirstOrDefault();
+            var org = DbContext.Organisation.Where(o => o.Id == orgId).Select(o => o).FirstOrDefault();
+
+            //var org = AllaOrganisationer().Where(o => o.Id == orgId).Select(o => o).FirstOrDefault();
 
             return org;
         }
@@ -713,6 +723,6 @@ namespace Inrapporteringsportal.DataAccess.Repositories
             DbContext.SaveChanges();
         }
 
-
+ 
     }
 }
