@@ -62,11 +62,11 @@ namespace InrapporteringsPortal.Web.Controllers
                 }
                 var userOrg = _portalService.HamtaOrgForAnvandare(User.Identity.GetUserId());
                 //Hämta info om valbara register
-                var registerInfoList = _portalService.HamtaValdaRegistersForAnvandare(User.Identity.GetUserId(), userOrg.Id);
-                _model.RegisterList = registerInfoList.ToList();
+                var valdaDelregisterInfoList = _portalService.HamtaValdaDelregisterForAnvandare(User.Identity.GetUserId(), userOrg.Id).ToList();
+                _model.RegisterList = valdaDelregisterInfoList;
 
                 // Ladda drop down lists.  
-                this.ViewBag.RegisterList = CreateRegisterDropDownList(registerInfoList);
+                this.ViewBag.RegisterList = CreateRegisterDropDownList(valdaDelregisterInfoList);
                 _model.SelectedRegisterId = "0";
                 _model.SelectedPeriod = "0";
 
@@ -82,13 +82,15 @@ namespace InrapporteringsPortal.Web.Controllers
                 _model.StartUrl = ConfigurationManager.AppSettings["StartUrl"];
                 _model.GiltigKommunKod = kommunKodForUser;
                 _model.OrganisationsNamn = userOrg.Organisationsnamn;
-                IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaTop10HistorikForOrganisation(orgIdForUser, userId);
-
+                //IEnumerable <FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+                //IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaTop10HistorikForOrganisationAndUser(orgIdForUser, userId);
+                //var historyFileList = _portalService.HamtaTop10HistorikForOrganisation(orgIdForUser).ToList();
+                var historyFileList = _portalService.HamtaTop10HistorikForOrganisationAndDelreg(orgIdForUser, valdaDelregisterInfoList).ToList();
 
                 //Filtrera historiken utfrån användarens valda register
-                //IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
+                IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, valdaDelregisterInfoList, historyFileList);
 
-                _model.HistorikLista = historyFileList.ToList();
+                _model.HistorikLista = historyFileList;
             }
             catch (Exception e)
             {
@@ -299,11 +301,11 @@ namespace InrapporteringsPortal.Web.Controllers
         /// Create list for register-dropdown  
         /// </summary>  
         /// <returns>Return register for drop down list.</returns>  
-        private IEnumerable<SelectListItem> CreateRegisterDropDownList(IEnumerable<RegisterInfo> registerInfoList)
+        private IEnumerable<SelectListItem> CreateRegisterDropDownList(List<RegisterInfo> valdaDelregisterInfoList)
         {
             SelectList lstobj = null;
 
-            var list = registerInfoList
+            var list = valdaDelregisterInfoList
                 .Select(p =>
                     new SelectListItem
                     {
@@ -316,7 +318,7 @@ namespace InrapporteringsPortal.Web.Controllers
 
             return lstobj;
         }
-
+         
         
         //public FilesViewModel UpdateHistory()
         //{
@@ -334,10 +336,11 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
-            IEnumerable<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser);
+            List<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser).ToList();
 
             //Filtrera historiken utfrån användarens valda register
-            IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, historyFileList);
+            var valdaDelregisterInfoList = _portalService.HamtaValdaDelregisterForAnvandare(User.Identity.GetUserId(), orgIdForUser).ToList();
+            IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, valdaDelregisterInfoList, historyFileList);
 
             model.HistorikLista = filteredHistoryFileList.ToList();
 

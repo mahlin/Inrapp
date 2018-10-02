@@ -12,10 +12,14 @@ namespace InrapporteringsPortal.ApplicationService.Interface
     {
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForKommun(string kommunId);
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisation(int orgId);
-        IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId, string userId);
+        IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId);
+
+        IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisationAndUser(int orgId, string userId);
+
+        IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisationAndDelreg(int orgId, List<RegisterInfo> valdaDelregister);
         IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisationRegisterPeriod(int orgId, int regId,string periodForReg);
 
-        IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, IEnumerable<FilloggDetaljDTO> historikForOrganisation);
+        IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, List<RegisterInfo> valdaDelregisterList, List<FilloggDetaljDTO> historikForOrganisation);
 
         string HamtaKommunKodForOrganisation(int orgId);
         string HamtaKommunKodForAnvandare(string userId);
@@ -47,7 +51,7 @@ namespace InrapporteringsPortal.ApplicationService.Interface
 
         IEnumerable<RegisterInfo> HamtaAllRegisterInformation();
 
-        IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId);
+        IEnumerable<RegisterInfo> HamtaValdaDelregisterForAnvandare(string userId, int orgId);
 
         IEnumerable<RegisterInfo> HamtaRegistersMedAnvandaresVal(string userId, int orgId);
 

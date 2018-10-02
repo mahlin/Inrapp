@@ -193,12 +193,12 @@ namespace InrapporteringsPortal.ApplicationService
             return historikLista;
         }
 
-        public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId, string userId)
+        public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisation(int orgId)
         {
             var historikLista = new List<FilloggDetaljDTO>();
             //TODO - tidsintervall?
             //var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
-            var leveransList = _portalRepository.GetTop10LeveranserForOrganisation(orgId, userId);
+            var leveransList = _portalRepository.GetTop10LeveranserForOrganisation(orgId);
 
             //Skapa historikrader/filloggrader
             historikLista = SkapaHistorikrader(leveransList);
@@ -208,6 +208,39 @@ namespace InrapporteringsPortal.ApplicationService
             return sorteradHistorikLista;
         }
 
+
+        public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisationAndUser(int orgId, string userId)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+            //TODO - tidsintervall?
+            //var leveransIdList = _portalRepository.GetLeveransIdnForOrganisation(orgId).OrderByDescending(x => x);
+            var leveransList = _portalRepository.GetTop10LeveranserForOrganisationAndUser(orgId, userId);
+
+            //Skapa historikrader/filloggrader
+            historikLista = SkapaHistorikrader(leveransList);
+
+            var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
+
+            return sorteradHistorikLista;
+        }
+
+        public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisationAndDelreg(int orgId, List<RegisterInfo> valdaDelregister)
+        {
+            var historikLista = new List<FilloggDetaljDTO>();
+            var leveransList = new List<Leverans>();
+            foreach (var delreg in valdaDelregister)
+            {
+                var delregLeveransList = _portalRepository.GetTop10LeveranserForOrganisationAndDelreg(orgId, delreg.Id).ToList();
+                leveransList.AddRange(delregLeveransList);
+            }
+            //Skapa historikrader/filloggrader
+            historikLista = SkapaHistorikrader(leveransList.OrderByDescending(x => x.Leveranstidpunkt).Take(10));
+
+            var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
+
+            return sorteradHistorikLista;
+
+        }
 
         public IEnumerable<FilloggDetaljDTO> HamtaHistorikForOrganisationRegisterPeriod(int orgId, int regId, string periodForReg)
         {
@@ -333,7 +366,7 @@ namespace InrapporteringsPortal.ApplicationService
             return org;
         }
 
-        public IEnumerable<RegisterInfo> HamtaValdaRegistersForAnvandare(string userId, int orgId)
+        public IEnumerable<RegisterInfo> HamtaValdaDelregisterForAnvandare(string userId, int orgId)
         {
             var registerList = _portalRepository.GetChosenDelRegistersForUser(userId);
             //var allaRegisterList = _portalRepository.GetAllRegisterInformation();
@@ -733,24 +766,41 @@ namespace InrapporteringsPortal.ApplicationService
 
         }
 
-        public IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, IEnumerable<FilloggDetaljDTO> historikForOrganisation)
+        public IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, List<RegisterInfo> valdaDelregisterList, List<FilloggDetaljDTO> historikForOrganisation)
         {
-            var userOrg = HamtaOrgForAnvandare(userId);
-            var registerInfoList = HamtaValdaRegistersForAnvandare(userId, userOrg.Id);
+            //var userOrg = HamtaOrgForAnvandare(userId);
+            //var registerInfoList = HamtaValdaRegistersForAnvandare(userId, userOrg.Id);
 
             var historikForAnvandareList = new List<FilloggDetaljDTO>();
 
-            foreach (var rad in historikForOrganisation)
-            {
-                foreach (var valtRegister in registerInfoList)
-                {
-                    if (rad.RegisterKortnamn == valtRegister.Kortnamn)
-                    {
-                        historikForAnvandareList.Add(rad);
-                    }
-                }
+            //foreach (var rad in historikForOrganisation)
+            //{
+            //    foreach (var valtRegister in valdaDelregisterList)
+            //    {
+            //        if (rad.RegisterKortnamn == valtRegister.Kortnamn)
+            //        {
+            //            historikForAnvandareList.Add(rad);
+            //        }
+            //    }
 
+            //}
+
+            foreach (var rad in valdaDelregisterList)
+            {
+                var aktuellaLeveranser = historikForOrganisation.Where(x => x.RegisterKortnamn == rad.Kortnamn).ToList();
+                historikForAnvandareList.AddRange(aktuellaLeveranser);
             }
+
+            //foreach (var delregister in delregisterList)
+            //{
+            //    var finnsRedan = uppgiftsskyldighetList.Find(r => r.DelregisterId == delregister.Id);
+            //    if (finnsRedan == null)
+            //    {
+            //        delregisterUtanUppgiftsskyldighetForOrgList.Add(delregister);
+            //    }
+            //}
+
+
             return historikForAnvandareList;
         }
 
