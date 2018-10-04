@@ -226,7 +226,6 @@ namespace InrapporteringsPortal.ApplicationService
 
         public IEnumerable<FilloggDetaljDTO> HamtaTop10HistorikForOrganisationAndDelreg(int orgId, List<RegisterInfo> valdaDelregister)
         {
-            var historikLista = new List<FilloggDetaljDTO>();
             var leveransList = new List<Leverans>();
             foreach (var delreg in valdaDelregister)
             {
@@ -234,11 +233,9 @@ namespace InrapporteringsPortal.ApplicationService
                 leveransList.AddRange(delregLeveransList);
             }
             //Skapa historikrader/filloggrader
-            historikLista = SkapaHistorikrader(leveransList.OrderByDescending(x => x.Leveranstidpunkt).Take(10));
+            var historikLista = SkapaHistorikrader(leveransList.OrderByDescending(x => x.Leveranstidpunkt).Take(10));
 
-            var sorteradHistorikLista = historikLista.OrderByDescending(x => x.Leveranstidpunkt).ToList();
-
-            return sorteradHistorikLista;
+            return historikLista;
 
         }
 
@@ -768,22 +765,7 @@ namespace InrapporteringsPortal.ApplicationService
 
         public IEnumerable<FilloggDetaljDTO> FiltreraHistorikForAnvandare(string userId, List<RegisterInfo> valdaDelregisterList, List<FilloggDetaljDTO> historikForOrganisation)
         {
-            //var userOrg = HamtaOrgForAnvandare(userId);
-            //var registerInfoList = HamtaValdaRegistersForAnvandare(userId, userOrg.Id);
-
             var historikForAnvandareList = new List<FilloggDetaljDTO>();
-
-            //foreach (var rad in historikForOrganisation)
-            //{
-            //    foreach (var valtRegister in valdaDelregisterList)
-            //    {
-            //        if (rad.RegisterKortnamn == valtRegister.Kortnamn)
-            //        {
-            //            historikForAnvandareList.Add(rad);
-            //        }
-            //    }
-
-            //}
 
             foreach (var rad in valdaDelregisterList)
             {
@@ -791,17 +773,7 @@ namespace InrapporteringsPortal.ApplicationService
                 historikForAnvandareList.AddRange(aktuellaLeveranser);
             }
 
-            //foreach (var delregister in delregisterList)
-            //{
-            //    var finnsRedan = uppgiftsskyldighetList.Find(r => r.DelregisterId == delregister.Id);
-            //    if (finnsRedan == null)
-            //    {
-            //        delregisterUtanUppgiftsskyldighetForOrgList.Add(delregister);
-            //    }
-            //}
-
-
-            return historikForAnvandareList;
+            return historikForAnvandareList.OrderByDescending(x => x.Leveranstidpunkt).ToList();
         }
 
         public int HamtaForvantadleveransIdForRegisterOchPeriod(int delregId, string period)

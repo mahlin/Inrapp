@@ -155,6 +155,16 @@ namespace InrapporteringsPortal.Web.Controllers
                     kommunKod, Convert.ToInt32(model.SelectedRegisterId), enhetskod, model.SelectedPeriod,
                     model.RegisterList);
             }
+            catch (ApplicationException e)
+            {
+                ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
+                var errorModel = new CustomErrorPageModel
+                {
+                    Information = e.Message,
+                    ContactEmail = ConfigurationManager.AppSettings["ContactEmail"],
+                };
+                RedirectToAction("CustomError", new { model = errorModel });
+            }
             catch (ArgumentException e)
             {
                 ErrorManager.WriteToErrorLog("FileUploadController", "Upload", e.ToString(), e.HResult, User.Identity.Name);
@@ -336,10 +346,11 @@ namespace InrapporteringsPortal.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             var orgIdForUser = _portalService.HamtaUserOrganisationId(userId);
-            List<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser).ToList();
 
             //Filtrera historiken utfrån användarens valda register
             var valdaDelregisterInfoList = _portalService.HamtaValdaDelregisterForAnvandare(User.Identity.GetUserId(), orgIdForUser).ToList();
+            //List<FilloggDetaljDTO> historyFileList = _portalService.HamtaHistorikForOrganisation(orgIdForUser).ToList();
+            var historyFileList = _portalService.HamtaTop10HistorikForOrganisationAndDelreg(orgIdForUser, valdaDelregisterInfoList).ToList();
             IEnumerable<FilloggDetaljDTO> filteredHistoryFileList = _portalService.FiltreraHistorikForAnvandare(userId, valdaDelregisterInfoList, historyFileList);
 
             model.HistorikLista = filteredHistoryFileList.ToList();

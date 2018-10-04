@@ -152,11 +152,11 @@ namespace InrapporteringsPortal.ApplicationService.Helpers
             //var period = GetPeriodFromFilename(httpRequest.Files[0]);
             if (periodInFileName == "")
             {
-                throw new Exception("Felaktig period i filnamnet, " + httpRequest.Files[0].FileName);
+                throw new ApplicationException("Felaktig period i filnamnet, " + httpRequest.Files[0].FileName);
             }
             else if (!_portalService.HamtaGiltigaPerioderForDelregister(selectedRegisterId).Contains(periodInFileName)) //Kontrollera om vald period är ok 
             {
-                throw new Exception("Period i filnamnet inte inom godkänt intervall. " + httpRequest.Files[0].FileName);
+                throw new ApplicationException("Period i filnamnet inte inom godkänt intervall. " + httpRequest.Files[0].FileName);
             }
 
             //Hämta forvantadlevid beroende på vald period
